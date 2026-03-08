@@ -68,6 +68,6 @@ export function extractJsonErrorCode(
 export function extractJsonErrorData(
   body: Record<string, unknown>,
 ): Record<string, unknown> {
-  const { __type, code, ...data } = body;
+  const { __type, code: _code, ...data } = body;
   return data;
 }

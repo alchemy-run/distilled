@@ -2973,17 +2973,17 @@ const generateClient = Effect.fn(function* (
     // Use lowercase import aliases to avoid conflicts with schema names
     const imports = dedent`
       import * as HttpClient from "effect/unstable/http/HttpClient";
-      import * as effect from "effect/Effect";
-      import * as redacted from "effect/Redacted";
+      __EFFECT_IMPORT__
+      __REDACTED_IMPORT__
       import * as S from "effect/Schema";
-      import * as stream from "effect/Stream";
+      __STREAM_IMPORT__
       import * as API from "../client/api.ts";
       import * as T from "../traits.ts";
-      import * as C from "../category.ts";
+      __CATEGORY_IMPORT__
       ${credentialsImport}
       ${commonErrorsImport}
       ${regionImport}
-      import { SensitiveString, SensitiveBlob } from "../sensitive.ts";`;
+      __SENSITIVE_IMPORT__`;
 
     // Define service-level constants
     const serviceConstants: string[] = [];
@@ -3047,7 +3047,64 @@ const generateClient = Effect.fn(function* (
       ? `\n\n//# Newtypes\n${newtypeDefinitions}`
       : "";
 
-    const fileContents = `${imports}${serviceConstantsBlock}${newtypesBlock}\n\n//# Schemas\n${schemaDefinitions}\n\n//# Errors\n${errorDefinitions}\n\n//# Operations\n${operations}`;
+    let fileContents = `${imports}${serviceConstantsBlock}${newtypesBlock}\n\n//# Schemas\n${schemaDefinitions}\n\n//# Errors\n${errorDefinitions}\n\n//# Operations\n${operations}`;
+
+    // Conditionally include imports based on actual usage in generated code
+    const replacePlaceholder = (
+      placeholder: string,
+      importLine: string,
+      usagePattern: RegExp,
+    ) => {
+      if (usagePattern.test(fileContents)) {
+        fileContents = fileContents.replace(placeholder, importLine);
+      } else {
+        fileContents = fileContents.replace(placeholder + "\n", "");
+      }
+    };
+
+    replacePlaceholder(
+      "__EFFECT_IMPORT__",
+      'import * as effect from "effect/Effect";',
+      /\beffect\.[A-Z]/,
+    );
+    replacePlaceholder(
+      "__REDACTED_IMPORT__",
+      'import * as redacted from "effect/Redacted";',
+      /\bredacted\.[A-Z]/,
+    );
+    replacePlaceholder(
+      "__STREAM_IMPORT__",
+      'import * as stream from "effect/Stream";',
+      /\bstream\.[A-Z]/,
+    );
+    replacePlaceholder(
+      "__CATEGORY_IMPORT__",
+      'import * as C from "../category.ts";',
+      /\bC\.with/,
+    );
+    // SensitiveString and SensitiveBlob are from the same import
+    const usesSensitiveString = /\bSensitiveString\b/.test(fileContents);
+    const usesSensitiveBlob = /\bSensitiveBlob\b/.test(fileContents);
+    if (usesSensitiveString && usesSensitiveBlob) {
+      fileContents = fileContents.replace(
+        "__SENSITIVE_IMPORT__",
+        'import { SensitiveString, SensitiveBlob } from "../sensitive.ts";',
+      );
+    } else if (usesSensitiveString) {
+      fileContents = fileContents.replace(
+        "__SENSITIVE_IMPORT__",
+        'import { SensitiveString } from "../sensitive.ts";',
+      );
+    } else if (usesSensitiveBlob) {
+      fileContents = fileContents.replace(
+        "__SENSITIVE_IMPORT__",
+        'import { SensitiveBlob } from "../sensitive.ts";',
+      );
+    } else {
+      fileContents = fileContents.replace("__SENSITIVE_IMPORT__\n", "");
+      // Also try without newline in case it's at the end
+      fileContents = fileContents.replace("__SENSITIVE_IMPORT__", "");
+    }
 
     yield* fs.writeFileString(
       path.join(
@@ -3268,7 +3325,7 @@ BunRuntime.runMain(
       indexExports + "\n",
     );
 
-    yield* Console.log("Done!");
+    yield* Console.log(`✅ index.ts`);
   }).pipe(
     // TODO(sam): how to migrate this to Effect v4
     // Logger.withMinimumLogLevel(LogLevel.isGreaterThan("Error")),

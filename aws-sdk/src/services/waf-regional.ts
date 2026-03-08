@@ -1,15 +1,11 @@
 import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as effect from "effect/Effect";
-import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
-import * as stream from "effect/Stream";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region } from "../region.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://waf.amazonaws.com/doc/2015-08-24/");
 const svc = T.AwsApiService({
   sdkId: "WAF Regional",

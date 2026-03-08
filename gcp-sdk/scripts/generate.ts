@@ -217,8 +217,6 @@ async function main() {
     }
   }
 
-  console.log(`Generating ${entries.length} service(s)...`);
-
   let generated = 0;
   for (const entry of entries) {
     try {
@@ -237,17 +235,11 @@ async function main() {
       fs.writeFileSync(outputPath, code, "utf-8");
 
       generated++;
-      if (entries.length <= 20 || generated % 50 === 0) {
-        console.log(
-          `  Generated: ${outputName}.ts (${entry.title})`,
-        );
-      }
+      console.log(`✅ ${outputName}`);
     } catch (err) {
-      console.error(`  Error generating ${entry.name}@${entry.version}:`, err);
+      console.error(`❌ ${entry.name}@${entry.version}:`, err);
     }
   }
-
-  console.log(`\nGenerated ${generated}/${entries.length} service files.`);
 }
 
 // =============================================================================
@@ -323,7 +315,7 @@ function generateService(doc: DiscoveryDoc, patches: ServicePatch): string {
   lines.push('import * as Schema from "effect/Schema";');
   lines.push('import { API } from "../client";');
   lines.push('import * as T from "../traits";');
-  lines.push('import * as C from "../category";');
+  lines.push("__CATEGORY_IMPORT__");
   lines.push('import type { Credentials } from "../credentials";');
   lines.push('import type { DefaultErrors } from "../errors";');
   lines.push('import type * as HttpClient from "effect/unstable/http/HttpClient";');
@@ -454,7 +446,14 @@ function generateService(doc: DiscoveryDoc, patches: ServicePatch): string {
     }
   }
 
-  return lines.join("\n") + "\n";
+  let code = lines.join("\n") + "\n";
+  // Only include the category import if it's actually used
+  if (code.includes("C.with")) {
+    code = code.replace("__CATEGORY_IMPORT__", 'import * as C from "../category";');
+  } else {
+    code = code.replace("__CATEGORY_IMPORT__\n", "");
+  }
+  return code;
 }
 
 // =============================================================================

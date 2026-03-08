@@ -166,9 +166,6 @@ export const XmlNamespace = (uri: string) =>
 /** smithy.api#jsonName - Custom JSON key name */
 export const jsonNameSymbol = "distilled-aws/json-name" as const;
 
-/** Symbol used to detect PropertySignature types */
-const propertySignatureSymbol = "effect/PropertySignature" as const;
-
 /**
  * JsonName trait - uses Effect Schema's fromKey for automatic key renaming.
  *

@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service realtime-kit
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -3548,7 +3547,7 @@ export interface GetOneRecordingRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "RECORD_ON_START";
     };
@@ -3556,7 +3555,7 @@ export interface GetOneRecordingRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "INTERNAL_ERROR" | "ALL_PEERS_LEFT";
     };
@@ -3605,8 +3604,14 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "RECORD_ON_START"]),
@@ -3619,8 +3624,14 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),
@@ -7309,7 +7320,7 @@ export interface StartRecordingsRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "RECORD_ON_START";
     };
@@ -7317,7 +7328,7 @@ export interface StartRecordingsRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "INTERNAL_ERROR" | "ALL_PEERS_LEFT";
     };
@@ -7366,8 +7377,14 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "RECORD_ON_START"]),
@@ -7380,8 +7397,14 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),
@@ -7513,7 +7536,7 @@ export interface PauseResumeStopRecordingRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "RECORD_ON_START";
     };
@@ -7521,7 +7544,7 @@ export interface PauseResumeStopRecordingRecordingResponse {
       caller?: {
         name?: string;
         type?: "ORGANIZATION" | "USER";
-        user_Id?: string;
+        userId?: string;
       };
       reason?: "API_CALL" | "INTERNAL_ERROR" | "ALL_PEERS_LEFT";
     };
@@ -7570,8 +7593,14 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "RECORD_ON_START"]),
@@ -7584,8 +7613,14 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
             Schema.Struct({
               name: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literals(["ORGANIZATION", "USER"])),
-              user_Id: Schema.optional(Schema.String),
-            }),
+              userId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                type: "type",
+                userId: "user_Id",
+              }),
+            ),
           ),
           reason: Schema.optional(
             Schema.Literals(["API_CALL", "INTERNAL_ERROR", "ALL_PEERS_LEFT"]),

@@ -5,15 +5,12 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service stream
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 
 // =============================================================================
 // AudioTrack
@@ -27,21 +24,31 @@ export interface GetAudioTrackRequest {
 
 export const GetAudioTrackRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/audio" })) as unknown as Schema.Schema<GetAudioTrackRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/audio",
+  }),
+) as unknown as Schema.Schema<GetAudioTrackRequest>;
 
-export type GetAudioTrackResponse = ({ default?: boolean; label?: string; status?: "queued" | "ready" | "error"; uid?: string })[];
+export type GetAudioTrackResponse = {
+  default?: boolean;
+  label?: string;
+  status?: "queued" | "ready" | "error";
+  uid?: string;
+}[];
 
-export const GetAudioTrackResponse = Schema.Array(Schema.Struct({
-  default: Schema.optional(Schema.Boolean),
-  label: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-  uid: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<GetAudioTrackResponse>;
+export const GetAudioTrackResponse = Schema.Array(
+  Schema.Struct({
+    default: Schema.optional(Schema.Boolean),
+    label: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
+    uid: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetAudioTrackResponse>;
 
-export type GetAudioTrackError =
-  | DefaultErrors;
+export type GetAudioTrackError = DefaultErrors;
 
 export const getAudioTrack: API.OperationMethod<
   GetAudioTrackRequest,
@@ -70,9 +77,13 @@ export const PatchAudioTrackRequest = Schema.Struct({
   audioIdentifier: Schema.String.pipe(T.HttpPath("audioIdentifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   default: Schema.optional(Schema.Boolean),
-  label: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/stream/{identifier}/audio/{audioIdentifier}" })) as unknown as Schema.Schema<PatchAudioTrackRequest>;
+  label: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/stream/{identifier}/audio/{audioIdentifier}",
+  }),
+) as unknown as Schema.Schema<PatchAudioTrackRequest>;
 
 export interface PatchAudioTrackResponse {
   /** Denotes whether the audio track will be played by default in a player. */
@@ -89,11 +100,10 @@ export const PatchAudioTrackResponse = Schema.Struct({
   default: Schema.optional(Schema.Boolean),
   label: Schema.optional(Schema.String),
   status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchAudioTrackResponse>;
 
-export type PatchAudioTrackError =
-  | DefaultErrors;
+export type PatchAudioTrackError = DefaultErrors;
 
 export const patchAudioTrack: API.OperationMethod<
   PatchAudioTrackRequest,
@@ -116,16 +126,20 @@ export interface DeleteAudioTrackRequest {
 export const DeleteAudioTrackRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   audioIdentifier: Schema.String.pipe(T.HttpPath("audioIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}/audio/{audioIdentifier}" })) as unknown as Schema.Schema<DeleteAudioTrackRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}/audio/{audioIdentifier}",
+  }),
+) as unknown as Schema.Schema<DeleteAudioTrackRequest>;
 
 export type DeleteAudioTrackResponse = string;
 
-export const DeleteAudioTrackResponse = Schema.String as unknown as Schema.Schema<DeleteAudioTrackResponse>;
+export const DeleteAudioTrackResponse =
+  Schema.String as unknown as Schema.Schema<DeleteAudioTrackResponse>;
 
-export type DeleteAudioTrackError =
-  | DefaultErrors;
+export type DeleteAudioTrackError = DefaultErrors;
 
 export const deleteAudioTrack: API.OperationMethod<
   DeleteAudioTrackRequest,
@@ -152,9 +166,13 @@ export const CopyAudioTrackRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   label: Schema.String,
-  url: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/audio/copy" })) as unknown as Schema.Schema<CopyAudioTrackRequest>;
+  url: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/audio/copy",
+  }),
+) as unknown as Schema.Schema<CopyAudioTrackRequest>;
 
 export interface CopyAudioTrackResponse {
   /** Denotes whether the audio track will be played by default in a player. */
@@ -171,11 +189,10 @@ export const CopyAudioTrackResponse = Schema.Struct({
   default: Schema.optional(Schema.Boolean),
   label: Schema.optional(Schema.String),
   status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CopyAudioTrackResponse>;
 
-export type CopyAudioTrackError =
-  | DefaultErrors;
+export type CopyAudioTrackError = DefaultErrors;
 
 export const copyAudioTrack: API.OperationMethod<
   CopyAudioTrackRequest,
@@ -187,7 +204,6 @@ export const copyAudioTrack: API.OperationMethod<
   output: CopyAudioTrackResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Caption
@@ -201,21 +217,31 @@ export interface GetCaptionRequest {
 
 export const GetCaptionRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/captions" })) as unknown as Schema.Schema<GetCaptionRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/captions",
+  }),
+) as unknown as Schema.Schema<GetCaptionRequest>;
 
-export type GetCaptionResponse = ({ generated?: boolean; label?: string; language?: string; status?: "ready" | "inprogress" | "error" })[];
+export type GetCaptionResponse = {
+  generated?: boolean;
+  label?: string;
+  language?: string;
+  status?: "ready" | "inprogress" | "error";
+}[];
 
-export const GetCaptionResponse = Schema.Array(Schema.Struct({
-  generated: Schema.optional(Schema.Boolean),
-  label: Schema.optional(Schema.String),
-  language: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"]))
-})) as unknown as Schema.Schema<GetCaptionResponse>;
+export const GetCaptionResponse = Schema.Array(
+  Schema.Struct({
+    generated: Schema.optional(Schema.Boolean),
+    label: Schema.optional(Schema.String),
+    language: Schema.optional(Schema.String),
+    status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
+  }),
+) as unknown as Schema.Schema<GetCaptionResponse>;
 
-export type GetCaptionError =
-  | DefaultErrors;
+export type GetCaptionError = DefaultErrors;
 
 export const getCaption: API.OperationMethod<
   GetCaptionRequest,
@@ -227,7 +253,6 @@ export const getCaption: API.OperationMethod<
   output: GetCaptionResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // CaptionLanguage
@@ -243,16 +268,20 @@ export interface GetCaptionLanguageRequest {
 export const GetCaptionLanguageRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   language: Schema.String.pipe(T.HttpPath("language")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}" })) as unknown as Schema.Schema<GetCaptionLanguageRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+  }),
+) as unknown as Schema.Schema<GetCaptionLanguageRequest>;
 
 export type GetCaptionLanguageResponse = unknown;
 
-export const GetCaptionLanguageResponse = Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageResponse>;
+export const GetCaptionLanguageResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageResponse>;
 
-export type GetCaptionLanguageError =
-  | DefaultErrors;
+export type GetCaptionLanguageError = DefaultErrors;
 
 export const getCaptionLanguage: API.OperationMethod<
   GetCaptionLanguageRequest,
@@ -275,16 +304,20 @@ export interface CreateCaptionLanguageRequest {
 export const CreateCaptionLanguageRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   language: Schema.String.pipe(T.HttpPath("language")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}/generate" })) as unknown as Schema.Schema<CreateCaptionLanguageRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}/generate",
+  }),
+) as unknown as Schema.Schema<CreateCaptionLanguageRequest>;
 
 export type CreateCaptionLanguageResponse = unknown;
 
-export const CreateCaptionLanguageResponse = Schema.Unknown as unknown as Schema.Schema<CreateCaptionLanguageResponse>;
+export const CreateCaptionLanguageResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateCaptionLanguageResponse>;
 
-export type CreateCaptionLanguageError =
-  | DefaultErrors;
+export type CreateCaptionLanguageError = DefaultErrors;
 
 export const createCaptionLanguage: API.OperationMethod<
   CreateCaptionLanguageRequest,
@@ -310,16 +343,21 @@ export const UpdateCaptionLanguageRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   language: Schema.String.pipe(T.HttpPath("language")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  file: Schema.String
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}", contentType: "multipart" })) as unknown as Schema.Schema<UpdateCaptionLanguageRequest>;
+  file: Schema.String,
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<UpdateCaptionLanguageRequest>;
 
 export type UpdateCaptionLanguageResponse = unknown;
 
-export const UpdateCaptionLanguageResponse = Schema.Unknown as unknown as Schema.Schema<UpdateCaptionLanguageResponse>;
+export const UpdateCaptionLanguageResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateCaptionLanguageResponse>;
 
-export type UpdateCaptionLanguageError =
-  | DefaultErrors;
+export type UpdateCaptionLanguageError = DefaultErrors;
 
 export const updateCaptionLanguage: API.OperationMethod<
   UpdateCaptionLanguageRequest,
@@ -342,16 +380,20 @@ export interface DeleteCaptionLanguageRequest {
 export const DeleteCaptionLanguageRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   language: Schema.String.pipe(T.HttpPath("language")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}" })) as unknown as Schema.Schema<DeleteCaptionLanguageRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+  }),
+) as unknown as Schema.Schema<DeleteCaptionLanguageRequest>;
 
 export type DeleteCaptionLanguageResponse = string;
 
-export const DeleteCaptionLanguageResponse = Schema.String as unknown as Schema.Schema<DeleteCaptionLanguageResponse>;
+export const DeleteCaptionLanguageResponse =
+  Schema.String as unknown as Schema.Schema<DeleteCaptionLanguageResponse>;
 
-export type DeleteCaptionLanguageError =
-  | DefaultErrors;
+export type DeleteCaptionLanguageError = DefaultErrors;
 
 export const deleteCaptionLanguage: API.OperationMethod<
   DeleteCaptionLanguageRequest,
@@ -363,7 +405,6 @@ export const deleteCaptionLanguage: API.OperationMethod<
   output: DeleteCaptionLanguageResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // CaptionLanguageVtt
@@ -379,16 +420,20 @@ export interface GetCaptionLanguageVttRequest {
 export const GetCaptionLanguageVttRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   language: Schema.String.pipe(T.HttpPath("language")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}/vtt" })) as unknown as Schema.Schema<GetCaptionLanguageVttRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}/vtt",
+  }),
+) as unknown as Schema.Schema<GetCaptionLanguageVttRequest>;
 
 export type GetCaptionLanguageVttResponse = unknown;
 
-export const GetCaptionLanguageVttResponse = Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageVttResponse>;
+export const GetCaptionLanguageVttResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageVttResponse>;
 
-export type GetCaptionLanguageVttError =
-  | DefaultErrors;
+export type GetCaptionLanguageVttError = DefaultErrors;
 
 export const getCaptionLanguageVtt: API.OperationMethod<
   GetCaptionLanguageVttRequest,
@@ -400,7 +445,6 @@ export const getCaptionLanguageVtt: API.OperationMethod<
   output: GetCaptionLanguageVttResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Clip
@@ -439,11 +483,14 @@ export const CreateClipRequest = Schema.Struct({
   maxDurationSeconds: Schema.optional(Schema.Number),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
-  watermark: Schema.optional(Schema.Struct({
-  uid: Schema.optional(Schema.String)
-}))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/clip" })) as unknown as Schema.Schema<CreateClipRequest>;
+  watermark: Schema.optional(
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+    }),
+  ),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/clip" }),
+) as unknown as Schema.Schema<CreateClipRequest>;
 
 export interface CreateClipResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use ` ` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
@@ -470,7 +517,14 @@ export interface CreateClipResponse {
   /** Specifies the start time for the video clip in seconds. */
   startTimeSeconds?: number;
   /** Specifies the processing status for all quality levels for a video. */
-  status?: "pendingupload" | "downloading" | "queued" | "inprogress" | "ready" | "error" | "live-inprogress";
+  status?:
+    | "pendingupload"
+    | "downloading"
+    | "queued"
+    | "inprogress"
+    | "ready"
+    | "error"
+    | "live-inprogress";
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duratio */
   thumbnailTimestampPct?: number;
   watermark?: { uid?: string };
@@ -485,22 +539,35 @@ export const CreateClipResponse = Schema.Struct({
   maxDurationSeconds: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  playback: Schema.optional(Schema.Struct({
-  dash: Schema.optional(Schema.String),
-  hls: Schema.optional(Schema.String)
-})),
+  playback: Schema.optional(
+    Schema.Struct({
+      dash: Schema.optional(Schema.String),
+      hls: Schema.optional(Schema.String),
+    }),
+  ),
   preview: Schema.optional(Schema.String),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   startTimeSeconds: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Literals(["pendingupload", "downloading", "queued", "inprogress", "ready", "error", "live-inprogress"])),
+  status: Schema.optional(
+    Schema.Literals([
+      "pendingupload",
+      "downloading",
+      "queued",
+      "inprogress",
+      "ready",
+      "error",
+      "live-inprogress",
+    ]),
+  ),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
-  watermark: Schema.optional(Schema.Struct({
-  uid: Schema.optional(Schema.String)
-}))
+  watermark: Schema.optional(
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+    }),
+  ),
 }) as unknown as Schema.Schema<CreateClipResponse>;
 
-export type CreateClipError =
-  | DefaultErrors;
+export type CreateClipError = DefaultErrors;
 
 export const createClip: API.OperationMethod<
   CreateClipRequest,
@@ -513,7 +580,6 @@ export const createClip: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Copy
 // =============================================================================
@@ -522,7 +588,7 @@ export interface CreateCopyRequest {
   /** Path param: The account identifier tag. */
   accountId: string;
   /** Header param: A user-defined identifier for the media creator. */
-  "Upload-Creator"?: string;
+  uploadCreator?: string;
   /** Body param: A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` */
   url: string;
   /** Body param: Lists the origins allowed to display the video. Enter allowed origin domains in an array and use ` ` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
@@ -543,7 +609,9 @@ export interface CreateCopyRequest {
 
 export const CreateCopyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader(""Upload-Creator"")),
+  uploadCreator: Schema.optional(Schema.String).pipe(
+    T.HttpHeader("Upload-Creator"),
+  ),
   url: Schema.String,
   allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
   creator: Schema.optional(Schema.String),
@@ -551,18 +619,21 @@ export const CreateCopyRequest = Schema.Struct({
   requireSignedURLs: Schema.optional(Schema.Boolean),
   scheduledDeletion: Schema.optional(Schema.String),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
-  watermark: Schema.optional(Schema.Struct({
-  uid: Schema.optional(Schema.String)
-}))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/copy" })) as unknown as Schema.Schema<CreateCopyRequest>;
+  watermark: Schema.optional(
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+    }),
+  ),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/copy" }),
+) as unknown as Schema.Schema<CreateCopyRequest>;
 
 export type CreateCopyResponse = unknown;
 
-export const CreateCopyResponse = Schema.Unknown as unknown as Schema.Schema<CreateCopyResponse>;
+export const CreateCopyResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateCopyResponse>;
 
-export type CreateCopyError =
-  | DefaultErrors;
+export type CreateCopyError = DefaultErrors;
 
 export const createCopy: API.OperationMethod<
   CreateCopyRequest,
@@ -575,7 +646,6 @@ export const createCopy: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // DirectUpload
 // =============================================================================
@@ -584,7 +654,7 @@ export interface CreateDirectUploadRequest {
   /** Path param: The account identifier tag. */
   accountId: string;
   /** Header param: A user-defined identifier for the media creator. */
-  "Upload-Creator"?: string;
+  uploadCreator?: string;
   /** Body param: The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during proce */
   maxDurationSeconds: number;
   /** Body param: Lists the origins allowed to display the video. Enter allowed origin domains in an array and use ` ` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
@@ -607,7 +677,9 @@ export interface CreateDirectUploadRequest {
 
 export const CreateDirectUploadRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader(""Upload-Creator"")),
+  uploadCreator: Schema.optional(Schema.String).pipe(
+    T.HttpHeader("Upload-Creator"),
+  ),
   maxDurationSeconds: Schema.Number,
   allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
   creator: Schema.optional(Schema.String),
@@ -616,11 +688,17 @@ export const CreateDirectUploadRequest = Schema.Struct({
   requireSignedURLs: Schema.optional(Schema.Boolean),
   scheduledDeletion: Schema.optional(Schema.String),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
-  watermark: Schema.optional(Schema.Struct({
-  uid: Schema.optional(Schema.String)
-}))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/direct_upload" })) as unknown as Schema.Schema<CreateDirectUploadRequest>;
+  watermark: Schema.optional(
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+    }),
+  ),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/direct_upload",
+  }),
+) as unknown as Schema.Schema<CreateDirectUploadRequest>;
 
 export interface CreateDirectUploadResponse {
   /** Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at  */
@@ -636,11 +714,10 @@ export const CreateDirectUploadResponse = Schema.Struct({
   scheduledDeletion: Schema.optional(Schema.String),
   uid: Schema.optional(Schema.String),
   uploadURL: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown)
+  watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<CreateDirectUploadResponse>;
 
-export type CreateDirectUploadError =
-  | DefaultErrors;
+export type CreateDirectUploadError = DefaultErrors;
 
 export const createDirectUpload: API.OperationMethod<
   CreateDirectUploadRequest,
@@ -652,7 +729,6 @@ export const createDirectUpload: API.OperationMethod<
   output: CreateDirectUploadResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Download
@@ -666,32 +742,51 @@ export interface GetDownloadRequest {
 
 export const GetDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/downloads" })) as unknown as Schema.Schema<GetDownloadRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
+) as unknown as Schema.Schema<GetDownloadRequest>;
 
 export interface GetDownloadResponse {
   /** The audio-only download. Only present if this download type has been created. */
-  audio?: { percentComplete?: number; status?: "ready" | "inprogress" | "error"; url?: string };
+  audio?: {
+    percentComplete?: number;
+    status?: "ready" | "inprogress" | "error";
+    url?: string;
+  };
   /** The default video download. Only present if this download type has been created. */
-  default?: { percentComplete?: number; status?: "ready" | "inprogress" | "error"; url?: string };
+  default?: {
+    percentComplete?: number;
+    status?: "ready" | "inprogress" | "error";
+    url?: string;
+  };
 }
 
 export const GetDownloadResponse = Schema.Struct({
-  audio: Schema.optional(Schema.Struct({
-  percentComplete: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
-  url: Schema.optional(Schema.String)
-})),
-  default: Schema.optional(Schema.Struct({
-  percentComplete: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
-  url: Schema.optional(Schema.String)
-}))
+  audio: Schema.optional(
+    Schema.Struct({
+      percentComplete: Schema.optional(Schema.Number),
+      status: Schema.optional(
+        Schema.Literals(["ready", "inprogress", "error"]),
+      ),
+      url: Schema.optional(Schema.String),
+    }),
+  ),
+  default: Schema.optional(
+    Schema.Struct({
+      percentComplete: Schema.optional(Schema.Number),
+      status: Schema.optional(
+        Schema.Literals(["ready", "inprogress", "error"]),
+      ),
+      url: Schema.optional(Schema.String),
+    }),
+  ),
 }) as unknown as Schema.Schema<GetDownloadResponse>;
 
-export type GetDownloadError =
-  | DefaultErrors;
+export type GetDownloadError = DefaultErrors;
 
 export const getDownload: API.OperationMethod<
   GetDownloadRequest,
@@ -715,9 +810,13 @@ export interface CreateDownloadRequest {
 export const CreateDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/downloads" })) as unknown as Schema.Schema<CreateDownloadRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
+) as unknown as Schema.Schema<CreateDownloadRequest>;
 
 export interface CreateDownloadResponse {
   /** Indicates the progress as a percentage between 0 and 100. */
@@ -731,11 +830,10 @@ export interface CreateDownloadResponse {
 export const CreateDownloadResponse = Schema.Struct({
   percentComplete: Schema.optional(Schema.Number),
   status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
-  url: Schema.optional(Schema.String)
+  url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDownloadResponse>;
 
-export type CreateDownloadError =
-  | DefaultErrors;
+export type CreateDownloadError = DefaultErrors;
 
 export const createDownload: API.OperationMethod<
   CreateDownloadRequest,
@@ -756,16 +854,20 @@ export interface DeleteDownloadRequest {
 
 export const DeleteDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}/downloads" })) as unknown as Schema.Schema<DeleteDownloadRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
+) as unknown as Schema.Schema<DeleteDownloadRequest>;
 
 export type DeleteDownloadResponse = string;
 
-export const DeleteDownloadResponse = Schema.String as unknown as Schema.Schema<DeleteDownloadResponse>;
+export const DeleteDownloadResponse =
+  Schema.String as unknown as Schema.Schema<DeleteDownloadResponse>;
 
-export type DeleteDownloadError =
-  | DefaultErrors;
+export type DeleteDownloadError = DefaultErrors;
 
 export const deleteDownload: API.OperationMethod<
   DeleteDownloadRequest,
@@ -777,7 +879,6 @@ export const deleteDownload: API.OperationMethod<
   output: DeleteDownloadResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Embed
@@ -791,16 +892,20 @@ export interface GetEmbedRequest {
 
 export const GetEmbedRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/embed" })) as unknown as Schema.Schema<GetEmbedRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/embed",
+  }),
+) as unknown as Schema.Schema<GetEmbedRequest>;
 
 export type GetEmbedResponse = unknown;
 
-export const GetEmbedResponse = Schema.Unknown as unknown as Schema.Schema<GetEmbedResponse>;
+export const GetEmbedResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetEmbedResponse>;
 
-export type GetEmbedError =
-  | DefaultErrors;
+export type GetEmbedError = DefaultErrors;
 
 export const getEmbed: API.OperationMethod<
   GetEmbedRequest,
@@ -813,7 +918,6 @@ export const getEmbed: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Key
 // =============================================================================
@@ -824,19 +928,21 @@ export interface GetKeyRequest {
 }
 
 export const GetKeyRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/keys" })) as unknown as Schema.Schema<GetKeyRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/keys" }),
+) as unknown as Schema.Schema<GetKeyRequest>;
 
 export type GetKeyResponse = { id?: string; created?: string }[];
 
-export const GetKeyResponse = Schema.Array(Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<GetKeyResponse>;
+export const GetKeyResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetKeyResponse>;
 
-export type GetKeyError =
-  | DefaultErrors;
+export type GetKeyError = DefaultErrors;
 
 export const getKey: API.OperationMethod<
   GetKeyRequest,
@@ -858,9 +964,10 @@ export interface CreateKeyRequest {
 
 export const CreateKeyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/keys" })) as unknown as Schema.Schema<CreateKeyRequest>;
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/keys" }),
+) as unknown as Schema.Schema<CreateKeyRequest>;
 
 export interface CreateKeyResponse {
   /** Identifier. */
@@ -877,11 +984,10 @@ export const CreateKeyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   created: Schema.optional(Schema.String),
   jwk: Schema.optional(Schema.String),
-  pem: Schema.optional(Schema.String)
+  pem: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateKeyResponse>;
 
-export type CreateKeyError =
-  | DefaultErrors;
+export type CreateKeyError = DefaultErrors;
 
 export const createKey: API.OperationMethod<
   CreateKeyRequest,
@@ -902,16 +1008,20 @@ export interface DeleteKeyRequest {
 
 export const DeleteKeyRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/keys/{identifier}" })) as unknown as Schema.Schema<DeleteKeyRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/keys/{identifier}",
+  }),
+) as unknown as Schema.Schema<DeleteKeyRequest>;
 
 export type DeleteKeyResponse = string;
 
-export const DeleteKeyResponse = Schema.String as unknown as Schema.Schema<DeleteKeyResponse>;
+export const DeleteKeyResponse =
+  Schema.String as unknown as Schema.Schema<DeleteKeyResponse>;
 
-export type DeleteKeyError =
-  | DefaultErrors;
+export type DeleteKeyError = DefaultErrors;
 
 export const deleteKey: API.OperationMethod<
   DeleteKeyRequest,
@@ -923,7 +1033,6 @@ export const deleteKey: API.OperationMethod<
   output: DeleteKeyResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // LiveInput
@@ -937,9 +1046,13 @@ export interface GetLiveInputRequest {
 
 export const GetLiveInputRequest = Schema.Struct({
   liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}" })) as unknown as Schema.Schema<GetLiveInputRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}",
+  }),
+) as unknown as Schema.Schema<GetLiveInputRequest>;
 
 export interface GetLiveInputResponse {
   /** The date and time the live input was created. */
@@ -959,11 +1072,10 @@ export const GetLiveInputResponse = Schema.Struct({
   deleteRecordingAfterDays: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetLiveInputResponse>;
 
-export type GetLiveInputError =
-  | DefaultErrors;
+export type GetLiveInputError = DefaultErrors;
 
 export const getLiveInput: API.OperationMethod<
   GetLiveInputRequest,
@@ -985,12 +1097,21 @@ export interface ListLiveInputsRequest {
 
 export const ListLiveInputsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  includeCounts: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_counts"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/live_inputs" })) as unknown as Schema.Schema<ListLiveInputsRequest>;
+  includeCounts: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_counts"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/live_inputs" }),
+) as unknown as Schema.Schema<ListLiveInputsRequest>;
 
 export interface ListLiveInputsResponse {
-  liveInputs?: { created?: string; deleteRecordingAfterDays?: number; meta?: unknown; modified?: string; uid?: string }[];
+  liveInputs?: {
+    created?: string;
+    deleteRecordingAfterDays?: number;
+    meta?: unknown;
+    modified?: string;
+    uid?: string;
+  }[];
   /** The total number of remaining live inputs based on cursor position. */
   range?: number;
   /** The total number of live inputs that match the provided filters. */
@@ -998,19 +1119,22 @@ export interface ListLiveInputsResponse {
 }
 
 export const ListLiveInputsResponse = Schema.Struct({
-  liveInputs: Schema.optional(Schema.Array(Schema.Struct({
-  created: Schema.optional(Schema.String),
-  deleteRecordingAfterDays: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
-}))),
+  liveInputs: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        created: Schema.optional(Schema.String),
+        deleteRecordingAfterDays: Schema.optional(Schema.Number),
+        meta: Schema.optional(Schema.Unknown),
+        modified: Schema.optional(Schema.String),
+        uid: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
   range: Schema.optional(Schema.Number),
-  total: Schema.optional(Schema.Number)
+  total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<ListLiveInputsResponse>;
 
-export type ListLiveInputsError =
-  | DefaultErrors;
+export type ListLiveInputsError = DefaultErrors;
 
 export const listLiveInputs: API.OperationMethod<
   ListLiveInputsRequest,
@@ -1033,7 +1157,13 @@ export interface CreateLiveInputRequest {
   /** Body param: A user modifiable key-value store used to reference other systems of record for managing live inputs. */
   meta?: unknown;
   /** Body param: Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condit */
-  recording?: { allowedOrigins?: string[]; hideLiveViewerCount?: boolean; mode?: "off" | "automatic"; requireSignedURLs?: boolean; timeoutSeconds?: number };
+  recording?: {
+    allowedOrigins?: string[];
+    hideLiveViewerCount?: boolean;
+    mode?: "off" | "automatic";
+    requireSignedURLs?: boolean;
+    timeoutSeconds?: number;
+  };
 }
 
 export const CreateLiveInputRequest = Schema.Struct({
@@ -1041,15 +1171,18 @@ export const CreateLiveInputRequest = Schema.Struct({
   defaultCreator: Schema.optional(Schema.String),
   deleteRecordingAfterDays: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
-  recording: Schema.optional(Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  hideLiveViewerCount: Schema.optional(Schema.Boolean),
-  mode: Schema.optional(Schema.Literals(["off", "automatic"])),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  timeoutSeconds: Schema.optional(Schema.Number)
-}))
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/live_inputs" })) as unknown as Schema.Schema<CreateLiveInputRequest>;
+  recording: Schema.optional(
+    Schema.Struct({
+      allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
+      hideLiveViewerCount: Schema.optional(Schema.Boolean),
+      mode: Schema.optional(Schema.Literals(["off", "automatic"])),
+      requireSignedURLs: Schema.optional(Schema.Boolean),
+      timeoutSeconds: Schema.optional(Schema.Number),
+    }),
+  ),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/live_inputs" }),
+) as unknown as Schema.Schema<CreateLiveInputRequest>;
 
 export interface CreateLiveInputResponse {
   /** The date and time the live input was created. */
@@ -1069,11 +1202,10 @@ export const CreateLiveInputResponse = Schema.Struct({
   deleteRecordingAfterDays: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateLiveInputResponse>;
 
-export type CreateLiveInputError =
-  | DefaultErrors;
+export type CreateLiveInputError = DefaultErrors;
 
 export const createLiveInput: API.OperationMethod<
   CreateLiveInputRequest,
@@ -1097,7 +1229,13 @@ export interface UpdateLiveInputRequest {
   /** Body param: A user modifiable key-value store used to reference other systems of record for managing live inputs. */
   meta?: unknown;
   /** Body param: Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live video and transition to on-demand after a condit */
-  recording?: { allowedOrigins?: string[]; hideLiveViewerCount?: boolean; mode?: "off" | "automatic"; requireSignedURLs?: boolean; timeoutSeconds?: number };
+  recording?: {
+    allowedOrigins?: string[];
+    hideLiveViewerCount?: boolean;
+    mode?: "off" | "automatic";
+    requireSignedURLs?: boolean;
+    timeoutSeconds?: number;
+  };
 }
 
 export const UpdateLiveInputRequest = Schema.Struct({
@@ -1106,15 +1244,21 @@ export const UpdateLiveInputRequest = Schema.Struct({
   defaultCreator: Schema.optional(Schema.String),
   deleteRecordingAfterDays: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
-  recording: Schema.optional(Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  hideLiveViewerCount: Schema.optional(Schema.Boolean),
-  mode: Schema.optional(Schema.Literals(["off", "automatic"])),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  timeoutSeconds: Schema.optional(Schema.Number)
-}))
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}" })) as unknown as Schema.Schema<UpdateLiveInputRequest>;
+  recording: Schema.optional(
+    Schema.Struct({
+      allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
+      hideLiveViewerCount: Schema.optional(Schema.Boolean),
+      mode: Schema.optional(Schema.Literals(["off", "automatic"])),
+      requireSignedURLs: Schema.optional(Schema.Boolean),
+      timeoutSeconds: Schema.optional(Schema.Number),
+    }),
+  ),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}",
+  }),
+) as unknown as Schema.Schema<UpdateLiveInputRequest>;
 
 export interface UpdateLiveInputResponse {
   /** The date and time the live input was created. */
@@ -1134,11 +1278,10 @@ export const UpdateLiveInputResponse = Schema.Struct({
   deleteRecordingAfterDays: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String)
+  uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateLiveInputResponse>;
 
-export type UpdateLiveInputError =
-  | DefaultErrors;
+export type UpdateLiveInputError = DefaultErrors;
 
 export const updateLiveInput: API.OperationMethod<
   UpdateLiveInputRequest,
@@ -1159,16 +1302,20 @@ export interface DeleteLiveInputRequest {
 
 export const DeleteLiveInputRequest = Schema.Struct({
   liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}" })) as unknown as Schema.Schema<DeleteLiveInputRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}",
+  }),
+) as unknown as Schema.Schema<DeleteLiveInputRequest>;
 
 export type DeleteLiveInputResponse = unknown;
 
-export const DeleteLiveInputResponse = Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputResponse>;
+export const DeleteLiveInputResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputResponse>;
 
-export type DeleteLiveInputError =
-  | DefaultErrors;
+export type DeleteLiveInputError = DefaultErrors;
 
 export const deleteLiveInput: API.OperationMethod<
   DeleteLiveInputRequest,
@@ -1180,7 +1327,6 @@ export const deleteLiveInput: API.OperationMethod<
   output: DeleteLiveInputResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // LiveInputOutput
@@ -1194,21 +1340,31 @@ export interface ListLiveInputOutputsRequest {
 
 export const ListLiveInputOutputsRequest = Schema.Struct({
   liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs" })) as unknown as Schema.Schema<ListLiveInputOutputsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs",
+  }),
+) as unknown as Schema.Schema<ListLiveInputOutputsRequest>;
 
-export type ListLiveInputOutputsResponse = { enabled?: boolean; streamKey?: string; uid?: string; url?: string }[];
+export type ListLiveInputOutputsResponse = {
+  enabled?: boolean;
+  streamKey?: string;
+  uid?: string;
+  url?: string;
+}[];
 
-export const ListLiveInputOutputsResponse = Schema.Array(Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  streamKey: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String)
-})) as unknown as Schema.Schema<ListLiveInputOutputsResponse>;
+export const ListLiveInputOutputsResponse = Schema.Array(
+  Schema.Struct({
+    enabled: Schema.optional(Schema.Boolean),
+    streamKey: Schema.optional(Schema.String),
+    uid: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListLiveInputOutputsResponse>;
 
-export type ListLiveInputOutputsError =
-  | DefaultErrors;
+export type ListLiveInputOutputsError = DefaultErrors;
 
 export const listLiveInputOutputs: API.OperationMethod<
   ListLiveInputOutputsRequest,
@@ -1238,9 +1394,13 @@ export const CreateLiveInputOutputRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   streamKey: Schema.String,
   url: Schema.String,
-  enabled: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs" })) as unknown as Schema.Schema<CreateLiveInputOutputRequest>;
+  enabled: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs",
+  }),
+) as unknown as Schema.Schema<CreateLiveInputOutputRequest>;
 
 export interface CreateLiveInputOutputResponse {
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live  */
@@ -1257,11 +1417,10 @@ export const CreateLiveInputOutputResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   streamKey: Schema.optional(Schema.String),
   uid: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String)
+  url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateLiveInputOutputResponse>;
 
-export type CreateLiveInputOutputError =
-  | DefaultErrors;
+export type CreateLiveInputOutputError = DefaultErrors;
 
 export const createLiveInputOutput: API.OperationMethod<
   CreateLiveInputOutputRequest,
@@ -1287,9 +1446,13 @@ export const UpdateLiveInputOutputRequest = Schema.Struct({
   liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
   outputIdentifier: Schema.String.pipe(T.HttpPath("outputIdentifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  enabled: Schema.Boolean
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs/{outputIdentifier}" })) as unknown as Schema.Schema<UpdateLiveInputOutputRequest>;
+  enabled: Schema.Boolean,
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs/{outputIdentifier}",
+  }),
+) as unknown as Schema.Schema<UpdateLiveInputOutputRequest>;
 
 export interface UpdateLiveInputOutputResponse {
   /** When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live  */
@@ -1306,11 +1469,10 @@ export const UpdateLiveInputOutputResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   streamKey: Schema.optional(Schema.String),
   uid: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String)
+  url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateLiveInputOutputResponse>;
 
-export type UpdateLiveInputOutputError =
-  | DefaultErrors;
+export type UpdateLiveInputOutputError = DefaultErrors;
 
 export const updateLiveInputOutput: API.OperationMethod<
   UpdateLiveInputOutputRequest,
@@ -1333,16 +1495,20 @@ export interface DeleteLiveInputOutputRequest {
 export const DeleteLiveInputOutputRequest = Schema.Struct({
   liveInputIdentifier: Schema.String.pipe(T.HttpPath("liveInputIdentifier")),
   outputIdentifier: Schema.String.pipe(T.HttpPath("outputIdentifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs/{outputIdentifier}" })) as unknown as Schema.Schema<DeleteLiveInputOutputRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/live_inputs/{liveInputIdentifier}/outputs/{outputIdentifier}",
+  }),
+) as unknown as Schema.Schema<DeleteLiveInputOutputRequest>;
 
 export type DeleteLiveInputOutputResponse = unknown;
 
-export const DeleteLiveInputOutputResponse = Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputOutputResponse>;
+export const DeleteLiveInputOutputResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputOutputResponse>;
 
-export type DeleteLiveInputOutputError =
-  | DefaultErrors;
+export type DeleteLiveInputOutputError = DefaultErrors;
 
 export const deleteLiveInputOutput: API.OperationMethod<
   DeleteLiveInputOutputRequest,
@@ -1354,7 +1520,6 @@ export const deleteLiveInputOutput: API.OperationMethod<
   output: DeleteLiveInputOutputResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Stream
@@ -1368,9 +1533,10 @@ export interface GetStreamRequest {
 
 export const GetStreamRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}" })) as unknown as Schema.Schema<GetStreamRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}" }),
+) as unknown as Schema.Schema<GetStreamRequest>;
 
 export interface GetStreamResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use ` ` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
@@ -1404,7 +1570,19 @@ export interface GetStreamResponse {
   /** The size of the media item in bytes. */
   size?: number;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number be */
-  status?: { errorReasonCode?: string; errorReasonText?: string; pctComplete?: string; state?: "pendingupload" | "downloading" | "queued" | "inprogress" | "ready" | "error" | "live-inprogress" };
+  status?: {
+    errorReasonCode?: string;
+    errorReasonText?: string;
+    pctComplete?: string;
+    state?:
+      | "pendingupload"
+      | "downloading"
+      | "queued"
+      | "inprogress"
+      | "ready"
+      | "error"
+      | "live-inprogress";
+  };
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
   thumbnail?: string;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duratio */
@@ -1423,40 +1601,55 @@ export const GetStreamResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   creator: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.Number),
-  input: Schema.optional(Schema.Struct({
-  height: Schema.optional(Schema.Number),
-  width: Schema.optional(Schema.Number)
-})),
+  input: Schema.optional(
+    Schema.Struct({
+      height: Schema.optional(Schema.Number),
+      width: Schema.optional(Schema.Number),
+    }),
+  ),
   liveInput: Schema.optional(Schema.String),
   maxDurationSeconds: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  playback: Schema.optional(Schema.Struct({
-  dash: Schema.optional(Schema.String),
-  hls: Schema.optional(Schema.String)
-})),
+  playback: Schema.optional(
+    Schema.Struct({
+      dash: Schema.optional(Schema.String),
+      hls: Schema.optional(Schema.String),
+    }),
+  ),
   preview: Schema.optional(Schema.String),
   readyToStream: Schema.optional(Schema.Boolean),
   readyToStreamAt: Schema.optional(Schema.String),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   scheduledDeletion: Schema.optional(Schema.String),
   size: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Struct({
-  errorReasonCode: Schema.optional(Schema.String),
-  errorReasonText: Schema.optional(Schema.String),
-  pctComplete: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.Literals(["pendingupload", "downloading", "queued", "inprogress", "ready", "error", "live-inprogress"]))
-})),
+  status: Schema.optional(
+    Schema.Struct({
+      errorReasonCode: Schema.optional(Schema.String),
+      errorReasonText: Schema.optional(Schema.String),
+      pctComplete: Schema.optional(Schema.String),
+      state: Schema.optional(
+        Schema.Literals([
+          "pendingupload",
+          "downloading",
+          "queued",
+          "inprogress",
+          "ready",
+          "error",
+          "live-inprogress",
+        ]),
+      ),
+    }),
+  ),
   thumbnail: Schema.optional(Schema.String),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
   uid: Schema.optional(Schema.String),
   uploaded: Schema.optional(Schema.String),
   uploadExpiry: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown)
+  watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<GetStreamResponse>;
 
-export type GetStreamError =
-  | DefaultErrors;
+export type GetStreamError = DefaultErrors;
 
 export const getStream: API.OperationMethod<
   GetStreamRequest,
@@ -1485,7 +1678,14 @@ export interface ListStreamsRequest {
   /** Query param: Lists videos created after the specified date. */
   start?: string;
   /** Query param: Specifies the processing status for all quality levels for a video. */
-  status?: "pendingupload" | "downloading" | "queued" | "inprogress" | "ready" | "error" | "live-inprogress";
+  status?:
+    | "pendingupload"
+    | "downloading"
+    | "queued"
+    | "inprogress"
+    | "ready"
+    | "error"
+    | "live-inprogress";
   /** Query param: Specifies whether the video is `vod` or `live`. */
   type?: string;
   /** Query param: Provides a fast, exact string match on the `name` key in the `meta` field. */
@@ -1497,56 +1697,122 @@ export const ListStreamsRequest = Schema.Struct({
   asc: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("asc")),
   creator: Schema.optional(Schema.String).pipe(T.HttpQuery("creator")),
   end: Schema.optional(Schema.String).pipe(T.HttpQuery("end")),
-  includeCounts: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_counts")),
+  includeCounts: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_counts"),
+  ),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
   start: Schema.optional(Schema.String).pipe(T.HttpQuery("start")),
-  status: Schema.optional(Schema.Literals(["pendingupload", "downloading", "queued", "inprogress", "ready", "error", "live-inprogress"])).pipe(T.HttpQuery("status")),
+  status: Schema.optional(
+    Schema.Literals([
+      "pendingupload",
+      "downloading",
+      "queued",
+      "inprogress",
+      "ready",
+      "error",
+      "live-inprogress",
+    ]),
+  ).pipe(T.HttpQuery("status")),
   type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  videoName: Schema.optional(Schema.String).pipe(T.HttpQuery("video_name"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream" })) as unknown as Schema.Schema<ListStreamsRequest>;
+  videoName: Schema.optional(Schema.String).pipe(T.HttpQuery("video_name")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream" }),
+) as unknown as Schema.Schema<ListStreamsRequest>;
 
-export type ListStreamsResponse = ({ allowedOrigins?: string[]; created?: string; creator?: string; duration?: number; input?: { height?: number; width?: number }; liveInput?: string; maxDurationSeconds?: number; meta?: unknown; modified?: string; playback?: { dash?: string; hls?: string }; preview?: string; readyToStream?: boolean; readyToStreamAt?: string; requireSignedURLs?: boolean; scheduledDeletion?: string; size?: number; status?: { errorReasonCode?: string; errorReasonText?: string; pctComplete?: string; state?: "pendingupload" | "downloading" | "queued" | "inprogress" | "ready" | "error" | "live-inprogress" }; thumbnail?: string; thumbnailTimestampPct?: number; uid?: string; uploaded?: string; uploadExpiry?: string; watermark?: unknown })[];
+export type ListStreamsResponse = {
+  allowedOrigins?: string[];
+  created?: string;
+  creator?: string;
+  duration?: number;
+  input?: { height?: number; width?: number };
+  liveInput?: string;
+  maxDurationSeconds?: number;
+  meta?: unknown;
+  modified?: string;
+  playback?: { dash?: string; hls?: string };
+  preview?: string;
+  readyToStream?: boolean;
+  readyToStreamAt?: string;
+  requireSignedURLs?: boolean;
+  scheduledDeletion?: string;
+  size?: number;
+  status?: {
+    errorReasonCode?: string;
+    errorReasonText?: string;
+    pctComplete?: string;
+    state?:
+      | "pendingupload"
+      | "downloading"
+      | "queued"
+      | "inprogress"
+      | "ready"
+      | "error"
+      | "live-inprogress";
+  };
+  thumbnail?: string;
+  thumbnailTimestampPct?: number;
+  uid?: string;
+  uploaded?: string;
+  uploadExpiry?: string;
+  watermark?: unknown;
+}[];
 
-export const ListStreamsResponse = Schema.Array(Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  created: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.Number),
-  input: Schema.optional(Schema.Struct({
-    height: Schema.optional(Schema.Number),
-    width: Schema.optional(Schema.Number)
-  })),
-  liveInput: Schema.optional(Schema.String),
-  maxDurationSeconds: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  playback: Schema.optional(Schema.Struct({
-    dash: Schema.optional(Schema.String),
-    hls: Schema.optional(Schema.String)
-  })),
-  preview: Schema.optional(Schema.String),
-  readyToStream: Schema.optional(Schema.Boolean),
-  readyToStreamAt: Schema.optional(Schema.String),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  scheduledDeletion: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Struct({
-    errorReasonCode: Schema.optional(Schema.String),
-    errorReasonText: Schema.optional(Schema.String),
-    pctComplete: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.Literals(["pendingupload", "downloading", "queued", "inprogress", "ready", "error", "live-inprogress"]))
-  })),
-  thumbnail: Schema.optional(Schema.String),
-  thumbnailTimestampPct: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  uploaded: Schema.optional(Schema.String),
-  uploadExpiry: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown)
-})) as unknown as Schema.Schema<ListStreamsResponse>;
+export const ListStreamsResponse = Schema.Array(
+  Schema.Struct({
+    allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
+    created: Schema.optional(Schema.String),
+    creator: Schema.optional(Schema.String),
+    duration: Schema.optional(Schema.Number),
+    input: Schema.optional(
+      Schema.Struct({
+        height: Schema.optional(Schema.Number),
+        width: Schema.optional(Schema.Number),
+      }),
+    ),
+    liveInput: Schema.optional(Schema.String),
+    maxDurationSeconds: Schema.optional(Schema.Number),
+    meta: Schema.optional(Schema.Unknown),
+    modified: Schema.optional(Schema.String),
+    playback: Schema.optional(
+      Schema.Struct({
+        dash: Schema.optional(Schema.String),
+        hls: Schema.optional(Schema.String),
+      }),
+    ),
+    preview: Schema.optional(Schema.String),
+    readyToStream: Schema.optional(Schema.Boolean),
+    readyToStreamAt: Schema.optional(Schema.String),
+    requireSignedURLs: Schema.optional(Schema.Boolean),
+    scheduledDeletion: Schema.optional(Schema.String),
+    size: Schema.optional(Schema.Number),
+    status: Schema.optional(
+      Schema.Struct({
+        errorReasonCode: Schema.optional(Schema.String),
+        errorReasonText: Schema.optional(Schema.String),
+        pctComplete: Schema.optional(Schema.String),
+        state: Schema.optional(
+          Schema.Literals([
+            "pendingupload",
+            "downloading",
+            "queued",
+            "inprogress",
+            "ready",
+            "error",
+            "live-inprogress",
+          ]),
+        ),
+      }),
+    ),
+    thumbnail: Schema.optional(Schema.String),
+    thumbnailTimestampPct: Schema.optional(Schema.Number),
+    uid: Schema.optional(Schema.String),
+    uploaded: Schema.optional(Schema.String),
+    uploadExpiry: Schema.optional(Schema.String),
+    watermark: Schema.optional(Schema.Unknown),
+  }),
+) as unknown as Schema.Schema<ListStreamsResponse>;
 
-export type ListStreamsError =
-  | DefaultErrors;
+export type ListStreamsError = DefaultErrors;
 
 export const listStreams: API.OperationMethod<
   ListStreamsRequest,
@@ -1565,13 +1831,13 @@ export interface CreateStreamRequest {
   /** Query param: Provisions a URL to let your end users upload videos directly to Cloudflare Stream without exposing your API token to clients. */
   directUser?: boolean;
   /** Header param: Specifies the TUS protocol version. This value must be included in every upload request. Notes: The only supported version of TUS protocol is 1.0.0. */
-  "Tus-Resumable": "1.0.0";
+  tusResumable: "1.0.0";
   /** Header param: Indicates the size of the entire upload in bytes. The value must be a non-negative integer. */
-  "Upload-Length": number;
+  uploadLength: number;
   /** Header param: A user-defined identifier for the media creator. */
-  "Upload-Creator"?: string;
+  uploadCreator?: string;
   /** Header param: Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppc */
-  "Upload-Metadata"?: string;
+  uploadMetadata?: string;
   /** Body param: */
   body: unknown;
 }
@@ -1579,20 +1845,25 @@ export interface CreateStreamRequest {
 export const CreateStreamRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   directUser: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("direct_user")),
-  "Tus-Resumable": Schema.Literal("1.0.0").pipe(T.HttpHeader(""Tus-Resumable"")),
-  "Upload-Length": Schema.Number.pipe(T.HttpHeader(""Upload-Length"")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader(""Upload-Creator"")),
-  "Upload-Metadata": Schema.optional(Schema.String).pipe(T.HttpHeader(""Upload-Metadata"")),
-  body: Schema.Unknown.pipe(T.HttpBody())
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream" })) as unknown as Schema.Schema<CreateStreamRequest>;
+  tusResumable: Schema.Literal("1.0.0").pipe(T.HttpHeader("Tus-Resumable")),
+  uploadLength: Schema.Number.pipe(T.HttpHeader("Upload-Length")),
+  uploadCreator: Schema.optional(Schema.String).pipe(
+    T.HttpHeader("Upload-Creator"),
+  ),
+  uploadMetadata: Schema.optional(Schema.String).pipe(
+    T.HttpHeader("Upload-Metadata"),
+  ),
+  body: Schema.Unknown.pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/stream" }),
+) as unknown as Schema.Schema<CreateStreamRequest>;
 
 export type CreateStreamResponse = unknown;
 
-export const CreateStreamResponse = Schema.Unknown as unknown as Schema.Schema<CreateStreamResponse>;
+export const CreateStreamResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateStreamResponse>;
 
-export type CreateStreamError =
-  | DefaultErrors;
+export type CreateStreamError = DefaultErrors;
 
 export const createStream: API.OperationMethod<
   CreateStreamRequest,
@@ -1613,16 +1884,20 @@ export interface DeleteStreamRequest {
 
 export const DeleteStreamRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}" })) as unknown as Schema.Schema<DeleteStreamRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}",
+  }),
+) as unknown as Schema.Schema<DeleteStreamRequest>;
 
 export type DeleteStreamResponse = unknown;
 
-export const DeleteStreamResponse = Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
+export const DeleteStreamResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
 
-export type DeleteStreamError =
-  | DefaultErrors;
+export type DeleteStreamError = DefaultErrors;
 
 export const deleteStream: API.OperationMethod<
   DeleteStreamRequest,
@@ -1667,9 +1942,13 @@ export const EditStreamRequest = Schema.Struct({
   requireSignedURLs: Schema.optional(Schema.Boolean),
   scheduledDeletion: Schema.optional(Schema.String),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
-  uploadExpiry: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}" })) as unknown as Schema.Schema<EditStreamRequest>;
+  uploadExpiry: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}",
+  }),
+) as unknown as Schema.Schema<EditStreamRequest>;
 
 export interface EditStreamResponse {
   /** Lists the origins allowed to display the video. Enter allowed origin domains in an array and use ` ` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin. */
@@ -1703,7 +1982,19 @@ export interface EditStreamResponse {
   /** The size of the media item in bytes. */
   size?: number;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number be */
-  status?: { errorReasonCode?: string; errorReasonText?: string; pctComplete?: string; state?: "pendingupload" | "downloading" | "queued" | "inprogress" | "ready" | "error" | "live-inprogress" };
+  status?: {
+    errorReasonCode?: string;
+    errorReasonText?: string;
+    pctComplete?: string;
+    state?:
+      | "pendingupload"
+      | "downloading"
+      | "queued"
+      | "inprogress"
+      | "ready"
+      | "error"
+      | "live-inprogress";
+  };
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
   thumbnail?: string;
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duratio */
@@ -1722,40 +2013,55 @@ export const EditStreamResponse = Schema.Struct({
   created: Schema.optional(Schema.String),
   creator: Schema.optional(Schema.String),
   duration: Schema.optional(Schema.Number),
-  input: Schema.optional(Schema.Struct({
-  height: Schema.optional(Schema.Number),
-  width: Schema.optional(Schema.Number)
-})),
+  input: Schema.optional(
+    Schema.Struct({
+      height: Schema.optional(Schema.Number),
+      width: Schema.optional(Schema.Number),
+    }),
+  ),
   liveInput: Schema.optional(Schema.String),
   maxDurationSeconds: Schema.optional(Schema.Number),
   meta: Schema.optional(Schema.Unknown),
   modified: Schema.optional(Schema.String),
-  playback: Schema.optional(Schema.Struct({
-  dash: Schema.optional(Schema.String),
-  hls: Schema.optional(Schema.String)
-})),
+  playback: Schema.optional(
+    Schema.Struct({
+      dash: Schema.optional(Schema.String),
+      hls: Schema.optional(Schema.String),
+    }),
+  ),
   preview: Schema.optional(Schema.String),
   readyToStream: Schema.optional(Schema.Boolean),
   readyToStreamAt: Schema.optional(Schema.String),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   scheduledDeletion: Schema.optional(Schema.String),
   size: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Struct({
-  errorReasonCode: Schema.optional(Schema.String),
-  errorReasonText: Schema.optional(Schema.String),
-  pctComplete: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.Literals(["pendingupload", "downloading", "queued", "inprogress", "ready", "error", "live-inprogress"]))
-})),
+  status: Schema.optional(
+    Schema.Struct({
+      errorReasonCode: Schema.optional(Schema.String),
+      errorReasonText: Schema.optional(Schema.String),
+      pctComplete: Schema.optional(Schema.String),
+      state: Schema.optional(
+        Schema.Literals([
+          "pendingupload",
+          "downloading",
+          "queued",
+          "inprogress",
+          "ready",
+          "error",
+          "live-inprogress",
+        ]),
+      ),
+    }),
+  ),
   thumbnail: Schema.optional(Schema.String),
   thumbnailTimestampPct: Schema.optional(Schema.Number),
   uid: Schema.optional(Schema.String),
   uploaded: Schema.optional(Schema.String),
   uploadExpiry: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown)
+  watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<EditStreamResponse>;
 
-export type EditStreamError =
-  | DefaultErrors;
+export type EditStreamError = DefaultErrors;
 
 export const editStream: API.OperationMethod<
   EditStreamRequest,
@@ -1768,7 +2074,6 @@ export const editStream: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Token
 // =============================================================================
@@ -1780,7 +2085,12 @@ export interface CreateTokenRequest {
   /** Body param: The optional ID of a Stream signing key. If present, the `pem` field is also required. */
   id?: string;
   /** Body param: The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rul */
-  accessRules?: ({ action?: "allow" | "block"; country?: string[]; ip?: string[]; type?: "any" | "ip.src" | "ip.geoip.country" })[];
+  accessRules?: {
+    action?: "allow" | "block";
+    country?: string[];
+    ip?: string[];
+    type?: "any" | "ip.src" | "ip.geoip.country";
+  }[];
   /** Body param: The optional boolean value that enables using signed tokens to access MP4 download links for a video. */
   downloadable?: boolean;
   /** Body param: The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the defaul */
@@ -1795,18 +2105,28 @@ export const CreateTokenRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String),
-  accessRules: Schema.optional(Schema.Array(Schema.Struct({
-  action: Schema.optional(Schema.Literals(["allow", "block"])),
-  country: Schema.optional(Schema.Array(Schema.String)),
-  ip: Schema.optional(Schema.Array(Schema.String)),
-  type: Schema.optional(Schema.Literals(["any", "ip.src", "ip.geoip.country"]))
-}))),
+  accessRules: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        action: Schema.optional(Schema.Literals(["allow", "block"])),
+        country: Schema.optional(Schema.Array(Schema.String)),
+        ip: Schema.optional(Schema.Array(Schema.String)),
+        type: Schema.optional(
+          Schema.Literals(["any", "ip.src", "ip.geoip.country"]),
+        ),
+      }),
+    ),
+  ),
   downloadable: Schema.optional(Schema.Boolean),
   exp: Schema.optional(Schema.Number),
   nbf: Schema.optional(Schema.Number),
-  pem: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/token" })) as unknown as Schema.Schema<CreateTokenRequest>;
+  pem: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/token",
+  }),
+) as unknown as Schema.Schema<CreateTokenRequest>;
 
 export interface CreateTokenResponse {
   /** The signed token used with the signed URLs feature. */
@@ -1814,11 +2134,10 @@ export interface CreateTokenResponse {
 }
 
 export const CreateTokenResponse = Schema.Struct({
-  token: Schema.optional(Schema.String)
+  token: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTokenResponse>;
 
-export type CreateTokenError =
-  | DefaultErrors;
+export type CreateTokenError = DefaultErrors;
 
 export const createToken: API.OperationMethod<
   CreateTokenRequest,
@@ -1830,7 +2149,6 @@ export const createToken: API.OperationMethod<
   output: CreateTokenResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // UsageVideo
@@ -1845,9 +2163,13 @@ export interface StorageUsageVideoRequest {
 
 export const StorageUsageVideoRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  creator: Schema.optional(Schema.String).pipe(T.HttpQuery("creator"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/storage-usage" })) as unknown as Schema.Schema<StorageUsageVideoRequest>;
+  creator: Schema.optional(Schema.String).pipe(T.HttpQuery("creator")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/storage-usage",
+  }),
+) as unknown as Schema.Schema<StorageUsageVideoRequest>;
 
 export interface StorageUsageVideoResponse {
   /** A user-defined identifier for the media creator. */
@@ -1864,11 +2186,10 @@ export const StorageUsageVideoResponse = Schema.Struct({
   creator: Schema.optional(Schema.String),
   totalStorageMinutes: Schema.optional(Schema.Number),
   totalStorageMinutesLimit: Schema.optional(Schema.Number),
-  videoCount: Schema.optional(Schema.Number)
+  videoCount: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<StorageUsageVideoResponse>;
 
-export type StorageUsageVideoError =
-  | DefaultErrors;
+export type StorageUsageVideoError = DefaultErrors;
 
 export const storageUsageVideo: API.OperationMethod<
   StorageUsageVideoRequest,
@@ -1880,7 +2201,6 @@ export const storageUsageVideo: API.OperationMethod<
   output: StorageUsageVideoResponse,
   errors: [],
 }));
-
 
 // =============================================================================
 // Watermark
@@ -1894,9 +2214,13 @@ export interface GetWatermarkRequest {
 
 export const GetWatermarkRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/watermarks/{identifier}" })) as unknown as Schema.Schema<GetWatermarkRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/watermarks/{identifier}",
+  }),
+) as unknown as Schema.Schema<GetWatermarkRequest>;
 
 export interface GetWatermarkResponse {
   /** The date and a time a watermark profile was created. */
@@ -1934,11 +2258,10 @@ export const GetWatermarkResponse = Schema.Struct({
   scale: Schema.optional(Schema.Number),
   size: Schema.optional(Schema.Number),
   uid: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number)
+  width: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetWatermarkResponse>;
 
-export type GetWatermarkError =
-  | DefaultErrors;
+export type GetWatermarkError = DefaultErrors;
 
 export const getWatermark: API.OperationMethod<
   GetWatermarkRequest,
@@ -1957,28 +2280,42 @@ export interface ListWatermarksRequest {
 }
 
 export const ListWatermarksRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/watermarks" })) as unknown as Schema.Schema<ListWatermarksRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/watermarks" }),
+) as unknown as Schema.Schema<ListWatermarksRequest>;
 
-export type ListWatermarksResponse = { created?: string; downloadedFrom?: string; height?: number; name?: string; opacity?: number; padding?: number; position?: string; scale?: number; size?: number; uid?: string; width?: number }[];
+export type ListWatermarksResponse = {
+  created?: string;
+  downloadedFrom?: string;
+  height?: number;
+  name?: string;
+  opacity?: number;
+  padding?: number;
+  position?: string;
+  scale?: number;
+  size?: number;
+  uid?: string;
+  width?: number;
+}[];
 
-export const ListWatermarksResponse = Schema.Array(Schema.Struct({
-  created: Schema.optional(Schema.String),
-  downloadedFrom: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  opacity: Schema.optional(Schema.Number),
-  padding: Schema.optional(Schema.Number),
-  position: Schema.optional(Schema.String),
-  scale: Schema.optional(Schema.Number),
-  size: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number)
-})) as unknown as Schema.Schema<ListWatermarksResponse>;
+export const ListWatermarksResponse = Schema.Array(
+  Schema.Struct({
+    created: Schema.optional(Schema.String),
+    downloadedFrom: Schema.optional(Schema.String),
+    height: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    opacity: Schema.optional(Schema.Number),
+    padding: Schema.optional(Schema.Number),
+    position: Schema.optional(Schema.String),
+    scale: Schema.optional(Schema.Number),
+    size: Schema.optional(Schema.Number),
+    uid: Schema.optional(Schema.String),
+    width: Schema.optional(Schema.Number),
+  }),
+) as unknown as Schema.Schema<ListWatermarksResponse>;
 
-export type ListWatermarksError =
-  | DefaultErrors;
+export type ListWatermarksError = DefaultErrors;
 
 export const listWatermarks: API.OperationMethod<
   ListWatermarksRequest,
@@ -2015,9 +2352,14 @@ export const CreateWatermarkRequest = Schema.Struct({
   opacity: Schema.optional(Schema.Number),
   padding: Schema.optional(Schema.Number),
   position: Schema.optional(Schema.String),
-  scale: Schema.optional(Schema.Number)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/stream/watermarks", contentType: "multipart" })) as unknown as Schema.Schema<CreateWatermarkRequest>;
+  scale: Schema.optional(Schema.Number),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/watermarks",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateWatermarkRequest>;
 
 export interface CreateWatermarkResponse {
   /** The date and a time a watermark profile was created. */
@@ -2055,11 +2397,10 @@ export const CreateWatermarkResponse = Schema.Struct({
   scale: Schema.optional(Schema.Number),
   size: Schema.optional(Schema.Number),
   uid: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number)
+  width: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<CreateWatermarkResponse>;
 
-export type CreateWatermarkError =
-  | DefaultErrors;
+export type CreateWatermarkError = DefaultErrors;
 
 export const createWatermark: API.OperationMethod<
   CreateWatermarkRequest,
@@ -2080,16 +2421,20 @@ export interface DeleteWatermarkRequest {
 
 export const DeleteWatermarkRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/watermarks/{identifier}" })) as unknown as Schema.Schema<DeleteWatermarkRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/watermarks/{identifier}",
+  }),
+) as unknown as Schema.Schema<DeleteWatermarkRequest>;
 
 export type DeleteWatermarkResponse = string;
 
-export const DeleteWatermarkResponse = Schema.String as unknown as Schema.Schema<DeleteWatermarkResponse>;
+export const DeleteWatermarkResponse =
+  Schema.String as unknown as Schema.Schema<DeleteWatermarkResponse>;
 
-export type DeleteWatermarkError =
-  | DefaultErrors;
+export type DeleteWatermarkError = DefaultErrors;
 
 export const deleteWatermark: API.OperationMethod<
   DeleteWatermarkRequest,
@@ -2102,7 +2447,6 @@ export const deleteWatermark: API.OperationMethod<
   errors: [],
 }));
 
-
 // =============================================================================
 // Webhook
 // =============================================================================
@@ -2113,16 +2457,17 @@ export interface GetWebhookRequest {
 }
 
 export const GetWebhookRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/stream/webhook" })) as unknown as Schema.Schema<GetWebhookRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/webhook" }),
+) as unknown as Schema.Schema<GetWebhookRequest>;
 
 export type GetWebhookResponse = unknown;
 
-export const GetWebhookResponse = Schema.Unknown as unknown as Schema.Schema<GetWebhookResponse>;
+export const GetWebhookResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetWebhookResponse>;
 
-export type GetWebhookError =
-  | DefaultErrors;
+export type GetWebhookError = DefaultErrors;
 
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
@@ -2144,16 +2489,17 @@ export interface PutWebhookRequest {
 
 export const PutWebhookRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  notificationUrl: Schema.String
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/webhook" })) as unknown as Schema.Schema<PutWebhookRequest>;
+  notificationUrl: Schema.String,
+}).pipe(
+  T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/webhook" }),
+) as unknown as Schema.Schema<PutWebhookRequest>;
 
 export type PutWebhookResponse = unknown;
 
-export const PutWebhookResponse = Schema.Unknown as unknown as Schema.Schema<PutWebhookResponse>;
+export const PutWebhookResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutWebhookResponse>;
 
-export type PutWebhookError =
-  | DefaultErrors;
+export type PutWebhookError = DefaultErrors;
 
 export const putWebhook: API.OperationMethod<
   PutWebhookRequest,
@@ -2172,16 +2518,17 @@ export interface DeleteWebhookRequest {
 }
 
 export const DeleteWebhookRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/webhook" })) as unknown as Schema.Schema<DeleteWebhookRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/webhook" }),
+) as unknown as Schema.Schema<DeleteWebhookRequest>;
 
 export type DeleteWebhookResponse = string;
 
-export const DeleteWebhookResponse = Schema.String as unknown as Schema.Schema<DeleteWebhookResponse>;
+export const DeleteWebhookResponse =
+  Schema.String as unknown as Schema.Schema<DeleteWebhookResponse>;
 
-export type DeleteWebhookError =
-  | DefaultErrors;
+export type DeleteWebhookError = DefaultErrors;
 
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookRequest,

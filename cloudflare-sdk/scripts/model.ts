@@ -121,8 +121,9 @@ export function pluralize(word: string): string {
  */
 export function toCamelCase(str: string): string {
   return str
-    .replace(/[-_]([a-z])/g, (_, letter) => letter.toUpperCase())
-    .replace(/^([A-Z])/, (_, letter) => letter.toLowerCase());
+    .replace(/[-_./~]([a-zA-Z])/g, (_, letter) => letter.toUpperCase())
+    .replace(/[-_./~]$/g, "")
+    .replace(/^([A-Z]+)/, (match) => match.toLowerCase());
 }
 
 /**

@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service intel
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -119,7 +118,7 @@ export interface ListAttackSurfaceReportIssuesRequest {
   /** Query param: */
   issueClass?: string[];
   /** Query param: */
-  "issueClass~neq"?: string[];
+  issueClassNeq?: string[];
   /** Query param: */
   issueType?: (
     | "compliance_violation"
@@ -130,7 +129,7 @@ export interface ListAttackSurfaceReportIssuesRequest {
     | "configuration_suggestion"
   )[];
   /** Query param: */
-  "issueType~neq"?: (
+  issueTypeNeq?: (
     | "compliance_violation"
     | "email_security"
     | "exposed_infrastructure"
@@ -141,15 +140,15 @@ export interface ListAttackSurfaceReportIssuesRequest {
   /** Query param: */
   product?: string[];
   /** Query param: */
-  "product~neq"?: string[];
+  productNeq?: string[];
   /** Query param: */
   severity?: ("low" | "moderate" | "critical")[];
   /** Query param: */
-  "severity~neq"?: ("low" | "moderate" | "critical")[];
+  severityNeq?: ("low" | "moderate" | "critical")[];
   /** Query param: */
   subject?: string[];
   /** Query param: */
-  "subject~neq"?: string[];
+  subjectNeq?: string[];
 }
 
 export const ListAttackSurfaceReportIssuesRequest = Schema.Struct({
@@ -158,8 +157,8 @@ export const ListAttackSurfaceReportIssuesRequest = Schema.Struct({
   issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("issue_class"),
   ),
-  "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'issue_class~neq'"),
+  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class~neq"),
   ),
   issueType: Schema.optional(
     Schema.Array(
@@ -173,7 +172,7 @@ export const ListAttackSurfaceReportIssuesRequest = Schema.Struct({
       ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
-  "issueType~neq": Schema.optional(
+  issueTypeNeq: Schema.optional(
     Schema.Array(
       Schema.Literals([
         "compliance_violation",
@@ -184,24 +183,24 @@ export const ListAttackSurfaceReportIssuesRequest = Schema.Struct({
         "configuration_suggestion",
       ]),
     ),
-  ).pipe(T.HttpQuery("'issue_type~neq'")),
+  ).pipe(T.HttpQuery("issue_type~neq")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("product"),
   ),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'product~neq'"),
+  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product~neq"),
   ),
   severity: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
-  "severity~neq": Schema.optional(
+  severityNeq: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("'severity~neq'")),
+  ).pipe(T.HttpQuery("severity~neq")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
   ),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'subject~neq'"),
+  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject~neq"),
   ),
 }).pipe(
   T.Http({
@@ -323,7 +322,7 @@ export interface ClassAttackSurfaceReportIssueRequest {
   /** Query param: */
   issueClass?: string[];
   /** Query param: */
-  "issueClass~neq"?: string[];
+  issueClassNeq?: string[];
   /** Query param: */
   issueType?: (
     | "compliance_violation"
@@ -334,7 +333,7 @@ export interface ClassAttackSurfaceReportIssueRequest {
     | "configuration_suggestion"
   )[];
   /** Query param: */
-  "issueType~neq"?: (
+  issueTypeNeq?: (
     | "compliance_violation"
     | "email_security"
     | "exposed_infrastructure"
@@ -345,15 +344,15 @@ export interface ClassAttackSurfaceReportIssueRequest {
   /** Query param: */
   product?: string[];
   /** Query param: */
-  "product~neq"?: string[];
+  productNeq?: string[];
   /** Query param: */
   severity?: ("low" | "moderate" | "critical")[];
   /** Query param: */
-  "severity~neq"?: ("low" | "moderate" | "critical")[];
+  severityNeq?: ("low" | "moderate" | "critical")[];
   /** Query param: */
   subject?: string[];
   /** Query param: */
-  "subject~neq"?: string[];
+  subjectNeq?: string[];
 }
 
 export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
@@ -362,8 +361,8 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
   issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("issue_class"),
   ),
-  "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'issue_class~neq'"),
+  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class~neq"),
   ),
   issueType: Schema.optional(
     Schema.Array(
@@ -377,7 +376,7 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
       ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
-  "issueType~neq": Schema.optional(
+  issueTypeNeq: Schema.optional(
     Schema.Array(
       Schema.Literals([
         "compliance_violation",
@@ -388,24 +387,24 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
         "configuration_suggestion",
       ]),
     ),
-  ).pipe(T.HttpQuery("'issue_type~neq'")),
+  ).pipe(T.HttpQuery("issue_type~neq")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("product"),
   ),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'product~neq'"),
+  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product~neq"),
   ),
   severity: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
-  "severity~neq": Schema.optional(
+  severityNeq: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("'severity~neq'")),
+  ).pipe(T.HttpQuery("severity~neq")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
   ),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'subject~neq'"),
+  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject~neq"),
   ),
 }).pipe(
   T.Http({
@@ -538,7 +537,7 @@ export interface SeverityAttackSurfaceReportIssueRequest {
   /** Query param: */
   issueClass?: string[];
   /** Query param: */
-  "issueClass~neq"?: string[];
+  issueClassNeq?: string[];
   /** Query param: */
   issueType?: (
     | "compliance_violation"
@@ -549,7 +548,7 @@ export interface SeverityAttackSurfaceReportIssueRequest {
     | "configuration_suggestion"
   )[];
   /** Query param: */
-  "issueType~neq"?: (
+  issueTypeNeq?: (
     | "compliance_violation"
     | "email_security"
     | "exposed_infrastructure"
@@ -560,15 +559,15 @@ export interface SeverityAttackSurfaceReportIssueRequest {
   /** Query param: */
   product?: string[];
   /** Query param: */
-  "product~neq"?: string[];
+  productNeq?: string[];
   /** Query param: */
   severity?: ("low" | "moderate" | "critical")[];
   /** Query param: */
-  "severity~neq"?: ("low" | "moderate" | "critical")[];
+  severityNeq?: ("low" | "moderate" | "critical")[];
   /** Query param: */
   subject?: string[];
   /** Query param: */
-  "subject~neq"?: string[];
+  subjectNeq?: string[];
 }
 
 export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
@@ -577,8 +576,8 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
   issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("issue_class"),
   ),
-  "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'issue_class~neq'"),
+  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class~neq"),
   ),
   issueType: Schema.optional(
     Schema.Array(
@@ -592,7 +591,7 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
       ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
-  "issueType~neq": Schema.optional(
+  issueTypeNeq: Schema.optional(
     Schema.Array(
       Schema.Literals([
         "compliance_violation",
@@ -603,24 +602,24 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
         "configuration_suggestion",
       ]),
     ),
-  ).pipe(T.HttpQuery("'issue_type~neq'")),
+  ).pipe(T.HttpQuery("issue_type~neq")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("product"),
   ),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'product~neq'"),
+  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product~neq"),
   ),
   severity: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
-  "severity~neq": Schema.optional(
+  severityNeq: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("'severity~neq'")),
+  ).pipe(T.HttpQuery("severity~neq")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
   ),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'subject~neq'"),
+  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject~neq"),
   ),
 }).pipe(
   T.Http({
@@ -662,7 +661,7 @@ export interface TypeAttackSurfaceReportIssueRequest {
   /** Query param: */
   issueClass?: string[];
   /** Query param: */
-  "issueClass~neq"?: string[];
+  issueClassNeq?: string[];
   /** Query param: */
   issueType?: (
     | "compliance_violation"
@@ -673,7 +672,7 @@ export interface TypeAttackSurfaceReportIssueRequest {
     | "configuration_suggestion"
   )[];
   /** Query param: */
-  "issueType~neq"?: (
+  issueTypeNeq?: (
     | "compliance_violation"
     | "email_security"
     | "exposed_infrastructure"
@@ -684,15 +683,15 @@ export interface TypeAttackSurfaceReportIssueRequest {
   /** Query param: */
   product?: string[];
   /** Query param: */
-  "product~neq"?: string[];
+  productNeq?: string[];
   /** Query param: */
   severity?: ("low" | "moderate" | "critical")[];
   /** Query param: */
-  "severity~neq"?: ("low" | "moderate" | "critical")[];
+  severityNeq?: ("low" | "moderate" | "critical")[];
   /** Query param: */
   subject?: string[];
   /** Query param: */
-  "subject~neq"?: string[];
+  subjectNeq?: string[];
 }
 
 export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
@@ -701,8 +700,8 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
   issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("issue_class"),
   ),
-  "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'issue_class~neq'"),
+  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class~neq"),
   ),
   issueType: Schema.optional(
     Schema.Array(
@@ -716,7 +715,7 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
       ]),
     ),
   ).pipe(T.HttpQuery("issue_type")),
-  "issueType~neq": Schema.optional(
+  issueTypeNeq: Schema.optional(
     Schema.Array(
       Schema.Literals([
         "compliance_violation",
@@ -727,24 +726,24 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
         "configuration_suggestion",
       ]),
     ),
-  ).pipe(T.HttpQuery("'issue_type~neq'")),
+  ).pipe(T.HttpQuery("issue_type~neq")),
   product: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("product"),
   ),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'product~neq'"),
+  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product~neq"),
   ),
   severity: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
   ).pipe(T.HttpQuery("severity")),
-  "severity~neq": Schema.optional(
+  severityNeq: Schema.optional(
     Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("'severity~neq'")),
+  ).pipe(T.HttpQuery("severity~neq")),
   subject: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("subject"),
   ),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("'subject~neq'"),
+  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject~neq"),
   ),
 }).pipe(
   T.Http({

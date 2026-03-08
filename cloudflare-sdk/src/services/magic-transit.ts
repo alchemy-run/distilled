@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service magic-transit
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -390,7 +389,7 @@ export const GetCfInterconnectRequest = Schema.Struct({
   cfInterconnectId: Schema.String.pipe(T.HttpPath("cfInterconnectId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -479,7 +478,7 @@ export interface ListCfInterconnectsRequest {
 export const ListCfInterconnectsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -586,7 +585,7 @@ export const PutCfInterconnectRequest = Schema.Struct({
   cfInterconnectId: Schema.String.pipe(T.HttpPath("cfInterconnectId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   automaticReturnRouting: Schema.optional(Schema.Boolean),
   description: Schema.optional(Schema.String),
@@ -3544,7 +3543,7 @@ export const GetGreTunnelRequest = Schema.Struct({
   greTunnelId: Schema.String.pipe(T.HttpPath("greTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -3704,7 +3703,7 @@ export interface ListGreTunnelsRequest {
 export const ListGreTunnelsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/magic/gre_tunnels" }),
@@ -3891,7 +3890,7 @@ export interface CreateGreTunnelRequest {
 export const CreateGreTunnelRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   cloudflareGreEndpoint: Schema.String,
   customerGreEndpoint: Schema.String,
@@ -4133,7 +4132,7 @@ export const UpdateGreTunnelRequest = Schema.Struct({
   greTunnelId: Schema.String.pipe(T.HttpPath("greTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   cloudflareGreEndpoint: Schema.String,
   customerGreEndpoint: Schema.String,
@@ -4339,7 +4338,7 @@ export const DeleteGreTunnelRequest = Schema.Struct({
   greTunnelId: Schema.String.pipe(T.HttpPath("greTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -4510,7 +4509,7 @@ export const GetIpsecTunnelRequest = Schema.Struct({
   ipsecTunnelId: Schema.String.pipe(T.HttpPath("ipsecTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -4680,7 +4679,7 @@ export interface ListIpsecTunnelsRequest {
 export const ListIpsecTunnelsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/magic/ipsec_tunnels" }),
@@ -4879,7 +4878,7 @@ export interface CreateIpsecTunnelRequest {
 export const CreateIpsecTunnelRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   cloudflareEndpoint: Schema.String,
   interfaceAddress: Schema.String,
@@ -5149,7 +5148,7 @@ export const UpdateIpsecTunnelRequest = Schema.Struct({
   ipsecTunnelId: Schema.String.pipe(T.HttpPath("ipsecTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   cloudflareEndpoint: Schema.String,
   interfaceAddress: Schema.String,
@@ -5385,7 +5384,7 @@ export const DeleteIpsecTunnelRequest = Schema.Struct({
   ipsecTunnelId: Schema.String.pipe(T.HttpPath("ipsecTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({
@@ -6412,7 +6411,7 @@ export interface BulkPutCfInterconnectsRequest {
 export const BulkPutCfInterconnectsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
@@ -6517,7 +6516,7 @@ export interface BulkPutGreTunnelsRequest {
 export const BulkPutGreTunnelsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
@@ -6688,7 +6687,7 @@ export interface BulkPutIpsecTunnelsRequest {
 export const BulkPutIpsecTunnelsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
   body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
@@ -7469,7 +7468,7 @@ export const GetSiteRequest = Schema.Struct({
   siteId: Schema.String.pipe(T.HttpPath("siteId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
-    T.HttpHeader("'x-magic-new-hc-target'"),
+    T.HttpHeader("x-magic-new-hc-target"),
   ),
 }).pipe(
   T.Http({

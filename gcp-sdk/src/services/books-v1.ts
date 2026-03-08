@@ -6,7 +6,6 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import * as C from "../category";
 import type { Credentials } from "../credentials";
 import type { DefaultErrors } from "../errors";
 import type * as HttpClient from "effect/unstable/http/HttpClient";

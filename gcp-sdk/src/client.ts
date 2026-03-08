@@ -5,7 +5,6 @@
  * error matching and credential handling.
  */
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/sdk-core/client";
 import { HTTP_STATUS_MAP, GCPApiError, GCPParseError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";

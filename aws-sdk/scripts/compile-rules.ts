@@ -807,47 +807,58 @@ export const generateRuleSetCode = (
 
   // Generate parameter destructuring with defaults
   const paramEntries = Object.entries(ruleSet.parameters);
+
+  // First, generate the body lines so we can check which params are actually used
+  const bodyLines: string[] = [];
+  // Helper functions for compact output
+  // Use `unknown` for url/message since params are destructured as unknown
+  if (typed) {
+    bodyLines.push(
+      `  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });`,
+    );
+    bodyLines.push(
+      `  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });`,
+    );
+  } else {
+    bodyLines.push(
+      `  const e = (u, p = {}, h = {}) => ({ type: "endpoint", endpoint: { url: u, properties: p, headers: h } });`,
+    );
+    bodyLines.push(`  const err = (m) => ({ type: "error", message: m });`);
+  }
+
+  // Emit hoisted factory functions for repeated property patterns
+  const factoryLines = emitHoistedFactories(hoistingContext, typed);
+  bodyLines.push(...factoryLines);
+
+  // Compile all rules with hoisting context
+  for (const rule of ruleSet.rules) {
+    bodyLines.push(compileRule(rule, "  ", hoistingContext));
+  }
+
+  // Only add fallback if there's no unconditional return
+  if (!hasUnconditionalReturn(ruleSet.rules)) {
+    bodyLines.push(`  return err("No matching endpoint rule");`);
+  }
+
+  const bodyCode = bodyLines.join("\n");
+
+  // Now build the destructuring, prefixing unused params with _
   const paramDestructure = paramEntries
     .map(([name, param]) => {
       const varName = sanitizeVarName(name);
+      // Check if the variable is actually used in the body code
+      const isUsed = new RegExp(`\\b${varName}\\b`).test(bodyCode);
+      const prefix = isUsed ? "" : "_";
       if (param.default !== undefined) {
-        return `${varName} = ${JSON.stringify(param.default)}`;
+        return `${prefix}${varName} = ${JSON.stringify(param.default)}`;
       }
-      return varName;
+      return `${prefix}${varName}`;
     })
     .join(", ");
 
   lines.push(`(p, _) => {`);
   lines.push(`  const { ${paramDestructure} } = p;`);
-  // Helper functions for compact output
-  // Use `unknown` for url/message since params are destructured as unknown
-  if (typed) {
-    lines.push(
-      `  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });`,
-    );
-    lines.push(
-      `  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });`,
-    );
-  } else {
-    lines.push(
-      `  const e = (u, p = {}, h = {}) => ({ type: "endpoint", endpoint: { url: u, properties: p, headers: h } });`,
-    );
-    lines.push(`  const err = (m) => ({ type: "error", message: m });`);
-  }
-
-  // Emit hoisted factory functions for repeated property patterns
-  const factoryLines = emitHoistedFactories(hoistingContext, typed);
-  lines.push(...factoryLines);
-
-  // Compile all rules with hoisting context
-  for (const rule of ruleSet.rules) {
-    lines.push(compileRule(rule, "  ", hoistingContext));
-  }
-
-  // Only add fallback if there's no unconditional return
-  if (!hasUnconditionalReturn(ruleSet.rules)) {
-    lines.push(`  return err("No matching endpoint rule");`);
-  }
+  lines.push(bodyCode);
   lines.push(`}`);
 
   return lines.join("\n");

@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service logpush
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -431,7 +430,7 @@ export interface GetJobResponse {
   outputOptions?: {
     batchPrefix?: string | null;
     batchSuffix?: string | null;
-    "CVE-2021-44228"?: boolean | null;
+    "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
     fieldNames?: string[];
     outputType?: "ndjson" | "csv";
@@ -510,7 +509,7 @@ export const GetJobResponse = Schema.Struct({
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        "CVE-2021-44228": Schema.optional(
+        "cve-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
@@ -538,7 +537,7 @@ export const GetJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
-          "CVE-2021-44228": "'CVE-2021-44228'",
+          "cve-2021-44228": "CVE-2021-44228",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -675,7 +674,7 @@ export interface CreateJobRequest {
   outputOptions?: {
     batchPrefix?: string | null;
     batchSuffix?: string | null;
-    "CVE-2021-44228"?: boolean | null;
+    "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
     fieldNames?: string[];
     outputType?: "ndjson" | "csv";
@@ -755,7 +754,7 @@ export const CreateJobRequest = Schema.Struct({
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        "CVE-2021-44228": Schema.optional(
+        "cve-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
@@ -783,7 +782,7 @@ export const CreateJobRequest = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
-          "CVE-2021-44228": "'CVE-2021-44228'",
+          "cve-2021-44228": "CVE-2021-44228",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -885,7 +884,7 @@ export interface CreateJobResponse {
   outputOptions?: {
     batchPrefix?: string | null;
     batchSuffix?: string | null;
-    "CVE-2021-44228"?: boolean | null;
+    "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
     fieldNames?: string[];
     outputType?: "ndjson" | "csv";
@@ -964,7 +963,7 @@ export const CreateJobResponse = Schema.Struct({
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        "CVE-2021-44228": Schema.optional(
+        "cve-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
@@ -992,7 +991,7 @@ export const CreateJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
-          "CVE-2021-44228": "'CVE-2021-44228'",
+          "cve-2021-44228": "CVE-2021-44228",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -1070,7 +1069,7 @@ export interface UpdateJobRequest {
   outputOptions?: {
     batchPrefix?: string | null;
     batchSuffix?: string | null;
-    "CVE-2021-44228"?: boolean | null;
+    "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
     fieldNames?: string[];
     outputType?: "ndjson" | "csv";
@@ -1116,7 +1115,7 @@ export const UpdateJobRequest = Schema.Struct({
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        "CVE-2021-44228": Schema.optional(
+        "cve-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
@@ -1144,7 +1143,7 @@ export const UpdateJobRequest = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
-          "CVE-2021-44228": "'CVE-2021-44228'",
+          "cve-2021-44228": "CVE-2021-44228",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -1245,7 +1244,7 @@ export interface UpdateJobResponse {
   outputOptions?: {
     batchPrefix?: string | null;
     batchSuffix?: string | null;
-    "CVE-2021-44228"?: boolean | null;
+    "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
     fieldNames?: string[];
     outputType?: "ndjson" | "csv";
@@ -1324,7 +1323,7 @@ export const UpdateJobResponse = Schema.Struct({
         batchSuffix: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        "CVE-2021-44228": Schema.optional(
+        "cve-2021-44228": Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
         ),
         fieldDelimiter: Schema.optional(
@@ -1352,7 +1351,7 @@ export const UpdateJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
-          "CVE-2021-44228": "'CVE-2021-44228'",
+          "cve-2021-44228": "CVE-2021-44228",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",

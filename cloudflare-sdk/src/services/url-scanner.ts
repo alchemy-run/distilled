@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service url-scanner
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -333,7 +332,7 @@ export interface GetScanResponse {
       size: number;
       count?: number;
     }[];
-    iPv6Percentage: number;
+    ipv6Percentage: number;
     malicious: number;
     protocolStats: {
       count: number;
@@ -368,7 +367,7 @@ export interface GetScanResponse {
       countries: string[];
       encodedSize: number;
       ips: string[];
-      protocols: { "TLS 1.3 / AES_128_GCM": number };
+      protocols: { "tls 1.3 / AES_128GCM": number };
       securityState: string;
       size: number;
     }[];
@@ -823,7 +822,7 @@ export const GetScanResponse = Schema.Struct({
         count: Schema.optional(Schema.Number),
       }),
     ),
-    iPv6Percentage: Schema.Number,
+    ipv6Percentage: Schema.Number,
     malicious: Schema.Number,
     protocolStats: Schema.Array(
       Schema.Struct({
@@ -866,8 +865,12 @@ export const GetScanResponse = Schema.Struct({
         encodedSize: Schema.Number,
         ips: Schema.Array(Schema.String),
         protocols: Schema.Struct({
-          "TLS 1.3 / AES_128_GCM": Schema.Number,
-        }),
+          "tls 1.3 / AES_128GCM": Schema.Number,
+        }).pipe(
+          Schema.encodeKeys({
+            "tls 1.3 / AES_128GCM": "TLS 1.3 / AES_128_GCM",
+          }),
+        ),
         securityState: Schema.String,
         size: Schema.Number,
       }),
@@ -879,7 +882,7 @@ export const GetScanResponse = Schema.Struct({
     Schema.encodeKeys({
       domainStats: "domainStats",
       ipStats: "ipStats",
-      iPv6Percentage: "IPv6Percentage",
+      ipv6Percentage: "IPv6Percentage",
       malicious: "malicious",
       protocolStats: "protocolStats",
       resourceStats: "resourceStats",

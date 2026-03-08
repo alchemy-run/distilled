@@ -1,5 +1,4 @@
 import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as stream from "effect/Stream";
@@ -9,7 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import type { Region as Rgn } from "../region.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
+import { SensitiveString } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://s3.amazonaws.com/doc/2006-03-01/");
 const svc = T.AwsApiService({ sdkId: "S3", serviceShapeName: "AmazonS3" });
 const auth = T.AwsAuthSigv4({ name: "s3" });
@@ -26,9 +25,9 @@ const rules = T.EndpointResolver((p, _) => {
     Accelerate = false,
     UseGlobalEndpoint = false,
     UseObjectLambdaEndpoint,
-    Key,
-    Prefix,
-    CopySource,
+    _Key,
+    _Prefix,
+    _CopySource,
     DisableAccessPoints,
     DisableMultiRegionAccessPoints = false,
     UseArnRegion,

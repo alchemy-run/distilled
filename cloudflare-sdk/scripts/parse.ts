@@ -497,7 +497,8 @@ function typeNodeToTypeInfo(
 
     for (const member of typeNode.members) {
       if (ts.isPropertySignature(member) && member.name) {
-        const name = member.name.getText();
+        const rawName = member.name.getText();
+        const name = rawName.replace(/^["']|["']$/g, "");
         const type = typeNodeToTypeInfo(member.type, checker, registry);
         const required = !member.questionToken;
         const comment = getJsDocComment(member);
@@ -768,7 +769,10 @@ function parseInterface(
 
   for (const member of node.members) {
     if (ts.isPropertySignature(member) && member.name) {
-      const propName = member.name.getText();
+      // getText() includes surrounding quotes for string literal property names
+      // e.g., '"CF-WORKER-BODY-PART"' — strip them to get the raw name
+      const rawText = member.name.getText();
+      const propName = rawText.replace(/^["']|["']$/g, "");
       const type = typeNodeToTypeInfo(member.type, checker, registry);
       const required = !member.questionToken;
       const comment = getJsDocComment(member);

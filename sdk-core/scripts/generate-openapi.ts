@@ -936,28 +936,21 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
   const outputDir = path.resolve(config.outputDir);
 
   // Read spec
-  console.log("Reading OpenAPI spec...");
   const specContent = fs.readFileSync(specPath, "utf-8");
   const spec = JSON.parse(specContent);
 
   // Detect version
   const version = detectVersion(spec);
-  console.log(`Detected spec version: ${version}`);
 
   // Apply patches
-  console.log("Applying patches...");
   const { applied, errors: patchErrors } = applyAllPatches(spec, patchDir);
-  for (const msg of applied) {
-    console.log(`  ✓ ${msg}`);
-  }
   if (patchErrors.length > 0) {
-    console.log("\nPatch errors:");
+    console.error("Patch errors:");
     for (const msg of patchErrors) {
-      console.log(`  ✗ ${msg}`);
+      console.error(`  ✗ ${msg}`);
     }
     process.exit(1);
   }
-  if (applied.length > 0) console.log("");
 
   // Create output directory
   if (!fs.existsSync(outputDir)) {
@@ -989,15 +982,8 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
         const operation = pathItem[method];
         if (!operation) continue;
         if (config.skipDeprecated !== false && operation.deprecated) {
-          console.log(
-            `Skipping deprecated ${method.toUpperCase()} ${pathTemplate}`,
-          );
           continue;
         }
-
-        console.log(
-          `Generating ${method.toUpperCase()} ${pathTemplate} (${operation.operationId})...`,
-        );
 
         try {
           const functionName = operationIdToFunctionName(operation.operationId);
@@ -1070,7 +1056,7 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             exports: [inputSchemaName, outputSchemaName, functionName],
           });
         } catch (error) {
-          console.error(`Error generating ${operation.operationId}:`, error);
+          console.error(`❌ ${operation.operationId}:`, error);
         }
       }
     }
@@ -1084,15 +1070,8 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
         const operation = pathItem[method];
         if (!operation) continue;
         if (config.skipDeprecated !== false && operation.deprecated) {
-          console.log(
-            `Skipping deprecated ${method.toUpperCase()} ${pathTemplate}`,
-          );
           continue;
         }
-
-        console.log(
-          `Generating ${method.toUpperCase()} ${pathTemplate} (${operation.operationId})...`,
-        );
 
         try {
           const functionName = operationIdToFunctionName(operation.operationId);
@@ -1162,7 +1141,7 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             exports: [inputSchemaName, outputSchemaName, functionName],
           });
         } catch (error) {
-          console.error(`Error generating ${operation.operationId}:`, error);
+          console.error(`❌ ${operation.operationId}:`, error);
         }
       }
     }
@@ -1172,21 +1151,15 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
   for (const op of operations) {
     const filePath = path.join(outputDir, op.fileName);
     fs.writeFileSync(filePath, op.code);
-    console.log(`Written: ${op.fileName}`);
+    console.log(`✅ ${op.functionName}`);
   }
 
   // Write barrel file
-  console.log("\nWriting barrel file...");
   const barrelPath = path.join(outputDir, "index.ts");
   const barrelContent =
     operations.map((op) => `export * from "./${op.functionName}";`).join("\n") +
     "\n";
   fs.writeFileSync(barrelPath, barrelContent);
-  console.log(`Written: index.ts`);
-
-  console.log(`\nGenerated ${operations.length} operations.`);
-
-  console.log("Done!");
 }
 
 // ============================================================================

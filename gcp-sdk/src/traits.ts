@@ -3,10 +3,7 @@
  */
 export * from "@distilled.cloud/sdk-core/traits";
 
-import {
-  makeAnnotation,
-  type Annotation,
-} from "@distilled.cloud/sdk-core/traits";
+import { makeAnnotation } from "@distilled.cloud/sdk-core/traits";
 
 // =============================================================================
 // GCP-specific Error Matcher Traits

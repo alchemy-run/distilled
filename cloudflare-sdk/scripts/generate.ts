@@ -28,6 +28,16 @@ import {
 } from "./model.ts";
 import { parseCode } from "./parse.ts";
 
+/** Returns true if the string is a valid JavaScript identifier (no quoting needed). */
+function isValidIdentifier(name: string): boolean {
+  return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
+}
+
+/** Quote a property name for use as an object key if it contains special characters. */
+function quotePropKey(name: string): string {
+  return isValidIdentifier(name) ? name : `"${name}"`;
+}
+
 /**
  * Patch file structure (mirrors src/expr.ts OperationPatch).
  * Defined here to avoid cross-project imports.
@@ -479,14 +489,14 @@ function typeInfoToSchema(
             if (propName !== wireName) {
               hasRenamedKey = true;
             }
-            return `${indent}  ${propName}: ${propSchema}`;
+            return `${indent}  ${quotePropKey(propName)}: ${propSchema}`;
           })
           .join(",\n");
         // Build encodeKeys pipe if there are any key mappings
         // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
         const encodeKeysPipe = hasRenamedKey
           ? `.pipe(Schema.encodeKeys({ ${Object.entries(encodeKeysMap)
-              .map(([k, v]) => `${k}: "${v}"`)
+              .map(([k, v]) => `${quotePropKey(k)}: "${v}"`)
               .join(", ")} }))`
           : "";
         return `Schema.Struct({\n${props}\n${indent}})${encodeKeysPipe}`;
@@ -573,7 +583,7 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
           .map((p) => {
             const propName = toCamelCase(p.name);
             const optMark = !p.required ? "?" : "";
-            return `${propName}${optMark}: ${typeInfoToTsType(p.type, depth + 1)}`;
+            return `${quotePropKey(propName)}${optMark}: ${typeInfoToTsType(p.type, depth + 1)}`;
           })
           .join("; ");
         return `{ ${props} }`;
@@ -709,7 +719,7 @@ function generateOperationSchema(
         `  /** ${param.description.replace(/\n/g, " ").slice(0, 200)} */`,
       );
     }
-    lines.push(`  ${propName}${optMark}: ${tsType};`);
+    lines.push(`  ${quotePropKey(propName)}${optMark}: ${tsType};`);
   }
   lines.push(`}`);
   lines.push("");
@@ -723,7 +733,7 @@ function generateOperationSchema(
     const wireName = param.name;
     const schema = typeInfoToSchema(param.type);
     requestProps.push(
-      `  ${propName}: ${schema}.pipe(T.HttpPath("${wireName}"))`,
+      `  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpPath("${wireName}"))`,
     );
   }
 
@@ -736,7 +746,7 @@ function generateOperationSchema(
       schema = `Schema.optional(${schema})`;
     }
     requestProps.push(
-      `  ${propName}: ${schema}.pipe(T.HttpQuery("${wireName}"))`,
+      `  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpQuery("${wireName}"))`,
     );
   }
 
@@ -749,7 +759,7 @@ function generateOperationSchema(
     }
     const headerName = param.headerName || param.name;
     requestProps.push(
-      `  ${propName}: ${schema}.pipe(T.HttpHeader("${headerName}"))`,
+      `  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpHeader("${headerName}"))`,
     );
   }
 
@@ -766,14 +776,14 @@ function generateOperationSchema(
     // If param is named "body", it IS the entire HTTP body (e.g. raw array),
     // not a named field within a JSON object
     if (wireName === "body") {
-      requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpBody())`);
+      requestProps.push(`  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpBody())`);
     } else {
       // Always collect mapping for encodeKeys
       encodeKeysMap[propName] = wireName;
       if (propName !== wireName) {
         hasRenamedBodyKey = true;
       }
-      requestProps.push(`  ${propName}: ${schema}`);
+      requestProps.push(`  ${quotePropKey(propName)}: ${schema}`);
     }
   }
 
@@ -791,7 +801,7 @@ function generateOperationSchema(
   const pipes: string[] = [];
   if (hasRenamedBodyKey) {
     const encodeKeysEntries = Object.entries(encodeKeysMap)
-      .map(([k, v]) => `${k}: "${v}"`)
+      .map(([k, v]) => `${quotePropKey(k)}: "${v}"`)
       .join(", ");
     pipes.push(`Schema.encodeKeys({ ${encodeKeysEntries} })`);
   }
@@ -892,7 +902,7 @@ function generateOperationSchema(
           `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
         );
       }
-      lines.push(`  ${propName}${optMark}: ${tsType};`);
+    lines.push(`  ${quotePropKey(propName)}${optMark}: ${tsType};`);
     }
     lines.push(`}`);
     lines.push("");
@@ -914,14 +924,14 @@ function generateOperationSchema(
       if (propName !== wireName) {
         hasRenamedResponseKey = true;
       }
-      return `  ${propName}: ${schema}`;
+      return `  ${quotePropKey(propName)}: ${schema}`;
     });
 
     // Build encodeKeys pipe if there are any key mappings
     // Include ALL properties (even identity mappings) to fix nested encodeKeys decode
     const responseEncodeKeysPipe = hasRenamedResponseKey
       ? `.pipe(Schema.encodeKeys({ ${Object.entries(responseEncodeKeysMap)
-          .map(([k, v]) => `${k}: "${v}"`)
+          .map(([k, v]) => `${quotePropKey(k)}: "${v}"`)
           .join(", ")} }))`
       : "";
 
@@ -1160,8 +1170,8 @@ function generateServiceFile(
   lines.push(` */`);
   lines.push("");
 
-  // Imports
-  lines.push(`import * as Effect from "effect/Effect";`);
+  // Imports (Effect is conditionally included via placeholder)
+  lines.push(`__EFFECT_IMPORT__`);
   lines.push(`import * as Schema from "effect/Schema";`);
   lines.push(
     `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
@@ -1221,7 +1231,14 @@ T.applyErrorMatchers(${tag}, ${JSON.stringify(matchers)});`);
     lines.push(generateOperationSchema(op, patch));
   }
 
-  return lines.join("\n");
+  let code = lines.join("\n");
+  // Only include the Effect import if it's actually used in the generated code
+  if (code.includes("Effect.")) {
+    code = code.replace("__EFFECT_IMPORT__", 'import * as Effect from "effect/Effect";');
+  } else {
+    code = code.replace("__EFFECT_IMPORT__\n", "");
+  }
+  return code;
 }
 
 interface GenerateOptions {
@@ -1233,51 +1250,29 @@ const generateCode = (services: ServiceInfo[], options: GenerateOptions) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const { outputPath, debug } = options;
-    yield* Console.log(`Found ${services.length} services`);
-
     // Create output directory
     yield* fs.makeDirectory(outputPath, { recursive: true });
 
     // Generate files
     for (const svc of services) {
       if (svc.operations.length === 0) {
-        yield* Console.log(`Skipping ${svc.name} (no operations)`);
         continue;
       }
 
-      yield* Console.log(
-        `Generating ${svc.name} (${svc.operations.length} operations)`,
-      );
-
       // Load patches for this service
       const patches = yield* loadServicePatches(svc.name, svc.operations);
-      if (patches.size > 0) {
-        yield* Console.log(`  Loaded ${patches.size} patch file(s)`);
-      }
-
-      if (debug) {
-        for (const op of svc.operations) {
-          yield* Console.log(
-            `  ${op.operationName}: ${op.httpMethod} ${op.urlTemplate}`,
-          );
-        }
-      }
 
       const code = generateServiceFile(svc, patches);
       const outputFile = path.join(outputPath, `${svc.name}.ts`);
 
       yield* fs.writeFileString(outputFile, code);
-      yield* Console.log(`  -> ${outputFile}`);
+      yield* Console.log(`✅ ${svc.name}`);
     }
-
-    yield* Console.log("Done!");
   });
 
 const main = Effect.gen(function* () {
   const { service, debug } = parseArgs();
   const basePath = path.resolve(SDK_PATH);
-
-  yield* Console.log(`Parsing SDK from: ${basePath}`);
 
   if (service) {
     yield* Console.log(`Filtering to service: ${service}`);

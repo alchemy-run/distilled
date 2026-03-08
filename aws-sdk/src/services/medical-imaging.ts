@@ -1,5 +1,4 @@
 import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as effect from "effect/Effect";
 import * as redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as stream from "effect/Stream";

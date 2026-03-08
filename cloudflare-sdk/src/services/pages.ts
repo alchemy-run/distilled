@@ -5,7 +5,6 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service pages
  */
 
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import { API } from "../client";
@@ -3783,11 +3782,11 @@ export interface CreateProjectDeploymentRequest {
   /** Body param: Redirects configuration file for the deployment. */
   redirects?: File | Blob;
   /** Body param: Routes configuration file defining routing rules. */
-  "Routes.json"?: File | Blob;
+  routesJson?: File | Blob;
   /** Body param: Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. Maximum size: 25 MiB. */
-  "Worker.bundle"?: File | Blob;
+  workerBundle?: File | Blob;
   /** Body param: Worker JavaScript file. Mutually exclusive with `_worker.bundle`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. */
-  "Worker.js"?: File | Blob;
+  workerJs?: File | Blob;
   /** Body param: The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default. */
   branch?: string;
   /** Body param: Boolean string indicating if the working directory has uncommitted changes. */
@@ -3797,7 +3796,7 @@ export interface CreateProjectDeploymentRequest {
   /** Body param: Git commit message associated with this deployment. */
   commitMessage?: string;
   /** Body param: Functions routing configuration file. */
-  "functionsFilepathRoutingConfig.json"?: File | Blob;
+  functionsFilepathRoutingConfigJson?: File | Blob;
   /** Body param: JSON string containing a manifest of files to deploy. Maps file paths to their content hashes. Required for direct upload deployments. Maximum 20,000 entries. */
   manifest?: string;
   /** Body param: The build output directory path. */
@@ -3811,14 +3810,14 @@ export const CreateProjectDeploymentRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   headers: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
   redirects: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  "Routes.json": Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  "Worker.bundle": Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  "Worker.js": Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
+  routesJson: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
+  workerBundle: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
+  workerJs: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
   branch: Schema.optional(Schema.String),
   commitDirty: Schema.optional(Schema.Literals([true, false])),
   commitHash: Schema.optional(Schema.String),
   commitMessage: Schema.optional(Schema.String),
-  "functionsFilepathRoutingConfig.json": Schema.optional(
+  functionsFilepathRoutingConfigJson: Schema.optional(
     UploadableSchema.pipe(T.HttpFormDataFile()),
   ),
   manifest: Schema.optional(Schema.String),
@@ -3828,15 +3827,15 @@ export const CreateProjectDeploymentRequest = Schema.Struct({
   Schema.encodeKeys({
     headers: "_headers",
     redirects: "_redirects",
-    "Routes.json": "'_routes.json'",
-    "Worker.bundle": "'_worker.bundle'",
-    "Worker.js": "'_worker.js'",
+    routesJson: "_routes.json",
+    workerBundle: "_worker.bundle",
+    workerJs: "_worker.js",
     branch: "branch",
     commitDirty: "commit_dirty",
     commitHash: "commit_hash",
     commitMessage: "commit_message",
-    "functionsFilepathRoutingConfig.json":
-      "'functions-filepath-routing-config.json'",
+    functionsFilepathRoutingConfigJson:
+      "functions-filepath-routing-config.json",
     manifest: "manifest",
     pagesBuildOutputDir: "pages_build_output_dir",
     wranglerConfigHash: "wrangler_config_hash",
