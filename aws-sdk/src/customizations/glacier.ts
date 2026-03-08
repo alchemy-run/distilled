@@ -77,10 +77,7 @@ export async function computeSha256(
 ): Promise<string> {
   const bytes =
     typeof data === "string" ? new TextEncoder().encode(data) : data;
-  const hashBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    bytes as BufferSource,
-  );
+  const hashBuffer = await crypto.subtle.digest("SHA-256", bytes as any);
   return Array.from(new Uint8Array(hashBuffer))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");

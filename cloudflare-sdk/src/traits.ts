@@ -20,7 +20,8 @@ export const errorMatchersSymbol = Symbol.for(
 
 export interface ErrorMatcher {
   code?: number;
-  message?: string;
+  status?: number;
+  message?: string | { includes: string };
 }
 
 /**

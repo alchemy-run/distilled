@@ -1,13 +1,20 @@
 /**
- * GCP API Client.
+ * GCP API operations factory.
  *
- * Wraps the shared REST client from sdk-core with GCP-specific
- * error matching and credential handling.
+ * This module is imported as `import * as API from "../client/api.ts"` by
+ * generated service files so that `API.make()`, `API.OperationMethod`, etc.
+ * are all accessible as namespace members.
  */
 import * as Effect from "effect/Effect";
-import { makeAPI } from "@distilled.cloud/sdk-core/client";
-import { HTTP_STATUS_MAP, GCPApiError, GCPParseError } from "./errors.ts";
-import { Credentials } from "./credentials.ts";
+import {
+  makeAPI,
+  type OperationMethod,
+  type PaginatedOperationMethod,
+} from "@distilled.cloud/sdk-core/client";
+import { HTTP_STATUS_MAP, GCPApiError, GCPParseError } from "../errors.ts";
+import { Credentials } from "../credentials.ts";
+
+export type { OperationMethod, PaginatedOperationMethod };
 
 /**
  * Match a GCP API error response to the appropriate error class.
@@ -35,7 +42,7 @@ const matchError = (
  * Note: GCP uses per-service base URLs from the Discovery Documents,
  * so the base URL is set per-service via the Service trait, not globally.
  */
-export const API = makeAPI({
+const _API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (_creds: any) => "", // Set per-service via Http trait
   getAuthHeaders: (creds: any) => ({
@@ -44,3 +51,6 @@ export const API = makeAPI({
   matchError,
   ParseError: GCPParseError as any,
 });
+
+export const make = _API.make;
+export const makePaginated = _API.makePaginated;

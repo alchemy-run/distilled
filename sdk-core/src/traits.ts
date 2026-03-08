@@ -115,6 +115,10 @@ export interface HttpTrait {
   method: HttpMethod;
   /** Path template with {param} placeholders */
   path: string;
+  /** Content type override (e.g., "multipart") */
+  contentType?: string;
+  /** Whether the request has a body (used by GCP generator) */
+  hasBody?: boolean;
 }
 
 /**
@@ -196,6 +200,51 @@ export const headerParamSymbol = Symbol.for("@distilled.cloud/header-param");
  */
 export const HeaderParam = (name: string) =>
   makeAnnotation(headerParamSymbol, name);
+
+// =============================================================================
+// Convenience Aliases (used by Cloudflare/GCP generators)
+// =============================================================================
+
+/**
+ * HttpPath - alias for PathParam that also carries the wire name.
+ * Used in generated code: `Schema.String.pipe(T.HttpPath("account_id"))`
+ */
+export const HttpPath = (name: string) => makeAnnotation(pathParamSymbol, name);
+
+/**
+ * HttpQuery - alias for QueryParam with an explicit wire name.
+ * Used in generated code: `Schema.optional(Schema.String).pipe(T.HttpQuery("per_page"))`
+ */
+export const HttpQuery = (name: string) =>
+  makeAnnotation(queryParamSymbol, name);
+
+/**
+ * HttpHeader - alias for HeaderParam.
+ * Used in generated code: `Schema.String.pipe(T.HttpHeader("X-Custom-Header"))`
+ */
+export const HttpHeader = (name: string) =>
+  makeAnnotation(headerParamSymbol, name);
+
+/** Symbol for HTTP body annotation */
+export const httpBodySymbol = Symbol.for("@distilled.cloud/http-body");
+
+/**
+ * HttpBody - marks a field as the raw HTTP body.
+ * Used for operations where a field IS the entire request body
+ * (not a named field within a JSON body).
+ */
+export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
+
+/** Symbol for form data file annotation */
+export const httpFormDataFileSymbol = Symbol.for(
+  "@distilled.cloud/http-form-data-file",
+);
+
+/**
+ * HttpFormDataFile - marks a field as a file upload in multipart form data.
+ */
+export const HttpFormDataFile = () =>
+  makeAnnotation(httpFormDataFileSymbol, true);
 
 // =============================================================================
 // API Error Code Trait

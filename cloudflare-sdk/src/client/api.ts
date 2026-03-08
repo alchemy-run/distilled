@@ -1,14 +1,24 @@
 /**
- * Cloudflare API Client.
+ * Cloudflare API operations factory.
+ *
+ * This module is imported as `import * as API from "../client/api.ts"` by
+ * generated service files so that `API.make()`, `API.OperationMethod`, etc.
+ * are all accessible as namespace members.
  */
 import * as Effect from "effect/Effect";
-import { makeAPI } from "@distilled.cloud/sdk-core/client";
+import {
+  makeAPI,
+  type OperationMethod,
+  type PaginatedOperationMethod,
+} from "@distilled.cloud/sdk-core/client";
 import {
   HTTP_STATUS_MAP,
   CloudflareApiError,
   CloudflareParseError,
-} from "./errors.ts";
-import { Credentials } from "./credentials.ts";
+} from "../errors.ts";
+import { Credentials } from "../credentials.ts";
+
+export type { OperationMethod, PaginatedOperationMethod };
 
 /**
  * Match a Cloudflare API error response.
@@ -34,10 +44,7 @@ const matchError = (
   );
 };
 
-/**
- * Cloudflare API client.
- */
-export const API = makeAPI({
+const _API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (creds: any) => creds.apiBaseUrl,
   getAuthHeaders: (creds: any) => ({
@@ -46,3 +53,6 @@ export const API = makeAPI({
   matchError,
   ParseError: CloudflareParseError as any,
 });
+
+export const make = _API.make;
+export const makePaginated = _API.makePaginated;

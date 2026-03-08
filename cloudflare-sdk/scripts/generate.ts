@@ -1176,7 +1176,7 @@ function generateServiceFile(
   lines.push(
     `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
   );
-  lines.push(`import { API } from "../client";`);
+  lines.push(`import * as API from "../client/api.ts";`);
   lines.push(`import * as T from "../traits";`);
   lines.push(`import type { Credentials } from "../credentials";`);
   lines.push(`import {`);

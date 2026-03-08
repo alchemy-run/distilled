@@ -35,7 +35,6 @@ import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import { SingleShotGen } from "effect/Utils";
-import * as Category from "./category.ts";
 import * as Traits from "./traits.ts";
 import { getPath } from "./traits.ts";
 import type { PaginatedTrait } from "./pagination.ts";
@@ -55,6 +54,19 @@ export type OperationMethod<I, A, E, R> = Effect.Effect<
   R
 > &
   ((input: I) => Effect.Effect<A, E, R>);
+
+/**
+ * A paginated operation that additionally has `.pages()` and `.items()` methods.
+ */
+export type PaginatedOperationMethod<I, A, E, R> = OperationMethod<
+  I,
+  A,
+  E,
+  R
+> & {
+  pages: (input: I) => Stream.Stream<A, E, R>;
+  items: (input: I) => Stream.Stream<unknown, E, R>;
+};
 
 /**
  * Configuration for the API client factory.
@@ -83,10 +95,11 @@ export interface ClientConfig<Creds> {
 }
 
 /**
- * Base API error type - any error class with a message field.
+ * Base API error type - any error class with at least a _tag and message.
+ * Uses `new (...args: any[])` to accommodate error classes with extra fields (e.g. `code`).
  */
 export type ApiErrorClass = {
-  new (props: { message: string }): {
+  new (...args: any[]): {
     readonly _tag: string;
     readonly message: string;
   };
@@ -94,14 +107,19 @@ export type ApiErrorClass = {
 
 /**
  * Operation configuration with optional operation-specific errors.
+ * Supports both `inputSchema`/`outputSchema` and `input`/`output` aliases.
  */
 export interface OperationConfig<
   I extends Schema.Top,
   O extends Schema.Top,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
-  inputSchema: I;
-  outputSchema: O;
+  inputSchema?: I;
+  outputSchema?: O;
+  /** Alias for inputSchema (used by Cloudflare/GCP generators) */
+  input?: I;
+  /** Alias for outputSchema (used by Cloudflare/GCP generators) */
+  output?: O;
   errors?: E;
 }
 
@@ -136,8 +154,7 @@ export interface PaginatedOperationConfig<
  * ```
  */
 export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
-  type Context = Creds | HttpClient.HttpClient;
-  type ClientErrors = HttpClientError.HttpClientError | HttpBody.HttpBodyError;
+  type _ClientErrors = HttpClientError.HttpClientError | HttpBody.HttpBodyError;
 
   return {
     make: <
@@ -146,14 +163,15 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
       const E extends readonly ApiErrorClass[] = readonly [],
     >(
       configFn: () => OperationConfig<I, O, E>,
-    ) => {
+    ): any => {
       const opConfig = configFn();
+      // Support both input/output and inputSchema/outputSchema aliases
+      const inputSchema = (opConfig.inputSchema ?? opConfig.input)!;
+      const outputSchema = (opConfig.outputSchema ?? opConfig.output)!;
       type Input = Schema.Schema.Type<I>;
-      type Output = Schema.Schema.Type<O>;
-      type Errors = InstanceType<E[number]> | ClientErrors;
 
       // Read HTTP trait from input schema annotations
-      const httpTrait = Traits.getHttpTrait(opConfig.inputSchema.ast);
+      const httpTrait = Traits.getHttpTrait(inputSchema.ast);
 
       if (!httpTrait) {
         throw new Error("Input schema must have Http trait");
@@ -161,7 +179,7 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
 
       const method = httpTrait.method;
       const pathTemplate = httpTrait.path;
-      const pathParams = Traits.getPathParams(opConfig.inputSchema.ast);
+      const pathParams = Traits.getPathParams(inputSchema.ast);
 
       // Build path function from template
       const buildPathFn = (input: Input) =>
@@ -201,7 +219,7 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
         return Object.keys(body).length > 0 ? body : undefined;
       };
 
-      const fn = (input: Input): Effect.Effect<Output, any, any> =>
+      const fn = (input: Input): Effect.Effect<any, any, any> =>
         Effect.gen(function* () {
           const creds = yield* config.credentials as any;
           const client = yield* HttpClient.HttpClient;
@@ -231,28 +249,22 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
 
           if (response.status >= 400) {
             const errorBody = yield* response.json;
-            return yield* config.matchError(
-              response.status,
-              errorBody,
-            ) as Effect.Effect<never, Errors>;
+            return yield* config.matchError(response.status, errorBody);
           }
 
           // For void-returning operations (e.g. DELETE 204 No Content)
-          if (
-            response.status === 204 ||
-            AST.isVoid(opConfig.outputSchema.ast)
-          ) {
-            return undefined as Output;
+          if (response.status === 204 || AST.isVoid(outputSchema.ast)) {
+            return undefined;
           }
 
           const responseBody = yield* response.json;
-          return yield* Schema.decodeUnknownEffect(opConfig.outputSchema)(
+          return yield* Schema.decodeUnknownEffect(outputSchema)(
             responseBody,
           ).pipe(
             Effect.catchTag("SchemaError", (cause) =>
               Effect.fail(new config.ParseError({ body: responseBody, cause })),
             ),
-          ) as Effect.Effect<Output, Errors>;
+          );
         });
 
       const Proto = {
@@ -279,34 +291,64 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
       const E extends readonly ApiErrorClass[] = readonly [],
     >(
       configFn: () => PaginatedOperationConfig<I, O, E>,
-      paginateFn: (
+      paginateFn?: (
         baseFn: (input: any) => Effect.Effect<any, any, any>,
         input: any,
         pagination: PaginatedTrait,
       ) => Stream.Stream<any, any, any>,
-    ) => {
+    ): any => {
       const opConfig = configFn();
       const pagination = opConfig.pagination!;
 
       // Create the base operation
       const baseFn = makeAPI(config).make(() => ({
-        inputSchema: opConfig.inputSchema,
-        outputSchema: opConfig.outputSchema,
+        inputSchema: opConfig.inputSchema ?? opConfig.input,
+        outputSchema: opConfig.outputSchema ?? opConfig.output,
         errors: opConfig.errors,
       }));
 
       type Input = Schema.Schema.Type<I>;
-      type Output = Schema.Schema.Type<O>;
-      type Errors = InstanceType<E[number]> | ClientErrors;
+
+      // Default pagination: token-based (works for Cloudflare/GCP style)
+      const defaultPaginateFn = (
+        op: (input: any) => Effect.Effect<any, any, any>,
+        input: any,
+        pag: PaginatedTrait,
+      ): Stream.Stream<any, any, any> => {
+        type State = { token: unknown; done: boolean };
+        return Stream.unfold(
+          { token: undefined, done: false } as State,
+          (state: State) =>
+            Effect.gen(function* () {
+              if (state.done) return undefined;
+              const requestPayload =
+                state.token !== undefined
+                  ? { ...input, [pag.inputToken]: state.token }
+                  : input;
+              const response = yield* op(requestPayload);
+              const nextToken = getPath(response, pag.outputToken);
+              return [
+                response,
+                {
+                  token: nextToken,
+                  done: nextToken === undefined || nextToken === null,
+                },
+              ] as const;
+            }),
+        );
+      };
+
+      const paginate = paginateFn ?? defaultPaginateFn;
 
       // Stream all pages
       const pagesFn = (input: Omit<Input, string>) =>
-        paginateFn(baseFn, input, pagination);
+        paginate(baseFn, input, pagination);
 
       // Stream individual items
       const itemsFn = (input: Omit<Input, string>) =>
         pagesFn(input).pipe(
           Stream.flatMap((page) => {
+            if (!pagination.items) return Stream.make(page);
             const items = getPath(page, pagination.items) as
               | readonly unknown[]
               | undefined;

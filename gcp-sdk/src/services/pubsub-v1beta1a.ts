@@ -4,7 +4,7 @@
 // ==========================================================================
 
 import * as Schema from "effect/Schema";
-import { API } from "../client";
+import * as API from "../client/api.ts";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
 import type { DefaultErrors } from "../errors";

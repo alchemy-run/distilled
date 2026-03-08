@@ -38,7 +38,7 @@ export interface PaginatedTrait {
   /** The path to the output member containing the next page/cursor token */
   outputToken: string;
   /** The path to the output member containing the paginated items */
-  items: string;
+  items?: string;
   /** The name of the input member that limits page size */
   pageSize?: string;
 }

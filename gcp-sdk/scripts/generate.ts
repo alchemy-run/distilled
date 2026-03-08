@@ -313,7 +313,7 @@ function generateService(doc: DiscoveryDoc, patches: ServicePatch): string {
   lines.push("// ==========================================================================");
   lines.push("");
   lines.push('import * as Schema from "effect/Schema";');
-  lines.push('import { API } from "../client";');
+  lines.push('import * as API from "../client/api.ts";');
   lines.push('import * as T from "../traits";');
   lines.push("__CATEGORY_IMPORT__");
   lines.push('import type { Credentials } from "../credentials";');
