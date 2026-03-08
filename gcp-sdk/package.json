@@ -1,8 +1,18 @@
 {
   "name": "@distilled.cloud/gcp",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
     "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"
+  },
+  "dependencies": {
+    "@distilled.cloud/sdk-core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "name": "@distilled.cloud/sdk-core",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    "./category": "./src/category.ts",
+    "./traits": "./src/traits.ts",
+    "./retry": "./src/retry.ts",
+    "./sensitive": "./src/sensitive.ts",
+    "./pagination": "./src/pagination.ts",
+    "./client": "./src/client.ts",
+    "./errors": "./src/errors.ts",
+    "./json-patch": "./src/json-patch.ts",
+    "./openapi/generate": "./scripts/generate-openapi.ts"
+  },
+  "dependencies": {
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
+  }
+}

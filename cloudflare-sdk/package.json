@@ -1,8 +1,18 @@
 {
   "name": "@distilled.cloud/cloudflare",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",
     "specs:update": "git -C specs/cloudflare-typescript fetch && git -C specs/cloudflare-typescript checkout main && git -C specs/cloudflare-typescript pull"
+  },
+  "dependencies": {
+    "@distilled.cloud/sdk-core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
   }
 }

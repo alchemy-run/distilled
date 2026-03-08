@@ -1,8 +1,24 @@
 {
   "name": "@distilled.cloud/neon",
+  "version": "0.0.1",
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./category": "./src/category.ts",
+    "./traits": "./src/traits.ts",
+    "./retry": "./src/retry.ts"
+  },
   "scripts": {
+    "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-neon && git -C specs/distilled-spec-neon checkout -- .",
     "specs:update": "git -C specs/distilled-spec-neon fetch && git -C specs/distilled-spec-neon checkout main && git -C specs/distilled-spec-neon pull"
+  },
+  "dependencies": {
+    "@distilled.cloud/sdk-core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
   }
 }

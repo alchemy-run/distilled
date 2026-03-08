@@ -1,8 +1,24 @@
 {
   "name": "@distilled.cloud/planetscale",
+  "version": "0.0.1",
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./category": "./src/category.ts",
+    "./traits": "./src/traits.ts",
+    "./retry": "./src/retry.ts"
+  },
   "scripts": {
+    "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-planetscale && git -C specs/distilled-spec-planetscale checkout -- .",
     "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
+  },
+  "dependencies": {
+    "@distilled.cloud/sdk-core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
   }
 }
