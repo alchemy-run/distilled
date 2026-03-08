@@ -63,12 +63,22 @@ export const GetConnectionResponse = Schema.Struct({
   lastSeenAt: Schema.String,
   url: Schema.String,
   urlContainsCdnCgiPath: Schema.Boolean,
-  domainReportedMalicious: Schema.optional(Schema.Boolean),
-  firstPageUrl: Schema.optional(Schema.String),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  urlReportedMalicious: Schema.optional(Schema.Boolean),
+  domainReportedMalicious: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  firstPageUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  maliciousDomainCategories: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  maliciousUrlCategories: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  pageUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  urlReportedMalicious: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -163,12 +173,12 @@ export type ListConnectionsResponse = {
   lastSeenAt: string;
   url: string;
   urlContainsCdnCgiPath: boolean;
-  domainReportedMalicious?: boolean;
-  firstPageUrl?: string;
-  maliciousDomainCategories?: string[];
-  maliciousUrlCategories?: string[];
-  pageUrls?: string[];
-  urlReportedMalicious?: boolean;
+  domainReportedMalicious?: boolean | null;
+  firstPageUrl?: string | null;
+  maliciousDomainCategories?: string[] | null;
+  maliciousUrlCategories?: string[] | null;
+  pageUrls?: string[] | null;
+  urlReportedMalicious?: boolean | null;
 }[];
 
 export const ListConnectionsResponse = Schema.Array(
@@ -180,12 +190,22 @@ export const ListConnectionsResponse = Schema.Array(
     lastSeenAt: Schema.String,
     url: Schema.String,
     urlContainsCdnCgiPath: Schema.Boolean,
-    domainReportedMalicious: Schema.optional(Schema.Boolean),
-    firstPageUrl: Schema.optional(Schema.String),
-    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
-    pageUrls: Schema.optional(Schema.Array(Schema.String)),
-    urlReportedMalicious: Schema.optional(Schema.Boolean),
+    domainReportedMalicious: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    firstPageUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    maliciousDomainCategories: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    maliciousUrlCategories: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    pageUrls: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    urlReportedMalicious: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -263,16 +283,20 @@ export const GetCookyResponse = Schema.Struct({
   lastSeenAt: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["first_party", "unknown"]),
-  domainAttribute: Schema.optional(Schema.String),
-  expiresAttribute: Schema.optional(Schema.String),
-  httpOnlyAttribute: Schema.optional(Schema.Boolean),
-  maxAgeAttribute: Schema.optional(Schema.Number),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  pathAttribute: Schema.optional(Schema.String),
-  sameSiteAttribute: Schema.optional(
-    Schema.Literals(["lax", "strict", "none"]),
+  domainAttribute: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresAttribute: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  httpOnlyAttribute: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ),
-  secureAttribute: Schema.optional(Schema.Boolean),
+  maxAgeAttribute: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  pageUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  pathAttribute: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  sameSiteAttribute: Schema.optional(
+    Schema.Union([Schema.Literals(["lax", "strict", "none"]), Schema.Null]),
+  ),
+  secureAttribute: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -373,14 +397,14 @@ export type ListCookiesResponse = {
   lastSeenAt: string;
   name: string;
   type: "first_party" | "unknown";
-  domainAttribute?: string;
-  expiresAttribute?: string;
-  httpOnlyAttribute?: boolean;
-  maxAgeAttribute?: number;
-  pageUrls?: string[];
-  pathAttribute?: string;
-  sameSiteAttribute?: "lax" | "strict" | "none";
-  secureAttribute?: boolean;
+  domainAttribute?: string | null;
+  expiresAttribute?: string | null;
+  httpOnlyAttribute?: boolean | null;
+  maxAgeAttribute?: number | null;
+  pageUrls?: string[] | null;
+  pathAttribute?: string | null;
+  sameSiteAttribute?: "lax" | "strict" | "none" | null;
+  secureAttribute?: boolean | null;
 }[];
 
 export const ListCookiesResponse = Schema.Array(
@@ -391,16 +415,28 @@ export const ListCookiesResponse = Schema.Array(
     lastSeenAt: Schema.String,
     name: Schema.String,
     type: Schema.Literals(["first_party", "unknown"]),
-    domainAttribute: Schema.optional(Schema.String),
-    expiresAttribute: Schema.optional(Schema.String),
-    httpOnlyAttribute: Schema.optional(Schema.Boolean),
-    maxAgeAttribute: Schema.optional(Schema.Number),
-    pageUrls: Schema.optional(Schema.Array(Schema.String)),
-    pathAttribute: Schema.optional(Schema.String),
-    sameSiteAttribute: Schema.optional(
-      Schema.Literals(["lax", "strict", "none"]),
+    domainAttribute: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
     ),
-    secureAttribute: Schema.optional(Schema.Boolean),
+    expiresAttribute: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    httpOnlyAttribute: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    maxAgeAttribute: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    pageUrls: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    pathAttribute: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sameSiteAttribute: Schema.optional(
+      Schema.Union([Schema.Literals(["lax", "strict", "none"]), Schema.Null]),
+    ),
+    secureAttribute: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -893,18 +929,28 @@ export const GetScriptResponse = Schema.Struct({
     Schema.Union([Schema.Number, Schema.Null]),
   ),
   dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  domainReportedMalicious: Schema.optional(Schema.Boolean),
+  domainReportedMalicious: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  firstPageUrl: Schema.optional(Schema.String),
+  firstPageUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   jsIntegrityScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-  maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+  maliciousDomainCategories: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  maliciousUrlCategories: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   obfuscationScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  pageUrls: Schema.optional(Schema.Array(Schema.String)),
-  urlReportedMalicious: Schema.optional(Schema.Boolean),
+  pageUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  urlReportedMalicious: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   versions: Schema.optional(
     Schema.Union([
       Schema.Array(
@@ -1057,18 +1103,18 @@ export type ListScriptsResponse = {
   urlContainsCdnCgiPath: boolean;
   cryptominingScore?: number | null;
   dataflowScore?: number | null;
-  domainReportedMalicious?: boolean;
+  domainReportedMalicious?: boolean | null;
   fetchedAt?: string | null;
-  firstPageUrl?: string;
+  firstPageUrl?: string | null;
   hash?: string | null;
   jsIntegrityScore?: number | null;
   magecartScore?: number | null;
-  maliciousDomainCategories?: string[];
-  maliciousUrlCategories?: string[];
+  maliciousDomainCategories?: string[] | null;
+  maliciousUrlCategories?: string[] | null;
   malwareScore?: number | null;
   obfuscationScore?: number | null;
-  pageUrls?: string[];
-  urlReportedMalicious?: boolean;
+  pageUrls?: string[] | null;
+  urlReportedMalicious?: boolean | null;
 }[];
 
 export const ListScriptsResponse = Schema.Array(
@@ -1084,22 +1130,32 @@ export const ListScriptsResponse = Schema.Array(
       Schema.Union([Schema.Number, Schema.Null]),
     ),
     dataflowScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    domainReportedMalicious: Schema.optional(Schema.Boolean),
+    domainReportedMalicious: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     fetchedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    firstPageUrl: Schema.optional(Schema.String),
+    firstPageUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     jsIntegrityScore: Schema.optional(
       Schema.Union([Schema.Number, Schema.Null]),
     ),
     magecartScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    maliciousDomainCategories: Schema.optional(Schema.Array(Schema.String)),
-    maliciousUrlCategories: Schema.optional(Schema.Array(Schema.String)),
+    maliciousDomainCategories: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    maliciousUrlCategories: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
     malwareScore: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     obfuscationScore: Schema.optional(
       Schema.Union([Schema.Number, Schema.Null]),
     ),
-    pageUrls: Schema.optional(Schema.Array(Schema.String)),
-    urlReportedMalicious: Schema.optional(Schema.Boolean),
+    pageUrls: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    urlReportedMalicious: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

@@ -44,8 +44,8 @@ export interface GetContentScanningResponse {
 }
 
 export const GetContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetContentScanningResponse>;
 
 export type GetContentScanningError = CommonErrors;
@@ -86,8 +86,8 @@ export interface CreateContentScanningResponse {
 }
 
 export const CreateContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
 export type CreateContentScanningError = CommonErrors;
@@ -128,8 +128,8 @@ export interface PutContentScanningResponse {
 }
 
 export const PutContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<PutContentScanningResponse>;
 
 export type PutContentScanningError = CommonErrors;
@@ -227,12 +227,15 @@ export const ListPayloadsRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPayloadsRequest>;
 
-export type ListPayloadsResponse = { id?: string; payload?: string }[];
+export type ListPayloadsResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const ListPayloadsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListPayloadsResponse>;
 
@@ -265,17 +268,20 @@ export const CreatePayloadRequest = Schema.Struct({
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/zones/{zone_id}/content-upload-scan/payloads",
   }),
 ) as unknown as Schema.Schema<CreatePayloadRequest>;
 
-export type CreatePayloadResponse = { id?: string; payload?: string }[];
+export type CreatePayloadResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const CreatePayloadResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<CreatePayloadResponse>;
 
@@ -303,17 +309,20 @@ export const DeletePayloadRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "DELETE",
     path: "/zones/{zone_id}/content-upload-scan/payloads/{expressionId}",
   }),
 ) as unknown as Schema.Schema<DeletePayloadRequest>;
 
-export type DeletePayloadResponse = { id?: string; payload?: string }[];
+export type DeletePayloadResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const DeletePayloadResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<DeletePayloadResponse>;
 
@@ -356,8 +365,8 @@ export interface GetSettingResponse {
 }
 
 export const GetSettingResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
 export type GetSettingError = CommonErrors;

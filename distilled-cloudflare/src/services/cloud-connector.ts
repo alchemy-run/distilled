@@ -34,31 +34,42 @@ export const ListRulesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRulesRequest>;
 
 export type ListRulesResponse = {
-  id?: string;
-  description?: string;
-  enabled?: boolean;
-  expression?: string;
-  parameters?: { host?: string };
-  provider?: "aws_s3" | "cloudflare_r2" | "gcp_storage" | "azure_storage";
+  id?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  expression?: string | null;
+  parameters?: { host?: string | null } | null;
+  provider?:
+    | "aws_s3"
+    | "cloudflare_r2"
+    | "gcp_storage"
+    | "azure_storage"
+    | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    expression: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     parameters: Schema.optional(
-      Schema.Struct({
-        host: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     provider: Schema.optional(
-      Schema.Literals([
-        "aws_s3",
-        "cloudflare_r2",
-        "gcp_storage",
-        "azure_storage",
+      Schema.Union([
+        Schema.Literals([
+          "aws_s3",
+          "cloudflare_r2",
+          "gcp_storage",
+          "azure_storage",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
@@ -77,7 +88,7 @@ export const listRules: API.OperationMethod<
   errors: [],
 }));
 
-export interface UpdateRuleRequest {
+export interface PutRuleRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: */
@@ -91,7 +102,7 @@ export interface UpdateRuleRequest {
   }[];
 }
 
-export const UpdateRuleRequest = Schema.Struct({
+export const PutRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   rules: Schema.optional(
     Schema.Array(
@@ -117,49 +128,60 @@ export const UpdateRuleRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/cloud_connector/rules" }),
-) as unknown as Schema.Schema<UpdateRuleRequest>;
+  T.Http({ method: "PUT", path: "/zones/{zone_id}/cloud_connector/rules" }),
+) as unknown as Schema.Schema<PutRuleRequest>;
 
-export type UpdateRuleResponse = {
-  id?: string;
-  description?: string;
-  enabled?: boolean;
-  expression?: string;
-  parameters?: { host?: string };
-  provider?: "aws_s3" | "cloudflare_r2" | "gcp_storage" | "azure_storage";
+export type PutRuleResponse = {
+  id?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  expression?: string | null;
+  parameters?: { host?: string | null } | null;
+  provider?:
+    | "aws_s3"
+    | "cloudflare_r2"
+    | "gcp_storage"
+    | "azure_storage"
+    | null;
 }[];
 
-export const UpdateRuleResponse = Schema.Array(
+export const PutRuleResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    expression: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     parameters: Schema.optional(
-      Schema.Struct({
-        host: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     provider: Schema.optional(
-      Schema.Literals([
-        "aws_s3",
-        "cloudflare_r2",
-        "gcp_storage",
-        "azure_storage",
+      Schema.Union([
+        Schema.Literals([
+          "aws_s3",
+          "cloudflare_r2",
+          "gcp_storage",
+          "azure_storage",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
-) as unknown as Schema.Schema<UpdateRuleResponse>;
+) as unknown as Schema.Schema<PutRuleResponse>;
 
-export type UpdateRuleError = CommonErrors;
+export type PutRuleError = CommonErrors;
 
-export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
-  UpdateRuleResponse,
-  UpdateRuleError,
+export const putRule: API.OperationMethod<
+  PutRuleRequest,
+  PutRuleResponse,
+  PutRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UpdateRuleRequest,
-  output: UpdateRuleResponse,
+  input: PutRuleRequest,
+  output: PutRuleResponse,
   errors: [],
 }));

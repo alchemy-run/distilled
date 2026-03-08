@@ -38,12 +38,15 @@ export const GetAssociationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAssociationRequest>;
 
-export type GetAssociationResponse = { service?: string; status?: string }[];
+export type GetAssociationResponse = {
+  service?: string | null;
+  status?: string | null;
+}[];
 
 export const GetAssociationResponse = Schema.Array(
   Schema.Struct({
-    service: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
+    service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetAssociationResponse>;
 
@@ -102,15 +105,15 @@ export interface GetMtlsCertificateResponse {
 }
 
 export const GetMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -150,28 +153,28 @@ export const ListMtlsCertificatesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListMtlsCertificatesRequest>;
 
 export type ListMtlsCertificatesResponse = {
-  id?: string;
-  ca?: boolean;
-  certificates?: string;
-  expiresOn?: string;
-  issuer?: string;
-  name?: string;
-  serialNumber?: string;
-  signature?: string;
-  uploadedOn?: string;
+  id?: string | null;
+  ca?: boolean | null;
+  certificates?: string | null;
+  expiresOn?: string | null;
+  issuer?: string | null;
+  name?: string | null;
+  serialNumber?: string | null;
+  signature?: string | null;
+  uploadedOn?: string | null;
 }[];
 
 export const ListMtlsCertificatesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    ca: Schema.optional(Schema.Boolean),
-    certificates: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
-    issuer: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    serialNumber: Schema.optional(Schema.String),
-    signature: Schema.optional(Schema.String),
-    uploadedOn: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -253,16 +256,16 @@ export interface CreateMtlsCertificateResponse {
 }
 
 export const CreateMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -329,15 +332,15 @@ export interface DeleteMtlsCertificateResponse {
 }
 
 export const DeleteMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

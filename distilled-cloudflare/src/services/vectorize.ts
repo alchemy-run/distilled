@@ -85,7 +85,7 @@ export interface DeleteByIdsIndexResponse {
 }
 
 export const DeleteByIdsIndexResponse = Schema.Struct({
-  mutationId: Schema.optional(Schema.String),
+  mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
 
 export type DeleteByIdsIndexError = CommonErrors;
@@ -137,15 +137,18 @@ export interface GetIndexResponse {
 
 export const GetIndexResponse = Schema.Struct({
   config: Schema.optional(
-    Schema.Struct({
-      dimensions: Schema.Number,
-      metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        dimensions: Schema.Number,
+        metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+      }),
+      Schema.Null,
+    ]),
   ),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     config: "config",
@@ -187,25 +190,28 @@ export type ListIndexesResponse = {
   config?: {
     dimensions: number;
     metric: "cosine" | "euclidean" | "dot-product";
-  };
-  createdOn?: string;
-  description?: string;
-  modifiedOn?: string;
-  name?: string;
+  } | null;
+  createdOn?: string | null;
+  description?: string | null;
+  modifiedOn?: string | null;
+  name?: string | null;
 }[];
 
 export const ListIndexesResponse = Schema.Array(
   Schema.Struct({
     config: Schema.optional(
-      Schema.Struct({
-        dimensions: Schema.Number,
-        metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          dimensions: Schema.Number,
+          metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+        }),
+        Schema.Null,
+      ]),
     ),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       config: "config",
@@ -292,15 +298,18 @@ export interface CreateIndexResponse {
 
 export const CreateIndexResponse = Schema.Struct({
   config: Schema.optional(
-    Schema.Struct({
-      dimensions: Schema.Number,
-      metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        dimensions: Schema.Number,
+        metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+      }),
+      Schema.Null,
+    ]),
   ),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     config: "config",
@@ -386,12 +395,14 @@ export interface InfoIndexResponse {
 }
 
 export const InfoIndexResponse = Schema.Struct({
-  dimensions: Schema.optional(Schema.Number),
+  dimensions: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   processedUpToDatetime: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-  processedUpToMutation: Schema.optional(Schema.String),
-  vectorCount: Schema.optional(Schema.Number),
+  processedUpToMutation: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  vectorCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<InfoIndexResponse>;
 
 export type InfoIndexError = CommonErrors;
@@ -438,7 +449,7 @@ export interface InsertIndexResponse {
 }
 
 export const InsertIndexResponse = Schema.Struct({
-  mutationId: Schema.optional(Schema.String),
+  mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<InsertIndexResponse>;
 
 export type InsertIndexError = CommonErrors;
@@ -490,28 +501,33 @@ export interface QueryIndexResponse {
   count?: number;
   /** Array of vectors matched by the search */
   matches?: {
-    id?: string;
+    id?: string | null;
     metadata?: null;
     namespace?: string | null;
-    score?: number;
+    score?: number | null;
     values?: number[] | null;
   }[];
 }
 
 export const QueryIndexResponse = Schema.Struct({
-  count: Schema.optional(Schema.Number),
+  count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   matches: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        metadata: Schema.optional(Schema.Null),
-        namespace: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        score: Schema.optional(Schema.Number),
-        values: Schema.optional(
-          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
-        ),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          metadata: Schema.optional(Schema.Null),
+          namespace: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          score: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          values: Schema.optional(
+            Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<QueryIndexResponse>;
 
@@ -559,7 +575,7 @@ export interface UpsertIndexResponse {
 }
 
 export const UpsertIndexResponse = Schema.Struct({
-  mutationId: Schema.optional(Schema.String),
+  mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpsertIndexResponse>;
 
 export type UpsertIndexError = CommonErrors;
@@ -598,21 +614,29 @@ export const ListIndexMetadataIndexesRequest = Schema.Struct({
 export interface ListIndexMetadataIndexesResponse {
   /** Array of indexed metadata properties. */
   metadataIndexes?: {
-    indexType?: "string" | "number" | "boolean";
-    propertyName?: string;
+    indexType?: "string" | "number" | "boolean" | null;
+    propertyName?: string | null;
   }[];
 }
 
 export const ListIndexMetadataIndexesResponse = Schema.Struct({
   metadataIndexes: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        indexType: Schema.optional(
-          Schema.Literals(["string", "number", "boolean"]),
-        ),
-        propertyName: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          indexType: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["string", "number", "boolean"]),
+              Schema.Null,
+            ]),
+          ),
+          propertyName: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
 
@@ -657,7 +681,7 @@ export interface CreateIndexMetadataIndexResponse {
 }
 
 export const CreateIndexMetadataIndexResponse = Schema.Struct({
-  mutationId: Schema.optional(Schema.String),
+  mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
 
 export type CreateIndexMetadataIndexError = CommonErrors;
@@ -698,7 +722,7 @@ export interface DeleteIndexMetadataIndexResponse {
 }
 
 export const DeleteIndexMetadataIndexResponse = Schema.Struct({
-  mutationId: Schema.optional(Schema.String),
+  mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
 
 export type DeleteIndexMetadataIndexError = CommonErrors;

@@ -130,12 +130,12 @@ export interface GetMaintenanceConfigResponse {
     compaction?: {
       state: "enabled" | "disabled";
       targetSizeMb: "64" | "128" | "256" | "512";
-    };
+    } | null;
     snapshotExpiration?: {
       maxSnapshotAge: string;
       minSnapshotsToKeep: number;
       state: "enabled" | "disabled";
-    };
+    } | null;
   };
 }
 
@@ -143,25 +143,31 @@ export const GetMaintenanceConfigResponse = Schema.Struct({
   credentialStatus: Schema.Literals(["present", "absent"]),
   maintenanceConfig: Schema.Struct({
     compaction: Schema.optional(
-      Schema.Struct({
-        state: Schema.Literals(["enabled", "disabled"]),
-        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-      }).pipe(
-        Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          state: Schema.Literals(["enabled", "disabled"]),
+          targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+        }).pipe(
+          Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
+        ),
+        Schema.Null,
+      ]),
     ),
     snapshotExpiration: Schema.optional(
-      Schema.Struct({
-        maxSnapshotAge: Schema.String,
-        minSnapshotsToKeep: Schema.Number,
-        state: Schema.Literals(["enabled", "disabled"]),
-      }).pipe(
-        Schema.encodeKeys({
-          maxSnapshotAge: "max_snapshot_age",
-          minSnapshotsToKeep: "min_snapshots_to_keep",
-          state: "state",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          maxSnapshotAge: Schema.String,
+          minSnapshotsToKeep: Schema.Number,
+          state: Schema.Literals(["enabled", "disabled"]),
+        }).pipe(
+          Schema.encodeKeys({
+            maxSnapshotAge: "max_snapshot_age",
+            minSnapshotsToKeep: "min_snapshots_to_keep",
+            state: "state",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -263,25 +269,31 @@ export interface UpdateMaintenanceConfigResponse {
 
 export const UpdateMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
-    Schema.Struct({
-      state: Schema.Literals(["enabled", "disabled"]),
-      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-    }).pipe(
-      Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        state: Schema.Literals(["enabled", "disabled"]),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+      }).pipe(
+        Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
+      ),
+      Schema.Null,
+    ]),
   ),
   snapshotExpiration: Schema.optional(
-    Schema.Struct({
-      maxSnapshotAge: Schema.String,
-      minSnapshotsToKeep: Schema.Number,
-      state: Schema.Literals(["enabled", "disabled"]),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-        state: "state",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        maxSnapshotAge: Schema.String,
+        minSnapshotsToKeep: Schema.Number,
+        state: Schema.Literals(["enabled", "disabled"]),
+      }).pipe(
+        Schema.encodeKeys({
+          maxSnapshotAge: "max_snapshot_age",
+          minSnapshotsToKeep: "min_snapshots_to_keep",
+          state: "state",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -576,37 +588,43 @@ export interface GetNamespaceTableMaintenanceConfigResponse {
     compaction?: {
       state: "enabled" | "disabled";
       targetSizeMb: "64" | "128" | "256" | "512";
-    };
+    } | null;
     snapshotExpiration?: {
       maxSnapshotAge: string;
       minSnapshotsToKeep: number;
       state: "enabled" | "disabled";
-    };
+    } | null;
   };
 }
 
 export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   maintenanceConfig: Schema.Struct({
     compaction: Schema.optional(
-      Schema.Struct({
-        state: Schema.Literals(["enabled", "disabled"]),
-        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-      }).pipe(
-        Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          state: Schema.Literals(["enabled", "disabled"]),
+          targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+        }).pipe(
+          Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
+        ),
+        Schema.Null,
+      ]),
     ),
     snapshotExpiration: Schema.optional(
-      Schema.Struct({
-        maxSnapshotAge: Schema.String,
-        minSnapshotsToKeep: Schema.Number,
-        state: Schema.Literals(["enabled", "disabled"]),
-      }).pipe(
-        Schema.encodeKeys({
-          maxSnapshotAge: "max_snapshot_age",
-          minSnapshotsToKeep: "min_snapshots_to_keep",
-          state: "state",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          maxSnapshotAge: Schema.String,
+          minSnapshotsToKeep: Schema.Number,
+          state: Schema.Literals(["enabled", "disabled"]),
+        }).pipe(
+          Schema.encodeKeys({
+            maxSnapshotAge: "max_snapshot_age",
+            minSnapshotsToKeep: "min_snapshots_to_keep",
+            state: "state",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -709,25 +727,31 @@ export interface UpdateNamespaceTableMaintenanceConfigResponse {
 
 export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   compaction: Schema.optional(
-    Schema.Struct({
-      state: Schema.Literals(["enabled", "disabled"]),
-      targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-    }).pipe(
-      Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        state: Schema.Literals(["enabled", "disabled"]),
+        targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+      }).pipe(
+        Schema.encodeKeys({ state: "state", targetSizeMb: "target_size_mb" }),
+      ),
+      Schema.Null,
+    ]),
   ),
   snapshotExpiration: Schema.optional(
-    Schema.Struct({
-      maxSnapshotAge: Schema.String,
-      minSnapshotsToKeep: Schema.Number,
-      state: Schema.Literals(["enabled", "disabled"]),
-    }).pipe(
-      Schema.encodeKeys({
-        maxSnapshotAge: "max_snapshot_age",
-        minSnapshotsToKeep: "min_snapshots_to_keep",
-        state: "state",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        maxSnapshotAge: Schema.String,
+        minSnapshotsToKeep: Schema.Number,
+        state: Schema.Literals(["enabled", "disabled"]),
+      }).pipe(
+        Schema.encodeKeys({
+          maxSnapshotAge: "max_snapshot_age",
+          minSnapshotsToKeep: "min_snapshots_to_keep",
+          state: "state",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -789,12 +813,12 @@ export interface GetR2DataCatalogResponse {
     compaction?: {
       state: "enabled" | "disabled";
       targetSizeMb: "64" | "128" | "256" | "512";
-    };
+    } | null;
     snapshotExpiration?: {
       maxSnapshotAge: string;
       minSnapshotsToKeep: number;
       state: "enabled" | "disabled";
-    };
+    } | null;
   } | null;
 }
 
@@ -814,28 +838,34 @@ export const GetR2DataCatalogResponse = Schema.Struct({
     Schema.Union([
       Schema.Struct({
         compaction: Schema.optional(
-          Schema.Struct({
-            state: Schema.Literals(["enabled", "disabled"]),
-            targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-          }).pipe(
-            Schema.encodeKeys({
-              state: "state",
-              targetSizeMb: "target_size_mb",
-            }),
-          ),
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals(["enabled", "disabled"]),
+              targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                targetSizeMb: "target_size_mb",
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
         snapshotExpiration: Schema.optional(
-          Schema.Struct({
-            maxSnapshotAge: Schema.String,
-            minSnapshotsToKeep: Schema.Number,
-            state: Schema.Literals(["enabled", "disabled"]),
-          }).pipe(
-            Schema.encodeKeys({
-              maxSnapshotAge: "max_snapshot_age",
-              minSnapshotsToKeep: "min_snapshots_to_keep",
-              state: "state",
-            }),
-          ),
+          Schema.Union([
+            Schema.Struct({
+              maxSnapshotAge: Schema.String,
+              minSnapshotsToKeep: Schema.Number,
+              state: Schema.Literals(["enabled", "disabled"]),
+            }).pipe(
+              Schema.encodeKeys({
+                maxSnapshotAge: "max_snapshot_age",
+                minSnapshotsToKeep: "min_snapshots_to_keep",
+                state: "state",
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -893,12 +923,12 @@ export interface ListR2DataCatalogsResponse {
       compaction?: {
         state: "enabled" | "disabled";
         targetSizeMb: "64" | "128" | "256" | "512";
-      };
+      } | null;
       snapshotExpiration?: {
         maxSnapshotAge: string;
         minSnapshotsToKeep: number;
         state: "enabled" | "disabled";
-      };
+      } | null;
     } | null;
   }[];
 }
@@ -921,28 +951,34 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
         Schema.Union([
           Schema.Struct({
             compaction: Schema.optional(
-              Schema.Struct({
-                state: Schema.Literals(["enabled", "disabled"]),
-                targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
-              }).pipe(
-                Schema.encodeKeys({
-                  state: "state",
-                  targetSizeMb: "target_size_mb",
-                }),
-              ),
+              Schema.Union([
+                Schema.Struct({
+                  state: Schema.Literals(["enabled", "disabled"]),
+                  targetSizeMb: Schema.Literals(["64", "128", "256", "512"]),
+                }).pipe(
+                  Schema.encodeKeys({
+                    state: "state",
+                    targetSizeMb: "target_size_mb",
+                  }),
+                ),
+                Schema.Null,
+              ]),
             ),
             snapshotExpiration: Schema.optional(
-              Schema.Struct({
-                maxSnapshotAge: Schema.String,
-                minSnapshotsToKeep: Schema.Number,
-                state: Schema.Literals(["enabled", "disabled"]),
-              }).pipe(
-                Schema.encodeKeys({
-                  maxSnapshotAge: "max_snapshot_age",
-                  minSnapshotsToKeep: "min_snapshots_to_keep",
-                  state: "state",
-                }),
-              ),
+              Schema.Union([
+                Schema.Struct({
+                  maxSnapshotAge: Schema.String,
+                  minSnapshotsToKeep: Schema.Number,
+                  state: Schema.Literals(["enabled", "disabled"]),
+                }).pipe(
+                  Schema.encodeKeys({
+                    maxSnapshotAge: "max_snapshot_age",
+                    minSnapshotsToKeep: "min_snapshots_to_keep",
+                    state: "state",
+                  }),
+                ),
+                Schema.Null,
+              ]),
             ),
           }).pipe(
             Schema.encodeKeys({
@@ -1003,7 +1039,7 @@ export interface EnableR2DataCatalogResponse {
 }
 
 export const EnableR2DataCatalogResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.String,
 }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 

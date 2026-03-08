@@ -47,10 +47,10 @@ export interface GetSfuResponse {
 }
 
 export const GetSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetSfuResponse>;
 
 export type GetSfuError = CommonErrors;
@@ -94,11 +94,11 @@ export interface CreateSfuResponse {
 }
 
 export const CreateSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  secret: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secret: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateSfuResponse>;
 
 export type CreateSfuError = CommonErrors;
@@ -142,10 +142,10 @@ export interface UpdateSfuResponse {
 }
 
 export const UpdateSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateSfuResponse>;
 
 export type UpdateSfuError = CommonErrors;
@@ -189,10 +189,10 @@ export interface DeleteSfuResponse {
 }
 
 export const DeleteSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteSfuResponse>;
 
 export type DeleteSfuError = CommonErrors;
@@ -224,18 +224,18 @@ export const ListSfusRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSfusRequest>;
 
 export type ListSfusResponse = {
-  created?: string;
-  modified?: string;
-  name?: string;
-  uid?: string;
+  created?: string | null;
+  modified?: string | null;
+  name?: string | null;
+  uid?: string | null;
 }[];
 
 export const ListSfusResponse = Schema.Array(
   Schema.Struct({
-    created: Schema.optional(Schema.String),
-    modified: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListSfusResponse>;
 
@@ -284,10 +284,10 @@ export interface GetTurnResponse {
 }
 
 export const GetTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetTurnResponse>;
 
 export type GetTurnError = CommonErrors;
@@ -315,18 +315,18 @@ export const ListTurnsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTurnsRequest>;
 
 export type ListTurnsResponse = {
-  created?: string;
-  modified?: string;
-  name?: string;
-  uid?: string;
+  created?: string | null;
+  modified?: string | null;
+  name?: string | null;
+  uid?: string | null;
 }[];
 
 export const ListTurnsResponse = Schema.Array(
   Schema.Struct({
-    created: Schema.optional(Schema.String),
-    modified: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListTurnsResponse>;
 
@@ -371,11 +371,11 @@ export interface CreateTurnResponse {
 }
 
 export const CreateTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  key: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateTurnResponse>;
 
 export type CreateTurnError = CommonErrors;
@@ -422,10 +422,10 @@ export interface UpdateTurnResponse {
 }
 
 export const UpdateTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateTurnResponse>;
 
 export type UpdateTurnError = CommonErrors;
@@ -469,10 +469,10 @@ export interface DeleteTurnResponse {
 }
 
 export const DeleteTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteTurnResponse>;
 
 export type DeleteTurnError = CommonErrors;

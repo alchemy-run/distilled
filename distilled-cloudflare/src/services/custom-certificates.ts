@@ -61,7 +61,7 @@ export interface GetCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null };
   keylessServer?: unknown;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
   policy?: string;
@@ -86,12 +86,20 @@ export const GetCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -163,9 +171,9 @@ export type ListCustomCertificatesResponse = {
   status: "active" | "expired" | "deleted" | "pending" | "initializing";
   uploadedOn: string;
   zoneId: string;
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
-  keylessServer?: unknown;
-  policy?: string;
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
+  keylessServer?: unknown | null;
+  policy?: string | null;
 }[];
 
 export const ListCustomCertificatesResponse = Schema.Array(
@@ -188,14 +196,20 @@ export const ListCustomCertificatesResponse = Schema.Array(
     uploadedOn: Schema.String,
     zoneId: Schema.String,
     geoRestrictions: Schema.optional(
-      Schema.Struct({
-        label: Schema.optional(
-          Schema.Literals(["us", "eu", "highest_security"]),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          label: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["us", "eu", "highest_security"]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
-    keylessServer: Schema.optional(Schema.Unknown),
-    policy: Schema.optional(Schema.String),
+    keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -295,7 +309,7 @@ export interface CreateCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null };
   keylessServer?: unknown;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
   policy?: string;
@@ -320,12 +334,20 @@ export const CreateCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -425,7 +447,7 @@ export interface PatchCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null };
   keylessServer?: unknown;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
   policy?: string;
@@ -450,12 +472,20 @@ export const PatchCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -510,7 +540,7 @@ export interface DeleteCustomCertificateResponse {
 }
 
 export const DeleteCustomCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteCustomCertificateResponse>;
 
 export type DeleteCustomCertificateError = CommonErrors;
@@ -530,14 +560,14 @@ export const deleteCustomCertificate: API.OperationMethod<
 // Prioritize
 // =============================================================================
 
-export interface UpdatePrioritizeRequest {
+export interface PutPrioritizeRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Body param: Array of ordered certificates. */
   certificates: { id?: string; priority?: number }[];
 }
 
-export const UpdatePrioritizeRequest = Schema.Struct({
+export const PutPrioritizeRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificates: Schema.Array(
     Schema.Struct({
@@ -547,25 +577,25 @@ export const UpdatePrioritizeRequest = Schema.Struct({
   ),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "PUT",
     path: "/zones/{zone_id}/custom_certificates/prioritize",
   }),
-) as unknown as Schema.Schema<UpdatePrioritizeRequest>;
+) as unknown as Schema.Schema<PutPrioritizeRequest>;
 
-export type UpdatePrioritizeResponse = unknown;
+export type PutPrioritizeResponse = unknown;
 
-export const UpdatePrioritizeResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdatePrioritizeResponse>;
+export const PutPrioritizeResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutPrioritizeResponse>;
 
-export type UpdatePrioritizeError = CommonErrors;
+export type PutPrioritizeError = CommonErrors;
 
-export const updatePrioritize: API.OperationMethod<
-  UpdatePrioritizeRequest,
-  UpdatePrioritizeResponse,
-  UpdatePrioritizeError,
+export const putPrioritize: API.OperationMethod<
+  PutPrioritizeRequest,
+  PutPrioritizeResponse,
+  PutPrioritizeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UpdatePrioritizeRequest,
-  output: UpdatePrioritizeResponse,
+  input: PutPrioritizeRequest,
+  output: PutPrioritizeResponse,
   errors: [],
 }));

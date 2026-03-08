@@ -48,9 +48,9 @@ export interface GetDetectionResponse {
 }
 
 export const GetDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetDetectionResponse>;
 
 export type GetDetectionError = CommonErrors;
@@ -81,16 +81,16 @@ export const ListDetectionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDetectionsRequest>;
 
 export type ListDetectionsResponse = {
-  id?: string;
-  password?: string;
-  username?: string;
+  id?: string | null;
+  password?: string | null;
+  username?: string | null;
 }[];
 
 export const ListDetectionsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    password: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListDetectionsResponse>;
 
@@ -137,9 +137,9 @@ export interface CreateDetectionResponse {
 }
 
 export const CreateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDetectionResponse>;
 
 export type CreateDetectionError = CommonErrors;
@@ -187,9 +187,9 @@ export interface UpdateDetectionResponse {
 }
 
 export const UpdateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateDetectionResponse>;
 
 export type UpdateDetectionError = CommonErrors;
@@ -260,7 +260,7 @@ export interface GetLeakedCredentialCheckResponse {
 }
 
 export const GetLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
 
 export type GetLeakedCredentialCheckError = CommonErrors;
@@ -296,7 +296,7 @@ export interface CreateLeakedCredentialCheckResponse {
 }
 
 export const CreateLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
 
 export type CreateLeakedCredentialCheckError = CommonErrors;

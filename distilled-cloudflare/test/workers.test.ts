@@ -1121,9 +1121,7 @@ describe("Workers", () => {
               accountId: accountId(),
               scriptName: name,
               strategy: "percentage",
-              versions: [
-                { percentage: 100, versionId: currentVersionId },
-              ],
+              versions: [{ percentage: 100, versionId: currentVersionId }],
               annotations: {
                 "workers/message": "Test deployment from distilled tests",
               },
@@ -1709,11 +1707,9 @@ describe("Workers", () => {
     test("happy path - creates a new version of a script", () =>
       withScript(scriptName("create-version"), (name) =>
         Effect.gen(function* () {
-          const scriptFile = new File(
-            [workerModuleSource],
-            "index.mjs",
-            { type: "application/javascript+module" },
-          );
+          const scriptFile = new File([workerModuleSource], "index.mjs", {
+            type: "application/javascript+module",
+          });
 
           const result = yield* Workers.createScriptVersion({
             accountId: accountId(),

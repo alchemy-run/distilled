@@ -40,34 +40,38 @@ export interface GetMembershipResponse {
   apiAccessEnabled?: boolean | null;
   /** All access permissions for the user at the account. */
   permissions?: {
-    analytics?: unknown;
-    billing?: unknown;
-    cachePurge?: unknown;
-    dns?: unknown;
-    dnsRecords?: unknown;
-    lb?: unknown;
-    logs?: unknown;
-    organization?: unknown;
-    ssl?: unknown;
-    waf?: unknown;
-    zoneSettings?: unknown;
-    zones?: unknown;
+    analytics?: unknown | null;
+    billing?: unknown | null;
+    cachePurge?: unknown | null;
+    dns?: unknown | null;
+    dnsRecords?: unknown | null;
+    lb?: unknown | null;
+    logs?: unknown | null;
+    organization?: unknown | null;
+    ssl?: unknown | null;
+    waf?: unknown | null;
+    zoneSettings?: unknown | null;
+    zones?: unknown | null;
   };
   /** Access policy for the membership */
   policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: {
-      id: string;
-      meta?: { key?: string; value?: string };
-      name?: string;
-    }[];
-    resourceGroups?: {
-      id: string;
-      scope: { key: string; objects: { key: string }[] }[];
-      meta?: { key?: string; value?: string };
-      name?: string;
-    }[];
+    id?: string | null;
+    access?: "allow" | "deny" | null;
+    permissionGroups?:
+      | {
+          id: string;
+          meta?: { key?: string | null; value?: string | null } | null;
+          name?: string | null;
+        }[]
+      | null;
+    resourceGroups?:
+      | {
+          id: string;
+          scope: { key: string; objects: { key: string }[] }[];
+          meta?: { key?: string | null; value?: string | null } | null;
+          name?: string | null;
+        }[]
+      | null;
   }[];
   /** List of role names the membership has for this account. */
   roles?: string[];
@@ -76,97 +80,144 @@ export interface GetMembershipResponse {
 }
 
 export const GetMembershipResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.Unknown),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   apiAccessEnabled: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ),
   permissions: Schema.optional(
-    Schema.Struct({
-      analytics: Schema.optional(Schema.Unknown),
-      billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown),
-      dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown),
-      lb: Schema.optional(Schema.Unknown),
-      logs: Schema.optional(Schema.Unknown),
-      organization: Schema.optional(Schema.Unknown),
-      ssl: Schema.optional(Schema.Unknown),
-      waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown),
-      zones: Schema.optional(Schema.Unknown),
-    }).pipe(
-      Schema.encodeKeys({
-        analytics: "analytics",
-        billing: "billing",
-        cachePurge: "cache_purge",
-        dns: "dns",
-        dnsRecords: "dns_records",
-        lb: "lb",
-        logs: "logs",
-        organization: "organization",
-        ssl: "ssl",
-        waf: "waf",
-        zoneSettings: "zone_settings",
-        zones: "zones",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        analytics: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        billing: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        cachePurge: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        dns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        dnsRecords: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        lb: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        logs: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        organization: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        ssl: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        waf: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        zoneSettings: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        zones: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          analytics: "analytics",
+          billing: "billing",
+          cachePurge: "cache_purge",
+          dns: "dns",
+          dnsRecords: "dns_records",
+          lb: "lb",
+          logs: "logs",
+          organization: "organization",
+          ssl: "ssl",
+          waf: "waf",
+          zoneSettings: "zone_settings",
+          zones: "zones",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   policies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literals(["allow", "deny"])),
-        permissionGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              meta: Schema.optional(
-                Schema.Struct({
-                  key: Schema.optional(Schema.String),
-                  value: Schema.optional(Schema.String),
-                }),
-              ),
-              name: Schema.optional(Schema.String),
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          access: Schema.optional(
+            Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
           ),
-        ),
-        resourceGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              scope: Schema.Array(
+          permissionGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
                 Schema.Struct({
-                  key: Schema.String,
-                  objects: Schema.Array(
-                    Schema.Struct({
-                      key: Schema.String,
-                    }),
+                  id: Schema.String,
+                  meta: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        key: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        value: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  name: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
                   ),
                 }),
               ),
-              meta: Schema.optional(
+              Schema.Null,
+            ]),
+          ),
+          resourceGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
                 Schema.Struct({
-                  key: Schema.optional(Schema.String),
-                  value: Schema.optional(Schema.String),
+                  id: Schema.String,
+                  scope: Schema.Array(
+                    Schema.Struct({
+                      key: Schema.String,
+                      objects: Schema.Array(
+                        Schema.Struct({
+                          key: Schema.String,
+                        }),
+                      ),
+                    }),
+                  ),
+                  meta: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        key: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        value: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  name: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
                 }),
               ),
-              name: Schema.optional(Schema.String),
-            }),
+              Schema.Null,
+            ]),
           ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            access: "access",
+            permissionGroups: "permission_groups",
+            resourceGroups: "resource_groups",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          access: "access",
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
-  roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
+  roles: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["accepted", "pending", "rejected"]),
+      Schema.Null,
+    ]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -199,68 +250,86 @@ export const ListMembershipsRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListMembershipsRequest>;
 
 export type ListMembershipsResponse = {
-  id?: string;
-  account?: unknown;
+  id?: string | null;
+  account?: unknown | null;
   apiAccessEnabled?: boolean | null;
   permissions?: {
-    analytics?: unknown;
-    billing?: unknown;
-    cachePurge?: unknown;
-    dns?: unknown;
-    dnsRecords?: unknown;
-    lb?: unknown;
-    logs?: unknown;
-    organization?: unknown;
-    ssl?: unknown;
-    waf?: unknown;
-    zoneSettings?: unknown;
-    zones?: unknown;
-  };
-  roles?: string[];
-  status?: "accepted" | "pending" | "rejected";
+    analytics?: unknown | null;
+    billing?: unknown | null;
+    cachePurge?: unknown | null;
+    dns?: unknown | null;
+    dnsRecords?: unknown | null;
+    lb?: unknown | null;
+    logs?: unknown | null;
+    organization?: unknown | null;
+    ssl?: unknown | null;
+    waf?: unknown | null;
+    zoneSettings?: unknown | null;
+    zones?: unknown | null;
+  } | null;
+  roles?: string[] | null;
+  status?: "accepted" | "pending" | "rejected" | null;
 }[];
 
 export const ListMembershipsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    account: Schema.optional(Schema.Unknown),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
     apiAccessEnabled: Schema.optional(
       Schema.Union([Schema.Boolean, Schema.Null]),
     ),
     permissions: Schema.optional(
-      Schema.Struct({
-        analytics: Schema.optional(Schema.Unknown),
-        billing: Schema.optional(Schema.Unknown),
-        cachePurge: Schema.optional(Schema.Unknown),
-        dns: Schema.optional(Schema.Unknown),
-        dnsRecords: Schema.optional(Schema.Unknown),
-        lb: Schema.optional(Schema.Unknown),
-        logs: Schema.optional(Schema.Unknown),
-        organization: Schema.optional(Schema.Unknown),
-        ssl: Schema.optional(Schema.Unknown),
-        waf: Schema.optional(Schema.Unknown),
-        zoneSettings: Schema.optional(Schema.Unknown),
-        zones: Schema.optional(Schema.Unknown),
-      }).pipe(
-        Schema.encodeKeys({
-          analytics: "analytics",
-          billing: "billing",
-          cachePurge: "cache_purge",
-          dns: "dns",
-          dnsRecords: "dns_records",
-          lb: "lb",
-          logs: "logs",
-          organization: "organization",
-          ssl: "ssl",
-          waf: "waf",
-          zoneSettings: "zone_settings",
-          zones: "zones",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          analytics: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          billing: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          cachePurge: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          dns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          dnsRecords: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          lb: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          logs: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          organization: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          ssl: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          waf: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          zoneSettings: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          zones: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            analytics: "analytics",
+            billing: "billing",
+            cachePurge: "cache_purge",
+            dns: "dns",
+            dnsRecords: "dns_records",
+            lb: "lb",
+            logs: "logs",
+            organization: "organization",
+            ssl: "ssl",
+            waf: "waf",
+            zoneSettings: "zone_settings",
+            zones: "zones",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    roles: Schema.optional(Schema.Array(Schema.String)),
+    roles: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
     status: Schema.optional(
-      Schema.Literals(["accepted", "pending", "rejected"]),
+      Schema.Union([
+        Schema.Literals(["accepted", "pending", "rejected"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -308,34 +377,38 @@ export interface PutMembershipResponse {
   apiAccessEnabled?: boolean | null;
   /** All access permissions for the user at the account. */
   permissions?: {
-    analytics?: unknown;
-    billing?: unknown;
-    cachePurge?: unknown;
-    dns?: unknown;
-    dnsRecords?: unknown;
-    lb?: unknown;
-    logs?: unknown;
-    organization?: unknown;
-    ssl?: unknown;
-    waf?: unknown;
-    zoneSettings?: unknown;
-    zones?: unknown;
+    analytics?: unknown | null;
+    billing?: unknown | null;
+    cachePurge?: unknown | null;
+    dns?: unknown | null;
+    dnsRecords?: unknown | null;
+    lb?: unknown | null;
+    logs?: unknown | null;
+    organization?: unknown | null;
+    ssl?: unknown | null;
+    waf?: unknown | null;
+    zoneSettings?: unknown | null;
+    zones?: unknown | null;
   };
   /** Access policy for the membership */
   policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: {
-      id: string;
-      meta?: { key?: string; value?: string };
-      name?: string;
-    }[];
-    resourceGroups?: {
-      id: string;
-      scope: { key: string; objects: { key: string }[] }[];
-      meta?: { key?: string; value?: string };
-      name?: string;
-    }[];
+    id?: string | null;
+    access?: "allow" | "deny" | null;
+    permissionGroups?:
+      | {
+          id: string;
+          meta?: { key?: string | null; value?: string | null } | null;
+          name?: string | null;
+        }[]
+      | null;
+    resourceGroups?:
+      | {
+          id: string;
+          scope: { key: string; objects: { key: string }[] }[];
+          meta?: { key?: string | null; value?: string | null } | null;
+          name?: string | null;
+        }[]
+      | null;
   }[];
   /** List of role names the membership has for this account. */
   roles?: string[];
@@ -344,97 +417,144 @@ export interface PutMembershipResponse {
 }
 
 export const PutMembershipResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  account: Schema.optional(Schema.Unknown),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   apiAccessEnabled: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ),
   permissions: Schema.optional(
-    Schema.Struct({
-      analytics: Schema.optional(Schema.Unknown),
-      billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown),
-      dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown),
-      lb: Schema.optional(Schema.Unknown),
-      logs: Schema.optional(Schema.Unknown),
-      organization: Schema.optional(Schema.Unknown),
-      ssl: Schema.optional(Schema.Unknown),
-      waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown),
-      zones: Schema.optional(Schema.Unknown),
-    }).pipe(
-      Schema.encodeKeys({
-        analytics: "analytics",
-        billing: "billing",
-        cachePurge: "cache_purge",
-        dns: "dns",
-        dnsRecords: "dns_records",
-        lb: "lb",
-        logs: "logs",
-        organization: "organization",
-        ssl: "ssl",
-        waf: "waf",
-        zoneSettings: "zone_settings",
-        zones: "zones",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        analytics: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        billing: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        cachePurge: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        dns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        dnsRecords: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        lb: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        logs: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        organization: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        ssl: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        waf: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        zoneSettings: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        zones: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          analytics: "analytics",
+          billing: "billing",
+          cachePurge: "cache_purge",
+          dns: "dns",
+          dnsRecords: "dns_records",
+          lb: "lb",
+          logs: "logs",
+          organization: "organization",
+          ssl: "ssl",
+          waf: "waf",
+          zoneSettings: "zone_settings",
+          zones: "zones",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   policies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literals(["allow", "deny"])),
-        permissionGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              meta: Schema.optional(
-                Schema.Struct({
-                  key: Schema.optional(Schema.String),
-                  value: Schema.optional(Schema.String),
-                }),
-              ),
-              name: Schema.optional(Schema.String),
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          access: Schema.optional(
+            Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
           ),
-        ),
-        resourceGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              scope: Schema.Array(
+          permissionGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
                 Schema.Struct({
-                  key: Schema.String,
-                  objects: Schema.Array(
-                    Schema.Struct({
-                      key: Schema.String,
-                    }),
+                  id: Schema.String,
+                  meta: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        key: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        value: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  name: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
                   ),
                 }),
               ),
-              meta: Schema.optional(
+              Schema.Null,
+            ]),
+          ),
+          resourceGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
                 Schema.Struct({
-                  key: Schema.optional(Schema.String),
-                  value: Schema.optional(Schema.String),
+                  id: Schema.String,
+                  scope: Schema.Array(
+                    Schema.Struct({
+                      key: Schema.String,
+                      objects: Schema.Array(
+                        Schema.Struct({
+                          key: Schema.String,
+                        }),
+                      ),
+                    }),
+                  ),
+                  meta: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        key: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        value: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  name: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
                 }),
               ),
-              name: Schema.optional(Schema.String),
-            }),
+              Schema.Null,
+            ]),
           ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            access: "access",
+            permissionGroups: "permission_groups",
+            resourceGroups: "resource_groups",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          access: "access",
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
-  roles: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
+  roles: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["accepted", "pending", "rejected"]),
+      Schema.Null,
+    ]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -476,7 +596,7 @@ export interface DeleteMembershipResponse {
 }
 
 export const DeleteMembershipResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteMembershipResponse>;
 
 export type DeleteMembershipError = CommonErrors;

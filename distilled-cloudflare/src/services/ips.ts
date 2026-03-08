@@ -29,19 +29,27 @@ export const ListIPsRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListIPsRequest>;
 
 export type ListIPsResponse =
-  | { etag?: string; ipv4Cidrs?: string[]; ipv6Cidrs?: string[] }
   | {
-      etag?: string;
-      ipv4Cidrs?: string[];
-      ipv6Cidrs?: string[];
-      jdcloudCidrs?: string[];
+      etag?: string | null;
+      ipv4Cidrs?: string[] | null;
+      ipv6Cidrs?: string[] | null;
+    }
+  | {
+      etag?: string | null;
+      ipv4Cidrs?: string[] | null;
+      ipv6Cidrs?: string[] | null;
+      jdcloudCidrs?: string[] | null;
     };
 
 export const ListIPsResponse = Schema.Union([
   Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ipv4Cidrs: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    ipv6Cidrs: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       etag: "etag",
@@ -50,10 +58,16 @@ export const ListIPsResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)),
-    jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)),
+    etag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ipv4Cidrs: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    ipv6Cidrs: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jdcloudCidrs: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       etag: "etag",

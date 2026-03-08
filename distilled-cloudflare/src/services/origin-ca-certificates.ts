@@ -66,9 +66,9 @@ export const GetOriginCACertificateResponse = Schema.Struct({
     "1095",
     "5475",
   ]),
-  id: Schema.optional(Schema.String),
-  certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     csr: "csr",
@@ -117,9 +117,9 @@ export type ListOriginCACertificatesResponse = {
   hostnames: string[];
   requestType: "origin-rsa" | "origin-ecc" | "keyless-certificate";
   requestedValidity: "7" | "30" | "90" | "365" | "730" | "1095" | "5475";
-  id?: string;
-  certificate?: string;
-  expiresOn?: string;
+  id?: string | null;
+  certificate?: string | null;
+  expiresOn?: string | null;
 }[];
 
 export const ListOriginCACertificatesResponse = Schema.Array(
@@ -140,9 +140,9 @@ export const ListOriginCACertificatesResponse = Schema.Array(
       "1095",
       "5475",
     ]),
-    id: Schema.optional(Schema.String),
-    certificate: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       csr: "csr",
@@ -235,9 +235,9 @@ export const CreateOriginCACertificateResponse = Schema.Struct({
     "1095",
     "5475",
   ]),
-  id: Schema.optional(Schema.String),
-  certificate: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     csr: "csr",
@@ -281,8 +281,8 @@ export interface DeleteOriginCACertificateResponse {
 }
 
 export const DeleteOriginCACertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  revokedAt: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  revokedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ id: "id", revokedAt: "revoked_at" }),
 ) as unknown as Schema.Schema<DeleteOriginCACertificateResponse>;

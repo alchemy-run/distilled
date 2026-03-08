@@ -39,18 +39,23 @@ export const GetAudioTrackRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAudioTrackRequest>;
 
 export type GetAudioTrackResponse = {
-  default?: boolean;
-  label?: string;
-  status?: "queued" | "ready" | "error";
-  uid?: string;
+  default?: boolean | null;
+  label?: string | null;
+  status?: "queued" | "ready" | "error" | null;
+  uid?: string | null;
 }[];
 
 export const GetAudioTrackResponse = Schema.Array(
   Schema.Struct({
-    default: Schema.optional(Schema.Boolean),
-    label: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-    uid: Schema.optional(Schema.String),
+    default: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["queued", "ready", "error"]),
+        Schema.Null,
+      ]),
+    ),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetAudioTrackResponse>;
 
@@ -103,10 +108,12 @@ export interface PatchAudioTrackResponse {
 }
 
 export const PatchAudioTrackResponse = Schema.Struct({
-  default: Schema.optional(Schema.Boolean),
-  label: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-  uid: Schema.optional(Schema.String),
+  default: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([Schema.Literals(["queued", "ready", "error"]), Schema.Null]),
+  ),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<PatchAudioTrackResponse>;
 
 export type PatchAudioTrackError = CommonErrors;
@@ -192,10 +199,12 @@ export interface CopyAudioTrackResponse {
 }
 
 export const CopyAudioTrackResponse = Schema.Struct({
-  default: Schema.optional(Schema.Boolean),
-  label: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["queued", "ready", "error"])),
-  uid: Schema.optional(Schema.String),
+  default: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([Schema.Literals(["queued", "ready", "error"]), Schema.Null]),
+  ),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CopyAudioTrackResponse>;
 
 export type CopyAudioTrackError = CommonErrors;
@@ -232,18 +241,23 @@ export const GetCaptionRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCaptionRequest>;
 
 export type GetCaptionResponse = {
-  generated?: boolean;
-  label?: string;
-  language?: string;
-  status?: "ready" | "inprogress" | "error";
+  generated?: boolean | null;
+  label?: string | null;
+  language?: string | null;
+  status?: "ready" | "inprogress" | "error" | null;
 }[];
 
 export const GetCaptionResponse = Schema.Array(
   Schema.Struct({
-    generated: Schema.optional(Schema.Boolean),
-    label: Schema.optional(Schema.String),
-    language: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
+    generated: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    language: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["ready", "inprogress", "error"]),
+        Schema.Null,
+      ]),
+    ),
   }),
 ) as unknown as Schema.Schema<GetCaptionResponse>;
 
@@ -354,6 +368,7 @@ export const UpdateCaptionLanguageRequest = Schema.Struct({
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+    contentType: "multipart",
   }),
 ) as unknown as Schema.Schema<UpdateCaptionLanguageRequest>;
 
@@ -514,7 +529,7 @@ export interface CreateClipResponse {
   meta?: unknown;
   /** The date and time the live input was last modified. */
   modified?: string;
-  playback?: { dash?: string; hls?: string };
+  playback?: { dash?: string | null; hls?: string | null };
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string;
   /** Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video. */
@@ -532,43 +547,62 @@ export interface CreateClipResponse {
     | "live-inprogress";
   /** The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duratio */
   thumbnailTimestampPct?: number;
-  watermark?: { uid?: string };
+  watermark?: { uid?: string | null };
 }
 
 export const CreateClipResponse = Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  clippedFromVideoUID: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  endTimeSeconds: Schema.optional(Schema.Number),
-  maxDurationSeconds: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  playback: Schema.optional(
-    Schema.Struct({
-      dash: Schema.optional(Schema.String),
-      hls: Schema.optional(Schema.String),
-    }),
+  allowedOrigins: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-  preview: Schema.optional(Schema.String),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  startTimeSeconds: Schema.optional(Schema.Number),
-  status: Schema.optional(
-    Schema.Literals([
-      "pendingupload",
-      "downloading",
-      "queued",
-      "inprogress",
-      "ready",
-      "error",
-      "live-inprogress",
+  clippedFromVideoUID: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  endTimeSeconds: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  maxDurationSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  playback: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        dash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        hls: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
     ]),
   ),
-  thumbnailTimestampPct: Schema.optional(Schema.Number),
+  preview: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  startTimeSeconds: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals([
+        "pendingupload",
+        "downloading",
+        "queued",
+        "inprogress",
+        "ready",
+        "error",
+        "live-inprogress",
+      ]),
+      Schema.Null,
+    ]),
+  ),
+  thumbnailTimestampPct: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   watermark: Schema.optional(
-    Schema.Struct({
-      uid: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<CreateClipResponse>;
 
@@ -716,10 +750,12 @@ export interface CreateDirectUploadResponse {
 }
 
 export const CreateDirectUploadResponse = Schema.Struct({
-  scheduledDeletion: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  uploadURL: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown),
+  scheduledDeletion: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadURL: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  watermark: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDirectUploadResponse>;
 
 export type CreateDirectUploadError = CommonErrors;
@@ -758,36 +794,52 @@ export const GetDownloadRequest = Schema.Struct({
 export interface GetDownloadResponse {
   /** The audio-only download. Only present if this download type has been created. */
   audio?: {
-    percentComplete?: number;
-    status?: "ready" | "inprogress" | "error";
-    url?: string;
+    percentComplete?: number | null;
+    status?: "ready" | "inprogress" | "error" | null;
+    url?: string | null;
   };
   /** The default video download. Only present if this download type has been created. */
   default?: {
-    percentComplete?: number;
-    status?: "ready" | "inprogress" | "error";
-    url?: string;
+    percentComplete?: number | null;
+    status?: "ready" | "inprogress" | "error" | null;
+    url?: string | null;
   };
 }
 
 export const GetDownloadResponse = Schema.Struct({
   audio: Schema.optional(
-    Schema.Struct({
-      percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(
-        Schema.Literals(["ready", "inprogress", "error"]),
-      ),
-      url: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        percentComplete: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["ready", "inprogress", "error"]),
+            Schema.Null,
+          ]),
+        ),
+        url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   default: Schema.optional(
-    Schema.Struct({
-      percentComplete: Schema.optional(Schema.Number),
-      status: Schema.optional(
-        Schema.Literals(["ready", "inprogress", "error"]),
-      ),
-      url: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        percentComplete: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["ready", "inprogress", "error"]),
+            Schema.Null,
+          ]),
+        ),
+        url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetDownloadResponse>;
 
@@ -833,9 +885,14 @@ export interface CreateDownloadResponse {
 }
 
 export const CreateDownloadResponse = Schema.Struct({
-  percentComplete: Schema.optional(Schema.Number),
-  status: Schema.optional(Schema.Literals(["ready", "inprogress", "error"])),
-  url: Schema.optional(Schema.String),
+  percentComplete: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["ready", "inprogress", "error"]),
+      Schema.Null,
+    ]),
+  ),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDownloadResponse>;
 
 export type CreateDownloadError = CommonErrors;
@@ -938,12 +995,12 @@ export const GetKeyRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/stream/keys" }),
 ) as unknown as Schema.Schema<GetKeyRequest>;
 
-export type GetKeyResponse = { id?: string; created?: string }[];
+export type GetKeyResponse = { id?: string | null; created?: string | null }[];
 
 export const GetKeyResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    created: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetKeyResponse>;
 
@@ -986,10 +1043,10 @@ export interface CreateKeyResponse {
 }
 
 export const CreateKeyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  jwk: Schema.optional(Schema.String),
-  pem: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  jwk: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  pem: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateKeyResponse>;
 
 export type CreateKeyError = CommonErrors;
@@ -1073,11 +1130,13 @@ export interface GetLiveInputResponse {
 }
 
 export const GetLiveInputResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  deleteRecordingAfterDays: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deleteRecordingAfterDays: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetLiveInputResponse>;
 
 export type GetLiveInputError = CommonErrors;
@@ -1111,11 +1170,11 @@ export const ListLiveInputsRequest = Schema.Struct({
 
 export interface ListLiveInputsResponse {
   liveInputs?: {
-    created?: string;
-    deleteRecordingAfterDays?: number;
-    meta?: unknown;
-    modified?: string;
-    uid?: string;
+    created?: string | null;
+    deleteRecordingAfterDays?: number | null;
+    meta?: unknown | null;
+    modified?: string | null;
+    uid?: string | null;
   }[];
   /** The total number of remaining live inputs based on cursor position. */
   range?: number;
@@ -1125,18 +1184,23 @@ export interface ListLiveInputsResponse {
 
 export const ListLiveInputsResponse = Schema.Struct({
   liveInputs: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        created: Schema.optional(Schema.String),
-        deleteRecordingAfterDays: Schema.optional(Schema.Number),
-        meta: Schema.optional(Schema.Unknown),
-        modified: Schema.optional(Schema.String),
-        uid: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          deleteRecordingAfterDays: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  range: Schema.optional(Schema.Number),
-  total: Schema.optional(Schema.Number),
+  range: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListLiveInputsResponse>;
 
 export type ListLiveInputsError = CommonErrors;
@@ -1203,11 +1267,13 @@ export interface CreateLiveInputResponse {
 }
 
 export const CreateLiveInputResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  deleteRecordingAfterDays: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deleteRecordingAfterDays: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateLiveInputResponse>;
 
 export type CreateLiveInputError = CommonErrors;
@@ -1279,11 +1345,13 @@ export interface UpdateLiveInputResponse {
 }
 
 export const UpdateLiveInputResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  deleteRecordingAfterDays: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deleteRecordingAfterDays: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateLiveInputResponse>;
 
 export type UpdateLiveInputError = CommonErrors;
@@ -1354,18 +1422,18 @@ export const ListLiveInputOutputsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListLiveInputOutputsRequest>;
 
 export type ListLiveInputOutputsResponse = {
-  enabled?: boolean;
-  streamKey?: string;
-  uid?: string;
-  url?: string;
+  enabled?: boolean | null;
+  streamKey?: string | null;
+  uid?: string | null;
+  url?: string | null;
 }[];
 
 export const ListLiveInputOutputsResponse = Schema.Array(
   Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    streamKey: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    streamKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListLiveInputOutputsResponse>;
 
@@ -1419,10 +1487,10 @@ export interface CreateLiveInputOutputResponse {
 }
 
 export const CreateLiveInputOutputResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  streamKey: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  streamKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateLiveInputOutputResponse>;
 
 export type CreateLiveInputOutputError = CommonErrors;
@@ -1471,10 +1539,10 @@ export interface UpdateLiveInputOutputResponse {
 }
 
 export const UpdateLiveInputOutputResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  streamKey: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
-  url: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  streamKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateLiveInputOutputResponse>;
 
 export type UpdateLiveInputOutputError = CommonErrors;
@@ -1552,7 +1620,7 @@ export interface GetStreamResponse {
   creator?: string;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number;
-  input?: { height?: number; width?: number };
+  input?: { height?: number | null; width?: number | null };
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A val */
@@ -1561,7 +1629,7 @@ export interface GetStreamResponse {
   meta?: unknown;
   /** The date and time the media item was last modified. */
   modified?: string;
-  playback?: { dash?: string; hls?: string };
+  playback?: { dash?: string | null; hls?: string | null };
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -1576,9 +1644,9 @@ export interface GetStreamResponse {
   size?: number;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number be */
   status?: {
-    errorReasonCode?: string;
-    errorReasonText?: string;
-    pctComplete?: string;
+    errorReasonCode?: string | null;
+    errorReasonText?: string | null;
+    pctComplete?: string | null;
     state?:
       | "pendingupload"
       | "downloading"
@@ -1586,7 +1654,8 @@ export interface GetStreamResponse {
       | "inprogress"
       | "ready"
       | "error"
-      | "live-inprogress";
+      | "live-inprogress"
+      | null;
   };
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
   thumbnail?: string;
@@ -1602,56 +1671,84 @@ export interface GetStreamResponse {
 }
 
 export const GetStreamResponse = Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  created: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.Number),
+  allowedOrigins: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   input: Schema.optional(
-    Schema.Struct({
-      height: Schema.optional(Schema.Number),
-      width: Schema.optional(Schema.Number),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  liveInput: Schema.optional(Schema.String),
-  maxDurationSeconds: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
+  liveInput: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  maxDurationSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   playback: Schema.optional(
-    Schema.Struct({
-      dash: Schema.optional(Schema.String),
-      hls: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        dash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        hls: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  preview: Schema.optional(Schema.String),
-  readyToStream: Schema.optional(Schema.Boolean),
-  readyToStreamAt: Schema.optional(Schema.String),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  scheduledDeletion: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.Number),
+  preview: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  readyToStream: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  readyToStreamAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  scheduledDeletion: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   status: Schema.optional(
-    Schema.Struct({
-      errorReasonCode: Schema.optional(Schema.String),
-      errorReasonText: Schema.optional(Schema.String),
-      pctComplete: Schema.optional(Schema.String),
-      state: Schema.optional(
-        Schema.Literals([
-          "pendingupload",
-          "downloading",
-          "queued",
-          "inprogress",
-          "ready",
-          "error",
-          "live-inprogress",
-        ]),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        errorReasonCode: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        errorReasonText: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        pctComplete: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        state: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "pendingupload",
+              "downloading",
+              "queued",
+              "inprogress",
+              "ready",
+              "error",
+              "live-inprogress",
+            ]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  thumbnail: Schema.optional(Schema.String),
-  thumbnailTimestampPct: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  uploaded: Schema.optional(Schema.String),
-  uploadExpiry: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown),
+  thumbnail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  thumbnailTimestampPct: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadExpiry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  watermark: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }) as unknown as Schema.Schema<GetStreamResponse>;
 
 export type GetStreamError = CommonErrors;
@@ -1725,26 +1822,26 @@ export const ListStreamsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListStreamsRequest>;
 
 export type ListStreamsResponse = {
-  allowedOrigins?: string[];
-  created?: string;
-  creator?: string;
-  duration?: number;
-  input?: { height?: number; width?: number };
-  liveInput?: string;
-  maxDurationSeconds?: number;
-  meta?: unknown;
-  modified?: string;
-  playback?: { dash?: string; hls?: string };
-  preview?: string;
-  readyToStream?: boolean;
-  readyToStreamAt?: string;
-  requireSignedURLs?: boolean;
-  scheduledDeletion?: string;
-  size?: number;
+  allowedOrigins?: string[] | null;
+  created?: string | null;
+  creator?: string | null;
+  duration?: number | null;
+  input?: { height?: number | null; width?: number | null } | null;
+  liveInput?: string | null;
+  maxDurationSeconds?: number | null;
+  meta?: unknown | null;
+  modified?: string | null;
+  playback?: { dash?: string | null; hls?: string | null } | null;
+  preview?: string | null;
+  readyToStream?: boolean | null;
+  readyToStreamAt?: string | null;
+  requireSignedURLs?: boolean | null;
+  scheduledDeletion?: string | null;
+  size?: number | null;
   status?: {
-    errorReasonCode?: string;
-    errorReasonText?: string;
-    pctComplete?: string;
+    errorReasonCode?: string | null;
+    errorReasonText?: string | null;
+    pctComplete?: string | null;
     state?:
       | "pendingupload"
       | "downloading"
@@ -1752,68 +1849,99 @@ export type ListStreamsResponse = {
       | "inprogress"
       | "ready"
       | "error"
-      | "live-inprogress";
-  };
-  thumbnail?: string;
-  thumbnailTimestampPct?: number;
-  uid?: string;
-  uploaded?: string;
-  uploadExpiry?: string;
-  watermark?: unknown;
+      | "live-inprogress"
+      | null;
+  } | null;
+  thumbnail?: string | null;
+  thumbnailTimestampPct?: number | null;
+  uid?: string | null;
+  uploaded?: string | null;
+  uploadExpiry?: string | null;
+  watermark?: unknown | null;
 }[];
 
 export const ListStreamsResponse = Schema.Array(
   Schema.Struct({
-    allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-    created: Schema.optional(Schema.String),
-    creator: Schema.optional(Schema.String),
-    duration: Schema.optional(Schema.Number),
+    allowedOrigins: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     input: Schema.optional(
-      Schema.Struct({
-        height: Schema.optional(Schema.Number),
-        width: Schema.optional(Schema.Number),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    liveInput: Schema.optional(Schema.String),
-    maxDurationSeconds: Schema.optional(Schema.Number),
-    meta: Schema.optional(Schema.Unknown),
-    modified: Schema.optional(Schema.String),
+    liveInput: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    maxDurationSeconds: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     playback: Schema.optional(
-      Schema.Struct({
-        dash: Schema.optional(Schema.String),
-        hls: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          dash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          hls: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    preview: Schema.optional(Schema.String),
-    readyToStream: Schema.optional(Schema.Boolean),
-    readyToStreamAt: Schema.optional(Schema.String),
-    requireSignedURLs: Schema.optional(Schema.Boolean),
-    scheduledDeletion: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.Number),
+    preview: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    readyToStream: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    readyToStreamAt: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    requireSignedURLs: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    scheduledDeletion: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     status: Schema.optional(
-      Schema.Struct({
-        errorReasonCode: Schema.optional(Schema.String),
-        errorReasonText: Schema.optional(Schema.String),
-        pctComplete: Schema.optional(Schema.String),
-        state: Schema.optional(
-          Schema.Literals([
-            "pendingupload",
-            "downloading",
-            "queued",
-            "inprogress",
-            "ready",
-            "error",
-            "live-inprogress",
-          ]),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          errorReasonCode: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          errorReasonText: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          pctComplete: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          state: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "pendingupload",
+                "downloading",
+                "queued",
+                "inprogress",
+                "ready",
+                "error",
+                "live-inprogress",
+              ]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
-    thumbnail: Schema.optional(Schema.String),
-    thumbnailTimestampPct: Schema.optional(Schema.Number),
-    uid: Schema.optional(Schema.String),
-    uploaded: Schema.optional(Schema.String),
-    uploadExpiry: Schema.optional(Schema.String),
-    watermark: Schema.optional(Schema.Unknown),
+    thumbnail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    thumbnailTimestampPct: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploadExpiry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    watermark: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListStreamsResponse>;
 
@@ -1966,7 +2094,7 @@ export interface EditStreamResponse {
   creator?: string;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number;
-  input?: { height?: number; width?: number };
+  input?: { height?: number | null; width?: number | null };
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string;
   /** The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A val */
@@ -1975,7 +2103,7 @@ export interface EditStreamResponse {
   meta?: unknown;
   /** The date and time the media item was last modified. */
   modified?: string;
-  playback?: { dash?: string; hls?: string };
+  playback?: { dash?: string | null; hls?: string | null };
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -1990,9 +2118,9 @@ export interface EditStreamResponse {
   size?: number;
   /** Specifies a detailed status for a video. If the `state` is `inprogress` or `error`, the `step` field returns `encoding` or `manifest`. If the `state` is `inprogress`, `pctComplete` returns a number be */
   status?: {
-    errorReasonCode?: string;
-    errorReasonText?: string;
-    pctComplete?: string;
+    errorReasonCode?: string | null;
+    errorReasonText?: string | null;
+    pctComplete?: string | null;
     state?:
       | "pendingupload"
       | "downloading"
@@ -2000,7 +2128,8 @@ export interface EditStreamResponse {
       | "inprogress"
       | "ready"
       | "error"
-      | "live-inprogress";
+      | "live-inprogress"
+      | null;
   };
   /** The media item's thumbnail URI. This field is omitted until encoding is complete. */
   thumbnail?: string;
@@ -2016,56 +2145,84 @@ export interface EditStreamResponse {
 }
 
 export const EditStreamResponse = Schema.Struct({
-  allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
-  created: Schema.optional(Schema.String),
-  creator: Schema.optional(Schema.String),
-  duration: Schema.optional(Schema.Number),
+  allowedOrigins: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   input: Schema.optional(
-    Schema.Struct({
-      height: Schema.optional(Schema.Number),
-      width: Schema.optional(Schema.Number),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  liveInput: Schema.optional(Schema.String),
-  maxDurationSeconds: Schema.optional(Schema.Number),
-  meta: Schema.optional(Schema.Unknown),
-  modified: Schema.optional(Schema.String),
+  liveInput: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  maxDurationSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   playback: Schema.optional(
-    Schema.Struct({
-      dash: Schema.optional(Schema.String),
-      hls: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        dash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        hls: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  preview: Schema.optional(Schema.String),
-  readyToStream: Schema.optional(Schema.Boolean),
-  readyToStreamAt: Schema.optional(Schema.String),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  scheduledDeletion: Schema.optional(Schema.String),
-  size: Schema.optional(Schema.Number),
+  preview: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  readyToStream: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  readyToStreamAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  scheduledDeletion: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   status: Schema.optional(
-    Schema.Struct({
-      errorReasonCode: Schema.optional(Schema.String),
-      errorReasonText: Schema.optional(Schema.String),
-      pctComplete: Schema.optional(Schema.String),
-      state: Schema.optional(
-        Schema.Literals([
-          "pendingupload",
-          "downloading",
-          "queued",
-          "inprogress",
-          "ready",
-          "error",
-          "live-inprogress",
-        ]),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        errorReasonCode: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        errorReasonText: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        pctComplete: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        state: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "pendingupload",
+              "downloading",
+              "queued",
+              "inprogress",
+              "ready",
+              "error",
+              "live-inprogress",
+            ]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  thumbnail: Schema.optional(Schema.String),
-  thumbnailTimestampPct: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  uploaded: Schema.optional(Schema.String),
-  uploadExpiry: Schema.optional(Schema.String),
-  watermark: Schema.optional(Schema.Unknown),
+  thumbnail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  thumbnailTimestampPct: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadExpiry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  watermark: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }) as unknown as Schema.Schema<EditStreamResponse>;
 
 export type EditStreamError = CommonErrors;
@@ -2141,7 +2298,7 @@ export interface CreateTokenResponse {
 }
 
 export const CreateTokenResponse = Schema.Struct({
-  token: Schema.optional(Schema.String),
+  token: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export type CreateTokenError = CommonErrors;
@@ -2190,10 +2347,14 @@ export interface StorageUsageVideoResponse {
 }
 
 export const StorageUsageVideoResponse = Schema.Struct({
-  creator: Schema.optional(Schema.String),
-  totalStorageMinutes: Schema.optional(Schema.Number),
-  totalStorageMinutesLimit: Schema.optional(Schema.Number),
-  videoCount: Schema.optional(Schema.Number),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  totalStorageMinutes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  totalStorageMinutesLimit: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  videoCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<StorageUsageVideoResponse>;
 
 export type StorageUsageVideoError = CommonErrors;
@@ -2255,17 +2416,17 @@ export interface GetWatermarkResponse {
 }
 
 export const GetWatermarkResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  downloadedFrom: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  opacity: Schema.optional(Schema.Number),
-  padding: Schema.optional(Schema.Number),
-  position: Schema.optional(Schema.String),
-  scale: Schema.optional(Schema.Number),
-  size: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  downloadedFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  opacity: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  padding: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  position: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  scale: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetWatermarkResponse>;
 
 export type GetWatermarkError = CommonErrors;
@@ -2293,32 +2454,32 @@ export const ListWatermarksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListWatermarksRequest>;
 
 export type ListWatermarksResponse = {
-  created?: string;
-  downloadedFrom?: string;
-  height?: number;
-  name?: string;
-  opacity?: number;
-  padding?: number;
-  position?: string;
-  scale?: number;
-  size?: number;
-  uid?: string;
-  width?: number;
+  created?: string | null;
+  downloadedFrom?: string | null;
+  height?: number | null;
+  name?: string | null;
+  opacity?: number | null;
+  padding?: number | null;
+  position?: string | null;
+  scale?: number | null;
+  size?: number | null;
+  uid?: string | null;
+  width?: number | null;
 }[];
 
 export const ListWatermarksResponse = Schema.Array(
   Schema.Struct({
-    created: Schema.optional(Schema.String),
-    downloadedFrom: Schema.optional(Schema.String),
-    height: Schema.optional(Schema.Number),
-    name: Schema.optional(Schema.String),
-    opacity: Schema.optional(Schema.Number),
-    padding: Schema.optional(Schema.Number),
-    position: Schema.optional(Schema.String),
-    scale: Schema.optional(Schema.Number),
-    size: Schema.optional(Schema.Number),
-    uid: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    downloadedFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    opacity: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    padding: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    position: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    scale: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListWatermarksResponse>;
 
@@ -2361,7 +2522,11 @@ export const CreateWatermarkRequest = Schema.Struct({
   position: Schema.optional(Schema.String),
   scale: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/watermarks" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/watermarks",
+    contentType: "multipart",
+  }),
 ) as unknown as Schema.Schema<CreateWatermarkRequest>;
 
 export interface CreateWatermarkResponse {
@@ -2390,17 +2555,17 @@ export interface CreateWatermarkResponse {
 }
 
 export const CreateWatermarkResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  downloadedFrom: Schema.optional(Schema.String),
-  height: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  opacity: Schema.optional(Schema.Number),
-  padding: Schema.optional(Schema.Number),
-  position: Schema.optional(Schema.String),
-  scale: Schema.optional(Schema.Number),
-  size: Schema.optional(Schema.Number),
-  uid: Schema.optional(Schema.String),
-  width: Schema.optional(Schema.Number),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  downloadedFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  height: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  opacity: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  padding: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  position: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  scale: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  size: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  width: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<CreateWatermarkResponse>;
 
 export type CreateWatermarkError = CommonErrors;

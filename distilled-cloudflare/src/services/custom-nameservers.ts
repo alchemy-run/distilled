@@ -34,25 +34,27 @@ export const GetCustomNameserverRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCustomNameserverRequest>;
 
 export type GetCustomNameserverResponse = {
-  dnsRecords: { type?: "A" | "AAAA"; value?: string }[];
+  dnsRecords: { type?: "A" | "AAAA" | null; value?: string | null }[];
   nsName: string;
   status: "moved" | "pending" | "verified";
   zoneTag: string;
-  nsSet?: number;
+  nsSet?: number | null;
 }[];
 
 export const GetCustomNameserverResponse = Schema.Array(
   Schema.Struct({
     dnsRecords: Schema.Array(
       Schema.Struct({
-        type: Schema.optional(Schema.Literals(["A", "AAAA"])),
-        value: Schema.optional(Schema.String),
+        type: Schema.optional(
+          Schema.Union([Schema.Literals(["A", "AAAA"]), Schema.Null]),
+        ),
+        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),
     nsName: Schema.String,
     status: Schema.Literals(["moved", "pending", "verified"]),
     zoneTag: Schema.String,
-    nsSet: Schema.optional(Schema.Number),
+    nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       dnsRecords: "dns_records",
@@ -97,7 +99,7 @@ export const CreateCustomNameserverRequest = Schema.Struct({
 
 export interface CreateCustomNameserverResponse {
   /** A and AAAA records associated with the nameserver. */
-  dnsRecords: { type?: "A" | "AAAA"; value?: string }[];
+  dnsRecords: { type?: "A" | "AAAA" | null; value?: string | null }[];
   /** The FQDN of the name server. */
   nsName: string;
   /** @deprecated Verification status of the nameserver. */
@@ -111,14 +113,16 @@ export interface CreateCustomNameserverResponse {
 export const CreateCustomNameserverResponse = Schema.Struct({
   dnsRecords: Schema.Array(
     Schema.Struct({
-      type: Schema.optional(Schema.Literals(["A", "AAAA"])),
-      value: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literals(["A", "AAAA"]), Schema.Null]),
+      ),
+      value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   nsName: Schema.String,
   status: Schema.Literals(["moved", "pending", "verified"]),
   zoneTag: Schema.String,
-  nsSet: Schema.optional(Schema.Number),
+  nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     dnsRecords: "dns_records",
@@ -153,7 +157,7 @@ export const DeleteCustomNameserverRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "DELETE",
     path: "/accounts/{account_id}/custom_ns/{customNSId}",
   }),
 ) as unknown as Schema.Schema<DeleteCustomNameserverRequest>;

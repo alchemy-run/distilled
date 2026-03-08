@@ -36,17 +36,17 @@ export const ListAppsRequest = Schema.Struct({
 export type ListAppsResponse = (
   | {
       accountAppId: string;
-      hostnames?: string[];
-      ipSubnets?: string[];
-      name?: string;
-      type?: string;
+      hostnames?: string[] | null;
+      ipSubnets?: string[] | null;
+      name?: string | null;
+      type?: string | null;
     }
   | {
       managedAppId: string;
-      hostnames?: string[];
-      ipSubnets?: string[];
-      name?: string;
-      type?: string;
+      hostnames?: string[] | null;
+      ipSubnets?: string[] | null;
+      name?: string | null;
+      type?: string | null;
     }
 )[];
 
@@ -54,10 +54,14 @@ export const ListAppsResponse = Schema.Array(
   Schema.Union([
     Schema.Struct({
       accountAppId: Schema.String,
-      hostnames: Schema.optional(Schema.Array(Schema.String)),
-      ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-      name: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
+      hostnames: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      ipSubnets: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         accountAppId: "account_app_id",
@@ -69,10 +73,14 @@ export const ListAppsResponse = Schema.Array(
     ),
     Schema.Struct({
       managedAppId: Schema.String,
-      hostnames: Schema.optional(Schema.Array(Schema.String)),
-      ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-      name: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
+      hostnames: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      ipSubnets: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         managedAppId: "managed_app_id",
@@ -142,10 +150,14 @@ export interface CreateAppResponse {
 
 export const CreateAppResponse = Schema.Struct({
   accountAppId: Schema.String,
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  ipSubnets: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
@@ -218,10 +230,14 @@ export interface UpdateAppResponse {
 
 export const UpdateAppResponse = Schema.Struct({
   accountAppId: Schema.String,
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  ipSubnets: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
@@ -294,10 +310,14 @@ export interface PatchAppResponse {
 
 export const PatchAppResponse = Schema.Struct({
   accountAppId: Schema.String,
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  ipSubnets: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
@@ -352,10 +372,14 @@ export interface DeleteAppResponse {
 
 export const DeleteAppResponse = Schema.Struct({
   accountAppId: Schema.String,
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  ipSubnets: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.String),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  ipSubnets: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
@@ -406,58 +430,76 @@ export const GetCfInterconnectRequest = Schema.Struct({
 
 export interface GetCfInterconnectResponse {
   interconnect?: {
-    id?: string;
-    automaticReturnRouting?: boolean;
-    coloName?: string;
-    createdOn?: string;
-    description?: string;
-    gre?: { cloudflareEndpoint?: string };
-    healthCheck?: unknown;
-    interfaceAddress?: string;
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    name?: string;
+    id?: string | null;
+    automaticReturnRouting?: boolean | null;
+    coloName?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    gre?: { cloudflareEndpoint?: string | null } | null;
+    healthCheck?: unknown | null;
+    interfaceAddress?: string | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    name?: string | null;
   };
 }
 
 export const GetCfInterconnectResponse = Schema.Struct({
   interconnect: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      coloName: Schema.optional(Schema.String),
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      gre: Schema.optional(
-        Schema.Struct({
-          cloudflareEndpoint: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
+        coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        gre: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              cloudflareEndpoint: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        interfaceAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          automaticReturnRouting: "automatic_return_routing",
+          coloName: "colo_name",
+          createdOn: "created_on",
+          description: "description",
+          gre: "gre",
+          healthCheck: "health_check",
+          interfaceAddress: "interface_address",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          mtu: "mtu",
+          name: "name",
+        }),
       ),
-      healthCheck: Schema.optional(Schema.Unknown),
-      interfaceAddress: Schema.optional(Schema.String),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      mtu: Schema.optional(Schema.Number),
-      name: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        automaticReturnRouting: "automatic_return_routing",
-        coloName: "colo_name",
-        createdOn: "created_on",
-        description: "description",
-        gre: "gre",
-        healthCheck: "health_check",
-        interfaceAddress: "interface_address",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        mtu: "mtu",
-        name: "name",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetCfInterconnectResponse>;
 
@@ -495,60 +537,84 @@ export const ListCfInterconnectsRequest = Schema.Struct({
 
 export interface ListCfInterconnectsResponse {
   interconnects?: {
-    id?: string;
-    automaticReturnRouting?: boolean;
-    coloName?: string;
-    createdOn?: string;
-    description?: string;
-    gre?: { cloudflareEndpoint?: string };
-    healthCheck?: unknown;
-    interfaceAddress?: string;
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    name?: string;
+    id?: string | null;
+    automaticReturnRouting?: boolean | null;
+    coloName?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    gre?: { cloudflareEndpoint?: string | null } | null;
+    healthCheck?: unknown | null;
+    interfaceAddress?: string | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    name?: string | null;
   }[];
 }
 
 export const ListCfInterconnectsResponse = Schema.Struct({
   interconnects: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        coloName: Schema.optional(Schema.String),
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        gre: Schema.optional(
-          Schema.Struct({
-            cloudflareEndpoint: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
+          coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          gre: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                cloudflareEndpoint: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  cloudflareEndpoint: "cloudflare_endpoint",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          interfaceAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            automaticReturnRouting: "automatic_return_routing",
+            coloName: "colo_name",
+            createdOn: "created_on",
+            description: "description",
+            gre: "gre",
+            healthCheck: "health_check",
+            interfaceAddress: "interface_address",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            mtu: "mtu",
+            name: "name",
+          }),
         ),
-        healthCheck: Schema.optional(Schema.Unknown),
-        interfaceAddress: Schema.optional(Schema.String),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        mtu: Schema.optional(Schema.Number),
-        name: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          automaticReturnRouting: "automatic_return_routing",
-          coloName: "colo_name",
-          createdOn: "created_on",
-          description: "description",
-          gre: "gre",
-          healthCheck: "health_check",
-          interfaceAddress: "interface_address",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          mtu: "mtu",
-          name: "name",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListCfInterconnectsResponse>;
 
@@ -623,59 +689,77 @@ export const PutCfInterconnectRequest = Schema.Struct({
 export interface PutCfInterconnectResponse {
   modified?: boolean;
   modifiedInterconnect?: {
-    id?: string;
-    automaticReturnRouting?: boolean;
-    coloName?: string;
-    createdOn?: string;
-    description?: string;
-    gre?: { cloudflareEndpoint?: string };
-    healthCheck?: unknown;
-    interfaceAddress?: string;
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    name?: string;
+    id?: string | null;
+    automaticReturnRouting?: boolean | null;
+    coloName?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    gre?: { cloudflareEndpoint?: string | null } | null;
+    healthCheck?: unknown | null;
+    interfaceAddress?: string | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    name?: string | null;
   };
 }
 
 export const PutCfInterconnectResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedInterconnect: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      coloName: Schema.optional(Schema.String),
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      gre: Schema.optional(
-        Schema.Struct({
-          cloudflareEndpoint: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
+        coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        gre: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              cloudflareEndpoint: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        interfaceAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          automaticReturnRouting: "automatic_return_routing",
+          coloName: "colo_name",
+          createdOn: "created_on",
+          description: "description",
+          gre: "gre",
+          healthCheck: "health_check",
+          interfaceAddress: "interface_address",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          mtu: "mtu",
+          name: "name",
+        }),
       ),
-      healthCheck: Schema.optional(Schema.Unknown),
-      interfaceAddress: Schema.optional(Schema.String),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      mtu: Schema.optional(Schema.Number),
-      name: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        automaticReturnRouting: "automatic_return_routing",
-        coloName: "colo_name",
-        createdOn: "created_on",
-        description: "description",
-        gre: "gre",
-        healthCheck: "health_check",
-        interfaceAddress: "interface_address",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        mtu: "mtu",
-        name: "name",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -725,7 +809,7 @@ export interface GetConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
+  device?: { id: string; serialNumber?: string | null };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
   licenseKey?: string;
@@ -740,14 +824,19 @@ export const GetConnectorResponse = Schema.Struct({
   notes: Schema.String,
   timezone: Schema.String,
   device: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        serialNumber: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Null,
+    ]),
   ),
-  lastHeartbeat: Schema.optional(Schema.String),
-  lastSeenVersion: Schema.optional(Schema.String),
-  licenseKey: Schema.optional(Schema.String),
+  lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSeenVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -796,10 +885,10 @@ export type ListConnectorsResponse = {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
-  lastHeartbeat?: string;
-  lastSeenVersion?: string;
-  licenseKey?: string;
+  device?: { id: string; serialNumber?: string | null } | null;
+  lastHeartbeat?: string | null;
+  lastSeenVersion?: string | null;
+  licenseKey?: string | null;
 }[];
 
 export const ListConnectorsResponse = Schema.Array(
@@ -812,14 +901,21 @@ export const ListConnectorsResponse = Schema.Array(
     notes: Schema.String,
     timezone: Schema.String,
     device: Schema.optional(
-      Schema.Struct({
-        id: Schema.String,
-        serialNumber: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.String,
+          serialNumber: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+        Schema.Null,
+      ]),
     ),
-    lastHeartbeat: Schema.optional(Schema.String),
-    lastSeenVersion: Schema.optional(Schema.String),
-    licenseKey: Schema.optional(Schema.String),
+    lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastSeenVersion: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -905,7 +1001,7 @@ export interface CreateConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
+  device?: { id: string; serialNumber?: string | null };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
   licenseKey?: string;
@@ -920,14 +1016,19 @@ export const CreateConnectorResponse = Schema.Struct({
   notes: Schema.String,
   timezone: Schema.String,
   device: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        serialNumber: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Null,
+    ]),
   ),
-  lastHeartbeat: Schema.optional(Schema.String),
-  lastSeenVersion: Schema.optional(Schema.String),
-  licenseKey: Schema.optional(Schema.String),
+  lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSeenVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1007,7 +1108,7 @@ export interface UpdateConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
+  device?: { id: string; serialNumber?: string | null };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
   licenseKey?: string;
@@ -1022,14 +1123,19 @@ export const UpdateConnectorResponse = Schema.Struct({
   notes: Schema.String,
   timezone: Schema.String,
   device: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        serialNumber: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Null,
+    ]),
   ),
-  lastHeartbeat: Schema.optional(Schema.String),
-  lastSeenVersion: Schema.optional(Schema.String),
-  licenseKey: Schema.optional(Schema.String),
+  lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSeenVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1109,7 +1215,7 @@ export interface PatchConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
+  device?: { id: string; serialNumber?: string | null };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
   licenseKey?: string;
@@ -1124,14 +1230,19 @@ export const PatchConnectorResponse = Schema.Struct({
   notes: Schema.String,
   timezone: Schema.String,
   device: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        serialNumber: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Null,
+    ]),
   ),
-  lastHeartbeat: Schema.optional(Schema.String),
-  lastSeenVersion: Schema.optional(Schema.String),
-  licenseKey: Schema.optional(Schema.String),
+  lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSeenVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1185,7 +1296,7 @@ export interface DeleteConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: { id: string; serialNumber?: string };
+  device?: { id: string; serialNumber?: string | null };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
   licenseKey?: string;
@@ -1200,14 +1311,19 @@ export const DeleteConnectorResponse = Schema.Struct({
   notes: Schema.String,
   timezone: Schema.String,
   device: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        serialNumber: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
+      Schema.Null,
+    ]),
   ),
-  lastHeartbeat: Schema.optional(Schema.String),
-  lastSeenVersion: Schema.optional(Schema.String),
-  licenseKey: Schema.optional(Schema.String),
+  lastHeartbeat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSeenVersion: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  licenseKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1401,7 +1517,7 @@ export const ListConnectorEventsResponse = Schema.Struct({
       t: Schema.Number,
     }),
   ),
-  cursor: Schema.optional(Schema.String),
+  cursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<ListConnectorEventsResponse>;
 
 export type ListConnectorEventsError = CommonErrors;
@@ -1609,7 +1725,7 @@ export interface GetConnectorSnapshotResponse {
     interfaceName: string;
     ipAddress: string;
     macAddress: string;
-    connectorId?: string;
+    connectorId?: string | null;
   }[];
   disks?: {
     inProgress: number;
@@ -1626,13 +1742,13 @@ export interface GetConnectorSnapshotResponse {
     weightedTimeInProgressMs: number;
     writes: number;
     writesMerged: number;
-    connectorId?: string;
-    discards?: number;
-    discardsMerged?: number;
-    flushes?: number;
-    sectorsDiscarded?: number;
-    timeDiscardingMs?: number;
-    timeFlushingMs?: number;
+    connectorId?: string | null;
+    discards?: number | null;
+    discardsMerged?: number | null;
+    flushes?: number | null;
+    sectorsDiscarded?: number | null;
+    timeDiscardingMs?: number | null;
+    timeFlushingMs?: number | null;
   }[];
   /** Name of high availability state */
   haState?: string;
@@ -1641,13 +1757,15 @@ export interface GetConnectorSnapshotResponse {
   interfaces?: {
     name: string;
     operstate: string;
-    connectorId?: string;
-    ipAddresses?: {
-      interfaceName: string;
-      ipAddress: string;
-      connectorId?: string;
-    }[];
-    speed?: number;
+    connectorId?: string | null;
+    ipAddresses?:
+      | {
+          interfaceName: string;
+          ipAddress: string;
+          connectorId?: string | null;
+        }[]
+      | null;
+    speed?: number | null;
   }[];
   /** Percentage of time over a 10 second window that all tasks were stalled */
   ioPressureFull_10s?: number;
@@ -1798,11 +1916,11 @@ export interface GetConnectorSnapshotResponse {
     kind: string;
     mountPoint: string;
     name: string;
-    availableBytes?: number;
-    connectorId?: string;
-    isReadOnly?: boolean;
-    isRemovable?: boolean;
-    totalBytes?: number;
+    availableBytes?: number | null;
+    connectorId?: string | null;
+    isReadOnly?: boolean | null;
+    isRemovable?: boolean | null;
+    totalBytes?: number | null;
   }[];
   netdevs?: {
     name: string;
@@ -1822,7 +1940,7 @@ export interface GetConnectorSnapshotResponse {
     sentErrs: number;
     sentFifo: number;
     sentPackets: number;
-    connectorId?: string;
+    connectorId?: string | null;
   }[];
   /** Number of ICMP Address Mask Reply messages received */
   snmpIcmpInAddrMaskReps?: number;
@@ -1956,18 +2074,18 @@ export interface GetConnectorSnapshotResponse {
   systemBootTimeS?: number;
   thermals?: {
     label: string;
-    connectorId?: string;
-    criticalCelcius?: number;
-    currentCelcius?: number;
-    maxCelcius?: number;
+    connectorId?: string | null;
+    criticalCelcius?: number | null;
+    currentCelcius?: number | null;
+    maxCelcius?: number | null;
   }[];
   tunnels?: {
     healthState: string;
     healthValue: number;
     interfaceName: string;
     tunnelId: string;
-    connectorId?: string;
-    probedMtu?: number;
+    connectorId?: string | null;
+    probedMtu?: number | null;
   }[];
   /** Sum of how much time each core has spent idle */
   uptimeIdleMs?: number;
@@ -1983,388 +2101,655 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
   t: Schema.Number,
   v: Schema.String,
   bonds: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        status: Schema.String,
-      }),
-    ),
-  ),
-  cpuCount: Schema.optional(Schema.Number),
-  cpuPressure_10s: Schema.optional(Schema.Number),
-  cpuPressure_300s: Schema.optional(Schema.Number),
-  cpuPressure_60s: Schema.optional(Schema.Number),
-  cpuPressureTotalUs: Schema.optional(Schema.Number),
-  cpuTimeGuestMs: Schema.optional(Schema.Number),
-  cpuTimeGuestNiceMs: Schema.optional(Schema.Number),
-  cpuTimeIdleMs: Schema.optional(Schema.Number),
-  cpuTimeIowaitMs: Schema.optional(Schema.Number),
-  cpuTimeIrqMs: Schema.optional(Schema.Number),
-  cpuTimeNiceMs: Schema.optional(Schema.Number),
-  cpuTimeSoftirqMs: Schema.optional(Schema.Number),
-  cpuTimeStealMs: Schema.optional(Schema.Number),
-  cpuTimeSystemMs: Schema.optional(Schema.Number),
-  cpuTimeUserMs: Schema.optional(Schema.Number),
-  dhcpLeases: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        clientId: Schema.String,
-        expiryTime: Schema.Number,
-        hostname: Schema.String,
-        interfaceName: Schema.String,
-        ipAddress: Schema.String,
-        macAddress: Schema.String,
-        connectorId: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          clientId: "client_id",
-          expiryTime: "expiry_time",
-          hostname: "hostname",
-          interfaceName: "interface_name",
-          ipAddress: "ip_address",
-          macAddress: "mac_address",
-          connectorId: "connector_id",
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          status: Schema.String,
         }),
       ),
-    ),
+      Schema.Null,
+    ]),
+  ),
+  cpuCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuPressure_10s: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuPressure_300s: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuPressure_60s: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuPressureTotalUs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  cpuTimeGuestMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeGuestNiceMs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  cpuTimeIdleMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeIowaitMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeIrqMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeNiceMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeSoftirqMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeStealMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeSystemMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cpuTimeUserMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  dhcpLeases: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          clientId: Schema.String,
+          expiryTime: Schema.Number,
+          hostname: Schema.String,
+          interfaceName: Schema.String,
+          ipAddress: Schema.String,
+          macAddress: Schema.String,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            clientId: "client_id",
+            expiryTime: "expiry_time",
+            hostname: "hostname",
+            interfaceName: "interface_name",
+            ipAddress: "ip_address",
+            macAddress: "mac_address",
+            connectorId: "connector_id",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
   ),
   disks: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        inProgress: Schema.Number,
-        major: Schema.Number,
-        merged: Schema.Number,
-        minor: Schema.Number,
-        name: Schema.String,
-        reads: Schema.Number,
-        sectorsRead: Schema.Number,
-        sectorsWritten: Schema.Number,
-        timeInProgressMs: Schema.Number,
-        timeReadingMs: Schema.Number,
-        timeWritingMs: Schema.Number,
-        weightedTimeInProgressMs: Schema.Number,
-        writes: Schema.Number,
-        writesMerged: Schema.Number,
-        connectorId: Schema.optional(Schema.String),
-        discards: Schema.optional(Schema.Number),
-        discardsMerged: Schema.optional(Schema.Number),
-        flushes: Schema.optional(Schema.Number),
-        sectorsDiscarded: Schema.optional(Schema.Number),
-        timeDiscardingMs: Schema.optional(Schema.Number),
-        timeFlushingMs: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          inProgress: "in_progress",
-          major: "major",
-          merged: "merged",
-          minor: "minor",
-          name: "name",
-          reads: "reads",
-          sectorsRead: "sectors_read",
-          sectorsWritten: "sectors_written",
-          timeInProgressMs: "time_in_progress_ms",
-          timeReadingMs: "time_reading_ms",
-          timeWritingMs: "time_writing_ms",
-          weightedTimeInProgressMs: "weighted_time_in_progress_ms",
-          writes: "writes",
-          writesMerged: "writes_merged",
-          connectorId: "connector_id",
-          discards: "discards",
-          discardsMerged: "discards_merged",
-          flushes: "flushes",
-          sectorsDiscarded: "sectors_discarded",
-          timeDiscardingMs: "time_discarding_ms",
-          timeFlushingMs: "time_flushing_ms",
-        }),
-      ),
-    ),
-  ),
-  haState: Schema.optional(Schema.String),
-  haValue: Schema.optional(Schema.Number),
-  interfaces: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        operstate: Schema.String,
-        connectorId: Schema.optional(Schema.String),
-        ipAddresses: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              interfaceName: Schema.String,
-              ipAddress: Schema.String,
-              connectorId: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                interfaceName: "interface_name",
-                ipAddress: "ip_address",
-                connectorId: "connector_id",
-              }),
-            ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          inProgress: Schema.Number,
+          major: Schema.Number,
+          merged: Schema.Number,
+          minor: Schema.Number,
+          name: Schema.String,
+          reads: Schema.Number,
+          sectorsRead: Schema.Number,
+          sectorsWritten: Schema.Number,
+          timeInProgressMs: Schema.Number,
+          timeReadingMs: Schema.Number,
+          timeWritingMs: Schema.Number,
+          weightedTimeInProgressMs: Schema.Number,
+          writes: Schema.Number,
+          writesMerged: Schema.Number,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
           ),
+          discards: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          discardsMerged: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          flushes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          sectorsDiscarded: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          timeDiscardingMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          timeFlushingMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            inProgress: "in_progress",
+            major: "major",
+            merged: "merged",
+            minor: "minor",
+            name: "name",
+            reads: "reads",
+            sectorsRead: "sectors_read",
+            sectorsWritten: "sectors_written",
+            timeInProgressMs: "time_in_progress_ms",
+            timeReadingMs: "time_reading_ms",
+            timeWritingMs: "time_writing_ms",
+            weightedTimeInProgressMs: "weighted_time_in_progress_ms",
+            writes: "writes",
+            writesMerged: "writes_merged",
+            connectorId: "connector_id",
+            discards: "discards",
+            discardsMerged: "discards_merged",
+            flushes: "flushes",
+            sectorsDiscarded: "sectors_discarded",
+            timeDiscardingMs: "time_discarding_ms",
+            timeFlushingMs: "time_flushing_ms",
+          }),
         ),
-        speed: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          name: "name",
-          operstate: "operstate",
-          connectorId: "connector_id",
-          ipAddresses: "ip_addresses",
-          speed: "speed",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
-  ioPressureFull_10s: Schema.optional(Schema.Number),
-  ioPressureFull_300s: Schema.optional(Schema.Number),
-  ioPressureFull_60s: Schema.optional(Schema.Number),
-  ioPressureFullTotalUs: Schema.optional(Schema.Number),
-  ioPressureSome_10s: Schema.optional(Schema.Number),
-  ioPressureSome_300s: Schema.optional(Schema.Number),
-  ioPressureSome_60s: Schema.optional(Schema.Number),
-  ioPressureSomeTotalUs: Schema.optional(Schema.Number),
-  kernelBtime: Schema.optional(Schema.Number),
-  kernelCtxt: Schema.optional(Schema.Number),
-  kernelProcesses: Schema.optional(Schema.Number),
-  kernelProcessesBlocked: Schema.optional(Schema.Number),
-  kernelProcessesRunning: Schema.optional(Schema.Number),
-  loadAverage_15m: Schema.optional(Schema.Number),
-  loadAverage_1m: Schema.optional(Schema.Number),
-  loadAverage_5m: Schema.optional(Schema.Number),
-  loadAverageCur: Schema.optional(Schema.Number),
-  loadAverageMax: Schema.optional(Schema.Number),
-  memoryActiveBytes: Schema.optional(Schema.Number),
-  memoryAnonHugepagesBytes: Schema.optional(Schema.Number),
-  memoryAnonPagesBytes: Schema.optional(Schema.Number),
-  memoryAvailableBytes: Schema.optional(Schema.Number),
-  memoryBounceBytes: Schema.optional(Schema.Number),
-  memoryBuffersBytes: Schema.optional(Schema.Number),
-  memoryCachedBytes: Schema.optional(Schema.Number),
-  memoryCmaFreeBytes: Schema.optional(Schema.Number),
-  memoryCmaTotalBytes: Schema.optional(Schema.Number),
-  memoryCommitLimitBytes: Schema.optional(Schema.Number),
-  memoryCommittedAsBytes: Schema.optional(Schema.Number),
-  memoryDirtyBytes: Schema.optional(Schema.Number),
-  memoryFreeBytes: Schema.optional(Schema.Number),
-  memoryHighFreeBytes: Schema.optional(Schema.Number),
-  memoryHighTotalBytes: Schema.optional(Schema.Number),
-  memoryHugepagesFree: Schema.optional(Schema.Number),
-  memoryHugepagesRsvd: Schema.optional(Schema.Number),
-  memoryHugepagesSurp: Schema.optional(Schema.Number),
-  memoryHugepagesTotal: Schema.optional(Schema.Number),
-  memoryHugepagesizeBytes: Schema.optional(Schema.Number),
-  memoryInactiveBytes: Schema.optional(Schema.Number),
-  memoryKReclaimableBytes: Schema.optional(Schema.Number),
-  memoryKernelStackBytes: Schema.optional(Schema.Number),
-  memoryLowFreeBytes: Schema.optional(Schema.Number),
-  memoryLowTotalBytes: Schema.optional(Schema.Number),
-  memoryMappedBytes: Schema.optional(Schema.Number),
-  memoryPageTablesBytes: Schema.optional(Schema.Number),
-  memoryPerCpuBytes: Schema.optional(Schema.Number),
-  memoryPressureFull_10s: Schema.optional(Schema.Number),
-  memoryPressureFull_300s: Schema.optional(Schema.Number),
-  memoryPressureFull_60s: Schema.optional(Schema.Number),
-  memoryPressureFullTotalUs: Schema.optional(Schema.Number),
-  memoryPressureSome_10s: Schema.optional(Schema.Number),
-  memoryPressureSome_300s: Schema.optional(Schema.Number),
-  memoryPressureSome_60s: Schema.optional(Schema.Number),
-  memoryPressureSomeTotalUs: Schema.optional(Schema.Number),
-  memorySReclaimableBytes: Schema.optional(Schema.Number),
-  memorySUnreclaimBytes: Schema.optional(Schema.Number),
-  memorySecondaryPageTablesBytes: Schema.optional(Schema.Number),
-  memoryShmemBytes: Schema.optional(Schema.Number),
-  memoryShmemHugepagesBytes: Schema.optional(Schema.Number),
-  memoryShmemPmdMappedBytes: Schema.optional(Schema.Number),
-  memorySlabBytes: Schema.optional(Schema.Number),
-  memorySwapCachedBytes: Schema.optional(Schema.Number),
-  memorySwapFreeBytes: Schema.optional(Schema.Number),
-  memorySwapTotalBytes: Schema.optional(Schema.Number),
-  memoryTotalBytes: Schema.optional(Schema.Number),
-  memoryVmallocChunkBytes: Schema.optional(Schema.Number),
-  memoryVmallocTotalBytes: Schema.optional(Schema.Number),
-  memoryVmallocUsedBytes: Schema.optional(Schema.Number),
-  memoryWritebackBytes: Schema.optional(Schema.Number),
-  memoryWritebackTmpBytes: Schema.optional(Schema.Number),
-  memoryZSwapBytes: Schema.optional(Schema.Number),
-  memoryZSwappedBytes: Schema.optional(Schema.Number),
-  mounts: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        fileSystem: Schema.String,
-        kind: Schema.String,
-        mountPoint: Schema.String,
-        name: Schema.String,
-        availableBytes: Schema.optional(Schema.Number),
-        connectorId: Schema.optional(Schema.String),
-        isReadOnly: Schema.optional(Schema.Boolean),
-        isRemovable: Schema.optional(Schema.Boolean),
-        totalBytes: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          fileSystem: "file_system",
-          kind: "kind",
-          mountPoint: "mount_point",
-          name: "name",
-          availableBytes: "available_bytes",
-          connectorId: "connector_id",
-          isReadOnly: "is_read_only",
-          isRemovable: "is_removable",
-          totalBytes: "total_bytes",
-        }),
+  haState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haValue: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  interfaces: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          operstate: Schema.String,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          ipAddresses: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  interfaceName: Schema.String,
+                  ipAddress: Schema.String,
+                  connectorId: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    interfaceName: "interface_name",
+                    ipAddress: "ip_address",
+                    connectorId: "connector_id",
+                  }),
+                ),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          speed: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            operstate: "operstate",
+            connectorId: "connector_id",
+            ipAddresses: "ip_addresses",
+            speed: "speed",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
+  ),
+  ioPressureFull_10s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureFull_300s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureFull_60s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureFullTotalUs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureSome_10s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureSome_300s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureSome_60s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  ioPressureSomeTotalUs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kernelBtime: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  kernelCtxt: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  kernelProcesses: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  kernelProcessesBlocked: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kernelProcessesRunning: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  loadAverage_15m: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  loadAverage_1m: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  loadAverage_5m: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  loadAverageCur: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  loadAverageMax: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryActiveBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryAnonHugepagesBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryAnonPagesBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryAvailableBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryBounceBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryBuffersBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryCachedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryCmaFreeBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryCmaTotalBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryCommitLimitBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryCommittedAsBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryDirtyBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryFreeBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryHighFreeBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHighTotalBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHugepagesFree: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHugepagesRsvd: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHugepagesSurp: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHugepagesTotal: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryHugepagesizeBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryInactiveBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryKReclaimableBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryKernelStackBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryLowFreeBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryLowTotalBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryMappedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPageTablesBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPerCpuBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureFull_10s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureFull_300s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureFull_60s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureFullTotalUs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureSome_10s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureSome_300s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureSome_60s: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryPressureSomeTotalUs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySReclaimableBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySUnreclaimBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySecondaryPageTablesBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryShmemBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryShmemHugepagesBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryShmemPmdMappedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySlabBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memorySwapCachedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySwapFreeBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memorySwapTotalBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryTotalBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryVmallocChunkBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryVmallocTotalBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryVmallocUsedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryWritebackBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryWritebackTmpBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  memoryZSwapBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  memoryZSwappedBytes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  mounts: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          fileSystem: Schema.String,
+          kind: Schema.String,
+          mountPoint: Schema.String,
+          name: Schema.String,
+          availableBytes: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          isReadOnly: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          isRemovable: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          totalBytes: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            fileSystem: "file_system",
+            kind: "kind",
+            mountPoint: "mount_point",
+            name: "name",
+            availableBytes: "available_bytes",
+            connectorId: "connector_id",
+            isReadOnly: "is_read_only",
+            isRemovable: "is_removable",
+            totalBytes: "total_bytes",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
   ),
   netdevs: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        recvBytes: Schema.Number,
-        recvCompressed: Schema.Number,
-        recvDrop: Schema.Number,
-        recvErrs: Schema.Number,
-        recvFifo: Schema.Number,
-        recvFrame: Schema.Number,
-        recvMulticast: Schema.Number,
-        recvPackets: Schema.Number,
-        sentBytes: Schema.Number,
-        sentCarrier: Schema.Number,
-        sentColls: Schema.Number,
-        sentCompressed: Schema.Number,
-        sentDrop: Schema.Number,
-        sentErrs: Schema.Number,
-        sentFifo: Schema.Number,
-        sentPackets: Schema.Number,
-        connectorId: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          name: "name",
-          recvBytes: "recv_bytes",
-          recvCompressed: "recv_compressed",
-          recvDrop: "recv_drop",
-          recvErrs: "recv_errs",
-          recvFifo: "recv_fifo",
-          recvFrame: "recv_frame",
-          recvMulticast: "recv_multicast",
-          recvPackets: "recv_packets",
-          sentBytes: "sent_bytes",
-          sentCarrier: "sent_carrier",
-          sentColls: "sent_colls",
-          sentCompressed: "sent_compressed",
-          sentDrop: "sent_drop",
-          sentErrs: "sent_errs",
-          sentFifo: "sent_fifo",
-          sentPackets: "sent_packets",
-          connectorId: "connector_id",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          recvBytes: Schema.Number,
+          recvCompressed: Schema.Number,
+          recvDrop: Schema.Number,
+          recvErrs: Schema.Number,
+          recvFifo: Schema.Number,
+          recvFrame: Schema.Number,
+          recvMulticast: Schema.Number,
+          recvPackets: Schema.Number,
+          sentBytes: Schema.Number,
+          sentCarrier: Schema.Number,
+          sentColls: Schema.Number,
+          sentCompressed: Schema.Number,
+          sentDrop: Schema.Number,
+          sentErrs: Schema.Number,
+          sentFifo: Schema.Number,
+          sentPackets: Schema.Number,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            recvBytes: "recv_bytes",
+            recvCompressed: "recv_compressed",
+            recvDrop: "recv_drop",
+            recvErrs: "recv_errs",
+            recvFifo: "recv_fifo",
+            recvFrame: "recv_frame",
+            recvMulticast: "recv_multicast",
+            recvPackets: "recv_packets",
+            sentBytes: "sent_bytes",
+            sentCarrier: "sent_carrier",
+            sentColls: "sent_colls",
+            sentCompressed: "sent_compressed",
+            sentDrop: "sent_drop",
+            sentErrs: "sent_errs",
+            sentFifo: "sent_fifo",
+            sentPackets: "sent_packets",
+            connectorId: "connector_id",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
-  snmpIcmpInAddrMaskReps: Schema.optional(Schema.Number),
-  snmpIcmpInAddrMasks: Schema.optional(Schema.Number),
-  snmpIcmpInCsumErrors: Schema.optional(Schema.Number),
-  snmpIcmpInDestUnreachs: Schema.optional(Schema.Number),
-  snmpIcmpInEchoReps: Schema.optional(Schema.Number),
-  snmpIcmpInEchos: Schema.optional(Schema.Number),
-  snmpIcmpInErrors: Schema.optional(Schema.Number),
-  snmpIcmpInMsgs: Schema.optional(Schema.Number),
-  snmpIcmpInParmProbs: Schema.optional(Schema.Number),
-  snmpIcmpInRedirects: Schema.optional(Schema.Number),
-  snmpIcmpInSrcQuenchs: Schema.optional(Schema.Number),
-  snmpIcmpInTimeExcds: Schema.optional(Schema.Number),
-  snmpIcmpInTimestampReps: Schema.optional(Schema.Number),
-  snmpIcmpInTimestamps: Schema.optional(Schema.Number),
-  snmpIcmpOutAddrMaskReps: Schema.optional(Schema.Number),
-  snmpIcmpOutAddrMasks: Schema.optional(Schema.Number),
-  snmpIcmpOutDestUnreachs: Schema.optional(Schema.Number),
-  snmpIcmpOutEchoReps: Schema.optional(Schema.Number),
-  snmpIcmpOutEchos: Schema.optional(Schema.Number),
-  snmpIcmpOutErrors: Schema.optional(Schema.Number),
-  snmpIcmpOutMsgs: Schema.optional(Schema.Number),
-  snmpIcmpOutParmProbs: Schema.optional(Schema.Number),
-  snmpIcmpOutRedirects: Schema.optional(Schema.Number),
-  snmpIcmpOutSrcQuenchs: Schema.optional(Schema.Number),
-  snmpIcmpOutTimeExcds: Schema.optional(Schema.Number),
-  snmpIcmpOutTimestampReps: Schema.optional(Schema.Number),
-  snmpIcmpOutTimestamps: Schema.optional(Schema.Number),
-  snmpIpDefaultTtl: Schema.optional(Schema.Number),
-  snmpIpForwDatagrams: Schema.optional(Schema.Number),
-  snmpIpForwardingEnabled: Schema.optional(Schema.Boolean),
-  snmpIpFragCreates: Schema.optional(Schema.Number),
-  snmpIpFragFails: Schema.optional(Schema.Number),
-  snmpIpFragOks: Schema.optional(Schema.Number),
-  snmpIpInAddrErrors: Schema.optional(Schema.Number),
-  snmpIpInDelivers: Schema.optional(Schema.Number),
-  snmpIpInDiscards: Schema.optional(Schema.Number),
-  snmpIpInHdrErrors: Schema.optional(Schema.Number),
-  snmpIpInReceives: Schema.optional(Schema.Number),
-  snmpIpInUnknownProtos: Schema.optional(Schema.Number),
-  snmpIpOutDiscards: Schema.optional(Schema.Number),
-  snmpIpOutNoRoutes: Schema.optional(Schema.Number),
-  snmpIpOutRequests: Schema.optional(Schema.Number),
-  snmpIpReasmFails: Schema.optional(Schema.Number),
-  snmpIpReasmOks: Schema.optional(Schema.Number),
-  snmpIpReasmReqds: Schema.optional(Schema.Number),
-  snmpIpReasmTimeout: Schema.optional(Schema.Number),
-  snmpTcpActiveOpens: Schema.optional(Schema.Number),
-  snmpTcpAttemptFails: Schema.optional(Schema.Number),
-  snmpTcpCurrEstab: Schema.optional(Schema.Number),
-  snmpTcpEstabResets: Schema.optional(Schema.Number),
-  snmpTcpInCsumErrors: Schema.optional(Schema.Number),
-  snmpTcpInErrs: Schema.optional(Schema.Number),
-  snmpTcpInSegs: Schema.optional(Schema.Number),
-  snmpTcpMaxConn: Schema.optional(Schema.Number),
-  snmpTcpOutRsts: Schema.optional(Schema.Number),
-  snmpTcpOutSegs: Schema.optional(Schema.Number),
-  snmpTcpPassiveOpens: Schema.optional(Schema.Number),
-  snmpTcpRetransSegs: Schema.optional(Schema.Number),
-  snmpTcpRtoMax: Schema.optional(Schema.Number),
-  snmpTcpRtoMin: Schema.optional(Schema.Number),
-  snmpUdpInDatagrams: Schema.optional(Schema.Number),
-  snmpUdpInErrors: Schema.optional(Schema.Number),
-  snmpUdpNoPorts: Schema.optional(Schema.Number),
-  snmpUdpOutDatagrams: Schema.optional(Schema.Number),
-  systemBootTimeS: Schema.optional(Schema.Number),
+  snmpIcmpInAddrMaskReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInAddrMasks: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInCsumErrors: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInDestUnreachs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInEchoReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInEchos: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIcmpInErrors: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIcmpInMsgs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIcmpInParmProbs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInRedirects: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInSrcQuenchs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInTimeExcds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInTimestampReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpInTimestamps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutAddrMaskReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutAddrMasks: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutDestUnreachs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutEchoReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutEchos: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIcmpOutErrors: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutMsgs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIcmpOutParmProbs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutRedirects: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutSrcQuenchs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutTimeExcds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutTimestampReps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIcmpOutTimestamps: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpDefaultTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpForwDatagrams: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpForwardingEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  snmpIpFragCreates: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpFragFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpFragOks: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpInAddrErrors: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpInDelivers: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpInDiscards: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpInHdrErrors: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpInReceives: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpInUnknownProtos: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpOutDiscards: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpOutNoRoutes: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpOutRequests: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpIpReasmFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpReasmOks: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpReasmReqds: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpIpReasmTimeout: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpActiveOpens: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpAttemptFails: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpCurrEstab: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpEstabResets: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpInCsumErrors: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpInErrs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpInSegs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpMaxConn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpOutRsts: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpOutSegs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpPassiveOpens: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpRetransSegs: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpTcpRtoMax: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpTcpRtoMin: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpUdpInDatagrams: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  snmpUdpInErrors: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpUdpNoPorts: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  snmpUdpOutDatagrams: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  systemBootTimeS: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   thermals: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        label: Schema.String,
-        connectorId: Schema.optional(Schema.String),
-        criticalCelcius: Schema.optional(Schema.Number),
-        currentCelcius: Schema.optional(Schema.Number),
-        maxCelcius: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          label: "label",
-          connectorId: "connector_id",
-          criticalCelcius: "critical_celcius",
-          currentCelcius: "current_celcius",
-          maxCelcius: "max_celcius",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          label: Schema.String,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          criticalCelcius: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          currentCelcius: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxCelcius: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            label: "label",
+            connectorId: "connector_id",
+            criticalCelcius: "critical_celcius",
+            currentCelcius: "current_celcius",
+            maxCelcius: "max_celcius",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
   tunnels: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        healthState: Schema.String,
-        healthValue: Schema.Number,
-        interfaceName: Schema.String,
-        tunnelId: Schema.String,
-        connectorId: Schema.optional(Schema.String),
-        probedMtu: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          healthState: "health_state",
-          healthValue: "health_value",
-          interfaceName: "interface_name",
-          tunnelId: "tunnel_id",
-          connectorId: "connector_id",
-          probedMtu: "probed_mtu",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          healthState: Schema.String,
+          healthValue: Schema.Number,
+          interfaceName: Schema.String,
+          tunnelId: Schema.String,
+          connectorId: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          probedMtu: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            healthState: "health_state",
+            healthValue: "health_value",
+            interfaceName: "interface_name",
+            tunnelId: "tunnel_id",
+            connectorId: "connector_id",
+            probedMtu: "probed_mtu",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
-  uptimeIdleMs: Schema.optional(Schema.Number),
-  uptimeTotalMs: Schema.optional(Schema.Number),
+  uptimeIdleMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  uptimeTotalMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     countReclaimFailures: "count_reclaim_failures",
@@ -2595,7 +2980,7 @@ export const ListConnectorSnapshotsResponse = Schema.Struct({
       t: Schema.Number,
     }),
   ),
-  cursor: Schema.optional(Schema.String),
+  cursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<ListConnectorSnapshotsResponse>;
 
 export type ListConnectorSnapshotsError = CommonErrors;
@@ -2640,252 +3025,268 @@ export interface ListConnectorSnapshotLatestsResponse {
     countTransmitFailures: number;
     t: number;
     v: string;
-    bonds?: { name: string; status: string }[];
-    cpuCount?: number;
-    cpuPressure_10s?: number;
-    cpuPressure_300s?: number;
-    cpuPressure_60s?: number;
-    cpuPressureTotalUs?: number;
-    cpuTimeGuestMs?: number;
-    cpuTimeGuestNiceMs?: number;
-    cpuTimeIdleMs?: number;
-    cpuTimeIowaitMs?: number;
-    cpuTimeIrqMs?: number;
-    cpuTimeNiceMs?: number;
-    cpuTimeSoftirqMs?: number;
-    cpuTimeStealMs?: number;
-    cpuTimeSystemMs?: number;
-    cpuTimeUserMs?: number;
-    dhcpLeases?: {
-      clientId: string;
-      expiryTime: number;
-      hostname: string;
-      interfaceName: string;
-      ipAddress: string;
-      macAddress: string;
-      connectorId?: string;
-    }[];
-    disks?: {
-      inProgress: number;
-      major: number;
-      merged: number;
-      minor: number;
-      name: string;
-      reads: number;
-      sectorsRead: number;
-      sectorsWritten: number;
-      timeInProgressMs: number;
-      timeReadingMs: number;
-      timeWritingMs: number;
-      weightedTimeInProgressMs: number;
-      writes: number;
-      writesMerged: number;
-      connectorId?: string;
-      discards?: number;
-      discardsMerged?: number;
-      flushes?: number;
-      sectorsDiscarded?: number;
-      timeDiscardingMs?: number;
-      timeFlushingMs?: number;
-    }[];
-    haState?: string;
-    haValue?: number;
-    interfaces?: {
-      name: string;
-      operstate: string;
-      connectorId?: string;
-      ipAddresses?: {
-        interfaceName: string;
-        ipAddress: string;
-        connectorId?: string;
-      }[];
-      speed?: number;
-    }[];
-    ioPressureFull_10s?: number;
-    ioPressureFull_300s?: number;
-    ioPressureFull_60s?: number;
-    ioPressureFullTotalUs?: number;
-    ioPressureSome_10s?: number;
-    ioPressureSome_300s?: number;
-    ioPressureSome_60s?: number;
-    ioPressureSomeTotalUs?: number;
-    kernelBtime?: number;
-    kernelCtxt?: number;
-    kernelProcesses?: number;
-    kernelProcessesBlocked?: number;
-    kernelProcessesRunning?: number;
-    loadAverage_15m?: number;
-    loadAverage_1m?: number;
-    loadAverage_5m?: number;
-    loadAverageCur?: number;
-    loadAverageMax?: number;
-    memoryActiveBytes?: number;
-    memoryAnonHugepagesBytes?: number;
-    memoryAnonPagesBytes?: number;
-    memoryAvailableBytes?: number;
-    memoryBounceBytes?: number;
-    memoryBuffersBytes?: number;
-    memoryCachedBytes?: number;
-    memoryCmaFreeBytes?: number;
-    memoryCmaTotalBytes?: number;
-    memoryCommitLimitBytes?: number;
-    memoryCommittedAsBytes?: number;
-    memoryDirtyBytes?: number;
-    memoryFreeBytes?: number;
-    memoryHighFreeBytes?: number;
-    memoryHighTotalBytes?: number;
-    memoryHugepagesFree?: number;
-    memoryHugepagesRsvd?: number;
-    memoryHugepagesSurp?: number;
-    memoryHugepagesTotal?: number;
-    memoryHugepagesizeBytes?: number;
-    memoryInactiveBytes?: number;
-    memoryKReclaimableBytes?: number;
-    memoryKernelStackBytes?: number;
-    memoryLowFreeBytes?: number;
-    memoryLowTotalBytes?: number;
-    memoryMappedBytes?: number;
-    memoryPageTablesBytes?: number;
-    memoryPerCpuBytes?: number;
-    memoryPressureFull_10s?: number;
-    memoryPressureFull_300s?: number;
-    memoryPressureFull_60s?: number;
-    memoryPressureFullTotalUs?: number;
-    memoryPressureSome_10s?: number;
-    memoryPressureSome_300s?: number;
-    memoryPressureSome_60s?: number;
-    memoryPressureSomeTotalUs?: number;
-    memorySReclaimableBytes?: number;
-    memorySUnreclaimBytes?: number;
-    memorySecondaryPageTablesBytes?: number;
-    memoryShmemBytes?: number;
-    memoryShmemHugepagesBytes?: number;
-    memoryShmemPmdMappedBytes?: number;
-    memorySlabBytes?: number;
-    memorySwapCachedBytes?: number;
-    memorySwapFreeBytes?: number;
-    memorySwapTotalBytes?: number;
-    memoryTotalBytes?: number;
-    memoryVmallocChunkBytes?: number;
-    memoryVmallocTotalBytes?: number;
-    memoryVmallocUsedBytes?: number;
-    memoryWritebackBytes?: number;
-    memoryWritebackTmpBytes?: number;
-    memoryZSwapBytes?: number;
-    memoryZSwappedBytes?: number;
-    mounts?: {
-      fileSystem: string;
-      kind: string;
-      mountPoint: string;
-      name: string;
-      availableBytes?: number;
-      connectorId?: string;
-      isReadOnly?: boolean;
-      isRemovable?: boolean;
-      totalBytes?: number;
-    }[];
-    netdevs?: {
-      name: string;
-      recvBytes: number;
-      recvCompressed: number;
-      recvDrop: number;
-      recvErrs: number;
-      recvFifo: number;
-      recvFrame: number;
-      recvMulticast: number;
-      recvPackets: number;
-      sentBytes: number;
-      sentCarrier: number;
-      sentColls: number;
-      sentCompressed: number;
-      sentDrop: number;
-      sentErrs: number;
-      sentFifo: number;
-      sentPackets: number;
-      connectorId?: string;
-    }[];
-    snmpIcmpInAddrMaskReps?: number;
-    snmpIcmpInAddrMasks?: number;
-    snmpIcmpInCsumErrors?: number;
-    snmpIcmpInDestUnreachs?: number;
-    snmpIcmpInEchoReps?: number;
-    snmpIcmpInEchos?: number;
-    snmpIcmpInErrors?: number;
-    snmpIcmpInMsgs?: number;
-    snmpIcmpInParmProbs?: number;
-    snmpIcmpInRedirects?: number;
-    snmpIcmpInSrcQuenchs?: number;
-    snmpIcmpInTimeExcds?: number;
-    snmpIcmpInTimestampReps?: number;
-    snmpIcmpInTimestamps?: number;
-    snmpIcmpOutAddrMaskReps?: number;
-    snmpIcmpOutAddrMasks?: number;
-    snmpIcmpOutDestUnreachs?: number;
-    snmpIcmpOutEchoReps?: number;
-    snmpIcmpOutEchos?: number;
-    snmpIcmpOutErrors?: number;
-    snmpIcmpOutMsgs?: number;
-    snmpIcmpOutParmProbs?: number;
-    snmpIcmpOutRedirects?: number;
-    snmpIcmpOutSrcQuenchs?: number;
-    snmpIcmpOutTimeExcds?: number;
-    snmpIcmpOutTimestampReps?: number;
-    snmpIcmpOutTimestamps?: number;
-    snmpIpDefaultTtl?: number;
-    snmpIpForwDatagrams?: number;
-    snmpIpForwardingEnabled?: boolean;
-    snmpIpFragCreates?: number;
-    snmpIpFragFails?: number;
-    snmpIpFragOks?: number;
-    snmpIpInAddrErrors?: number;
-    snmpIpInDelivers?: number;
-    snmpIpInDiscards?: number;
-    snmpIpInHdrErrors?: number;
-    snmpIpInReceives?: number;
-    snmpIpInUnknownProtos?: number;
-    snmpIpOutDiscards?: number;
-    snmpIpOutNoRoutes?: number;
-    snmpIpOutRequests?: number;
-    snmpIpReasmFails?: number;
-    snmpIpReasmOks?: number;
-    snmpIpReasmReqds?: number;
-    snmpIpReasmTimeout?: number;
-    snmpTcpActiveOpens?: number;
-    snmpTcpAttemptFails?: number;
-    snmpTcpCurrEstab?: number;
-    snmpTcpEstabResets?: number;
-    snmpTcpInCsumErrors?: number;
-    snmpTcpInErrs?: number;
-    snmpTcpInSegs?: number;
-    snmpTcpMaxConn?: number;
-    snmpTcpOutRsts?: number;
-    snmpTcpOutSegs?: number;
-    snmpTcpPassiveOpens?: number;
-    snmpTcpRetransSegs?: number;
-    snmpTcpRtoMax?: number;
-    snmpTcpRtoMin?: number;
-    snmpUdpInDatagrams?: number;
-    snmpUdpInErrors?: number;
-    snmpUdpNoPorts?: number;
-    snmpUdpOutDatagrams?: number;
-    systemBootTimeS?: number;
-    thermals?: {
-      label: string;
-      connectorId?: string;
-      criticalCelcius?: number;
-      currentCelcius?: number;
-      maxCelcius?: number;
-    }[];
-    tunnels?: {
-      healthState: string;
-      healthValue: number;
-      interfaceName: string;
-      tunnelId: string;
-      connectorId?: string;
-      probedMtu?: number;
-    }[];
-    uptimeIdleMs?: number;
-    uptimeTotalMs?: number;
+    bonds?: { name: string; status: string }[] | null;
+    cpuCount?: number | null;
+    cpuPressure_10s?: number | null;
+    cpuPressure_300s?: number | null;
+    cpuPressure_60s?: number | null;
+    cpuPressureTotalUs?: number | null;
+    cpuTimeGuestMs?: number | null;
+    cpuTimeGuestNiceMs?: number | null;
+    cpuTimeIdleMs?: number | null;
+    cpuTimeIowaitMs?: number | null;
+    cpuTimeIrqMs?: number | null;
+    cpuTimeNiceMs?: number | null;
+    cpuTimeSoftirqMs?: number | null;
+    cpuTimeStealMs?: number | null;
+    cpuTimeSystemMs?: number | null;
+    cpuTimeUserMs?: number | null;
+    dhcpLeases?:
+      | {
+          clientId: string;
+          expiryTime: number;
+          hostname: string;
+          interfaceName: string;
+          ipAddress: string;
+          macAddress: string;
+          connectorId?: string | null;
+        }[]
+      | null;
+    disks?:
+      | {
+          inProgress: number;
+          major: number;
+          merged: number;
+          minor: number;
+          name: string;
+          reads: number;
+          sectorsRead: number;
+          sectorsWritten: number;
+          timeInProgressMs: number;
+          timeReadingMs: number;
+          timeWritingMs: number;
+          weightedTimeInProgressMs: number;
+          writes: number;
+          writesMerged: number;
+          connectorId?: string | null;
+          discards?: number | null;
+          discardsMerged?: number | null;
+          flushes?: number | null;
+          sectorsDiscarded?: number | null;
+          timeDiscardingMs?: number | null;
+          timeFlushingMs?: number | null;
+        }[]
+      | null;
+    haState?: string | null;
+    haValue?: number | null;
+    interfaces?:
+      | {
+          name: string;
+          operstate: string;
+          connectorId?: string | null;
+          ipAddresses?:
+            | {
+                interfaceName: string;
+                ipAddress: string;
+                connectorId?: string | null;
+              }[]
+            | null;
+          speed?: number | null;
+        }[]
+      | null;
+    ioPressureFull_10s?: number | null;
+    ioPressureFull_300s?: number | null;
+    ioPressureFull_60s?: number | null;
+    ioPressureFullTotalUs?: number | null;
+    ioPressureSome_10s?: number | null;
+    ioPressureSome_300s?: number | null;
+    ioPressureSome_60s?: number | null;
+    ioPressureSomeTotalUs?: number | null;
+    kernelBtime?: number | null;
+    kernelCtxt?: number | null;
+    kernelProcesses?: number | null;
+    kernelProcessesBlocked?: number | null;
+    kernelProcessesRunning?: number | null;
+    loadAverage_15m?: number | null;
+    loadAverage_1m?: number | null;
+    loadAverage_5m?: number | null;
+    loadAverageCur?: number | null;
+    loadAverageMax?: number | null;
+    memoryActiveBytes?: number | null;
+    memoryAnonHugepagesBytes?: number | null;
+    memoryAnonPagesBytes?: number | null;
+    memoryAvailableBytes?: number | null;
+    memoryBounceBytes?: number | null;
+    memoryBuffersBytes?: number | null;
+    memoryCachedBytes?: number | null;
+    memoryCmaFreeBytes?: number | null;
+    memoryCmaTotalBytes?: number | null;
+    memoryCommitLimitBytes?: number | null;
+    memoryCommittedAsBytes?: number | null;
+    memoryDirtyBytes?: number | null;
+    memoryFreeBytes?: number | null;
+    memoryHighFreeBytes?: number | null;
+    memoryHighTotalBytes?: number | null;
+    memoryHugepagesFree?: number | null;
+    memoryHugepagesRsvd?: number | null;
+    memoryHugepagesSurp?: number | null;
+    memoryHugepagesTotal?: number | null;
+    memoryHugepagesizeBytes?: number | null;
+    memoryInactiveBytes?: number | null;
+    memoryKReclaimableBytes?: number | null;
+    memoryKernelStackBytes?: number | null;
+    memoryLowFreeBytes?: number | null;
+    memoryLowTotalBytes?: number | null;
+    memoryMappedBytes?: number | null;
+    memoryPageTablesBytes?: number | null;
+    memoryPerCpuBytes?: number | null;
+    memoryPressureFull_10s?: number | null;
+    memoryPressureFull_300s?: number | null;
+    memoryPressureFull_60s?: number | null;
+    memoryPressureFullTotalUs?: number | null;
+    memoryPressureSome_10s?: number | null;
+    memoryPressureSome_300s?: number | null;
+    memoryPressureSome_60s?: number | null;
+    memoryPressureSomeTotalUs?: number | null;
+    memorySReclaimableBytes?: number | null;
+    memorySUnreclaimBytes?: number | null;
+    memorySecondaryPageTablesBytes?: number | null;
+    memoryShmemBytes?: number | null;
+    memoryShmemHugepagesBytes?: number | null;
+    memoryShmemPmdMappedBytes?: number | null;
+    memorySlabBytes?: number | null;
+    memorySwapCachedBytes?: number | null;
+    memorySwapFreeBytes?: number | null;
+    memorySwapTotalBytes?: number | null;
+    memoryTotalBytes?: number | null;
+    memoryVmallocChunkBytes?: number | null;
+    memoryVmallocTotalBytes?: number | null;
+    memoryVmallocUsedBytes?: number | null;
+    memoryWritebackBytes?: number | null;
+    memoryWritebackTmpBytes?: number | null;
+    memoryZSwapBytes?: number | null;
+    memoryZSwappedBytes?: number | null;
+    mounts?:
+      | {
+          fileSystem: string;
+          kind: string;
+          mountPoint: string;
+          name: string;
+          availableBytes?: number | null;
+          connectorId?: string | null;
+          isReadOnly?: boolean | null;
+          isRemovable?: boolean | null;
+          totalBytes?: number | null;
+        }[]
+      | null;
+    netdevs?:
+      | {
+          name: string;
+          recvBytes: number;
+          recvCompressed: number;
+          recvDrop: number;
+          recvErrs: number;
+          recvFifo: number;
+          recvFrame: number;
+          recvMulticast: number;
+          recvPackets: number;
+          sentBytes: number;
+          sentCarrier: number;
+          sentColls: number;
+          sentCompressed: number;
+          sentDrop: number;
+          sentErrs: number;
+          sentFifo: number;
+          sentPackets: number;
+          connectorId?: string | null;
+        }[]
+      | null;
+    snmpIcmpInAddrMaskReps?: number | null;
+    snmpIcmpInAddrMasks?: number | null;
+    snmpIcmpInCsumErrors?: number | null;
+    snmpIcmpInDestUnreachs?: number | null;
+    snmpIcmpInEchoReps?: number | null;
+    snmpIcmpInEchos?: number | null;
+    snmpIcmpInErrors?: number | null;
+    snmpIcmpInMsgs?: number | null;
+    snmpIcmpInParmProbs?: number | null;
+    snmpIcmpInRedirects?: number | null;
+    snmpIcmpInSrcQuenchs?: number | null;
+    snmpIcmpInTimeExcds?: number | null;
+    snmpIcmpInTimestampReps?: number | null;
+    snmpIcmpInTimestamps?: number | null;
+    snmpIcmpOutAddrMaskReps?: number | null;
+    snmpIcmpOutAddrMasks?: number | null;
+    snmpIcmpOutDestUnreachs?: number | null;
+    snmpIcmpOutEchoReps?: number | null;
+    snmpIcmpOutEchos?: number | null;
+    snmpIcmpOutErrors?: number | null;
+    snmpIcmpOutMsgs?: number | null;
+    snmpIcmpOutParmProbs?: number | null;
+    snmpIcmpOutRedirects?: number | null;
+    snmpIcmpOutSrcQuenchs?: number | null;
+    snmpIcmpOutTimeExcds?: number | null;
+    snmpIcmpOutTimestampReps?: number | null;
+    snmpIcmpOutTimestamps?: number | null;
+    snmpIpDefaultTtl?: number | null;
+    snmpIpForwDatagrams?: number | null;
+    snmpIpForwardingEnabled?: boolean | null;
+    snmpIpFragCreates?: number | null;
+    snmpIpFragFails?: number | null;
+    snmpIpFragOks?: number | null;
+    snmpIpInAddrErrors?: number | null;
+    snmpIpInDelivers?: number | null;
+    snmpIpInDiscards?: number | null;
+    snmpIpInHdrErrors?: number | null;
+    snmpIpInReceives?: number | null;
+    snmpIpInUnknownProtos?: number | null;
+    snmpIpOutDiscards?: number | null;
+    snmpIpOutNoRoutes?: number | null;
+    snmpIpOutRequests?: number | null;
+    snmpIpReasmFails?: number | null;
+    snmpIpReasmOks?: number | null;
+    snmpIpReasmReqds?: number | null;
+    snmpIpReasmTimeout?: number | null;
+    snmpTcpActiveOpens?: number | null;
+    snmpTcpAttemptFails?: number | null;
+    snmpTcpCurrEstab?: number | null;
+    snmpTcpEstabResets?: number | null;
+    snmpTcpInCsumErrors?: number | null;
+    snmpTcpInErrs?: number | null;
+    snmpTcpInSegs?: number | null;
+    snmpTcpMaxConn?: number | null;
+    snmpTcpOutRsts?: number | null;
+    snmpTcpOutSegs?: number | null;
+    snmpTcpPassiveOpens?: number | null;
+    snmpTcpRetransSegs?: number | null;
+    snmpTcpRtoMax?: number | null;
+    snmpTcpRtoMin?: number | null;
+    snmpUdpInDatagrams?: number | null;
+    snmpUdpInErrors?: number | null;
+    snmpUdpNoPorts?: number | null;
+    snmpUdpOutDatagrams?: number | null;
+    systemBootTimeS?: number | null;
+    thermals?:
+      | {
+          label: string;
+          connectorId?: string | null;
+          criticalCelcius?: number | null;
+          currentCelcius?: number | null;
+          maxCelcius?: number | null;
+        }[]
+      | null;
+    tunnels?:
+      | {
+          healthState: string;
+          healthValue: number;
+          interfaceName: string;
+          tunnelId: string;
+          connectorId?: string | null;
+          probedMtu?: number | null;
+        }[]
+      | null;
+    uptimeIdleMs?: number | null;
+    uptimeTotalMs?: number | null;
   }[];
 }
 
@@ -2900,388 +3301,759 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
       t: Schema.Number,
       v: Schema.String,
       bonds: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            name: Schema.String,
-            status: Schema.String,
-          }),
-        ),
-      ),
-      cpuCount: Schema.optional(Schema.Number),
-      cpuPressure_10s: Schema.optional(Schema.Number),
-      cpuPressure_300s: Schema.optional(Schema.Number),
-      cpuPressure_60s: Schema.optional(Schema.Number),
-      cpuPressureTotalUs: Schema.optional(Schema.Number),
-      cpuTimeGuestMs: Schema.optional(Schema.Number),
-      cpuTimeGuestNiceMs: Schema.optional(Schema.Number),
-      cpuTimeIdleMs: Schema.optional(Schema.Number),
-      cpuTimeIowaitMs: Schema.optional(Schema.Number),
-      cpuTimeIrqMs: Schema.optional(Schema.Number),
-      cpuTimeNiceMs: Schema.optional(Schema.Number),
-      cpuTimeSoftirqMs: Schema.optional(Schema.Number),
-      cpuTimeStealMs: Schema.optional(Schema.Number),
-      cpuTimeSystemMs: Schema.optional(Schema.Number),
-      cpuTimeUserMs: Schema.optional(Schema.Number),
-      dhcpLeases: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            clientId: Schema.String,
-            expiryTime: Schema.Number,
-            hostname: Schema.String,
-            interfaceName: Schema.String,
-            ipAddress: Schema.String,
-            macAddress: Schema.String,
-            connectorId: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              clientId: "client_id",
-              expiryTime: "expiry_time",
-              hostname: "hostname",
-              interfaceName: "interface_name",
-              ipAddress: "ip_address",
-              macAddress: "mac_address",
-              connectorId: "connector_id",
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              status: Schema.String,
             }),
           ),
-        ),
+          Schema.Null,
+        ]),
+      ),
+      cpuCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      cpuPressure_10s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuPressure_300s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuPressure_60s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuPressureTotalUs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeGuestMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeGuestNiceMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeIdleMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeIowaitMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeIrqMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      cpuTimeNiceMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeSoftirqMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeStealMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeSystemMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      cpuTimeUserMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      dhcpLeases: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              clientId: Schema.String,
+              expiryTime: Schema.Number,
+              hostname: Schema.String,
+              interfaceName: Schema.String,
+              ipAddress: Schema.String,
+              macAddress: Schema.String,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                clientId: "client_id",
+                expiryTime: "expiry_time",
+                hostname: "hostname",
+                interfaceName: "interface_name",
+                ipAddress: "ip_address",
+                macAddress: "mac_address",
+                connectorId: "connector_id",
+              }),
+            ),
+          ),
+          Schema.Null,
+        ]),
       ),
       disks: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            inProgress: Schema.Number,
-            major: Schema.Number,
-            merged: Schema.Number,
-            minor: Schema.Number,
-            name: Schema.String,
-            reads: Schema.Number,
-            sectorsRead: Schema.Number,
-            sectorsWritten: Schema.Number,
-            timeInProgressMs: Schema.Number,
-            timeReadingMs: Schema.Number,
-            timeWritingMs: Schema.Number,
-            weightedTimeInProgressMs: Schema.Number,
-            writes: Schema.Number,
-            writesMerged: Schema.Number,
-            connectorId: Schema.optional(Schema.String),
-            discards: Schema.optional(Schema.Number),
-            discardsMerged: Schema.optional(Schema.Number),
-            flushes: Schema.optional(Schema.Number),
-            sectorsDiscarded: Schema.optional(Schema.Number),
-            timeDiscardingMs: Schema.optional(Schema.Number),
-            timeFlushingMs: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              inProgress: "in_progress",
-              major: "major",
-              merged: "merged",
-              minor: "minor",
-              name: "name",
-              reads: "reads",
-              sectorsRead: "sectors_read",
-              sectorsWritten: "sectors_written",
-              timeInProgressMs: "time_in_progress_ms",
-              timeReadingMs: "time_reading_ms",
-              timeWritingMs: "time_writing_ms",
-              weightedTimeInProgressMs: "weighted_time_in_progress_ms",
-              writes: "writes",
-              writesMerged: "writes_merged",
-              connectorId: "connector_id",
-              discards: "discards",
-              discardsMerged: "discards_merged",
-              flushes: "flushes",
-              sectorsDiscarded: "sectors_discarded",
-              timeDiscardingMs: "time_discarding_ms",
-              timeFlushingMs: "time_flushing_ms",
-            }),
-          ),
-        ),
-      ),
-      haState: Schema.optional(Schema.String),
-      haValue: Schema.optional(Schema.Number),
-      interfaces: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            name: Schema.String,
-            operstate: Schema.String,
-            connectorId: Schema.optional(Schema.String),
-            ipAddresses: Schema.optional(
-              Schema.Array(
-                Schema.Struct({
-                  interfaceName: Schema.String,
-                  ipAddress: Schema.String,
-                  connectorId: Schema.optional(Schema.String),
-                }).pipe(
-                  Schema.encodeKeys({
-                    interfaceName: "interface_name",
-                    ipAddress: "ip_address",
-                    connectorId: "connector_id",
-                  }),
-                ),
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              inProgress: Schema.Number,
+              major: Schema.Number,
+              merged: Schema.Number,
+              minor: Schema.Number,
+              name: Schema.String,
+              reads: Schema.Number,
+              sectorsRead: Schema.Number,
+              sectorsWritten: Schema.Number,
+              timeInProgressMs: Schema.Number,
+              timeReadingMs: Schema.Number,
+              timeWritingMs: Schema.Number,
+              weightedTimeInProgressMs: Schema.Number,
+              writes: Schema.Number,
+              writesMerged: Schema.Number,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
               ),
+              discards: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              discardsMerged: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              flushes: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              sectorsDiscarded: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              timeDiscardingMs: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              timeFlushingMs: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                inProgress: "in_progress",
+                major: "major",
+                merged: "merged",
+                minor: "minor",
+                name: "name",
+                reads: "reads",
+                sectorsRead: "sectors_read",
+                sectorsWritten: "sectors_written",
+                timeInProgressMs: "time_in_progress_ms",
+                timeReadingMs: "time_reading_ms",
+                timeWritingMs: "time_writing_ms",
+                weightedTimeInProgressMs: "weighted_time_in_progress_ms",
+                writes: "writes",
+                writesMerged: "writes_merged",
+                connectorId: "connector_id",
+                discards: "discards",
+                discardsMerged: "discards_merged",
+                flushes: "flushes",
+                sectorsDiscarded: "sectors_discarded",
+                timeDiscardingMs: "time_discarding_ms",
+                timeFlushingMs: "time_flushing_ms",
+              }),
             ),
-            speed: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              name: "name",
-              operstate: "operstate",
-              connectorId: "connector_id",
-              ipAddresses: "ip_addresses",
-              speed: "speed",
-            }),
           ),
-        ),
+          Schema.Null,
+        ]),
       ),
-      ioPressureFull_10s: Schema.optional(Schema.Number),
-      ioPressureFull_300s: Schema.optional(Schema.Number),
-      ioPressureFull_60s: Schema.optional(Schema.Number),
-      ioPressureFullTotalUs: Schema.optional(Schema.Number),
-      ioPressureSome_10s: Schema.optional(Schema.Number),
-      ioPressureSome_300s: Schema.optional(Schema.Number),
-      ioPressureSome_60s: Schema.optional(Schema.Number),
-      ioPressureSomeTotalUs: Schema.optional(Schema.Number),
-      kernelBtime: Schema.optional(Schema.Number),
-      kernelCtxt: Schema.optional(Schema.Number),
-      kernelProcesses: Schema.optional(Schema.Number),
-      kernelProcessesBlocked: Schema.optional(Schema.Number),
-      kernelProcessesRunning: Schema.optional(Schema.Number),
-      loadAverage_15m: Schema.optional(Schema.Number),
-      loadAverage_1m: Schema.optional(Schema.Number),
-      loadAverage_5m: Schema.optional(Schema.Number),
-      loadAverageCur: Schema.optional(Schema.Number),
-      loadAverageMax: Schema.optional(Schema.Number),
-      memoryActiveBytes: Schema.optional(Schema.Number),
-      memoryAnonHugepagesBytes: Schema.optional(Schema.Number),
-      memoryAnonPagesBytes: Schema.optional(Schema.Number),
-      memoryAvailableBytes: Schema.optional(Schema.Number),
-      memoryBounceBytes: Schema.optional(Schema.Number),
-      memoryBuffersBytes: Schema.optional(Schema.Number),
-      memoryCachedBytes: Schema.optional(Schema.Number),
-      memoryCmaFreeBytes: Schema.optional(Schema.Number),
-      memoryCmaTotalBytes: Schema.optional(Schema.Number),
-      memoryCommitLimitBytes: Schema.optional(Schema.Number),
-      memoryCommittedAsBytes: Schema.optional(Schema.Number),
-      memoryDirtyBytes: Schema.optional(Schema.Number),
-      memoryFreeBytes: Schema.optional(Schema.Number),
-      memoryHighFreeBytes: Schema.optional(Schema.Number),
-      memoryHighTotalBytes: Schema.optional(Schema.Number),
-      memoryHugepagesFree: Schema.optional(Schema.Number),
-      memoryHugepagesRsvd: Schema.optional(Schema.Number),
-      memoryHugepagesSurp: Schema.optional(Schema.Number),
-      memoryHugepagesTotal: Schema.optional(Schema.Number),
-      memoryHugepagesizeBytes: Schema.optional(Schema.Number),
-      memoryInactiveBytes: Schema.optional(Schema.Number),
-      memoryKReclaimableBytes: Schema.optional(Schema.Number),
-      memoryKernelStackBytes: Schema.optional(Schema.Number),
-      memoryLowFreeBytes: Schema.optional(Schema.Number),
-      memoryLowTotalBytes: Schema.optional(Schema.Number),
-      memoryMappedBytes: Schema.optional(Schema.Number),
-      memoryPageTablesBytes: Schema.optional(Schema.Number),
-      memoryPerCpuBytes: Schema.optional(Schema.Number),
-      memoryPressureFull_10s: Schema.optional(Schema.Number),
-      memoryPressureFull_300s: Schema.optional(Schema.Number),
-      memoryPressureFull_60s: Schema.optional(Schema.Number),
-      memoryPressureFullTotalUs: Schema.optional(Schema.Number),
-      memoryPressureSome_10s: Schema.optional(Schema.Number),
-      memoryPressureSome_300s: Schema.optional(Schema.Number),
-      memoryPressureSome_60s: Schema.optional(Schema.Number),
-      memoryPressureSomeTotalUs: Schema.optional(Schema.Number),
-      memorySReclaimableBytes: Schema.optional(Schema.Number),
-      memorySUnreclaimBytes: Schema.optional(Schema.Number),
-      memorySecondaryPageTablesBytes: Schema.optional(Schema.Number),
-      memoryShmemBytes: Schema.optional(Schema.Number),
-      memoryShmemHugepagesBytes: Schema.optional(Schema.Number),
-      memoryShmemPmdMappedBytes: Schema.optional(Schema.Number),
-      memorySlabBytes: Schema.optional(Schema.Number),
-      memorySwapCachedBytes: Schema.optional(Schema.Number),
-      memorySwapFreeBytes: Schema.optional(Schema.Number),
-      memorySwapTotalBytes: Schema.optional(Schema.Number),
-      memoryTotalBytes: Schema.optional(Schema.Number),
-      memoryVmallocChunkBytes: Schema.optional(Schema.Number),
-      memoryVmallocTotalBytes: Schema.optional(Schema.Number),
-      memoryVmallocUsedBytes: Schema.optional(Schema.Number),
-      memoryWritebackBytes: Schema.optional(Schema.Number),
-      memoryWritebackTmpBytes: Schema.optional(Schema.Number),
-      memoryZSwapBytes: Schema.optional(Schema.Number),
-      memoryZSwappedBytes: Schema.optional(Schema.Number),
-      mounts: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            fileSystem: Schema.String,
-            kind: Schema.String,
-            mountPoint: Schema.String,
-            name: Schema.String,
-            availableBytes: Schema.optional(Schema.Number),
-            connectorId: Schema.optional(Schema.String),
-            isReadOnly: Schema.optional(Schema.Boolean),
-            isRemovable: Schema.optional(Schema.Boolean),
-            totalBytes: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              fileSystem: "file_system",
-              kind: "kind",
-              mountPoint: "mount_point",
-              name: "name",
-              availableBytes: "available_bytes",
-              connectorId: "connector_id",
-              isReadOnly: "is_read_only",
-              isRemovable: "is_removable",
-              totalBytes: "total_bytes",
-            }),
+      haState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      haValue: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      interfaces: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              operstate: Schema.String,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              ipAddresses: Schema.optional(
+                Schema.Union([
+                  Schema.Array(
+                    Schema.Struct({
+                      interfaceName: Schema.String,
+                      ipAddress: Schema.String,
+                      connectorId: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        interfaceName: "interface_name",
+                        ipAddress: "ip_address",
+                        connectorId: "connector_id",
+                      }),
+                    ),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+              speed: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                operstate: "operstate",
+                connectorId: "connector_id",
+                ipAddresses: "ip_addresses",
+                speed: "speed",
+              }),
+            ),
           ),
-        ),
+          Schema.Null,
+        ]),
+      ),
+      ioPressureFull_10s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureFull_300s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureFull_60s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureFullTotalUs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureSome_10s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureSome_300s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureSome_60s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      ioPressureSomeTotalUs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      kernelBtime: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      kernelCtxt: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      kernelProcesses: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      kernelProcessesBlocked: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      kernelProcessesRunning: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      loadAverage_15m: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      loadAverage_1m: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      loadAverage_5m: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      loadAverageCur: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      loadAverageMax: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryActiveBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryAnonHugepagesBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryAnonPagesBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryAvailableBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryBounceBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryBuffersBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryCachedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryCmaFreeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryCmaTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryCommitLimitBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryCommittedAsBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryDirtyBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryFreeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHighFreeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHighTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHugepagesFree: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHugepagesRsvd: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHugepagesSurp: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHugepagesTotal: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryHugepagesizeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryInactiveBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryKReclaimableBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryKernelStackBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryLowFreeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryLowTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryMappedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPageTablesBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPerCpuBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureFull_10s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureFull_300s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureFull_60s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureFullTotalUs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureSome_10s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureSome_300s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureSome_60s: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryPressureSomeTotalUs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySReclaimableBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySUnreclaimBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySecondaryPageTablesBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryShmemBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryShmemHugepagesBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryShmemPmdMappedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySlabBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySwapCachedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySwapFreeBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memorySwapTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryVmallocChunkBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryVmallocTotalBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryVmallocUsedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryWritebackBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryWritebackTmpBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryZSwapBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      memoryZSwappedBytes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      mounts: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              fileSystem: Schema.String,
+              kind: Schema.String,
+              mountPoint: Schema.String,
+              name: Schema.String,
+              availableBytes: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              isReadOnly: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              isRemovable: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              totalBytes: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                fileSystem: "file_system",
+                kind: "kind",
+                mountPoint: "mount_point",
+                name: "name",
+                availableBytes: "available_bytes",
+                connectorId: "connector_id",
+                isReadOnly: "is_read_only",
+                isRemovable: "is_removable",
+                totalBytes: "total_bytes",
+              }),
+            ),
+          ),
+          Schema.Null,
+        ]),
       ),
       netdevs: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            name: Schema.String,
-            recvBytes: Schema.Number,
-            recvCompressed: Schema.Number,
-            recvDrop: Schema.Number,
-            recvErrs: Schema.Number,
-            recvFifo: Schema.Number,
-            recvFrame: Schema.Number,
-            recvMulticast: Schema.Number,
-            recvPackets: Schema.Number,
-            sentBytes: Schema.Number,
-            sentCarrier: Schema.Number,
-            sentColls: Schema.Number,
-            sentCompressed: Schema.Number,
-            sentDrop: Schema.Number,
-            sentErrs: Schema.Number,
-            sentFifo: Schema.Number,
-            sentPackets: Schema.Number,
-            connectorId: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              name: "name",
-              recvBytes: "recv_bytes",
-              recvCompressed: "recv_compressed",
-              recvDrop: "recv_drop",
-              recvErrs: "recv_errs",
-              recvFifo: "recv_fifo",
-              recvFrame: "recv_frame",
-              recvMulticast: "recv_multicast",
-              recvPackets: "recv_packets",
-              sentBytes: "sent_bytes",
-              sentCarrier: "sent_carrier",
-              sentColls: "sent_colls",
-              sentCompressed: "sent_compressed",
-              sentDrop: "sent_drop",
-              sentErrs: "sent_errs",
-              sentFifo: "sent_fifo",
-              sentPackets: "sent_packets",
-              connectorId: "connector_id",
-            }),
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              recvBytes: Schema.Number,
+              recvCompressed: Schema.Number,
+              recvDrop: Schema.Number,
+              recvErrs: Schema.Number,
+              recvFifo: Schema.Number,
+              recvFrame: Schema.Number,
+              recvMulticast: Schema.Number,
+              recvPackets: Schema.Number,
+              sentBytes: Schema.Number,
+              sentCarrier: Schema.Number,
+              sentColls: Schema.Number,
+              sentCompressed: Schema.Number,
+              sentDrop: Schema.Number,
+              sentErrs: Schema.Number,
+              sentFifo: Schema.Number,
+              sentPackets: Schema.Number,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                recvBytes: "recv_bytes",
+                recvCompressed: "recv_compressed",
+                recvDrop: "recv_drop",
+                recvErrs: "recv_errs",
+                recvFifo: "recv_fifo",
+                recvFrame: "recv_frame",
+                recvMulticast: "recv_multicast",
+                recvPackets: "recv_packets",
+                sentBytes: "sent_bytes",
+                sentCarrier: "sent_carrier",
+                sentColls: "sent_colls",
+                sentCompressed: "sent_compressed",
+                sentDrop: "sent_drop",
+                sentErrs: "sent_errs",
+                sentFifo: "sent_fifo",
+                sentPackets: "sent_packets",
+                connectorId: "connector_id",
+              }),
+            ),
           ),
-        ),
+          Schema.Null,
+        ]),
       ),
-      snmpIcmpInAddrMaskReps: Schema.optional(Schema.Number),
-      snmpIcmpInAddrMasks: Schema.optional(Schema.Number),
-      snmpIcmpInCsumErrors: Schema.optional(Schema.Number),
-      snmpIcmpInDestUnreachs: Schema.optional(Schema.Number),
-      snmpIcmpInEchoReps: Schema.optional(Schema.Number),
-      snmpIcmpInEchos: Schema.optional(Schema.Number),
-      snmpIcmpInErrors: Schema.optional(Schema.Number),
-      snmpIcmpInMsgs: Schema.optional(Schema.Number),
-      snmpIcmpInParmProbs: Schema.optional(Schema.Number),
-      snmpIcmpInRedirects: Schema.optional(Schema.Number),
-      snmpIcmpInSrcQuenchs: Schema.optional(Schema.Number),
-      snmpIcmpInTimeExcds: Schema.optional(Schema.Number),
-      snmpIcmpInTimestampReps: Schema.optional(Schema.Number),
-      snmpIcmpInTimestamps: Schema.optional(Schema.Number),
-      snmpIcmpOutAddrMaskReps: Schema.optional(Schema.Number),
-      snmpIcmpOutAddrMasks: Schema.optional(Schema.Number),
-      snmpIcmpOutDestUnreachs: Schema.optional(Schema.Number),
-      snmpIcmpOutEchoReps: Schema.optional(Schema.Number),
-      snmpIcmpOutEchos: Schema.optional(Schema.Number),
-      snmpIcmpOutErrors: Schema.optional(Schema.Number),
-      snmpIcmpOutMsgs: Schema.optional(Schema.Number),
-      snmpIcmpOutParmProbs: Schema.optional(Schema.Number),
-      snmpIcmpOutRedirects: Schema.optional(Schema.Number),
-      snmpIcmpOutSrcQuenchs: Schema.optional(Schema.Number),
-      snmpIcmpOutTimeExcds: Schema.optional(Schema.Number),
-      snmpIcmpOutTimestampReps: Schema.optional(Schema.Number),
-      snmpIcmpOutTimestamps: Schema.optional(Schema.Number),
-      snmpIpDefaultTtl: Schema.optional(Schema.Number),
-      snmpIpForwDatagrams: Schema.optional(Schema.Number),
-      snmpIpForwardingEnabled: Schema.optional(Schema.Boolean),
-      snmpIpFragCreates: Schema.optional(Schema.Number),
-      snmpIpFragFails: Schema.optional(Schema.Number),
-      snmpIpFragOks: Schema.optional(Schema.Number),
-      snmpIpInAddrErrors: Schema.optional(Schema.Number),
-      snmpIpInDelivers: Schema.optional(Schema.Number),
-      snmpIpInDiscards: Schema.optional(Schema.Number),
-      snmpIpInHdrErrors: Schema.optional(Schema.Number),
-      snmpIpInReceives: Schema.optional(Schema.Number),
-      snmpIpInUnknownProtos: Schema.optional(Schema.Number),
-      snmpIpOutDiscards: Schema.optional(Schema.Number),
-      snmpIpOutNoRoutes: Schema.optional(Schema.Number),
-      snmpIpOutRequests: Schema.optional(Schema.Number),
-      snmpIpReasmFails: Schema.optional(Schema.Number),
-      snmpIpReasmOks: Schema.optional(Schema.Number),
-      snmpIpReasmReqds: Schema.optional(Schema.Number),
-      snmpIpReasmTimeout: Schema.optional(Schema.Number),
-      snmpTcpActiveOpens: Schema.optional(Schema.Number),
-      snmpTcpAttemptFails: Schema.optional(Schema.Number),
-      snmpTcpCurrEstab: Schema.optional(Schema.Number),
-      snmpTcpEstabResets: Schema.optional(Schema.Number),
-      snmpTcpInCsumErrors: Schema.optional(Schema.Number),
-      snmpTcpInErrs: Schema.optional(Schema.Number),
-      snmpTcpInSegs: Schema.optional(Schema.Number),
-      snmpTcpMaxConn: Schema.optional(Schema.Number),
-      snmpTcpOutRsts: Schema.optional(Schema.Number),
-      snmpTcpOutSegs: Schema.optional(Schema.Number),
-      snmpTcpPassiveOpens: Schema.optional(Schema.Number),
-      snmpTcpRetransSegs: Schema.optional(Schema.Number),
-      snmpTcpRtoMax: Schema.optional(Schema.Number),
-      snmpTcpRtoMin: Schema.optional(Schema.Number),
-      snmpUdpInDatagrams: Schema.optional(Schema.Number),
-      snmpUdpInErrors: Schema.optional(Schema.Number),
-      snmpUdpNoPorts: Schema.optional(Schema.Number),
-      snmpUdpOutDatagrams: Schema.optional(Schema.Number),
-      systemBootTimeS: Schema.optional(Schema.Number),
+      snmpIcmpInAddrMaskReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInAddrMasks: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInCsumErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInDestUnreachs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInEchoReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInEchos: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInMsgs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInParmProbs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInRedirects: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInSrcQuenchs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInTimeExcds: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInTimestampReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpInTimestamps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutAddrMaskReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutAddrMasks: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutDestUnreachs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutEchoReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutEchos: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutMsgs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutParmProbs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutRedirects: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutSrcQuenchs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutTimeExcds: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutTimestampReps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIcmpOutTimestamps: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpDefaultTtl: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpForwDatagrams: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpForwardingEnabled: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      snmpIpFragCreates: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpFragFails: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpFragOks: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInAddrErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInDelivers: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInDiscards: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInHdrErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInReceives: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpInUnknownProtos: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpOutDiscards: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpOutNoRoutes: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpOutRequests: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpReasmFails: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpReasmOks: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpReasmReqds: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpIpReasmTimeout: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpActiveOpens: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpAttemptFails: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpCurrEstab: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpEstabResets: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpInCsumErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpInErrs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpInSegs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpMaxConn: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpOutRsts: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpOutSegs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpPassiveOpens: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpRetransSegs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpRtoMax: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpTcpRtoMin: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpUdpInDatagrams: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpUdpInErrors: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpUdpNoPorts: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      snmpUdpOutDatagrams: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      systemBootTimeS: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       thermals: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            label: Schema.String,
-            connectorId: Schema.optional(Schema.String),
-            criticalCelcius: Schema.optional(Schema.Number),
-            currentCelcius: Schema.optional(Schema.Number),
-            maxCelcius: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              label: "label",
-              connectorId: "connector_id",
-              criticalCelcius: "critical_celcius",
-              currentCelcius: "current_celcius",
-              maxCelcius: "max_celcius",
-            }),
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              label: Schema.String,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              criticalCelcius: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              currentCelcius: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              maxCelcius: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                label: "label",
+                connectorId: "connector_id",
+                criticalCelcius: "critical_celcius",
+                currentCelcius: "current_celcius",
+                maxCelcius: "max_celcius",
+              }),
+            ),
           ),
-        ),
+          Schema.Null,
+        ]),
       ),
       tunnels: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            healthState: Schema.String,
-            healthValue: Schema.Number,
-            interfaceName: Schema.String,
-            tunnelId: Schema.String,
-            connectorId: Schema.optional(Schema.String),
-            probedMtu: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              healthState: "health_state",
-              healthValue: "health_value",
-              interfaceName: "interface_name",
-              tunnelId: "tunnel_id",
-              connectorId: "connector_id",
-              probedMtu: "probed_mtu",
-            }),
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              healthState: Schema.String,
+              healthValue: Schema.Number,
+              interfaceName: Schema.String,
+              tunnelId: Schema.String,
+              connectorId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              probedMtu: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                healthState: "health_state",
+                healthValue: "health_value",
+                interfaceName: "interface_name",
+                tunnelId: "tunnel_id",
+                connectorId: "connector_id",
+                probedMtu: "probed_mtu",
+              }),
+            ),
           ),
-        ),
+          Schema.Null,
+        ]),
       ),
-      uptimeIdleMs: Schema.optional(Schema.Number),
-      uptimeTotalMs: Schema.optional(Schema.Number),
+      uptimeIdleMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      uptimeTotalMs: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         countReclaimFailures: "count_reclaim_failures",
@@ -3501,16 +4273,21 @@ export interface PskGenerateIpsecTunnelResponse {
   /** A randomly generated or provided string for use in the IPsec tunnel. */
   psk?: string;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: { lastGeneratedOn?: string };
+  pskMetadata?: { lastGeneratedOn?: string | null };
 }
 
 export const PskGenerateIpsecTunnelResponse = Schema.Struct({
-  ipsecTunnelId: Schema.optional(Schema.String),
-  psk: Schema.optional(Schema.String),
+  ipsecTunnelId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  psk: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   pskMetadata: Schema.optional(
-    Schema.Struct({
-      lastGeneratedOn: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ lastGeneratedOn: "last_generated_on" })),
+    Schema.Union([
+      Schema.Struct({
+        lastGeneratedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ lastGeneratedOn: "last_generated_on" })),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -3565,122 +4342,182 @@ export interface GetGreTunnelResponse {
     customerGreEndpoint: string;
     interfaceAddress: string;
     name: string;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    ttl?: number;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    ttl?: number | null;
   };
 }
 
 export const GetGreTunnelResponse = Schema.Struct({
   greTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareGreEndpoint: Schema.String,
-      customerGreEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareGreEndpoint: Schema.String,
+        customerGreEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
-        ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareGreEndpoint: "cloudflare_gre_endpoint",
+          customerGreEndpoint: "customer_gre_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          mtu: "mtu",
+          ttl: "ttl",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      mtu: Schema.optional(Schema.Number),
-      ttl: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareGreEndpoint: "cloudflare_gre_endpoint",
-        customerGreEndpoint: "customer_gre_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        mtu: "mtu",
-        ttl: "ttl",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ greTunnel: "gre_tunnel" }),
@@ -3722,124 +4559,188 @@ export interface ListGreTunnelsResponse {
     customerGreEndpoint: string;
     interfaceAddress: string;
     name: string;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    ttl?: number;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    ttl?: number | null;
   }[];
 }
 
 export const ListGreTunnelsResponse = Schema.Struct({
   greTunnels: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        cloudflareGreEndpoint: Schema.String,
-        customerGreEndpoint: Schema.String,
-        interfaceAddress: Schema.String,
-        name: Schema.String,
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        bgp: Schema.optional(
-          Schema.Struct({
-            customerAsn: Schema.Number,
-            extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-            md5Key: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              customerAsn: "customer_asn",
-              extraPrefixes: "extra_prefixes",
-              md5Key: "md5_key",
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          cloudflareGreEndpoint: Schema.String,
+          customerGreEndpoint: Schema.String,
+          interfaceAddress: Schema.String,
+          name: Schema.String,
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        bgpStatus: Schema.optional(
-          Schema.Struct({
-            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-            tcpEstablished: Schema.Boolean,
-            updatedAt: Schema.String,
-            bgpState: Schema.optional(Schema.String),
-            cfSpeakerIp: Schema.optional(Schema.String),
-            cfSpeakerPort: Schema.optional(Schema.Number),
-            customerSpeakerIp: Schema.optional(Schema.String),
-            customerSpeakerPort: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              state: "state",
-              tcpEstablished: "tcp_established",
-              updatedAt: "updated_at",
-              bgpState: "bgp_state",
-              cfSpeakerIp: "cf_speaker_ip",
-              cfSpeakerPort: "cf_speaker_port",
-              customerSpeakerIp: "customer_speaker_ip",
-              customerSpeakerPort: "customer_speaker_port",
-            }),
-          ),
-        ),
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        healthCheck: Schema.optional(
-          Schema.Struct({
-            direction: Schema.optional(
-              Schema.Literals(["unidirectional", "bidirectional"]),
-            ),
-            enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-            target: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  saved: Schema.optional(Schema.String),
+          bgp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                customerAsn: Schema.Number,
+                extraPrefixes: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                md5Key: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  customerAsn: "customer_asn",
+                  extraPrefixes: "extra_prefixes",
+                  md5Key: "md5_key",
                 }),
-                Schema.String,
-              ]),
-            ),
-            type: Schema.optional(Schema.Literals(["reply", "request"])),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          bgpStatus: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                state: Schema.Literals([
+                  "BGP_DOWN",
+                  "BGP_UP",
+                  "BGP_ESTABLISHING",
+                ]),
+                tcpEstablished: Schema.Boolean,
+                updatedAt: Schema.String,
+                bgpState: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                customerSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                customerSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  state: "state",
+                  tcpEstablished: "tcp_established",
+                  updatedAt: "updated_at",
+                  bgpState: "bgp_state",
+                  cfSpeakerIp: "cf_speaker_ip",
+                  cfSpeakerPort: "cf_speaker_port",
+                  customerSpeakerIp: "customer_speaker_ip",
+                  customerSpeakerPort: "customer_speaker_port",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                direction: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["unidirectional", "bidirectional"]),
+                    Schema.Null,
+                  ]),
+                ),
+                enabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                rate: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["low", "mid", "high"]),
+                    Schema.Null,
+                  ]),
+                ),
+                target: Schema.optional(
+                  Schema.Union([
+                    Schema.Union([
+                      Schema.Struct({
+                        saved: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.String,
+                    ]),
+                    Schema.Null,
+                  ]),
+                ),
+                type: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["reply", "request"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            cloudflareGreEndpoint: "cloudflare_gre_endpoint",
+            customerGreEndpoint: "customer_gre_endpoint",
+            interfaceAddress: "interface_address",
+            name: "name",
+            automaticReturnRouting: "automatic_return_routing",
+            bgp: "bgp",
+            bgpStatus: "bgp_status",
+            createdOn: "created_on",
+            description: "description",
+            healthCheck: "health_check",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            mtu: "mtu",
+            ttl: "ttl",
           }),
         ),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        mtu: Schema.optional(Schema.Number),
-        ttl: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          cloudflareGreEndpoint: "cloudflare_gre_endpoint",
-          customerGreEndpoint: "customer_gre_endpoint",
-          interfaceAddress: "interface_address",
-          name: "name",
-          automaticReturnRouting: "automatic_return_routing",
-          bgp: "bgp",
-          bgpStatus: "bgp_status",
-          createdOn: "created_on",
-          description: "description",
-          healthCheck: "health_check",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          mtu: "mtu",
-          ttl: "ttl",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ greTunnels: "gre_tunnels" }),
@@ -3968,27 +4869,31 @@ export interface CreateGreTunnelResponse {
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. */
   automaticReturnRouting?: boolean;
-  bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes?: string[] | null;
+    md5Key?: string | null;
+  };
   bgpStatus?: {
     state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
     tcpEstablished: boolean;
     updatedAt: string;
-    bgpState?: string;
-    cfSpeakerIp?: string;
-    cfSpeakerPort?: number;
-    customerSpeakerIp?: string;
-    customerSpeakerPort?: number;
+    bgpState?: string | null;
+    cfSpeakerIp?: string | null;
+    cfSpeakerPort?: number | null;
+    customerSpeakerIp?: string | null;
+    customerSpeakerPort?: number | null;
   };
   /** The date and time the tunnel was created. */
   createdOn?: string;
   /** An optional description of the GRE tunnel. */
   description?: string;
   healthCheck?: {
-    direction?: "unidirectional" | "bidirectional";
-    enabled?: boolean;
-    rate?: "low" | "mid" | "high";
-    target?: { saved?: string } | string;
-    type?: "reply" | "request";
+    direction?: "unidirectional" | "bidirectional" | null;
+    enabled?: boolean | null;
+    rate?: "low" | "mid" | "high" | null;
+    target?: { saved?: string | null } | string | null;
+    type?: "reply" | "request" | null;
   };
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1: */
   interfaceAddress6?: string;
@@ -4006,67 +4911,102 @@ export const CreateGreTunnelResponse = Schema.Struct({
   customerGreEndpoint: Schema.String,
   interfaceAddress: Schema.String,
   name: Schema.String,
-  automaticReturnRouting: Schema.optional(Schema.Boolean),
+  automaticReturnRouting: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bgp: Schema.optional(
-    Schema.Struct({
-      customerAsn: Schema.Number,
-      extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-      md5Key: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        customerAsn: "customer_asn",
-        extraPrefixes: "extra_prefixes",
-        md5Key: "md5_key",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        customerAsn: Schema.Number,
+        extraPrefixes: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          customerAsn: "customer_asn",
+          extraPrefixes: "extra_prefixes",
+          md5Key: "md5_key",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   bgpStatus: Schema.optional(
-    Schema.Struct({
-      state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-      tcpEstablished: Schema.Boolean,
-      updatedAt: Schema.String,
-      bgpState: Schema.optional(Schema.String),
-      cfSpeakerIp: Schema.optional(Schema.String),
-      cfSpeakerPort: Schema.optional(Schema.Number),
-      customerSpeakerIp: Schema.optional(Schema.String),
-      customerSpeakerPort: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        state: "state",
-        tcpEstablished: "tcp_established",
-        updatedAt: "updated_at",
-        bgpState: "bgp_state",
-        cfSpeakerIp: "cf_speaker_ip",
-        cfSpeakerPort: "cf_speaker_port",
-        customerSpeakerIp: "customer_speaker_ip",
-        customerSpeakerPort: "customer_speaker_port",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
+        tcpEstablished: Schema.Boolean,
+        updatedAt: Schema.String,
+        bgpState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        cfSpeakerIp: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        cfSpeakerPort: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        customerSpeakerIp: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        customerSpeakerPort: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          state: "state",
+          tcpEstablished: "tcp_established",
+          updatedAt: "updated_at",
+          bgpState: "bgp_state",
+          cfSpeakerIp: "cf_speaker_ip",
+          cfSpeakerPort: "cf_speaker_port",
+          customerSpeakerIp: "customer_speaker_ip",
+          customerSpeakerPort: "customer_speaker_port",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   healthCheck: Schema.optional(
-    Schema.Struct({
-      direction: Schema.optional(
-        Schema.Literals(["unidirectional", "bidirectional"]),
-      ),
-      enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-      target: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            saved: Schema.optional(Schema.String),
-          }),
-          Schema.String,
-        ]),
-      ),
-      type: Schema.optional(Schema.Literals(["reply", "request"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        direction: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["unidirectional", "bidirectional"]),
+            Schema.Null,
+          ]),
+        ),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        rate: Schema.optional(
+          Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
+        ),
+        target: Schema.optional(
+          Schema.Union([
+            Schema.Union([
+              Schema.Struct({
+                saved: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }),
+              Schema.String,
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        type: Schema.optional(
+          Schema.Union([Schema.Literals(["reply", "request"]), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  interfaceAddress6: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  mtu: Schema.optional(Schema.Number),
-  ttl: Schema.optional(Schema.Number),
+  interfaceAddress6: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -4194,123 +5134,183 @@ export interface UpdateGreTunnelResponse {
     customerGreEndpoint: string;
     interfaceAddress: string;
     name: string;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    ttl?: number;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    ttl?: number | null;
   };
 }
 
 export const UpdateGreTunnelResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedGreTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareGreEndpoint: Schema.String,
-      customerGreEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareGreEndpoint: Schema.String,
+        customerGreEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
-        ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareGreEndpoint: "cloudflare_gre_endpoint",
+          customerGreEndpoint: "customer_gre_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          mtu: "mtu",
+          ttl: "ttl",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      mtu: Schema.optional(Schema.Number),
-      ttl: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareGreEndpoint: "cloudflare_gre_endpoint",
-        customerGreEndpoint: "customer_gre_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        mtu: "mtu",
-        ttl: "ttl",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -4361,123 +5361,183 @@ export interface DeleteGreTunnelResponse {
     customerGreEndpoint: string;
     interfaceAddress: string;
     name: string;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    ttl?: number;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    ttl?: number | null;
   };
 }
 
 export const DeleteGreTunnelResponse = Schema.Struct({
-  deleted: Schema.optional(Schema.Boolean),
+  deleted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   deletedGreTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareGreEndpoint: Schema.String,
-      customerGreEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareGreEndpoint: Schema.String,
+        customerGreEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
-        ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareGreEndpoint: "cloudflare_gre_endpoint",
+          customerGreEndpoint: "customer_gre_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          mtu: "mtu",
+          ttl: "ttl",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      mtu: Schema.optional(Schema.Number),
-      ttl: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareGreEndpoint: "cloudflare_gre_endpoint",
-        customerGreEndpoint: "customer_gre_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        mtu: "mtu",
-        ttl: "ttl",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -4530,133 +5590,206 @@ export interface GetIpsecTunnelResponse {
     cloudflareEndpoint: string;
     interfaceAddress: string;
     name: string;
-    allowNullCipher?: boolean;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    allowNullCipher?: boolean | null;
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    customRemoteIdentities?: { fqdnId?: string };
-    customerEndpoint?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    customRemoteIdentities?: { fqdnId?: string | null } | null;
+    customerEndpoint?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    pskMetadata?: unknown;
-    replayProtection?: boolean;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    pskMetadata?: unknown | null;
+    replayProtection?: boolean | null;
   };
 }
 
 export const GetIpsecTunnelResponse = Schema.Struct({
   ipsecTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      allowNullCipher: Schema.optional(Schema.Boolean),
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        allowNullCipher: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      customRemoteIdentities: Schema.optional(
-        Schema.Struct({
-          fqdnId: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
-      ),
-      customerEndpoint: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customRemoteIdentities: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              fqdnId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+            Schema.Null,
+          ]),
+        ),
+        customerEndpoint: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        pskMetadata: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        replayProtection: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareEndpoint: "cloudflare_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          allowNullCipher: "allow_null_cipher",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          customRemoteIdentities: "custom_remote_identities",
+          customerEndpoint: "customer_endpoint",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          pskMetadata: "psk_metadata",
+          replayProtection: "replay_protection",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      pskMetadata: Schema.optional(Schema.Unknown),
-      replayProtection: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareEndpoint: "cloudflare_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        allowNullCipher: "allow_null_cipher",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        customRemoteIdentities: "custom_remote_identities",
-        customerEndpoint: "customer_endpoint",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        pskMetadata: "psk_metadata",
-        replayProtection: "replay_protection",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ ipsecTunnel: "ipsec_tunnel" }),
@@ -4697,135 +5830,212 @@ export interface ListIpsecTunnelsResponse {
     cloudflareEndpoint: string;
     interfaceAddress: string;
     name: string;
-    allowNullCipher?: boolean;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    allowNullCipher?: boolean | null;
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    customRemoteIdentities?: { fqdnId?: string };
-    customerEndpoint?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    customRemoteIdentities?: { fqdnId?: string | null } | null;
+    customerEndpoint?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    pskMetadata?: unknown;
-    replayProtection?: boolean;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    pskMetadata?: unknown | null;
+    replayProtection?: boolean | null;
   }[];
 }
 
 export const ListIpsecTunnelsResponse = Schema.Struct({
   ipsecTunnels: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        cloudflareEndpoint: Schema.String,
-        interfaceAddress: Schema.String,
-        name: Schema.String,
-        allowNullCipher: Schema.optional(Schema.Boolean),
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        bgp: Schema.optional(
-          Schema.Struct({
-            customerAsn: Schema.Number,
-            extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-            md5Key: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              customerAsn: "customer_asn",
-              extraPrefixes: "extra_prefixes",
-              md5Key: "md5_key",
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          cloudflareEndpoint: Schema.String,
+          interfaceAddress: Schema.String,
+          name: Schema.String,
+          allowNullCipher: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        bgpStatus: Schema.optional(
-          Schema.Struct({
-            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-            tcpEstablished: Schema.Boolean,
-            updatedAt: Schema.String,
-            bgpState: Schema.optional(Schema.String),
-            cfSpeakerIp: Schema.optional(Schema.String),
-            cfSpeakerPort: Schema.optional(Schema.Number),
-            customerSpeakerIp: Schema.optional(Schema.String),
-            customerSpeakerPort: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              state: "state",
-              tcpEstablished: "tcp_established",
-              updatedAt: "updated_at",
-              bgpState: "bgp_state",
-              cfSpeakerIp: "cf_speaker_ip",
-              cfSpeakerPort: "cf_speaker_port",
-              customerSpeakerIp: "customer_speaker_ip",
-              customerSpeakerPort: "customer_speaker_port",
-            }),
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        createdOn: Schema.optional(Schema.String),
-        customRemoteIdentities: Schema.optional(
-          Schema.Struct({
-            fqdnId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
-        ),
-        customerEndpoint: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        healthCheck: Schema.optional(
-          Schema.Struct({
-            direction: Schema.optional(
-              Schema.Literals(["unidirectional", "bidirectional"]),
-            ),
-            enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-            target: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  saved: Schema.optional(Schema.String),
+          bgp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                customerAsn: Schema.Number,
+                extraPrefixes: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                md5Key: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  customerAsn: "customer_asn",
+                  extraPrefixes: "extra_prefixes",
+                  md5Key: "md5_key",
                 }),
-                Schema.String,
-              ]),
-            ),
-            type: Schema.optional(Schema.Literals(["reply", "request"])),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          bgpStatus: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                state: Schema.Literals([
+                  "BGP_DOWN",
+                  "BGP_UP",
+                  "BGP_ESTABLISHING",
+                ]),
+                tcpEstablished: Schema.Boolean,
+                updatedAt: Schema.String,
+                bgpState: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                customerSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                customerSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  state: "state",
+                  tcpEstablished: "tcp_established",
+                  updatedAt: "updated_at",
+                  bgpState: "bgp_state",
+                  cfSpeakerIp: "cf_speaker_ip",
+                  cfSpeakerPort: "cf_speaker_port",
+                  customerSpeakerIp: "customer_speaker_ip",
+                  customerSpeakerPort: "customer_speaker_port",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          customRemoteIdentities: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                fqdnId: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+              Schema.Null,
+            ]),
+          ),
+          customerEndpoint: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                direction: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["unidirectional", "bidirectional"]),
+                    Schema.Null,
+                  ]),
+                ),
+                enabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                rate: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["low", "mid", "high"]),
+                    Schema.Null,
+                  ]),
+                ),
+                target: Schema.optional(
+                  Schema.Union([
+                    Schema.Union([
+                      Schema.Struct({
+                        saved: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.String,
+                    ]),
+                    Schema.Null,
+                  ]),
+                ),
+                type: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["reply", "request"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          pskMetadata: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          replayProtection: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            cloudflareEndpoint: "cloudflare_endpoint",
+            interfaceAddress: "interface_address",
+            name: "name",
+            allowNullCipher: "allow_null_cipher",
+            automaticReturnRouting: "automatic_return_routing",
+            bgp: "bgp",
+            bgpStatus: "bgp_status",
+            createdOn: "created_on",
+            customRemoteIdentities: "custom_remote_identities",
+            customerEndpoint: "customer_endpoint",
+            description: "description",
+            healthCheck: "health_check",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            pskMetadata: "psk_metadata",
+            replayProtection: "replay_protection",
           }),
         ),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        pskMetadata: Schema.optional(Schema.Unknown),
-        replayProtection: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          cloudflareEndpoint: "cloudflare_endpoint",
-          interfaceAddress: "interface_address",
-          name: "name",
-          allowNullCipher: "allow_null_cipher",
-          automaticReturnRouting: "automatic_return_routing",
-          bgp: "bgp",
-          bgpStatus: "bgp_status",
-          createdOn: "created_on",
-          customRemoteIdentities: "custom_remote_identities",
-          customerEndpoint: "customer_endpoint",
-          description: "description",
-          healthCheck: "health_check",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          pskMetadata: "psk_metadata",
-          replayProtection: "replay_protection",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ ipsecTunnels: "ipsec_tunnels" }),
@@ -4965,37 +6175,41 @@ export interface CreateIpsecTunnelResponse {
   allowNullCipher?: boolean;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. */
   automaticReturnRouting?: boolean;
-  bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes?: string[] | null;
+    md5Key?: string | null;
+  };
   bgpStatus?: {
     state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
     tcpEstablished: boolean;
     updatedAt: string;
-    bgpState?: string;
-    cfSpeakerIp?: string;
-    cfSpeakerPort?: number;
-    customerSpeakerIp?: string;
-    customerSpeakerPort?: number;
+    bgpState?: string | null;
+    cfSpeakerIp?: string | null;
+    cfSpeakerPort?: number | null;
+    customerSpeakerIp?: string | null;
+    customerSpeakerPort?: number | null;
   };
   /** The date and time the tunnel was created. */
   createdOn?: string;
-  customRemoteIdentities?: { fqdnId?: string };
+  customRemoteIdentities?: { fqdnId?: string | null };
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
   customerEndpoint?: string;
   /** An optional description forthe IPsec tunnel. */
   description?: string;
   healthCheck?: {
-    direction?: "unidirectional" | "bidirectional";
-    enabled?: boolean;
-    rate?: "low" | "mid" | "high";
-    target?: { saved?: string } | string;
-    type?: "reply" | "request";
+    direction?: "unidirectional" | "bidirectional" | null;
+    enabled?: boolean | null;
+    rate?: "low" | "mid" | "high" | null;
+    target?: { saved?: string | null } | string | null;
+    type?: "reply" | "request" | null;
   };
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1: */
   interfaceAddress6?: string;
   /** The date and time the tunnel was last modified. */
   modifiedOn?: string;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: { lastGeneratedOn?: string };
+  pskMetadata?: { lastGeneratedOn?: string | null };
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
   replayProtection?: boolean;
 }
@@ -5005,78 +6219,123 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
   cloudflareEndpoint: Schema.String,
   interfaceAddress: Schema.String,
   name: Schema.String,
-  allowNullCipher: Schema.optional(Schema.Boolean),
-  automaticReturnRouting: Schema.optional(Schema.Boolean),
+  allowNullCipher: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  automaticReturnRouting: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   bgp: Schema.optional(
-    Schema.Struct({
-      customerAsn: Schema.Number,
-      extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-      md5Key: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        customerAsn: "customer_asn",
-        extraPrefixes: "extra_prefixes",
-        md5Key: "md5_key",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        customerAsn: Schema.Number,
+        extraPrefixes: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          customerAsn: "customer_asn",
+          extraPrefixes: "extra_prefixes",
+          md5Key: "md5_key",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   bgpStatus: Schema.optional(
-    Schema.Struct({
-      state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-      tcpEstablished: Schema.Boolean,
-      updatedAt: Schema.String,
-      bgpState: Schema.optional(Schema.String),
-      cfSpeakerIp: Schema.optional(Schema.String),
-      cfSpeakerPort: Schema.optional(Schema.Number),
-      customerSpeakerIp: Schema.optional(Schema.String),
-      customerSpeakerPort: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        state: "state",
-        tcpEstablished: "tcp_established",
-        updatedAt: "updated_at",
-        bgpState: "bgp_state",
-        cfSpeakerIp: "cf_speaker_ip",
-        cfSpeakerPort: "cf_speaker_port",
-        customerSpeakerIp: "customer_speaker_ip",
-        customerSpeakerPort: "customer_speaker_port",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
+        tcpEstablished: Schema.Boolean,
+        updatedAt: Schema.String,
+        bgpState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        cfSpeakerIp: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        cfSpeakerPort: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        customerSpeakerIp: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        customerSpeakerPort: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          state: "state",
+          tcpEstablished: "tcp_established",
+          updatedAt: "updated_at",
+          bgpState: "bgp_state",
+          cfSpeakerIp: "cf_speaker_ip",
+          cfSpeakerPort: "cf_speaker_port",
+          customerSpeakerIp: "customer_speaker_ip",
+          customerSpeakerPort: "customer_speaker_port",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  createdOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   customRemoteIdentities: Schema.optional(
-    Schema.Struct({
-      fqdnId: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+    Schema.Union([
+      Schema.Struct({
+        fqdnId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+      Schema.Null,
+    ]),
   ),
-  customerEndpoint: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
+  customerEndpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   healthCheck: Schema.optional(
-    Schema.Struct({
-      direction: Schema.optional(
-        Schema.Literals(["unidirectional", "bidirectional"]),
-      ),
-      enabled: Schema.optional(Schema.Boolean),
-      rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-      target: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            saved: Schema.optional(Schema.String),
-          }),
-          Schema.String,
-        ]),
-      ),
-      type: Schema.optional(Schema.Literals(["reply", "request"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        direction: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["unidirectional", "bidirectional"]),
+            Schema.Null,
+          ]),
+        ),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        rate: Schema.optional(
+          Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
+        ),
+        target: Schema.optional(
+          Schema.Union([
+            Schema.Union([
+              Schema.Struct({
+                saved: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }),
+              Schema.String,
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        type: Schema.optional(
+          Schema.Union([Schema.Literals(["reply", "request"]), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  interfaceAddress6: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  interfaceAddress6: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   pskMetadata: Schema.optional(
-    Schema.Struct({
-      lastGeneratedOn: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ lastGeneratedOn: "last_generated_on" })),
+    Schema.Union([
+      Schema.Struct({
+        lastGeneratedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ lastGeneratedOn: "last_generated_on" })),
+      Schema.Null,
+    ]),
   ),
-  replayProtection: Schema.optional(Schema.Boolean),
+  replayProtection: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -5229,134 +6488,207 @@ export interface UpdateIpsecTunnelResponse {
     cloudflareEndpoint: string;
     interfaceAddress: string;
     name: string;
-    allowNullCipher?: boolean;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    allowNullCipher?: boolean | null;
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    customRemoteIdentities?: { fqdnId?: string };
-    customerEndpoint?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    customRemoteIdentities?: { fqdnId?: string | null } | null;
+    customerEndpoint?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    pskMetadata?: unknown;
-    replayProtection?: boolean;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    pskMetadata?: unknown | null;
+    replayProtection?: boolean | null;
   };
 }
 
 export const UpdateIpsecTunnelResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedIpsecTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      allowNullCipher: Schema.optional(Schema.Boolean),
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        allowNullCipher: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      customRemoteIdentities: Schema.optional(
-        Schema.Struct({
-          fqdnId: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
-      ),
-      customerEndpoint: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customRemoteIdentities: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              fqdnId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+            Schema.Null,
+          ]),
+        ),
+        customerEndpoint: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        pskMetadata: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        replayProtection: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareEndpoint: "cloudflare_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          allowNullCipher: "allow_null_cipher",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          customRemoteIdentities: "custom_remote_identities",
+          customerEndpoint: "customer_endpoint",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          pskMetadata: "psk_metadata",
+          replayProtection: "replay_protection",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      pskMetadata: Schema.optional(Schema.Unknown),
-      replayProtection: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareEndpoint: "cloudflare_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        allowNullCipher: "allow_null_cipher",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        customRemoteIdentities: "custom_remote_identities",
-        customerEndpoint: "customer_endpoint",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        pskMetadata: "psk_metadata",
-        replayProtection: "replay_protection",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -5406,134 +6738,207 @@ export interface DeleteIpsecTunnelResponse {
     cloudflareEndpoint: string;
     interfaceAddress: string;
     name: string;
-    allowNullCipher?: boolean;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    allowNullCipher?: boolean | null;
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    customRemoteIdentities?: { fqdnId?: string };
-    customerEndpoint?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    customRemoteIdentities?: { fqdnId?: string | null } | null;
+    customerEndpoint?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    pskMetadata?: unknown;
-    replayProtection?: boolean;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    pskMetadata?: unknown | null;
+    replayProtection?: boolean | null;
   };
 }
 
 export const DeleteIpsecTunnelResponse = Schema.Struct({
-  deleted: Schema.optional(Schema.Boolean),
+  deleted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   deletedIpsecTunnel: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      cloudflareEndpoint: Schema.String,
-      interfaceAddress: Schema.String,
-      name: Schema.String,
-      allowNullCipher: Schema.optional(Schema.Boolean),
-      automaticReturnRouting: Schema.optional(Schema.Boolean),
-      bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-          md5Key: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        cloudflareEndpoint: Schema.String,
+        interfaceAddress: Schema.String,
+        name: Schema.String,
+        allowNullCipher: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      bgpStatus: Schema.optional(
-        Schema.Struct({
-          state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-          tcpEstablished: Schema.Boolean,
-          updatedAt: Schema.String,
-          bgpState: Schema.optional(Schema.String),
-          cfSpeakerIp: Schema.optional(Schema.String),
-          cfSpeakerPort: Schema.optional(Schema.Number),
-          customerSpeakerIp: Schema.optional(Schema.String),
-          customerSpeakerPort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            state: "state",
-            tcpEstablished: "tcp_established",
-            updatedAt: "updated_at",
-            bgpState: "bgp_state",
-            cfSpeakerIp: "cf_speaker_ip",
-            cfSpeakerPort: "cf_speaker_port",
-            customerSpeakerIp: "customer_speaker_ip",
-            customerSpeakerPort: "customer_speaker_port",
-          }),
+        automaticReturnRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-      ),
-      createdOn: Schema.optional(Schema.String),
-      customRemoteIdentities: Schema.optional(
-        Schema.Struct({
-          fqdnId: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
-      ),
-      customerEndpoint: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      healthCheck: Schema.optional(
-        Schema.Struct({
-          direction: Schema.optional(
-            Schema.Literals(["unidirectional", "bidirectional"]),
-          ),
-          enabled: Schema.optional(Schema.Boolean),
-          rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-          target: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                saved: Schema.optional(Schema.String),
+        bgp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              customerAsn: Schema.Number,
+              extraPrefixes: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              md5Key: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                customerAsn: "customer_asn",
+                extraPrefixes: "extra_prefixes",
+                md5Key: "md5_key",
               }),
-              Schema.String,
-            ]),
-          ),
-          type: Schema.optional(Schema.Literals(["reply", "request"])),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        bgpStatus: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              state: Schema.Literals([
+                "BGP_DOWN",
+                "BGP_UP",
+                "BGP_ESTABLISHING",
+              ]),
+              tcpEstablished: Schema.Boolean,
+              updatedAt: Schema.String,
+              bgpState: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              cfSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              customerSpeakerIp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              customerSpeakerPort: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                state: "state",
+                tcpEstablished: "tcp_established",
+                updatedAt: "updated_at",
+                bgpState: "bgp_state",
+                cfSpeakerIp: "cf_speaker_ip",
+                cfSpeakerPort: "cf_speaker_port",
+                customerSpeakerIp: "customer_speaker_ip",
+                customerSpeakerPort: "customer_speaker_port",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customRemoteIdentities: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              fqdnId: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+            Schema.Null,
+          ]),
+        ),
+        customerEndpoint: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        healthCheck: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              direction: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["unidirectional", "bidirectional"]),
+                  Schema.Null,
+                ]),
+              ),
+              enabled: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              rate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["low", "mid", "high"]),
+                  Schema.Null,
+                ]),
+              ),
+              target: Schema.optional(
+                Schema.Union([
+                  Schema.Union([
+                    Schema.Struct({
+                      saved: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                    Schema.String,
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["reply", "request"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        interfaceAddress6: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        pskMetadata: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        replayProtection: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          cloudflareEndpoint: "cloudflare_endpoint",
+          interfaceAddress: "interface_address",
+          name: "name",
+          allowNullCipher: "allow_null_cipher",
+          automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
+          bgpStatus: "bgp_status",
+          createdOn: "created_on",
+          customRemoteIdentities: "custom_remote_identities",
+          customerEndpoint: "customer_endpoint",
+          description: "description",
+          healthCheck: "health_check",
+          interfaceAddress6: "interface_address6",
+          modifiedOn: "modified_on",
+          pskMetadata: "psk_metadata",
+          replayProtection: "replay_protection",
         }),
       ),
-      interfaceAddress6: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      pskMetadata: Schema.optional(Schema.Unknown),
-      replayProtection: Schema.optional(Schema.Boolean),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        cloudflareEndpoint: "cloudflare_endpoint",
-        interfaceAddress: "interface_address",
-        name: "name",
-        allowNullCipher: "allow_null_cipher",
-        automaticReturnRouting: "automatic_return_routing",
-        bgp: "bgp",
-        bgpStatus: "bgp_status",
-        createdOn: "created_on",
-        customRemoteIdentities: "custom_remote_identities",
-        customerEndpoint: "customer_endpoint",
-        description: "description",
-        healthCheck: "health_check",
-        interfaceAddress6: "interface_address6",
-        modifiedOn: "modified_on",
-        pskMetadata: "psk_metadata",
-        replayProtection: "replay_protection",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -5574,15 +6979,15 @@ export const GetPcapRequest = Schema.Struct({
 
 export type GetPcapResponse =
   | {
-      id?: string;
+      id?: string | null;
       filterV1?: {
-        destinationAddress?: string;
-        destinationPort?: number;
-        protocol?: number;
-        sourceAddress?: string;
-        sourcePort?: number;
-      };
-      offsetTime?: string;
+        destinationAddress?: string | null;
+        destinationPort?: number | null;
+        protocol?: number | null;
+        sourceAddress?: string | null;
+        sourcePort?: number | null;
+      } | null;
+      offsetTime?: string | null;
       status?:
         | "unknown"
         | "success"
@@ -5591,20 +6996,21 @@ export type GetPcapResponse =
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     }
   | {
-      id?: string;
-      byteLimit?: number;
-      coloName?: string;
-      destinationConf?: string;
-      errorMessage?: string;
-      filterV1?: unknown;
-      packetsCaptured?: number;
+      id?: string | null;
+      byteLimit?: number | null;
+      coloName?: string | null;
+      destinationConf?: string | null;
+      errorMessage?: string | null;
+      filterV1?: unknown | null;
+      packetsCaptured?: number | null;
       status?:
         | "unknown"
         | "success"
@@ -5613,51 +7019,70 @@ export type GetPcapResponse =
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      stopRequested?: string;
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      stopRequested?: string | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     };
 
 export const GetPcapResponse = Schema.Union([
   Schema.Struct({
-    id: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     filterV1: Schema.optional(
-      Schema.Struct({
-        destinationAddress: Schema.optional(Schema.String),
-        destinationPort: Schema.optional(Schema.Number),
-        protocol: Schema.optional(Schema.Number),
-        sourceAddress: Schema.optional(Schema.String),
-        sourcePort: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          destinationAddress: "destination_address",
-          destinationPort: "destination_port",
-          protocol: "protocol",
-          sourceAddress: "source_address",
-          sourcePort: "source_port",
-        }),
-      ),
-    ),
-    offsetTime: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literals([
-        "unknown",
-        "success",
-        "pending",
-        "running",
-        "conversion_pending",
-        "conversion_running",
-        "complete",
-        "failed",
+      Schema.Union([
+        Schema.Struct({
+          destinationAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          destinationPort: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          protocol: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          sourceAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          sourcePort: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            destinationAddress: "destination_address",
+            destinationPort: "destination_port",
+            protocol: "protocol",
+            sourceAddress: "source_address",
+            sourcePort: "source_port",
+          }),
+        ),
+        Schema.Null,
       ]),
     ),
-    submitted: Schema.optional(Schema.String),
-    system: Schema.optional(Schema.Literal("magic-transit")),
-    timeLimit: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.Literals(["simple", "full"])),
+    offsetTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "unknown",
+          "success",
+          "pending",
+          "running",
+          "conversion_pending",
+          "conversion_running",
+          "complete",
+          "failed",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    system: Schema.optional(
+      Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+    ),
+    timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -5671,30 +7096,41 @@ export const GetPcapResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    byteLimit: Schema.optional(Schema.Number),
-    coloName: Schema.optional(Schema.String),
-    destinationConf: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-    filterV1: Schema.optional(Schema.Unknown),
-    packetsCaptured: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    byteLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    destinationConf: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    filterV1: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    packetsCaptured: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
     status: Schema.optional(
-      Schema.Literals([
-        "unknown",
-        "success",
-        "pending",
-        "running",
-        "conversion_pending",
-        "conversion_running",
-        "complete",
-        "failed",
+      Schema.Union([
+        Schema.Literals([
+          "unknown",
+          "success",
+          "pending",
+          "running",
+          "conversion_pending",
+          "conversion_running",
+          "complete",
+          "failed",
+        ]),
+        Schema.Null,
       ]),
     ),
-    stopRequested: Schema.optional(Schema.String),
-    submitted: Schema.optional(Schema.String),
-    system: Schema.optional(Schema.Literal("magic-transit")),
-    timeLimit: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.Literals(["simple", "full"])),
+    stopRequested: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    system: Schema.optional(
+      Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+    ),
+    timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -5740,15 +7176,15 @@ export const ListPcapsRequest = Schema.Struct({
 
 export type ListPcapsResponse = (
   | {
-      id?: string;
+      id?: string | null;
       filterV1?: {
-        destinationAddress?: string;
-        destinationPort?: number;
-        protocol?: number;
-        sourceAddress?: string;
-        sourcePort?: number;
-      };
-      offsetTime?: string;
+        destinationAddress?: string | null;
+        destinationPort?: number | null;
+        protocol?: number | null;
+        sourceAddress?: string | null;
+        sourcePort?: number | null;
+      } | null;
+      offsetTime?: string | null;
       status?:
         | "unknown"
         | "success"
@@ -5757,20 +7193,21 @@ export type ListPcapsResponse = (
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     }
   | {
-      id?: string;
-      byteLimit?: number;
-      coloName?: string;
-      destinationConf?: string;
-      errorMessage?: string;
-      filterV1?: unknown;
-      packetsCaptured?: number;
+      id?: string | null;
+      byteLimit?: number | null;
+      coloName?: string | null;
+      destinationConf?: string | null;
+      errorMessage?: string | null;
+      filterV1?: unknown | null;
+      packetsCaptured?: number | null;
       status?:
         | "unknown"
         | "success"
@@ -5779,53 +7216,74 @@ export type ListPcapsResponse = (
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      stopRequested?: string;
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      stopRequested?: string | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     }
 )[];
 
 export const ListPcapsResponse = Schema.Array(
   Schema.Union([
     Schema.Struct({
-      id: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       filterV1: Schema.optional(
-        Schema.Struct({
-          destinationAddress: Schema.optional(Schema.String),
-          destinationPort: Schema.optional(Schema.Number),
-          protocol: Schema.optional(Schema.Number),
-          sourceAddress: Schema.optional(Schema.String),
-          sourcePort: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            destinationAddress: "destination_address",
-            destinationPort: "destination_port",
-            protocol: "protocol",
-            sourceAddress: "source_address",
-            sourcePort: "source_port",
-          }),
-        ),
-      ),
-      offsetTime: Schema.optional(Schema.String),
-      status: Schema.optional(
-        Schema.Literals([
-          "unknown",
-          "success",
-          "pending",
-          "running",
-          "conversion_pending",
-          "conversion_running",
-          "complete",
-          "failed",
+        Schema.Union([
+          Schema.Struct({
+            destinationAddress: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            destinationPort: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            protocol: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            sourceAddress: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            sourcePort: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              destinationAddress: "destination_address",
+              destinationPort: "destination_port",
+              protocol: "protocol",
+              sourceAddress: "source_address",
+              sourcePort: "source_port",
+            }),
+          ),
+          Schema.Null,
         ]),
       ),
-      submitted: Schema.optional(Schema.String),
-      system: Schema.optional(Schema.Literal("magic-transit")),
-      timeLimit: Schema.optional(Schema.Number),
-      type: Schema.optional(Schema.Literals(["simple", "full"])),
+      offsetTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "unknown",
+            "success",
+            "pending",
+            "running",
+            "conversion_pending",
+            "conversion_running",
+            "complete",
+            "failed",
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      system: Schema.optional(
+        Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+      ),
+      timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -5839,30 +7297,43 @@ export const ListPcapsResponse = Schema.Array(
       }),
     ),
     Schema.Struct({
-      id: Schema.optional(Schema.String),
-      byteLimit: Schema.optional(Schema.Number),
-      coloName: Schema.optional(Schema.String),
-      destinationConf: Schema.optional(Schema.String),
-      errorMessage: Schema.optional(Schema.String),
-      filterV1: Schema.optional(Schema.Unknown),
-      packetsCaptured: Schema.optional(Schema.Number),
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      byteLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      destinationConf: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      filterV1: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      packetsCaptured: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       status: Schema.optional(
-        Schema.Literals([
-          "unknown",
-          "success",
-          "pending",
-          "running",
-          "conversion_pending",
-          "conversion_running",
-          "complete",
-          "failed",
+        Schema.Union([
+          Schema.Literals([
+            "unknown",
+            "success",
+            "pending",
+            "running",
+            "conversion_pending",
+            "conversion_running",
+            "complete",
+            "failed",
+          ]),
+          Schema.Null,
         ]),
       ),
-      stopRequested: Schema.optional(Schema.String),
-      submitted: Schema.optional(Schema.String),
-      system: Schema.optional(Schema.Literal("magic-transit")),
-      timeLimit: Schema.optional(Schema.Number),
-      type: Schema.optional(Schema.Literals(["simple", "full"])),
+      stopRequested: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      system: Schema.optional(
+        Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+      ),
+      timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -5957,15 +7428,15 @@ export const CreatePcapRequest = Schema.Struct({
 
 export type CreatePcapResponse =
   | {
-      id?: string;
+      id?: string | null;
       filterV1?: {
-        destinationAddress?: string;
-        destinationPort?: number;
-        protocol?: number;
-        sourceAddress?: string;
-        sourcePort?: number;
-      };
-      offsetTime?: string;
+        destinationAddress?: string | null;
+        destinationPort?: number | null;
+        protocol?: number | null;
+        sourceAddress?: string | null;
+        sourcePort?: number | null;
+      } | null;
+      offsetTime?: string | null;
       status?:
         | "unknown"
         | "success"
@@ -5974,20 +7445,21 @@ export type CreatePcapResponse =
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     }
   | {
-      id?: string;
-      byteLimit?: number;
-      coloName?: string;
-      destinationConf?: string;
-      errorMessage?: string;
-      filterV1?: unknown;
-      packetsCaptured?: number;
+      id?: string | null;
+      byteLimit?: number | null;
+      coloName?: string | null;
+      destinationConf?: string | null;
+      errorMessage?: string | null;
+      filterV1?: unknown | null;
+      packetsCaptured?: number | null;
       status?:
         | "unknown"
         | "success"
@@ -5996,51 +7468,70 @@ export type CreatePcapResponse =
         | "conversion_pending"
         | "conversion_running"
         | "complete"
-        | "failed";
-      stopRequested?: string;
-      submitted?: string;
-      system?: "magic-transit";
-      timeLimit?: number;
-      type?: "simple" | "full";
+        | "failed"
+        | null;
+      stopRequested?: string | null;
+      submitted?: string | null;
+      system?: "magic-transit" | null;
+      timeLimit?: number | null;
+      type?: "simple" | "full" | null;
     };
 
 export const CreatePcapResponse = Schema.Union([
   Schema.Struct({
-    id: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     filterV1: Schema.optional(
-      Schema.Struct({
-        destinationAddress: Schema.optional(Schema.String),
-        destinationPort: Schema.optional(Schema.Number),
-        protocol: Schema.optional(Schema.Number),
-        sourceAddress: Schema.optional(Schema.String),
-        sourcePort: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          destinationAddress: "destination_address",
-          destinationPort: "destination_port",
-          protocol: "protocol",
-          sourceAddress: "source_address",
-          sourcePort: "source_port",
-        }),
-      ),
-    ),
-    offsetTime: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literals([
-        "unknown",
-        "success",
-        "pending",
-        "running",
-        "conversion_pending",
-        "conversion_running",
-        "complete",
-        "failed",
+      Schema.Union([
+        Schema.Struct({
+          destinationAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          destinationPort: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          protocol: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          sourceAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          sourcePort: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            destinationAddress: "destination_address",
+            destinationPort: "destination_port",
+            protocol: "protocol",
+            sourceAddress: "source_address",
+            sourcePort: "source_port",
+          }),
+        ),
+        Schema.Null,
       ]),
     ),
-    submitted: Schema.optional(Schema.String),
-    system: Schema.optional(Schema.Literal("magic-transit")),
-    timeLimit: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.Literals(["simple", "full"])),
+    offsetTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "unknown",
+          "success",
+          "pending",
+          "running",
+          "conversion_pending",
+          "conversion_running",
+          "complete",
+          "failed",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    system: Schema.optional(
+      Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+    ),
+    timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -6054,30 +7545,41 @@ export const CreatePcapResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    byteLimit: Schema.optional(Schema.Number),
-    coloName: Schema.optional(Schema.String),
-    destinationConf: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-    filterV1: Schema.optional(Schema.Unknown),
-    packetsCaptured: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    byteLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    destinationConf: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    filterV1: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    packetsCaptured: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
     status: Schema.optional(
-      Schema.Literals([
-        "unknown",
-        "success",
-        "pending",
-        "running",
-        "conversion_pending",
-        "conversion_running",
-        "complete",
-        "failed",
+      Schema.Union([
+        Schema.Literals([
+          "unknown",
+          "success",
+          "pending",
+          "running",
+          "conversion_pending",
+          "conversion_running",
+          "complete",
+          "failed",
+        ]),
+        Schema.Null,
       ]),
     ),
-    stopRequested: Schema.optional(Schema.String),
-    submitted: Schema.optional(Schema.String),
-    system: Schema.optional(Schema.Literal("magic-transit")),
-    timeLimit: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.Literals(["simple", "full"])),
+    stopRequested: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    submitted: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    system: Schema.optional(
+      Schema.Union([Schema.Literal("magic-transit"), Schema.Null]),
+    ),
+    timeLimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["simple", "full"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -6200,7 +7702,7 @@ export type GetPcapOwnershipResponse = {
   filename: string;
   status: "pending" | "success" | "failed";
   submitted: string;
-  validated?: string;
+  validated?: string | null;
 }[];
 
 export const GetPcapOwnershipResponse = Schema.Array(
@@ -6210,7 +7712,7 @@ export const GetPcapOwnershipResponse = Schema.Array(
     filename: Schema.String,
     status: Schema.Literals(["pending", "success", "failed"]),
     submitted: Schema.String,
-    validated: Schema.optional(Schema.String),
+    validated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -6272,7 +7774,7 @@ export const CreatePcapOwnershipResponse = Schema.Struct({
   filename: Schema.String,
   status: Schema.Literals(["pending", "success", "failed"]),
   submitted: Schema.String,
-  validated: Schema.optional(Schema.String),
+  validated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -6376,7 +7878,7 @@ export const ValidatePcapOwnershipResponse = Schema.Struct({
   filename: Schema.String,
   status: Schema.Literals(["pending", "success", "failed"]),
   submitted: Schema.String,
-  validated: Schema.optional(Schema.String),
+  validated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -6430,61 +7932,85 @@ export const BulkPutCfInterconnectsRequest = Schema.Struct({
 export interface BulkPutCfInterconnectsResponse {
   modified?: boolean;
   modifiedInterconnects?: {
-    id?: string;
-    automaticReturnRouting?: boolean;
-    coloName?: string;
-    createdOn?: string;
-    description?: string;
-    gre?: { cloudflareEndpoint?: string };
-    healthCheck?: unknown;
-    interfaceAddress?: string;
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    name?: string;
+    id?: string | null;
+    automaticReturnRouting?: boolean | null;
+    coloName?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    gre?: { cloudflareEndpoint?: string | null } | null;
+    healthCheck?: unknown | null;
+    interfaceAddress?: string | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    name?: string | null;
   }[];
 }
 
 export const BulkPutCfInterconnectsResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedInterconnects: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        coloName: Schema.optional(Schema.String),
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        gre: Schema.optional(
-          Schema.Struct({
-            cloudflareEndpoint: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({ cloudflareEndpoint: "cloudflare_endpoint" }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
+          coloName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          gre: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                cloudflareEndpoint: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  cloudflareEndpoint: "cloudflare_endpoint",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          interfaceAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            automaticReturnRouting: "automatic_return_routing",
+            coloName: "colo_name",
+            createdOn: "created_on",
+            description: "description",
+            gre: "gre",
+            healthCheck: "health_check",
+            interfaceAddress: "interface_address",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            mtu: "mtu",
+            name: "name",
+          }),
         ),
-        healthCheck: Schema.optional(Schema.Unknown),
-        interfaceAddress: Schema.optional(Schema.String),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        mtu: Schema.optional(Schema.Number),
-        name: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          automaticReturnRouting: "automatic_return_routing",
-          coloName: "colo_name",
-          createdOn: "created_on",
-          description: "description",
-          gre: "gre",
-          healthCheck: "health_check",
-          interfaceAddress: "interface_address",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          mtu: "mtu",
-          name: "name",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -6537,125 +8063,189 @@ export interface BulkPutGreTunnelsResponse {
     customerGreEndpoint: string;
     interfaceAddress: string;
     name: string;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    mtu?: number;
-    ttl?: number;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    mtu?: number | null;
+    ttl?: number | null;
   }[];
 }
 
 export const BulkPutGreTunnelsResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedGreTunnels: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        cloudflareGreEndpoint: Schema.String,
-        customerGreEndpoint: Schema.String,
-        interfaceAddress: Schema.String,
-        name: Schema.String,
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        bgp: Schema.optional(
-          Schema.Struct({
-            customerAsn: Schema.Number,
-            extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-            md5Key: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              customerAsn: "customer_asn",
-              extraPrefixes: "extra_prefixes",
-              md5Key: "md5_key",
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          cloudflareGreEndpoint: Schema.String,
+          customerGreEndpoint: Schema.String,
+          interfaceAddress: Schema.String,
+          name: Schema.String,
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        bgpStatus: Schema.optional(
-          Schema.Struct({
-            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-            tcpEstablished: Schema.Boolean,
-            updatedAt: Schema.String,
-            bgpState: Schema.optional(Schema.String),
-            cfSpeakerIp: Schema.optional(Schema.String),
-            cfSpeakerPort: Schema.optional(Schema.Number),
-            customerSpeakerIp: Schema.optional(Schema.String),
-            customerSpeakerPort: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              state: "state",
-              tcpEstablished: "tcp_established",
-              updatedAt: "updated_at",
-              bgpState: "bgp_state",
-              cfSpeakerIp: "cf_speaker_ip",
-              cfSpeakerPort: "cf_speaker_port",
-              customerSpeakerIp: "customer_speaker_ip",
-              customerSpeakerPort: "customer_speaker_port",
-            }),
-          ),
-        ),
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        healthCheck: Schema.optional(
-          Schema.Struct({
-            direction: Schema.optional(
-              Schema.Literals(["unidirectional", "bidirectional"]),
-            ),
-            enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-            target: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  saved: Schema.optional(Schema.String),
+          bgp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                customerAsn: Schema.Number,
+                extraPrefixes: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                md5Key: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  customerAsn: "customer_asn",
+                  extraPrefixes: "extra_prefixes",
+                  md5Key: "md5_key",
                 }),
-                Schema.String,
-              ]),
-            ),
-            type: Schema.optional(Schema.Literals(["reply", "request"])),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          bgpStatus: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                state: Schema.Literals([
+                  "BGP_DOWN",
+                  "BGP_UP",
+                  "BGP_ESTABLISHING",
+                ]),
+                tcpEstablished: Schema.Boolean,
+                updatedAt: Schema.String,
+                bgpState: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                customerSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                customerSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  state: "state",
+                  tcpEstablished: "tcp_established",
+                  updatedAt: "updated_at",
+                  bgpState: "bgp_state",
+                  cfSpeakerIp: "cf_speaker_ip",
+                  cfSpeakerPort: "cf_speaker_port",
+                  customerSpeakerIp: "customer_speaker_ip",
+                  customerSpeakerPort: "customer_speaker_port",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                direction: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["unidirectional", "bidirectional"]),
+                    Schema.Null,
+                  ]),
+                ),
+                enabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                rate: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["low", "mid", "high"]),
+                    Schema.Null,
+                  ]),
+                ),
+                target: Schema.optional(
+                  Schema.Union([
+                    Schema.Union([
+                      Schema.Struct({
+                        saved: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.String,
+                    ]),
+                    Schema.Null,
+                  ]),
+                ),
+                type: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["reply", "request"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          mtu: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            cloudflareGreEndpoint: "cloudflare_gre_endpoint",
+            customerGreEndpoint: "customer_gre_endpoint",
+            interfaceAddress: "interface_address",
+            name: "name",
+            automaticReturnRouting: "automatic_return_routing",
+            bgp: "bgp",
+            bgpStatus: "bgp_status",
+            createdOn: "created_on",
+            description: "description",
+            healthCheck: "health_check",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            mtu: "mtu",
+            ttl: "ttl",
           }),
         ),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        mtu: Schema.optional(Schema.Number),
-        ttl: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          cloudflareGreEndpoint: "cloudflare_gre_endpoint",
-          customerGreEndpoint: "customer_gre_endpoint",
-          interfaceAddress: "interface_address",
-          name: "name",
-          automaticReturnRouting: "automatic_return_routing",
-          bgp: "bgp",
-          bgpStatus: "bgp_status",
-          createdOn: "created_on",
-          description: "description",
-          healthCheck: "health_check",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          mtu: "mtu",
-          ttl: "ttl",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -6707,136 +8297,213 @@ export interface BulkPutIpsecTunnelsResponse {
     cloudflareEndpoint: string;
     interfaceAddress: string;
     name: string;
-    allowNullCipher?: boolean;
-    automaticReturnRouting?: boolean;
-    bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+    allowNullCipher?: boolean | null;
+    automaticReturnRouting?: boolean | null;
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes?: string[] | null;
+      md5Key?: string | null;
+    } | null;
     bgpStatus?: {
       state: "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
       tcpEstablished: boolean;
       updatedAt: string;
-      bgpState?: string;
-      cfSpeakerIp?: string;
-      cfSpeakerPort?: number;
-      customerSpeakerIp?: string;
-      customerSpeakerPort?: number;
-    };
-    createdOn?: string;
-    customRemoteIdentities?: { fqdnId?: string };
-    customerEndpoint?: string;
-    description?: string;
+      bgpState?: string | null;
+      cfSpeakerIp?: string | null;
+      cfSpeakerPort?: number | null;
+      customerSpeakerIp?: string | null;
+      customerSpeakerPort?: number | null;
+    } | null;
+    createdOn?: string | null;
+    customRemoteIdentities?: { fqdnId?: string | null } | null;
+    customerEndpoint?: string | null;
+    description?: string | null;
     healthCheck?: {
-      direction?: "unidirectional" | "bidirectional";
-      enabled?: boolean;
-      rate?: "low" | "mid" | "high";
-      target?: { saved?: string } | string;
-      type?: "reply" | "request";
-    };
-    interfaceAddress6?: string;
-    modifiedOn?: string;
-    pskMetadata?: unknown;
-    replayProtection?: boolean;
+      direction?: "unidirectional" | "bidirectional" | null;
+      enabled?: boolean | null;
+      rate?: "low" | "mid" | "high" | null;
+      target?: { saved?: string | null } | string | null;
+      type?: "reply" | "request" | null;
+    } | null;
+    interfaceAddress6?: string | null;
+    modifiedOn?: string | null;
+    pskMetadata?: unknown | null;
+    replayProtection?: boolean | null;
   }[];
 }
 
 export const BulkPutIpsecTunnelsResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedIpsecTunnels: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        cloudflareEndpoint: Schema.String,
-        interfaceAddress: Schema.String,
-        name: Schema.String,
-        allowNullCipher: Schema.optional(Schema.Boolean),
-        automaticReturnRouting: Schema.optional(Schema.Boolean),
-        bgp: Schema.optional(
-          Schema.Struct({
-            customerAsn: Schema.Number,
-            extraPrefixes: Schema.optional(Schema.Array(Schema.String)),
-            md5Key: Schema.optional(Schema.String),
-          }).pipe(
-            Schema.encodeKeys({
-              customerAsn: "customer_asn",
-              extraPrefixes: "extra_prefixes",
-              md5Key: "md5_key",
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          cloudflareEndpoint: Schema.String,
+          interfaceAddress: Schema.String,
+          name: Schema.String,
+          allowNullCipher: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        bgpStatus: Schema.optional(
-          Schema.Struct({
-            state: Schema.Literals(["BGP_DOWN", "BGP_UP", "BGP_ESTABLISHING"]),
-            tcpEstablished: Schema.Boolean,
-            updatedAt: Schema.String,
-            bgpState: Schema.optional(Schema.String),
-            cfSpeakerIp: Schema.optional(Schema.String),
-            cfSpeakerPort: Schema.optional(Schema.Number),
-            customerSpeakerIp: Schema.optional(Schema.String),
-            customerSpeakerPort: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              state: "state",
-              tcpEstablished: "tcp_established",
-              updatedAt: "updated_at",
-              bgpState: "bgp_state",
-              cfSpeakerIp: "cf_speaker_ip",
-              cfSpeakerPort: "cf_speaker_port",
-              customerSpeakerIp: "customer_speaker_ip",
-              customerSpeakerPort: "customer_speaker_port",
-            }),
+          automaticReturnRouting: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-        ),
-        createdOn: Schema.optional(Schema.String),
-        customRemoteIdentities: Schema.optional(
-          Schema.Struct({
-            fqdnId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
-        ),
-        customerEndpoint: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        healthCheck: Schema.optional(
-          Schema.Struct({
-            direction: Schema.optional(
-              Schema.Literals(["unidirectional", "bidirectional"]),
-            ),
-            enabled: Schema.optional(Schema.Boolean),
-            rate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-            target: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  saved: Schema.optional(Schema.String),
+          bgp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                customerAsn: Schema.Number,
+                extraPrefixes: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                md5Key: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  customerAsn: "customer_asn",
+                  extraPrefixes: "extra_prefixes",
+                  md5Key: "md5_key",
                 }),
-                Schema.String,
-              ]),
-            ),
-            type: Schema.optional(Schema.Literals(["reply", "request"])),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          bgpStatus: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                state: Schema.Literals([
+                  "BGP_DOWN",
+                  "BGP_UP",
+                  "BGP_ESTABLISHING",
+                ]),
+                tcpEstablished: Schema.Boolean,
+                updatedAt: Schema.String,
+                bgpState: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                cfSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                customerSpeakerIp: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                customerSpeakerPort: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  state: "state",
+                  tcpEstablished: "tcp_established",
+                  updatedAt: "updated_at",
+                  bgpState: "bgp_state",
+                  cfSpeakerIp: "cf_speaker_ip",
+                  cfSpeakerPort: "cf_speaker_port",
+                  customerSpeakerIp: "customer_speaker_ip",
+                  customerSpeakerPort: "customer_speaker_port",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          customRemoteIdentities: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                fqdnId: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ fqdnId: "fqdn_id" })),
+              Schema.Null,
+            ]),
+          ),
+          customerEndpoint: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          healthCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                direction: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["unidirectional", "bidirectional"]),
+                    Schema.Null,
+                  ]),
+                ),
+                enabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                rate: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["low", "mid", "high"]),
+                    Schema.Null,
+                  ]),
+                ),
+                target: Schema.optional(
+                  Schema.Union([
+                    Schema.Union([
+                      Schema.Struct({
+                        saved: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.String,
+                    ]),
+                    Schema.Null,
+                  ]),
+                ),
+                type: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["reply", "request"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          interfaceAddress6: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          pskMetadata: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          replayProtection: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            cloudflareEndpoint: "cloudflare_endpoint",
+            interfaceAddress: "interface_address",
+            name: "name",
+            allowNullCipher: "allow_null_cipher",
+            automaticReturnRouting: "automatic_return_routing",
+            bgp: "bgp",
+            bgpStatus: "bgp_status",
+            createdOn: "created_on",
+            customRemoteIdentities: "custom_remote_identities",
+            customerEndpoint: "customer_endpoint",
+            description: "description",
+            healthCheck: "health_check",
+            interfaceAddress6: "interface_address6",
+            modifiedOn: "modified_on",
+            pskMetadata: "psk_metadata",
+            replayProtection: "replay_protection",
           }),
         ),
-        interfaceAddress6: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        pskMetadata: Schema.optional(Schema.Unknown),
-        replayProtection: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          cloudflareEndpoint: "cloudflare_endpoint",
-          interfaceAddress: "interface_address",
-          name: "name",
-          allowNullCipher: "allow_null_cipher",
-          automaticReturnRouting: "automatic_return_routing",
-          bgp: "bgp",
-          bgpStatus: "bgp_status",
-          createdOn: "created_on",
-          customRemoteIdentities: "custom_remote_identities",
-          customerEndpoint: "customer_endpoint",
-          description: "description",
-          healthCheck: "health_check",
-          interfaceAddress6: "interface_address6",
-          modifiedOn: "modified_on",
-          pskMetadata: "psk_metadata",
-          replayProtection: "replay_protection",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -6901,42 +8568,51 @@ export interface BulkPutRoutesResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   }[];
 }
 
 export const BulkPutRoutesResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedRoutes: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        nexthop: Schema.String,
-        prefix: Schema.String,
-        priority: Schema.Number,
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        scope: Schema.optional(Schema.Unknown),
-        weight: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          nexthop: "nexthop",
-          prefix: "prefix",
-          priority: "priority",
-          createdOn: "created_on",
-          description: "description",
-          modifiedOn: "modified_on",
-          scope: "scope",
-          weight: "weight",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          nexthop: Schema.String,
+          prefix: Schema.String,
+          priority: Schema.Number,
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            nexthop: "nexthop",
+            prefix: "prefix",
+            priority: "priority",
+            createdOn: "created_on",
+            description: "description",
+            modifiedOn: "modified_on",
+            scope: "scope",
+            weight: "weight",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -6984,39 +8660,44 @@ export interface GetRouteResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   };
 }
 
 export const GetRouteResponse = Schema.Struct({
   route: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      nexthop: Schema.String,
-      prefix: Schema.String,
-      priority: Schema.Number,
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      scope: Schema.optional(Schema.Unknown),
-      weight: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        nexthop: "nexthop",
-        prefix: "prefix",
-        priority: "priority",
-        createdOn: "created_on",
-        description: "description",
-        modifiedOn: "modified_on",
-        scope: "scope",
-        weight: "weight",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        nexthop: Schema.String,
+        prefix: Schema.String,
+        priority: Schema.Number,
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
+          createdOn: "created_on",
+          description: "description",
+          modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetRouteResponse>;
 
@@ -7050,41 +8731,50 @@ export interface ListRoutesResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   }[];
 }
 
 export const ListRoutesResponse = Schema.Struct({
   routes: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        nexthop: Schema.String,
-        prefix: Schema.String,
-        priority: Schema.Number,
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        scope: Schema.optional(Schema.Unknown),
-        weight: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          nexthop: "nexthop",
-          prefix: "prefix",
-          priority: "priority",
-          createdOn: "created_on",
-          description: "description",
-          modifiedOn: "modified_on",
-          scope: "scope",
-          weight: "weight",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          nexthop: Schema.String,
+          prefix: Schema.String,
+          priority: Schema.Number,
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            nexthop: "nexthop",
+            prefix: "prefix",
+            priority: "priority",
+            createdOn: "created_on",
+            description: "description",
+            modifiedOn: "modified_on",
+            scope: "scope",
+            weight: "weight",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListRoutesResponse>;
 
@@ -7156,7 +8846,7 @@ export interface CreateRouteResponse {
   /** When the route was last modified. */
   modifiedOn?: string;
   /** Used only for ECMP routes. */
-  scope?: { coloNames?: string[]; coloRegions?: string[] };
+  scope?: { coloNames?: string[] | null; coloRegions?: string[] | null };
   /** Optional weight of the ECMP scope - if provided. */
   weight?: number;
 }
@@ -7166,21 +8856,28 @@ export const CreateRouteResponse = Schema.Struct({
   nexthop: Schema.String,
   prefix: Schema.String,
   priority: Schema.Number,
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   scope: Schema.optional(
-    Schema.Struct({
-      coloNames: Schema.optional(Schema.Array(Schema.String)),
-      coloRegions: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        coloNames: "colo_names",
-        coloRegions: "colo_regions",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        coloNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        coloRegions: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          coloNames: "colo_names",
+          coloRegions: "colo_regions",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  weight: Schema.optional(Schema.Number),
+  weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7259,40 +8956,45 @@ export interface UpdateRouteResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   };
 }
 
 export const UpdateRouteResponse = Schema.Struct({
-  modified: Schema.optional(Schema.Boolean),
+  modified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   modifiedRoute: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      nexthop: Schema.String,
-      prefix: Schema.String,
-      priority: Schema.Number,
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      scope: Schema.optional(Schema.Unknown),
-      weight: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        nexthop: "nexthop",
-        prefix: "prefix",
-        priority: "priority",
-        createdOn: "created_on",
-        description: "description",
-        modifiedOn: "modified_on",
-        scope: "scope",
-        weight: "weight",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        nexthop: Schema.String,
+        prefix: Schema.String,
+        priority: Schema.Number,
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
+          createdOn: "created_on",
+          description: "description",
+          modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ modified: "modified", modifiedRoute: "modified_route" }),
@@ -7334,40 +9036,45 @@ export interface DeleteRouteResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   };
 }
 
 export const DeleteRouteResponse = Schema.Struct({
-  deleted: Schema.optional(Schema.Boolean),
+  deleted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   deletedRoute: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      nexthop: Schema.String,
-      prefix: Schema.String,
-      priority: Schema.Number,
-      createdOn: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      modifiedOn: Schema.optional(Schema.String),
-      scope: Schema.optional(Schema.Unknown),
-      weight: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        nexthop: "nexthop",
-        prefix: "prefix",
-        priority: "priority",
-        createdOn: "created_on",
-        description: "description",
-        modifiedOn: "modified_on",
-        scope: "scope",
-        weight: "weight",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        nexthop: Schema.String,
+        prefix: Schema.String,
+        priority: Schema.Number,
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
+          createdOn: "created_on",
+          description: "description",
+          modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ deleted: "deleted", deletedRoute: "deleted_route" }),
@@ -7404,42 +9111,51 @@ export interface EmptyRouteResponse {
     nexthop: string;
     prefix: string;
     priority: number;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    scope?: unknown;
-    weight?: number;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    scope?: unknown | null;
+    weight?: number | null;
   }[];
 }
 
 export const EmptyRouteResponse = Schema.Struct({
-  deleted: Schema.optional(Schema.Boolean),
+  deleted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   deletedRoutes: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        nexthop: Schema.String,
-        prefix: Schema.String,
-        priority: Schema.Number,
-        createdOn: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        modifiedOn: Schema.optional(Schema.String),
-        scope: Schema.optional(Schema.Unknown),
-        weight: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          nexthop: "nexthop",
-          prefix: "prefix",
-          priority: "priority",
-          createdOn: "created_on",
-          description: "description",
-          modifiedOn: "modified_on",
-          scope: "scope",
-          weight: "weight",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          nexthop: Schema.String,
+          prefix: Schema.String,
+          priority: Schema.Number,
+          createdOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          weight: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            nexthop: "nexthop",
+            prefix: "prefix",
+            priority: "priority",
+            createdOn: "created_on",
+            description: "description",
+            modifiedOn: "modified_on",
+            scope: "scope",
+            weight: "weight",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ deleted: "deleted", deletedRoutes: "deleted_routes" }),
@@ -7492,7 +9208,7 @@ export interface GetSiteResponse {
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
   haMode?: boolean;
   /** Location of site in latitude and longitude. */
-  location?: { lat?: string; lon?: string };
+  location?: { lat?: string | null; lon?: string | null };
   /** The name of the site. */
   name?: string;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
@@ -7500,18 +9216,23 @@ export interface GetSiteResponse {
 }
 
 export const GetSiteResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  connectorId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  haMode: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   location: Schema.optional(
-    Schema.Struct({
-      lat: Schema.optional(Schema.String),
-      lon: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  secondaryConnectorId: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secondaryConnectorId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7552,29 +9273,34 @@ export const ListSitesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSitesRequest>;
 
 export type ListSitesResponse = {
-  id?: string;
-  connectorId?: string;
-  description?: string;
-  haMode?: boolean;
-  location?: { lat?: string; lon?: string };
-  name?: string;
-  secondaryConnectorId?: string;
+  id?: string | null;
+  connectorId?: string | null;
+  description?: string | null;
+  haMode?: boolean | null;
+  location?: { lat?: string | null; lon?: string | null } | null;
+  name?: string | null;
+  secondaryConnectorId?: string | null;
 }[];
 
 export const ListSitesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    connectorId: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    haMode: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     location: Schema.optional(
-      Schema.Struct({
-        lat: Schema.optional(Schema.String),
-        lon: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
-    secondaryConnectorId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    secondaryConnectorId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -7652,7 +9378,7 @@ export interface CreateSiteResponse {
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
   haMode?: boolean;
   /** Location of site in latitude and longitude. */
-  location?: { lat?: string; lon?: string };
+  location?: { lat?: string | null; lon?: string | null };
   /** The name of the site. */
   name?: string;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
@@ -7660,18 +9386,23 @@ export interface CreateSiteResponse {
 }
 
 export const CreateSiteResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  connectorId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  haMode: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   location: Schema.optional(
-    Schema.Struct({
-      lat: Schema.optional(Schema.String),
-      lon: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  secondaryConnectorId: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secondaryConnectorId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7749,7 +9480,7 @@ export interface UpdateSiteResponse {
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
   haMode?: boolean;
   /** Location of site in latitude and longitude. */
-  location?: { lat?: string; lon?: string };
+  location?: { lat?: string | null; lon?: string | null };
   /** The name of the site. */
   name?: string;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
@@ -7757,18 +9488,23 @@ export interface UpdateSiteResponse {
 }
 
 export const UpdateSiteResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  connectorId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  haMode: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   location: Schema.optional(
-    Schema.Struct({
-      lat: Schema.optional(Schema.String),
-      lon: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  secondaryConnectorId: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secondaryConnectorId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7846,7 +9582,7 @@ export interface PatchSiteResponse {
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
   haMode?: boolean;
   /** Location of site in latitude and longitude. */
-  location?: { lat?: string; lon?: string };
+  location?: { lat?: string | null; lon?: string | null };
   /** The name of the site. */
   name?: string;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
@@ -7854,18 +9590,23 @@ export interface PatchSiteResponse {
 }
 
 export const PatchSiteResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  connectorId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  haMode: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   location: Schema.optional(
-    Schema.Struct({
-      lat: Schema.optional(Schema.String),
-      lon: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  secondaryConnectorId: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secondaryConnectorId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7916,7 +9657,7 @@ export interface DeleteSiteResponse {
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
   haMode?: boolean;
   /** Location of site in latitude and longitude. */
-  location?: { lat?: string; lon?: string };
+  location?: { lat?: string | null; lon?: string | null };
   /** The name of the site. */
   name?: string;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
@@ -7924,18 +9665,23 @@ export interface DeleteSiteResponse {
 }
 
 export const DeleteSiteResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  connectorId: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  haMode: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  connectorId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   location: Schema.optional(
-    Schema.Struct({
-      lat: Schema.optional(Schema.String),
-      lon: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        lat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lon: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  secondaryConnectorId: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secondaryConnectorId: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7992,17 +9738,17 @@ export interface GetSiteAclResponse {
   forwardLocally?: boolean;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   /** The name of the ACL. */
   name?: string;
@@ -8012,48 +9758,69 @@ export interface GetSiteAclResponse {
 }
 
 export const GetSiteAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  forwardLocally: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  forwardLocally: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lan_1: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   lan_2: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+    Schema.Union([
+      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Null,
+    ]),
   ),
-  unidirectional: Schema.optional(Schema.Boolean),
+  unidirectional: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8097,72 +9864,97 @@ export const ListSiteAclsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSiteAclsRequest>;
 
 export type ListSiteAclsResponse = {
-  id?: string;
-  description?: string;
-  forwardLocally?: boolean;
+  id?: string | null;
+  description?: string | null;
+  forwardLocally?: boolean | null;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
-  };
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
+  } | null;
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
-  };
-  name?: string;
-  protocols?: ("tcp" | "udp" | "icmp")[];
-  unidirectional?: boolean;
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
+  } | null;
+  name?: string | null;
+  protocols?: ("tcp" | "udp" | "icmp")[] | null;
+  unidirectional?: boolean | null;
 }[];
 
 export const ListSiteAclsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    forwardLocally: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    forwardLocally: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     lan_1: Schema.optional(
-      Schema.Struct({
-        lanId: Schema.String,
-        lanName: Schema.optional(Schema.String),
-        portRanges: Schema.optional(Schema.Array(Schema.String)),
-        ports: Schema.optional(Schema.Array(Schema.Number)),
-        subnets: Schema.optional(Schema.Array(Schema.String)),
-      }).pipe(
-        Schema.encodeKeys({
-          lanId: "lan_id",
-          lanName: "lan_name",
-          portRanges: "port_ranges",
-          ports: "ports",
-          subnets: "subnets",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          lanId: Schema.String,
+          lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          portRanges: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          ports: Schema.optional(
+            Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+          ),
+          subnets: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            lanId: "lan_id",
+            lanName: "lan_name",
+            portRanges: "port_ranges",
+            ports: "ports",
+            subnets: "subnets",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
     lan_2: Schema.optional(
-      Schema.Struct({
-        lanId: Schema.String,
-        lanName: Schema.optional(Schema.String),
-        portRanges: Schema.optional(Schema.Array(Schema.String)),
-        ports: Schema.optional(Schema.Array(Schema.Number)),
-        subnets: Schema.optional(Schema.Array(Schema.String)),
-      }).pipe(
-        Schema.encodeKeys({
-          lanId: "lan_id",
-          lanName: "lan_name",
-          portRanges: "port_ranges",
-          ports: "ports",
-          subnets: "subnets",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          lanId: Schema.String,
+          lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          portRanges: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          ports: Schema.optional(
+            Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+          ),
+          subnets: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            lanId: "lan_id",
+            lanName: "lan_name",
+            portRanges: "port_ranges",
+            ports: "ports",
+            subnets: "subnets",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     protocols: Schema.optional(
-      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Union([
+        Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+        Schema.Null,
+      ]),
     ),
-    unidirectional: Schema.optional(Schema.Boolean),
+    unidirectional: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -8287,17 +10079,17 @@ export interface CreateSiteAclResponse {
   forwardLocally?: boolean;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   /** The name of the ACL. */
   name?: string;
@@ -8307,48 +10099,69 @@ export interface CreateSiteAclResponse {
 }
 
 export const CreateSiteAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  forwardLocally: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  forwardLocally: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lan_1: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   lan_2: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+    Schema.Union([
+      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Null,
+    ]),
   ),
-  unidirectional: Schema.optional(Schema.Boolean),
+  unidirectional: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8478,17 +10291,17 @@ export interface UpdateSiteAclResponse {
   forwardLocally?: boolean;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   /** The name of the ACL. */
   name?: string;
@@ -8498,48 +10311,69 @@ export interface UpdateSiteAclResponse {
 }
 
 export const UpdateSiteAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  forwardLocally: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  forwardLocally: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lan_1: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   lan_2: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+    Schema.Union([
+      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Null,
+    ]),
   ),
-  unidirectional: Schema.optional(Schema.Boolean),
+  unidirectional: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8669,17 +10503,17 @@ export interface PatchSiteAclResponse {
   forwardLocally?: boolean;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   /** The name of the ACL. */
   name?: string;
@@ -8689,48 +10523,69 @@ export interface PatchSiteAclResponse {
 }
 
 export const PatchSiteAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  forwardLocally: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  forwardLocally: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lan_1: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   lan_2: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+    Schema.Union([
+      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Null,
+    ]),
   ),
-  unidirectional: Schema.optional(Schema.Boolean),
+  unidirectional: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8784,17 +10639,17 @@ export interface DeleteSiteAclResponse {
   forwardLocally?: boolean;
   lan_1?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   lan_2?: {
     lanId: string;
-    lanName?: string;
-    portRanges?: string[];
-    ports?: number[];
-    subnets?: string[];
+    lanName?: string | null;
+    portRanges?: string[] | null;
+    ports?: number[] | null;
+    subnets?: string[] | null;
   };
   /** The name of the ACL. */
   name?: string;
@@ -8804,48 +10659,69 @@ export interface DeleteSiteAclResponse {
 }
 
 export const DeleteSiteAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  forwardLocally: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  forwardLocally: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lan_1: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   lan_2: Schema.optional(
-    Schema.Struct({
-      lanId: Schema.String,
-      lanName: Schema.optional(Schema.String),
-      portRanges: Schema.optional(Schema.Array(Schema.String)),
-      ports: Schema.optional(Schema.Array(Schema.Number)),
-      subnets: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        lanId: "lan_id",
-        lanName: "lan_name",
-        portRanges: "port_ranges",
-        ports: "ports",
-        subnets: "subnets",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        lanId: Schema.String,
+        lanName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        portRanges: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        ports: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+        ),
+        subnets: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          lanId: "lan_id",
+          lanName: "lan_name",
+          portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   protocols: Schema.optional(
-    Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+    Schema.Union([
+      Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
+      Schema.Null,
+    ]),
   ),
-  unidirectional: Schema.optional(Schema.Boolean),
+  unidirectional: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8900,101 +10776,139 @@ export interface GetSiteLanResponse {
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
   haLink?: boolean;
   name?: string;
-  nat?: { staticPrefix?: string };
+  nat?: { staticPrefix?: string | null };
   physport?: number;
   routedSubnets?: {
     nextHop: string;
     prefix: string;
-    nat?: { staticPrefix?: string };
+    nat?: { staticPrefix?: string | null } | null;
   }[];
   /** Identifier */
   siteId?: string;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary a */
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const GetSiteLanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  haLink: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   nat: Schema.optional(
-    Schema.Struct({
-      staticPrefix: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-  ),
-  physport: Schema.optional(Schema.Number),
-  routedSubnets: Schema.optional(
-    Schema.Array(
+    Schema.Union([
       Schema.Struct({
-        nextHop: Schema.String,
-        prefix: Schema.String,
-        nat: Schema.optional(
-          Schema.Struct({
-            staticPrefix: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        staticPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          nextHop: "next_hop",
-          prefix: "prefix",
-          nat: "nat",
-        }),
-      ),
-    ),
+      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+      Schema.Null,
+    ]),
   ),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      dhcpRelay: Schema.optional(
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  routedSubnets: Schema.optional(
+    Schema.Union([
+      Schema.Array(
         Schema.Struct({
-          serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-      ),
-      dhcpServer: Schema.optional(
-        Schema.Struct({
-          dhcpPoolEnd: Schema.optional(Schema.String),
-          dhcpPoolStart: Schema.optional(Schema.String),
-          dnsServer: Schema.optional(Schema.String),
-          dnsServers: Schema.optional(Schema.Array(Schema.String)),
-          reservations: Schema.optional(Schema.Struct({})),
+          nextHop: Schema.String,
+          prefix: Schema.String,
+          nat: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                staticPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+              Schema.Null,
+            ]),
+          ),
         }).pipe(
           Schema.encodeKeys({
-            dhcpPoolEnd: "dhcp_pool_end",
-            dhcpPoolStart: "dhcp_pool_start",
-            dnsServer: "dns_server",
-            dnsServers: "dns_servers",
-            reservations: "reservations",
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
           }),
         ),
       ),
-      secondaryAddress: Schema.optional(Schema.String),
-      virtualAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        dhcpRelay: "dhcp_relay",
-        dhcpServer: "dhcp_server",
-        secondaryAddress: "secondary_address",
-        virtualAddress: "virtual_address",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        dhcpRelay: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              serverAddresses: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
+            Schema.Null,
+          ]),
+        ),
+        dhcpServer: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              dhcpPoolEnd: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dhcpPoolStart: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              reservations: Schema.optional(
+                Schema.Union([Schema.Struct({}), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                dhcpPoolEnd: "dhcp_pool_end",
+                dhcpPoolStart: "dhcp_pool_start",
+                dnsServer: "dns_server",
+                dnsServers: "dns_servers",
+                reservations: "reservations",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        virtualAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          dhcpRelay: "dhcp_relay",
+          dhcpServer: "dhcp_server",
+          secondaryAddress: "secondary_address",
+          virtualAddress: "virtual_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -9039,102 +10953,144 @@ export const ListSiteLansRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSiteLansRequest>;
 
 export type ListSiteLansResponse = {
-  id?: string;
-  haLink?: boolean;
-  name?: string;
-  nat?: { staticPrefix?: string };
-  physport?: number;
-  routedSubnets?: {
-    nextHop: string;
-    prefix: string;
-    nat?: { staticPrefix?: string };
-  }[];
-  siteId?: string;
+  id?: string | null;
+  haLink?: boolean | null;
+  name?: string | null;
+  nat?: { staticPrefix?: string | null } | null;
+  physport?: number | null;
+  routedSubnets?:
+    | {
+        nextHop: string;
+        prefix: string;
+        nat?: { staticPrefix?: string | null } | null;
+      }[]
+    | null;
+  siteId?: string | null;
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
-  };
-  vlanTag?: number;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
+  } | null;
+  vlanTag?: number | null;
 }[];
 
 export const ListSiteLansResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    haLink: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     nat: Schema.optional(
-      Schema.Struct({
-        staticPrefix: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-    ),
-    physport: Schema.optional(Schema.Number),
-    routedSubnets: Schema.optional(
-      Schema.Array(
+      Schema.Union([
         Schema.Struct({
-          nextHop: Schema.String,
-          prefix: Schema.String,
-          nat: Schema.optional(
-            Schema.Struct({
-              staticPrefix: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+          staticPrefix: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            nextHop: "next_hop",
-            prefix: "prefix",
-            nat: "nat",
-          }),
-        ),
-      ),
+        }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        Schema.Null,
+      ]),
     ),
-    siteId: Schema.optional(Schema.String),
-    staticAddressing: Schema.optional(
-      Schema.Struct({
-        address: Schema.String,
-        dhcpRelay: Schema.optional(
+    physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    routedSubnets: Schema.optional(
+      Schema.Union([
+        Schema.Array(
           Schema.Struct({
-            serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-        ),
-        dhcpServer: Schema.optional(
-          Schema.Struct({
-            dhcpPoolEnd: Schema.optional(Schema.String),
-            dhcpPoolStart: Schema.optional(Schema.String),
-            dnsServer: Schema.optional(Schema.String),
-            dnsServers: Schema.optional(Schema.Array(Schema.String)),
-            reservations: Schema.optional(Schema.Struct({})),
+            nextHop: Schema.String,
+            prefix: Schema.String,
+            nat: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  staticPrefix: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+                Schema.Null,
+              ]),
+            ),
           }).pipe(
             Schema.encodeKeys({
-              dhcpPoolEnd: "dhcp_pool_end",
-              dhcpPoolStart: "dhcp_pool_start",
-              dnsServer: "dns_server",
-              dnsServers: "dns_servers",
-              reservations: "reservations",
+              nextHop: "next_hop",
+              prefix: "prefix",
+              nat: "nat",
             }),
           ),
         ),
-        secondaryAddress: Schema.optional(Schema.String),
-        virtualAddress: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          address: "address",
-          dhcpRelay: "dhcp_relay",
-          dhcpServer: "dhcp_server",
-          secondaryAddress: "secondary_address",
-          virtualAddress: "virtual_address",
-        }),
-      ),
+        Schema.Null,
+      ]),
     ),
-    vlanTag: Schema.optional(Schema.Number),
+    siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    staticAddressing: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          address: Schema.String,
+          dhcpRelay: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                serverAddresses: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({ serverAddresses: "server_addresses" }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          dhcpServer: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                dhcpPoolEnd: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dhcpPoolStart: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dnsServer: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dnsServers: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                reservations: Schema.optional(
+                  Schema.Union([Schema.Struct({}), Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  dhcpPoolEnd: "dhcp_pool_end",
+                  dhcpPoolStart: "dhcp_pool_start",
+                  dnsServer: "dns_server",
+                  dnsServers: "dns_servers",
+                  reservations: "reservations",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          secondaryAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          virtualAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            address: "address",
+            dhcpRelay: "dhcp_relay",
+            dhcpServer: "dhcp_server",
+            secondaryAddress: "secondary_address",
+            virtualAddress: "virtual_address",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -9278,108 +11234,150 @@ export const CreateSiteLanRequest = Schema.Struct({
     vlanTag: "vlan_tag",
   }),
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/magic/sites/{siteId}/lans",
   }),
 ) as unknown as Schema.Schema<CreateSiteLanRequest>;
 
 export type CreateSiteLanResponse = {
-  id?: string;
-  haLink?: boolean;
-  name?: string;
-  nat?: { staticPrefix?: string };
-  physport?: number;
-  routedSubnets?: {
-    nextHop: string;
-    prefix: string;
-    nat?: { staticPrefix?: string };
-  }[];
-  siteId?: string;
+  id?: string | null;
+  haLink?: boolean | null;
+  name?: string | null;
+  nat?: { staticPrefix?: string | null } | null;
+  physport?: number | null;
+  routedSubnets?:
+    | {
+        nextHop: string;
+        prefix: string;
+        nat?: { staticPrefix?: string | null } | null;
+      }[]
+    | null;
+  siteId?: string | null;
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
-  };
-  vlanTag?: number;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
+  } | null;
+  vlanTag?: number | null;
 }[];
 
 export const CreateSiteLanResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    haLink: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     nat: Schema.optional(
-      Schema.Struct({
-        staticPrefix: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-    ),
-    physport: Schema.optional(Schema.Number),
-    routedSubnets: Schema.optional(
-      Schema.Array(
+      Schema.Union([
         Schema.Struct({
-          nextHop: Schema.String,
-          prefix: Schema.String,
-          nat: Schema.optional(
-            Schema.Struct({
-              staticPrefix: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+          staticPrefix: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            nextHop: "next_hop",
-            prefix: "prefix",
-            nat: "nat",
-          }),
-        ),
-      ),
+        }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        Schema.Null,
+      ]),
     ),
-    siteId: Schema.optional(Schema.String),
-    staticAddressing: Schema.optional(
-      Schema.Struct({
-        address: Schema.String,
-        dhcpRelay: Schema.optional(
+    physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    routedSubnets: Schema.optional(
+      Schema.Union([
+        Schema.Array(
           Schema.Struct({
-            serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-          }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-        ),
-        dhcpServer: Schema.optional(
-          Schema.Struct({
-            dhcpPoolEnd: Schema.optional(Schema.String),
-            dhcpPoolStart: Schema.optional(Schema.String),
-            dnsServer: Schema.optional(Schema.String),
-            dnsServers: Schema.optional(Schema.Array(Schema.String)),
-            reservations: Schema.optional(Schema.Struct({})),
+            nextHop: Schema.String,
+            prefix: Schema.String,
+            nat: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  staticPrefix: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+                Schema.Null,
+              ]),
+            ),
           }).pipe(
             Schema.encodeKeys({
-              dhcpPoolEnd: "dhcp_pool_end",
-              dhcpPoolStart: "dhcp_pool_start",
-              dnsServer: "dns_server",
-              dnsServers: "dns_servers",
-              reservations: "reservations",
+              nextHop: "next_hop",
+              prefix: "prefix",
+              nat: "nat",
             }),
           ),
         ),
-        secondaryAddress: Schema.optional(Schema.String),
-        virtualAddress: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          address: "address",
-          dhcpRelay: "dhcp_relay",
-          dhcpServer: "dhcp_server",
-          secondaryAddress: "secondary_address",
-          virtualAddress: "virtual_address",
-        }),
-      ),
+        Schema.Null,
+      ]),
     ),
-    vlanTag: Schema.optional(Schema.Number),
+    siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    staticAddressing: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          address: Schema.String,
+          dhcpRelay: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                serverAddresses: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({ serverAddresses: "server_addresses" }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          dhcpServer: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                dhcpPoolEnd: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dhcpPoolStart: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dnsServer: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                dnsServers: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                reservations: Schema.optional(
+                  Schema.Union([Schema.Struct({}), Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  dhcpPoolEnd: "dhcp_pool_end",
+                  dhcpPoolStart: "dhcp_pool_start",
+                  dnsServer: "dns_server",
+                  dnsServers: "dns_servers",
+                  reservations: "reservations",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          secondaryAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          virtualAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            address: "address",
+            dhcpRelay: "dhcp_relay",
+            dhcpServer: "dhcp_server",
+            secondaryAddress: "secondary_address",
+            virtualAddress: "virtual_address",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -9408,7 +11406,7 @@ export const createSiteLan: API.OperationMethod<
   errors: [],
 }));
 
-export interface PutSiteLanRequest {
+export interface UpdateSiteLanRequest {
   siteId: string;
   lanId: string;
   /** Path param: Identifier */
@@ -9443,7 +11441,7 @@ export interface PutSiteLanRequest {
   vlanTag?: number;
 }
 
-export const PutSiteLanRequest = Schema.Struct({
+export const UpdateSiteLanRequest = Schema.Struct({
   siteId: Schema.String.pipe(T.HttpPath("siteId")),
   lanId: Schema.String.pipe(T.HttpPath("lanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -9524,109 +11522,147 @@ export const PutSiteLanRequest = Schema.Struct({
     method: "PUT",
     path: "/accounts/{account_id}/magic/sites/{siteId}/lans/{lanId}",
   }),
-) as unknown as Schema.Schema<PutSiteLanRequest>;
+) as unknown as Schema.Schema<UpdateSiteLanRequest>;
 
-export interface PutSiteLanResponse {
+export interface UpdateSiteLanResponse {
   /** Identifier */
   id?: string;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
   haLink?: boolean;
   name?: string;
-  nat?: { staticPrefix?: string };
+  nat?: { staticPrefix?: string | null };
   physport?: number;
   routedSubnets?: {
     nextHop: string;
     prefix: string;
-    nat?: { staticPrefix?: string };
+    nat?: { staticPrefix?: string | null } | null;
   }[];
   /** Identifier */
   siteId?: string;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary a */
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
-export const PutSiteLanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  haLink: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
+export const UpdateSiteLanResponse = Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   nat: Schema.optional(
-    Schema.Struct({
-      staticPrefix: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-  ),
-  physport: Schema.optional(Schema.Number),
-  routedSubnets: Schema.optional(
-    Schema.Array(
+    Schema.Union([
       Schema.Struct({
-        nextHop: Schema.String,
-        prefix: Schema.String,
-        nat: Schema.optional(
-          Schema.Struct({
-            staticPrefix: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        staticPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          nextHop: "next_hop",
-          prefix: "prefix",
-          nat: "nat",
-        }),
-      ),
-    ),
+      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+      Schema.Null,
+    ]),
   ),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      dhcpRelay: Schema.optional(
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  routedSubnets: Schema.optional(
+    Schema.Union([
+      Schema.Array(
         Schema.Struct({
-          serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-      ),
-      dhcpServer: Schema.optional(
-        Schema.Struct({
-          dhcpPoolEnd: Schema.optional(Schema.String),
-          dhcpPoolStart: Schema.optional(Schema.String),
-          dnsServer: Schema.optional(Schema.String),
-          dnsServers: Schema.optional(Schema.Array(Schema.String)),
-          reservations: Schema.optional(Schema.Struct({})),
+          nextHop: Schema.String,
+          prefix: Schema.String,
+          nat: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                staticPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+              Schema.Null,
+            ]),
+          ),
         }).pipe(
           Schema.encodeKeys({
-            dhcpPoolEnd: "dhcp_pool_end",
-            dhcpPoolStart: "dhcp_pool_start",
-            dnsServer: "dns_server",
-            dnsServers: "dns_servers",
-            reservations: "reservations",
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
           }),
         ),
       ),
-      secondaryAddress: Schema.optional(Schema.String),
-      virtualAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        dhcpRelay: "dhcp_relay",
-        dhcpServer: "dhcp_server",
-        secondaryAddress: "secondary_address",
-        virtualAddress: "virtual_address",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        dhcpRelay: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              serverAddresses: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
+            Schema.Null,
+          ]),
+        ),
+        dhcpServer: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              dhcpPoolEnd: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dhcpPoolStart: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              reservations: Schema.optional(
+                Schema.Union([Schema.Struct({}), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                dhcpPoolEnd: "dhcp_pool_end",
+                dhcpPoolStart: "dhcp_pool_start",
+                dnsServer: "dns_server",
+                dnsServers: "dns_servers",
+                reservations: "reservations",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        virtualAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          dhcpRelay: "dhcp_relay",
+          dhcpServer: "dhcp_server",
+          secondaryAddress: "secondary_address",
+          virtualAddress: "virtual_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -9639,18 +11675,18 @@ export const PutSiteLanResponse = Schema.Struct({
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
-) as unknown as Schema.Schema<PutSiteLanResponse>;
+) as unknown as Schema.Schema<UpdateSiteLanResponse>;
 
-export type PutSiteLanError = CommonErrors;
+export type UpdateSiteLanError = CommonErrors;
 
-export const putSiteLan: API.OperationMethod<
-  PutSiteLanRequest,
-  PutSiteLanResponse,
-  PutSiteLanError,
+export const updateSiteLan: API.OperationMethod<
+  UpdateSiteLanRequest,
+  UpdateSiteLanResponse,
+  UpdateSiteLanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: PutSiteLanRequest,
-  output: PutSiteLanResponse,
+  input: UpdateSiteLanRequest,
+  output: UpdateSiteLanResponse,
   errors: [],
 }));
 
@@ -9778,101 +11814,139 @@ export interface PatchSiteLanResponse {
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
   haLink?: boolean;
   name?: string;
-  nat?: { staticPrefix?: string };
+  nat?: { staticPrefix?: string | null };
   physport?: number;
   routedSubnets?: {
     nextHop: string;
     prefix: string;
-    nat?: { staticPrefix?: string };
+    nat?: { staticPrefix?: string | null } | null;
   }[];
   /** Identifier */
   siteId?: string;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary a */
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const PatchSiteLanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  haLink: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   nat: Schema.optional(
-    Schema.Struct({
-      staticPrefix: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-  ),
-  physport: Schema.optional(Schema.Number),
-  routedSubnets: Schema.optional(
-    Schema.Array(
+    Schema.Union([
       Schema.Struct({
-        nextHop: Schema.String,
-        prefix: Schema.String,
-        nat: Schema.optional(
-          Schema.Struct({
-            staticPrefix: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        staticPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          nextHop: "next_hop",
-          prefix: "prefix",
-          nat: "nat",
-        }),
-      ),
-    ),
+      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+      Schema.Null,
+    ]),
   ),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      dhcpRelay: Schema.optional(
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  routedSubnets: Schema.optional(
+    Schema.Union([
+      Schema.Array(
         Schema.Struct({
-          serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-      ),
-      dhcpServer: Schema.optional(
-        Schema.Struct({
-          dhcpPoolEnd: Schema.optional(Schema.String),
-          dhcpPoolStart: Schema.optional(Schema.String),
-          dnsServer: Schema.optional(Schema.String),
-          dnsServers: Schema.optional(Schema.Array(Schema.String)),
-          reservations: Schema.optional(Schema.Struct({})),
+          nextHop: Schema.String,
+          prefix: Schema.String,
+          nat: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                staticPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+              Schema.Null,
+            ]),
+          ),
         }).pipe(
           Schema.encodeKeys({
-            dhcpPoolEnd: "dhcp_pool_end",
-            dhcpPoolStart: "dhcp_pool_start",
-            dnsServer: "dns_server",
-            dnsServers: "dns_servers",
-            reservations: "reservations",
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
           }),
         ),
       ),
-      secondaryAddress: Schema.optional(Schema.String),
-      virtualAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        dhcpRelay: "dhcp_relay",
-        dhcpServer: "dhcp_server",
-        secondaryAddress: "secondary_address",
-        virtualAddress: "virtual_address",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        dhcpRelay: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              serverAddresses: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
+            Schema.Null,
+          ]),
+        ),
+        dhcpServer: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              dhcpPoolEnd: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dhcpPoolStart: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              reservations: Schema.optional(
+                Schema.Union([Schema.Struct({}), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                dhcpPoolEnd: "dhcp_pool_end",
+                dhcpPoolStart: "dhcp_pool_start",
+                dnsServer: "dns_server",
+                dnsServers: "dns_servers",
+                reservations: "reservations",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        virtualAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          dhcpRelay: "dhcp_relay",
+          dhcpServer: "dhcp_server",
+          secondaryAddress: "secondary_address",
+          virtualAddress: "virtual_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -9924,101 +11998,139 @@ export interface DeleteSiteLanResponse {
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
   haLink?: boolean;
   name?: string;
-  nat?: { staticPrefix?: string };
+  nat?: { staticPrefix?: string | null };
   physport?: number;
   routedSubnets?: {
     nextHop: string;
     prefix: string;
-    nat?: { staticPrefix?: string };
+    nat?: { staticPrefix?: string | null } | null;
   }[];
   /** Identifier */
   siteId?: string;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary a */
   staticAddressing?: {
     address: string;
-    dhcpRelay?: { serverAddresses?: string[] };
+    dhcpRelay?: { serverAddresses?: string[] | null } | null;
     dhcpServer?: {
-      dhcpPoolEnd?: string;
-      dhcpPoolStart?: string;
-      dnsServer?: string;
-      dnsServers?: string[];
-      reservations?: Record<string, unknown>;
-    };
-    secondaryAddress?: string;
-    virtualAddress?: string;
+      dhcpPoolEnd?: string | null;
+      dhcpPoolStart?: string | null;
+      dnsServer?: string | null;
+      dnsServers?: string[] | null;
+      reservations?: Record<string, unknown> | null;
+    } | null;
+    secondaryAddress?: string | null;
+    virtualAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const DeleteSiteLanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  haLink: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  haLink: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   nat: Schema.optional(
-    Schema.Struct({
-      staticPrefix: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
-  ),
-  physport: Schema.optional(Schema.Number),
-  routedSubnets: Schema.optional(
-    Schema.Array(
+    Schema.Union([
       Schema.Struct({
-        nextHop: Schema.String,
-        prefix: Schema.String,
-        nat: Schema.optional(
-          Schema.Struct({
-            staticPrefix: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+        staticPrefix: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          nextHop: "next_hop",
-          prefix: "prefix",
-          nat: "nat",
-        }),
-      ),
-    ),
+      }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+      Schema.Null,
+    ]),
   ),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      dhcpRelay: Schema.optional(
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  routedSubnets: Schema.optional(
+    Schema.Union([
+      Schema.Array(
         Schema.Struct({
-          serverAddresses: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
-      ),
-      dhcpServer: Schema.optional(
-        Schema.Struct({
-          dhcpPoolEnd: Schema.optional(Schema.String),
-          dhcpPoolStart: Schema.optional(Schema.String),
-          dnsServer: Schema.optional(Schema.String),
-          dnsServers: Schema.optional(Schema.Array(Schema.String)),
-          reservations: Schema.optional(Schema.Struct({})),
+          nextHop: Schema.String,
+          prefix: Schema.String,
+          nat: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                staticPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
+              Schema.Null,
+            ]),
+          ),
         }).pipe(
           Schema.encodeKeys({
-            dhcpPoolEnd: "dhcp_pool_end",
-            dhcpPoolStart: "dhcp_pool_start",
-            dnsServer: "dns_server",
-            dnsServers: "dns_servers",
-            reservations: "reservations",
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
           }),
         ),
       ),
-      secondaryAddress: Schema.optional(Schema.String),
-      virtualAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        dhcpRelay: "dhcp_relay",
-        dhcpServer: "dhcp_server",
-        secondaryAddress: "secondary_address",
-        virtualAddress: "virtual_address",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        dhcpRelay: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              serverAddresses: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ serverAddresses: "server_addresses" })),
+            Schema.Null,
+          ]),
+        ),
+        dhcpServer: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              dhcpPoolEnd: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dhcpPoolStart: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dnsServers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              reservations: Schema.optional(
+                Schema.Union([Schema.Struct({}), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                dhcpPoolEnd: "dhcp_pool_end",
+                dhcpPoolStart: "dhcp_pool_start",
+                dnsServer: "dns_server",
+                dnsServers: "dns_servers",
+                reservations: "reservations",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        virtualAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          dhcpRelay: "dhcp_relay",
+          dhcpServer: "dhcp_server",
+          secondaryAddress: "secondary_address",
+          virtualAddress: "virtual_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -10083,33 +12195,40 @@ export interface GetSiteWanResponse {
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
+    secondaryAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const GetSiteWanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-  name: Schema.optional(Schema.String),
-  physport: Schema.optional(Schema.Number),
-  priority: Schema.optional(Schema.Number),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      gatewayAddress: Schema.String,
-      secondaryAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        gatewayAddress: "gateway_address",
-        secondaryAddress: "secondary_address",
-      }),
-    ),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  healthCheckRate: Schema.optional(
+    Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        gatewayAddress: Schema.String,
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          gatewayAddress: "gateway_address",
+          secondaryAddress: "secondary_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -10153,42 +12272,49 @@ export const ListSiteWansRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSiteWansRequest>;
 
 export type ListSiteWansResponse = {
-  id?: string;
-  healthCheckRate?: "low" | "mid" | "high";
-  name?: string;
-  physport?: number;
-  priority?: number;
-  siteId?: string;
+  id?: string | null;
+  healthCheckRate?: "low" | "mid" | "high" | null;
+  name?: string | null;
+  physport?: number | null;
+  priority?: number | null;
+  siteId?: string | null;
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
-  };
-  vlanTag?: number;
+    secondaryAddress?: string | null;
+  } | null;
+  vlanTag?: number | null;
 }[];
 
 export const ListSiteWansResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-    name: Schema.optional(Schema.String),
-    physport: Schema.optional(Schema.Number),
-    priority: Schema.optional(Schema.Number),
-    siteId: Schema.optional(Schema.String),
-    staticAddressing: Schema.optional(
-      Schema.Struct({
-        address: Schema.String,
-        gatewayAddress: Schema.String,
-        secondaryAddress: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          address: "address",
-          gatewayAddress: "gateway_address",
-          secondaryAddress: "secondary_address",
-        }),
-      ),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    healthCheckRate: Schema.optional(
+      Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
     ),
-    vlanTag: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    staticAddressing: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          address: Schema.String,
+          gatewayAddress: Schema.String,
+          secondaryAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            address: "address",
+            gatewayAddress: "gateway_address",
+            secondaryAddress: "secondary_address",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -10265,48 +12391,55 @@ export const CreateSiteWanRequest = Schema.Struct({
     vlanTag: "vlan_tag",
   }),
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/magic/sites/{siteId}/wans",
   }),
 ) as unknown as Schema.Schema<CreateSiteWanRequest>;
 
 export type CreateSiteWanResponse = {
-  id?: string;
-  healthCheckRate?: "low" | "mid" | "high";
-  name?: string;
-  physport?: number;
-  priority?: number;
-  siteId?: string;
+  id?: string | null;
+  healthCheckRate?: "low" | "mid" | "high" | null;
+  name?: string | null;
+  physport?: number | null;
+  priority?: number | null;
+  siteId?: string | null;
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
-  };
-  vlanTag?: number;
+    secondaryAddress?: string | null;
+  } | null;
+  vlanTag?: number | null;
 }[];
 
 export const CreateSiteWanResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-    name: Schema.optional(Schema.String),
-    physport: Schema.optional(Schema.Number),
-    priority: Schema.optional(Schema.Number),
-    siteId: Schema.optional(Schema.String),
-    staticAddressing: Schema.optional(
-      Schema.Struct({
-        address: Schema.String,
-        gatewayAddress: Schema.String,
-        secondaryAddress: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          address: "address",
-          gatewayAddress: "gateway_address",
-          secondaryAddress: "secondary_address",
-        }),
-      ),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    healthCheckRate: Schema.optional(
+      Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
     ),
-    vlanTag: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    staticAddressing: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          address: Schema.String,
+          gatewayAddress: Schema.String,
+          secondaryAddress: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            address: "address",
+            gatewayAddress: "gateway_address",
+            secondaryAddress: "secondary_address",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -10334,7 +12467,7 @@ export const createSiteWan: API.OperationMethod<
   errors: [],
 }));
 
-export interface PutSiteWanRequest {
+export interface UpdateSiteWanRequest {
   siteId: string;
   wanId: string;
   /** Path param: Identifier */
@@ -10355,7 +12488,7 @@ export interface PutSiteWanRequest {
   vlanTag?: number;
 }
 
-export const PutSiteWanRequest = Schema.Struct({
+export const UpdateSiteWanRequest = Schema.Struct({
   siteId: Schema.String.pipe(T.HttpPath("siteId")),
   wanId: Schema.String.pipe(T.HttpPath("wanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -10388,9 +12521,9 @@ export const PutSiteWanRequest = Schema.Struct({
     method: "PUT",
     path: "/accounts/{account_id}/magic/sites/{siteId}/wans/{wanId}",
   }),
-) as unknown as Schema.Schema<PutSiteWanRequest>;
+) as unknown as Schema.Schema<UpdateSiteWanRequest>;
 
-export interface PutSiteWanResponse {
+export interface UpdateSiteWanResponse {
   /** Identifier */
   id?: string;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
@@ -10405,33 +12538,40 @@ export interface PutSiteWanResponse {
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
+    secondaryAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
-export const PutSiteWanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-  name: Schema.optional(Schema.String),
-  physport: Schema.optional(Schema.Number),
-  priority: Schema.optional(Schema.Number),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      gatewayAddress: Schema.String,
-      secondaryAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        gatewayAddress: "gateway_address",
-        secondaryAddress: "secondary_address",
-      }),
-    ),
+export const UpdateSiteWanResponse = Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  healthCheckRate: Schema.optional(
+    Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        gatewayAddress: Schema.String,
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          gatewayAddress: "gateway_address",
+          secondaryAddress: "secondary_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -10443,18 +12583,18 @@ export const PutSiteWanResponse = Schema.Struct({
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
-) as unknown as Schema.Schema<PutSiteWanResponse>;
+) as unknown as Schema.Schema<UpdateSiteWanResponse>;
 
-export type PutSiteWanError = CommonErrors;
+export type UpdateSiteWanError = CommonErrors;
 
-export const putSiteWan: API.OperationMethod<
-  PutSiteWanRequest,
-  PutSiteWanResponse,
-  PutSiteWanError,
+export const updateSiteWan: API.OperationMethod<
+  UpdateSiteWanRequest,
+  UpdateSiteWanResponse,
+  UpdateSiteWanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: PutSiteWanRequest,
-  output: PutSiteWanResponse,
+  input: UpdateSiteWanRequest,
+  output: UpdateSiteWanResponse,
   errors: [],
 }));
 
@@ -10529,33 +12669,40 @@ export interface PatchSiteWanResponse {
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
+    secondaryAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const PatchSiteWanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-  name: Schema.optional(Schema.String),
-  physport: Schema.optional(Schema.Number),
-  priority: Schema.optional(Schema.Number),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      gatewayAddress: Schema.String,
-      secondaryAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        gatewayAddress: "gateway_address",
-        secondaryAddress: "secondary_address",
-      }),
-    ),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  healthCheckRate: Schema.optional(
+    Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        gatewayAddress: Schema.String,
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          gatewayAddress: "gateway_address",
+          secondaryAddress: "secondary_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -10615,33 +12762,40 @@ export interface DeleteSiteWanResponse {
   staticAddressing?: {
     address: string;
     gatewayAddress: string;
-    secondaryAddress?: string;
+    secondaryAddress?: string | null;
   };
   /** VLAN ID. Use zero for untagged. */
   vlanTag?: number;
 }
 
 export const DeleteSiteWanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  healthCheckRate: Schema.optional(Schema.Literals(["low", "mid", "high"])),
-  name: Schema.optional(Schema.String),
-  physport: Schema.optional(Schema.Number),
-  priority: Schema.optional(Schema.Number),
-  siteId: Schema.optional(Schema.String),
-  staticAddressing: Schema.optional(
-    Schema.Struct({
-      address: Schema.String,
-      gatewayAddress: Schema.String,
-      secondaryAddress: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        address: "address",
-        gatewayAddress: "gateway_address",
-        secondaryAddress: "secondary_address",
-      }),
-    ),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  healthCheckRate: Schema.optional(
+    Schema.Union([Schema.Literals(["low", "mid", "high"]), Schema.Null]),
   ),
-  vlanTag: Schema.optional(Schema.Number),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  physport: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  siteId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  staticAddressing: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        address: Schema.String,
+        gatewayAddress: Schema.String,
+        secondaryAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          address: "address",
+          gatewayAddress: "gateway_address",
+          secondaryAddress: "secondary_address",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  vlanTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

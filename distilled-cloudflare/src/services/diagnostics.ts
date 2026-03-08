@@ -52,8 +52,8 @@ export interface GetEndpointHealthcheckResponse {
 export const GetEndpointHealthcheckResponse = Schema.Struct({
   checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     checkType: "check_type",
@@ -104,8 +104,8 @@ export interface ListEndpointHealthchecksResponse {
 export const ListEndpointHealthchecksResponse = Schema.Struct({
   checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     checkType: "check_type",
@@ -170,8 +170,8 @@ export interface CreateEndpointHealthcheckResponse {
 export const CreateEndpointHealthcheckResponse = Schema.Struct({
   checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     checkType: "check_type",
@@ -238,8 +238,8 @@ export interface UpdateEndpointHealthcheckResponse {
 export const UpdateEndpointHealthcheckResponse = Schema.Struct({
   checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
-  id: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     checkType: "check_type",
@@ -282,14 +282,14 @@ export interface DeleteEndpointHealthcheckResponse {
   errors: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   messages: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   /** Whether the API call was successful. */
   success: true;
@@ -300,11 +300,18 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -319,11 +326,18 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -396,119 +410,176 @@ export const CreateTracerouteRequest = Schema.Struct({
   ),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/diagnostics/traceroute",
   }),
 ) as unknown as Schema.Schema<CreateTracerouteRequest>;
 
 export type CreateTracerouteResponse = {
-  colos?: {
-    colo?: { city?: string; name?: string };
-    error?:
-      | ""
-      | "Could not gather traceroute data: Code 1"
-      | "Could not gather traceroute data: Code 2"
-      | "Could not gather traceroute data: Code 3"
-      | "Could not gather traceroute data: Code 4";
-    hops?: {
-      nodes?: {
-        asn?: string;
-        ip?: string;
-        labels?: string[];
-        maxRttMs?: number;
-        meanRttMs?: number;
-        minRttMs?: number;
-        name?: string;
-        packetCount?: number;
-        stdDevRttMs?: number;
-      }[];
-      packetsLost?: number;
-      packetsSent?: number;
-      packetsTtl?: number;
-    }[];
-    targetSummary?: unknown;
-    tracerouteTimeMs?: number;
-  }[];
-  target?: string;
+  colos?:
+    | {
+        colo?: { city?: string | null; name?: string | null } | null;
+        error?:
+          | ""
+          | "Could not gather traceroute data: Code 1"
+          | "Could not gather traceroute data: Code 2"
+          | "Could not gather traceroute data: Code 3"
+          | "Could not gather traceroute data: Code 4"
+          | null;
+        hops?:
+          | {
+              nodes?:
+                | {
+                    asn?: string | null;
+                    ip?: string | null;
+                    labels?: string[] | null;
+                    maxRttMs?: number | null;
+                    meanRttMs?: number | null;
+                    minRttMs?: number | null;
+                    name?: string | null;
+                    packetCount?: number | null;
+                    stdDevRttMs?: number | null;
+                  }[]
+                | null;
+              packetsLost?: number | null;
+              packetsSent?: number | null;
+              packetsTtl?: number | null;
+            }[]
+          | null;
+        targetSummary?: unknown | null;
+        tracerouteTimeMs?: number | null;
+      }[]
+    | null;
+  target?: string | null;
 }[];
 
 export const CreateTracerouteResponse = Schema.Array(
   Schema.Struct({
     colos: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          colo: Schema.optional(
-            Schema.Struct({
-              city: Schema.optional(Schema.String),
-              name: Schema.optional(Schema.String),
-            }),
-          ),
-          error: Schema.optional(
-            Schema.Literals([
-              "",
-              "Could not gather traceroute data: Code 1",
-              "Could not gather traceroute data: Code 2",
-              "Could not gather traceroute data: Code 3",
-              "Could not gather traceroute data: Code 4",
-            ]),
-          ),
-          hops: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                nodes: Schema.optional(
-                  Schema.Array(
-                    Schema.Struct({
-                      asn: Schema.optional(Schema.String),
-                      ip: Schema.optional(Schema.String),
-                      labels: Schema.optional(Schema.Array(Schema.String)),
-                      maxRttMs: Schema.optional(Schema.Number),
-                      meanRttMs: Schema.optional(Schema.Number),
-                      minRttMs: Schema.optional(Schema.Number),
-                      name: Schema.optional(Schema.String),
-                      packetCount: Schema.optional(Schema.Number),
-                      stdDevRttMs: Schema.optional(Schema.Number),
-                    }).pipe(
-                      Schema.encodeKeys({
-                        asn: "asn",
-                        ip: "ip",
-                        labels: "labels",
-                        maxRttMs: "max_rtt_ms",
-                        meanRttMs: "mean_rtt_ms",
-                        minRttMs: "min_rtt_ms",
-                        name: "name",
-                        packetCount: "packet_count",
-                        stdDevRttMs: "std_dev_rtt_ms",
-                      }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            colo: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  city: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  name: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+                Schema.Null,
+              ]),
+            ),
+            error: Schema.optional(
+              Schema.Union([
+                Schema.Literals([
+                  "",
+                  "Could not gather traceroute data: Code 1",
+                  "Could not gather traceroute data: Code 2",
+                  "Could not gather traceroute data: Code 3",
+                  "Could not gather traceroute data: Code 4",
+                ]),
+                Schema.Null,
+              ]),
+            ),
+            hops: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    nodes: Schema.optional(
+                      Schema.Union([
+                        Schema.Array(
+                          Schema.Struct({
+                            asn: Schema.optional(
+                              Schema.Union([Schema.String, Schema.Null]),
+                            ),
+                            ip: Schema.optional(
+                              Schema.Union([Schema.String, Schema.Null]),
+                            ),
+                            labels: Schema.optional(
+                              Schema.Union([
+                                Schema.Array(Schema.String),
+                                Schema.Null,
+                              ]),
+                            ),
+                            maxRttMs: Schema.optional(
+                              Schema.Union([Schema.Number, Schema.Null]),
+                            ),
+                            meanRttMs: Schema.optional(
+                              Schema.Union([Schema.Number, Schema.Null]),
+                            ),
+                            minRttMs: Schema.optional(
+                              Schema.Union([Schema.Number, Schema.Null]),
+                            ),
+                            name: Schema.optional(
+                              Schema.Union([Schema.String, Schema.Null]),
+                            ),
+                            packetCount: Schema.optional(
+                              Schema.Union([Schema.Number, Schema.Null]),
+                            ),
+                            stdDevRttMs: Schema.optional(
+                              Schema.Union([Schema.Number, Schema.Null]),
+                            ),
+                          }).pipe(
+                            Schema.encodeKeys({
+                              asn: "asn",
+                              ip: "ip",
+                              labels: "labels",
+                              maxRttMs: "max_rtt_ms",
+                              meanRttMs: "mean_rtt_ms",
+                              minRttMs: "min_rtt_ms",
+                              name: "name",
+                              packetCount: "packet_count",
+                              stdDevRttMs: "std_dev_rtt_ms",
+                            }),
+                          ),
+                        ),
+                        Schema.Null,
+                      ]),
                     ),
+                    packetsLost: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    packetsSent: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    packetsTtl: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      nodes: "nodes",
+                      packetsLost: "packets_lost",
+                      packetsSent: "packets_sent",
+                      packetsTtl: "packets_ttl",
+                    }),
                   ),
                 ),
-                packetsLost: Schema.optional(Schema.Number),
-                packetsSent: Schema.optional(Schema.Number),
-                packetsTtl: Schema.optional(Schema.Number),
-              }).pipe(
-                Schema.encodeKeys({
-                  nodes: "nodes",
-                  packetsLost: "packets_lost",
-                  packetsSent: "packets_sent",
-                  packetsTtl: "packets_ttl",
-                }),
-              ),
+                Schema.Null,
+              ]),
             ),
+            targetSummary: Schema.optional(
+              Schema.Union([Schema.Unknown, Schema.Null]),
+            ),
+            tracerouteTimeMs: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              colo: "colo",
+              error: "error",
+              hops: "hops",
+              targetSummary: "target_summary",
+              tracerouteTimeMs: "traceroute_time_ms",
+            }),
           ),
-          targetSummary: Schema.optional(Schema.Unknown),
-          tracerouteTimeMs: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            colo: "colo",
-            error: "error",
-            hops: "hops",
-            targetSummary: "target_summary",
-            tracerouteTimeMs: "traceroute_time_ms",
-          }),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
-    target: Schema.optional(Schema.String),
+    target: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<CreateTracerouteResponse>;
 

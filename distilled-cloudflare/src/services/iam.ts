@@ -52,7 +52,7 @@ export interface GetPermissionGroupResponse {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: { key?: string; value?: string };
+  meta?: { key?: string | null; value?: string | null };
   /** Name of the permission group. */
   name?: string;
 }
@@ -60,12 +60,15 @@ export interface GetPermissionGroupResponse {
 export const GetPermissionGroupResponse = Schema.Struct({
   id: Schema.String,
   meta: Schema.optional(
-    Schema.Struct({
-      key: Schema.optional(Schema.String),
-      value: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetPermissionGroupResponse>;
 
 export type GetPermissionGroupError = CommonErrors;
@@ -106,20 +109,23 @@ export const ListPermissionGroupsRequest = Schema.Struct({
 
 export type ListPermissionGroupsResponse = {
   id: string;
-  meta?: { key?: string; value?: string };
-  name?: string;
+  meta?: { key?: string | null; value?: string | null } | null;
+  name?: string | null;
 }[];
 
 export const ListPermissionGroupsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
     meta: Schema.optional(
-      Schema.Struct({
-        key: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListPermissionGroupsResponse>;
 
@@ -162,7 +168,7 @@ export interface GetResourceGroupResponse {
   /** The scope associated to the resource group */
   scope: unknown;
   /** Attributes associated to the resource group. */
-  meta?: { key?: string; value?: string };
+  meta?: { key?: string | null; value?: string | null };
   /** Name of the resource group. */
   name?: string;
 }
@@ -171,12 +177,15 @@ export const GetResourceGroupResponse = Schema.Struct({
   id: Schema.String,
   scope: Schema.Unknown,
   meta: Schema.optional(
-    Schema.Struct({
-      key: Schema.optional(Schema.String),
-      value: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetResourceGroupResponse>;
 
 export type GetResourceGroupError = CommonErrors;
@@ -212,8 +221,8 @@ export const ListResourceGroupsRequest = Schema.Struct({
 export type ListResourceGroupsResponse = {
   id: string;
   scope: unknown;
-  meta?: { key?: string; value?: string };
-  name?: string;
+  meta?: { key?: string | null; value?: string | null } | null;
+  name?: string | null;
 }[];
 
 export const ListResourceGroupsResponse = Schema.Array(
@@ -221,12 +230,15 @@ export const ListResourceGroupsResponse = Schema.Array(
     id: Schema.String,
     scope: Schema.Unknown,
     meta: Schema.optional(
-      Schema.Struct({
-        key: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListResourceGroupsResponse>;
 
@@ -276,7 +288,7 @@ export interface CreateResourceGroupResponse {
   /** The scope associated to the resource group */
   scope: unknown;
   /** Attributes associated to the resource group. */
-  meta?: { key?: string; value?: string };
+  meta?: { key?: string | null; value?: string | null };
   /** Name of the resource group. */
   name?: string;
 }
@@ -285,12 +297,15 @@ export const CreateResourceGroupResponse = Schema.Struct({
   id: Schema.String,
   scope: Schema.Unknown,
   meta: Schema.optional(
-    Schema.Struct({
-      key: Schema.optional(Schema.String),
-      value: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateResourceGroupResponse>;
 
 export type CreateResourceGroupError = CommonErrors;
@@ -343,7 +358,7 @@ export interface UpdateResourceGroupResponse {
   /** The scope associated to the resource group */
   scope: unknown;
   /** Attributes associated to the resource group. */
-  meta?: { key?: string; value?: string };
+  meta?: { key?: string | null; value?: string | null };
   /** Name of the resource group. */
   name?: string;
 }
@@ -352,12 +367,15 @@ export const UpdateResourceGroupResponse = Schema.Struct({
   id: Schema.String,
   scope: Schema.Unknown,
   meta: Schema.optional(
-    Schema.Struct({
-      key: Schema.optional(Schema.String),
-      value: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateResourceGroupResponse>;
 
 export type UpdateResourceGroupError = CommonErrors;
@@ -443,25 +461,33 @@ export interface GetSsoResponse {
   /** Controls the display of FedRAMP language to the user during SSO login */
   useFedrampLanguage?: boolean;
   verification?: {
-    code?: string;
-    status?: "awaiting" | "pending" | "failed" | "verified";
+    code?: string | null;
+    status?: "awaiting" | "pending" | "failed" | "verified" | null;
   };
 }
 
 export const GetSsoResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  useFedrampLanguage: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   verification: Schema.optional(
-    Schema.Struct({
-      code: Schema.optional(Schema.String),
-      status: Schema.optional(
-        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["awaiting", "pending", "failed", "verified"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -500,33 +526,41 @@ export const ListSsosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSsosRequest>;
 
 export type ListSsosResponse = {
-  id?: string;
-  createdOn?: string;
-  emailDomain?: string;
-  enabled?: boolean;
-  updatedOn?: string;
-  useFedrampLanguage?: boolean;
+  id?: string | null;
+  createdOn?: string | null;
+  emailDomain?: string | null;
+  enabled?: boolean | null;
+  updatedOn?: string | null;
+  useFedrampLanguage?: boolean | null;
   verification?: {
-    code?: string;
-    status?: "awaiting" | "pending" | "failed" | "verified";
-  };
+    code?: string | null;
+    status?: "awaiting" | "pending" | "failed" | "verified" | null;
+  } | null;
 }[];
 
 export const ListSsosResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    emailDomain: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    updatedOn: Schema.optional(Schema.String),
-    useFedrampLanguage: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    useFedrampLanguage: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     verification: Schema.optional(
-      Schema.Struct({
-        code: Schema.optional(Schema.String),
-        status: Schema.optional(
-          Schema.Literals(["awaiting", "pending", "failed", "verified"]),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          status: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["awaiting", "pending", "failed", "verified"]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -591,25 +625,33 @@ export interface CreateSsoResponse {
   /** Controls the display of FedRAMP language to the user during SSO login */
   useFedrampLanguage?: boolean;
   verification?: {
-    code?: string;
-    status?: "awaiting" | "pending" | "failed" | "verified";
+    code?: string | null;
+    status?: "awaiting" | "pending" | "failed" | "verified" | null;
   };
 }
 
 export const CreateSsoResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  useFedrampLanguage: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   verification: Schema.optional(
-    Schema.Struct({
-      code: Schema.optional(Schema.String),
-      status: Schema.optional(
-        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["awaiting", "pending", "failed", "verified"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -674,25 +716,33 @@ export interface PatchSsoResponse {
   /** Controls the display of FedRAMP language to the user during SSO login */
   useFedrampLanguage?: boolean;
   verification?: {
-    code?: string;
-    status?: "awaiting" | "pending" | "failed" | "verified";
+    code?: string | null;
+    status?: "awaiting" | "pending" | "failed" | "verified" | null;
   };
 }
 
 export const PatchSsoResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  emailDomain: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  updatedOn: Schema.optional(Schema.String),
-  useFedrampLanguage: Schema.optional(Schema.Boolean),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  useFedrampLanguage: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   verification: Schema.optional(
-    Schema.Struct({
-      code: Schema.optional(Schema.String),
-      status: Schema.optional(
-        Schema.Literals(["awaiting", "pending", "failed", "verified"]),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["awaiting", "pending", "failed", "verified"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -788,10 +838,10 @@ export interface GetUserGroupResponse {
   name: string;
   /** Policies attached to the User group */
   policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: { id: string }[];
-    resourceGroups?: { id: string }[];
+    id?: string | null;
+    access?: "allow" | "deny" | null;
+    permissionGroups?: { id: string }[] | null;
+    resourceGroups?: { id: string }[] | null;
   }[];
 }
 
@@ -801,33 +851,44 @@ export const GetUserGroupResponse = Schema.Struct({
   modifiedOn: Schema.String,
   name: Schema.String,
   policies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literals(["allow", "deny"])),
-        permissionGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          access: Schema.optional(
+            Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
           ),
-        ),
-        resourceGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+          permissionGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
           ),
+          resourceGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            access: "access",
+            permissionGroups: "permission_groups",
+            resourceGroups: "resource_groups",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          access: "access",
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -880,12 +941,14 @@ export type ListUserGroupsResponse = {
   createdOn: string;
   modifiedOn: string;
   name: string;
-  policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: { id: string }[];
-    resourceGroups?: { id: string }[];
-  }[];
+  policies?:
+    | {
+        id?: string | null;
+        access?: "allow" | "deny" | null;
+        permissionGroups?: { id: string }[] | null;
+        resourceGroups?: { id: string }[] | null;
+      }[]
+    | null;
 }[];
 
 export const ListUserGroupsResponse = Schema.Array(
@@ -895,33 +958,44 @@ export const ListUserGroupsResponse = Schema.Array(
     modifiedOn: Schema.String,
     name: Schema.String,
     policies: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          access: Schema.optional(Schema.Literals(["allow", "deny"])),
-          permissionGroups: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                id: Schema.String,
-              }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            access: Schema.optional(
+              Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
             ),
-          ),
-          resourceGroups: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                id: Schema.String,
-              }),
+            permissionGroups: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.String,
+                  }),
+                ),
+                Schema.Null,
+              ]),
             ),
+            resourceGroups: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.String,
+                  }),
+                ),
+                Schema.Null,
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              access: "access",
+              permissionGroups: "permission_groups",
+              resourceGroups: "resource_groups",
+            }),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            access: "access",
-            permissionGroups: "permission_groups",
-            resourceGroups: "resource_groups",
-          }),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -999,10 +1073,10 @@ export interface CreateUserGroupResponse {
   name: string;
   /** Policies attached to the User group */
   policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: { id: string }[];
-    resourceGroups?: { id: string }[];
+    id?: string | null;
+    access?: "allow" | "deny" | null;
+    permissionGroups?: { id: string }[] | null;
+    resourceGroups?: { id: string }[] | null;
   }[];
 }
 
@@ -1012,33 +1086,44 @@ export const CreateUserGroupResponse = Schema.Struct({
   modifiedOn: Schema.String,
   name: Schema.String,
   policies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literals(["allow", "deny"])),
-        permissionGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          access: Schema.optional(
+            Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
           ),
-        ),
-        resourceGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+          permissionGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
           ),
+          resourceGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            access: "access",
+            permissionGroups: "permission_groups",
+            resourceGroups: "resource_groups",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          access: "access",
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1125,10 +1210,10 @@ export interface UpdateUserGroupResponse {
   name: string;
   /** Policies attached to the User group */
   policies?: {
-    id?: string;
-    access?: "allow" | "deny";
-    permissionGroups?: { id: string }[];
-    resourceGroups?: { id: string }[];
+    id?: string | null;
+    access?: "allow" | "deny" | null;
+    permissionGroups?: { id: string }[] | null;
+    resourceGroups?: { id: string }[] | null;
   }[];
 }
 
@@ -1138,33 +1223,44 @@ export const UpdateUserGroupResponse = Schema.Struct({
   modifiedOn: Schema.String,
   name: Schema.String,
   policies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        access: Schema.optional(Schema.Literals(["allow", "deny"])),
-        permissionGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          access: Schema.optional(
+            Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
           ),
-        ),
-        resourceGroups: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-            }),
+          permissionGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
           ),
+          resourceGroups: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            access: "access",
+            permissionGroups: "permission_groups",
+            resourceGroups: "resource_groups",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          access: "access",
-          permissionGroups: "permission_groups",
-          resourceGroups: "resource_groups",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1249,15 +1345,17 @@ export const ListUserGroupMembersRequest = Schema.Struct({
 
 export type ListUserGroupMembersResponse = {
   id: string;
-  email?: string;
-  status?: "accepted" | "pending";
+  email?: string | null;
+  status?: "accepted" | "pending" | null;
 }[];
 
 export const ListUserGroupMembersResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    email: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.Literals(["accepted", "pending"])),
+    email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+    ),
   }),
 ) as unknown as Schema.Schema<ListUserGroupMembersResponse>;
 
@@ -1308,8 +1406,10 @@ export interface CreateUserGroupMemberResponse {
 
 export const CreateUserGroupMemberResponse = Schema.Struct({
   id: Schema.String,
-  email: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["accepted", "pending"])),
+  email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
 export type CreateUserGroupMemberError = CommonErrors | InvalidMember;
@@ -1343,22 +1443,24 @@ export const UpdateUserGroupMemberRequest = Schema.Struct({
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "PUT",
     path: "/accounts/{account_id}/iam/user_groups/{userGroupId}/members",
   }),
 ) as unknown as Schema.Schema<UpdateUserGroupMemberRequest>;
 
 export type UpdateUserGroupMemberResponse = {
   id: string;
-  email?: string;
-  status?: "accepted" | "pending";
+  email?: string | null;
+  status?: "accepted" | "pending" | null;
 }[];
 
 export const UpdateUserGroupMemberResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    email: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.Literals(["accepted", "pending"])),
+    email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+    ),
   }),
 ) as unknown as Schema.Schema<UpdateUserGroupMemberResponse>;
 
@@ -1404,8 +1506,10 @@ export interface DeleteUserGroupMemberResponse {
 
 export const DeleteUserGroupMemberResponse = Schema.Struct({
   id: Schema.String,
-  email: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["accepted", "pending"])),
+  email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
 export type DeleteUserGroupMemberError = CommonErrors | InvalidMember;
@@ -1445,14 +1549,14 @@ export interface BeginVerificationSsoResponse {
   errors: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   messages: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   /** Whether the API call was successful. */
   success: true;
@@ -1463,11 +1567,18 @@ export const BeginVerificationSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -1482,11 +1593,18 @@ export const BeginVerificationSsoResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({

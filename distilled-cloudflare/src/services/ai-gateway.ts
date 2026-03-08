@@ -95,40 +95,43 @@ export interface GetAiGatewayResponse {
 
 export const GetAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   cacheInvalidateOnUpdate: Schema.Boolean,
   cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
   collectLogs: Schema.Boolean,
   createdAt: Schema.String,
-  internalId: Schema.optional(Schema.String),
+  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedAt: Schema.String,
   rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-  authentication: Schema.optional(Schema.Boolean),
+  authentication: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   dlp: Schema.optional(
     Schema.Union([
-      Schema.Struct({
-        action: Schema.Literals(["BLOCK", "FLAG"]),
-        enabled: Schema.Boolean,
-        profiles: Schema.Array(Schema.String),
-      }),
-      Schema.Struct({
-        enabled: Schema.Boolean,
-        policies: Schema.Array(
-          Schema.Struct({
-            id: Schema.String,
-            action: Schema.Literals(["FLAG", "BLOCK"]),
-            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
-            enabled: Schema.Boolean,
-            profiles: Schema.Array(Schema.String),
-          }),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          action: Schema.Literals(["BLOCK", "FLAG"]),
+          enabled: Schema.Boolean,
+          profiles: Schema.Array(Schema.String),
+        }),
+        Schema.Struct({
+          enabled: Schema.Boolean,
+          policies: Schema.Array(
+            Schema.Struct({
+              id: Schema.String,
+              action: Schema.Literals(["FLAG", "BLOCK"]),
+              check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+              enabled: Schema.Boolean,
+              profiles: Schema.Array(Schema.String),
+            }),
+          ),
+        }),
+      ]),
+      Schema.Null,
     ]),
   ),
-  isDefault: Schema.optional(Schema.Boolean),
+  isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   logManagementStrategy: Schema.optional(
     Schema.Union([
@@ -137,7 +140,7 @@ export const GetAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  logpush: Schema.optional(Schema.Boolean),
+  logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logpushPublicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   otel: Schema.optional(
     Schema.Union([
@@ -170,7 +173,7 @@ export const GetAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  zdr: Schema.optional(Schema.Boolean),
+  zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -239,7 +242,7 @@ export type ListAiGatewaysResponse = {
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
   rateLimitingTechnique: "fixed" | "sliding";
-  authentication?: boolean;
+  authentication?: boolean | null;
   dlp?:
     | { action: "BLOCK" | "FLAG"; enabled: boolean; profiles: string[] }
     | {
@@ -251,18 +254,19 @@ export type ListAiGatewaysResponse = {
           enabled: boolean;
           profiles: string[];
         }[];
-      };
-  isDefault?: boolean;
+      }
+    | null;
+  isDefault?: boolean | null;
   logManagement?: number | null;
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
-  logpush?: boolean;
+  logpush?: boolean | null;
   logpushPublicKey?: string | null;
   otel?:
     | { authorization: string; headers: Record<string, unknown>; url: string }[]
     | null;
   storeId?: string | null;
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
-  zdr?: boolean;
+  zdr?: boolean | null;
 }[];
 
 export const ListAiGatewaysResponse = Schema.Array(
@@ -279,29 +283,34 @@ export const ListAiGatewaysResponse = Schema.Array(
     rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
     rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
     rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-    authentication: Schema.optional(Schema.Boolean),
+    authentication: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     dlp: Schema.optional(
       Schema.Union([
-        Schema.Struct({
-          action: Schema.Literals(["BLOCK", "FLAG"]),
-          enabled: Schema.Boolean,
-          profiles: Schema.Array(Schema.String),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          policies: Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              action: Schema.Literals(["FLAG", "BLOCK"]),
-              check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
-              enabled: Schema.Boolean,
-              profiles: Schema.Array(Schema.String),
-            }),
-          ),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            action: Schema.Literals(["BLOCK", "FLAG"]),
+            enabled: Schema.Boolean,
+            profiles: Schema.Array(Schema.String),
+          }),
+          Schema.Struct({
+            enabled: Schema.Boolean,
+            policies: Schema.Array(
+              Schema.Struct({
+                id: Schema.String,
+                action: Schema.Literals(["FLAG", "BLOCK"]),
+                check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+                enabled: Schema.Boolean,
+                profiles: Schema.Array(Schema.String),
+              }),
+            ),
+          }),
+        ]),
+        Schema.Null,
       ]),
     ),
-    isDefault: Schema.optional(Schema.Boolean),
+    isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     logManagementStrategy: Schema.optional(
       Schema.Union([
@@ -310,7 +319,7 @@ export const ListAiGatewaysResponse = Schema.Array(
         Schema.Null,
       ]),
     ),
-    logpush: Schema.optional(Schema.Boolean),
+    logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     logpushPublicKey: Schema.optional(
       Schema.Union([Schema.String, Schema.Null]),
     ),
@@ -345,7 +354,7 @@ export const ListAiGatewaysResponse = Schema.Array(
         Schema.Null,
       ]),
     ),
-    zdr: Schema.optional(Schema.Boolean),
+    zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -508,40 +517,43 @@ export interface CreateAiGatewayResponse {
 
 export const CreateAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   cacheInvalidateOnUpdate: Schema.Boolean,
   cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
   collectLogs: Schema.Boolean,
   createdAt: Schema.String,
-  internalId: Schema.optional(Schema.String),
+  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedAt: Schema.String,
   rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-  authentication: Schema.optional(Schema.Boolean),
+  authentication: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   dlp: Schema.optional(
     Schema.Union([
-      Schema.Struct({
-        action: Schema.Literals(["BLOCK", "FLAG"]),
-        enabled: Schema.Boolean,
-        profiles: Schema.Array(Schema.String),
-      }),
-      Schema.Struct({
-        enabled: Schema.Boolean,
-        policies: Schema.Array(
-          Schema.Struct({
-            id: Schema.String,
-            action: Schema.Literals(["FLAG", "BLOCK"]),
-            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
-            enabled: Schema.Boolean,
-            profiles: Schema.Array(Schema.String),
-          }),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          action: Schema.Literals(["BLOCK", "FLAG"]),
+          enabled: Schema.Boolean,
+          profiles: Schema.Array(Schema.String),
+        }),
+        Schema.Struct({
+          enabled: Schema.Boolean,
+          policies: Schema.Array(
+            Schema.Struct({
+              id: Schema.String,
+              action: Schema.Literals(["FLAG", "BLOCK"]),
+              check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+              enabled: Schema.Boolean,
+              profiles: Schema.Array(Schema.String),
+            }),
+          ),
+        }),
+      ]),
+      Schema.Null,
     ]),
   ),
-  isDefault: Schema.optional(Schema.Boolean),
+  isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   logManagementStrategy: Schema.optional(
     Schema.Union([
@@ -550,7 +562,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  logpush: Schema.optional(Schema.Boolean),
+  logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logpushPublicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   otel: Schema.optional(
     Schema.Union([
@@ -583,7 +595,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  zdr: Schema.optional(Schema.Boolean),
+  zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -820,40 +832,43 @@ export interface UpdateAiGatewayResponse {
 
 export const UpdateAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   cacheInvalidateOnUpdate: Schema.Boolean,
   cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
   collectLogs: Schema.Boolean,
   createdAt: Schema.String,
-  internalId: Schema.optional(Schema.String),
+  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedAt: Schema.String,
   rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-  authentication: Schema.optional(Schema.Boolean),
+  authentication: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   dlp: Schema.optional(
     Schema.Union([
-      Schema.Struct({
-        action: Schema.Literals(["BLOCK", "FLAG"]),
-        enabled: Schema.Boolean,
-        profiles: Schema.Array(Schema.String),
-      }),
-      Schema.Struct({
-        enabled: Schema.Boolean,
-        policies: Schema.Array(
-          Schema.Struct({
-            id: Schema.String,
-            action: Schema.Literals(["FLAG", "BLOCK"]),
-            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
-            enabled: Schema.Boolean,
-            profiles: Schema.Array(Schema.String),
-          }),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          action: Schema.Literals(["BLOCK", "FLAG"]),
+          enabled: Schema.Boolean,
+          profiles: Schema.Array(Schema.String),
+        }),
+        Schema.Struct({
+          enabled: Schema.Boolean,
+          policies: Schema.Array(
+            Schema.Struct({
+              id: Schema.String,
+              action: Schema.Literals(["FLAG", "BLOCK"]),
+              check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+              enabled: Schema.Boolean,
+              profiles: Schema.Array(Schema.String),
+            }),
+          ),
+        }),
+      ]),
+      Schema.Null,
     ]),
   ),
-  isDefault: Schema.optional(Schema.Boolean),
+  isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   logManagementStrategy: Schema.optional(
     Schema.Union([
@@ -862,7 +877,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  logpush: Schema.optional(Schema.Boolean),
+  logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logpushPublicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   otel: Schema.optional(
     Schema.Union([
@@ -895,7 +910,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  zdr: Schema.optional(Schema.Boolean),
+  zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -994,40 +1009,43 @@ export interface DeleteAiGatewayResponse {
 
 export const DeleteAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.optional(Schema.String),
-  accountTag: Schema.optional(Schema.String),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   cacheInvalidateOnUpdate: Schema.Boolean,
   cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
   collectLogs: Schema.Boolean,
   createdAt: Schema.String,
-  internalId: Schema.optional(Schema.String),
+  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedAt: Schema.String,
   rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
   rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-  authentication: Schema.optional(Schema.Boolean),
+  authentication: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   dlp: Schema.optional(
     Schema.Union([
-      Schema.Struct({
-        action: Schema.Literals(["BLOCK", "FLAG"]),
-        enabled: Schema.Boolean,
-        profiles: Schema.Array(Schema.String),
-      }),
-      Schema.Struct({
-        enabled: Schema.Boolean,
-        policies: Schema.Array(
-          Schema.Struct({
-            id: Schema.String,
-            action: Schema.Literals(["FLAG", "BLOCK"]),
-            check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
-            enabled: Schema.Boolean,
-            profiles: Schema.Array(Schema.String),
-          }),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          action: Schema.Literals(["BLOCK", "FLAG"]),
+          enabled: Schema.Boolean,
+          profiles: Schema.Array(Schema.String),
+        }),
+        Schema.Struct({
+          enabled: Schema.Boolean,
+          policies: Schema.Array(
+            Schema.Struct({
+              id: Schema.String,
+              action: Schema.Literals(["FLAG", "BLOCK"]),
+              check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+              enabled: Schema.Boolean,
+              profiles: Schema.Array(Schema.String),
+            }),
+          ),
+        }),
+      ]),
+      Schema.Null,
     ]),
   ),
-  isDefault: Schema.optional(Schema.Boolean),
+  isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   logManagementStrategy: Schema.optional(
     Schema.Union([
@@ -1036,7 +1054,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  logpush: Schema.optional(Schema.Boolean),
+  logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   logpushPublicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   otel: Schema.optional(
     Schema.Union([
@@ -1069,7 +1087,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  zdr: Schema.optional(Schema.Boolean),
+  zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -2630,21 +2648,29 @@ export const GetLogResponse = Schema.Struct({
   success: Schema.Boolean,
   tokensIn: Schema.Union([Schema.Number, Schema.Null]),
   tokensOut: Schema.Union([Schema.Number, Schema.Null]),
-  cost: Schema.optional(Schema.Number),
-  customCost: Schema.optional(Schema.Boolean),
-  metadata: Schema.optional(Schema.String),
-  modelType: Schema.optional(Schema.String),
-  requestContentType: Schema.optional(Schema.String),
-  requestHead: Schema.optional(Schema.String),
-  requestHeadComplete: Schema.optional(Schema.Boolean),
-  requestSize: Schema.optional(Schema.Number),
-  requestType: Schema.optional(Schema.String),
-  responseContentType: Schema.optional(Schema.String),
-  responseHead: Schema.optional(Schema.String),
-  responseHeadComplete: Schema.optional(Schema.Boolean),
-  responseSize: Schema.optional(Schema.Number),
-  statusCode: Schema.optional(Schema.Number),
-  step: Schema.optional(Schema.Number),
+  cost: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  customCost: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  metadata: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requestContentType: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  requestHead: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requestHeadComplete: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  requestSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  requestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  responseContentType: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  responseHead: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  responseHeadComplete: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  responseSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -2903,15 +2929,15 @@ export type ListLogsResponse = {
   success: boolean;
   tokensIn: number | null;
   tokensOut: number | null;
-  cost?: number;
-  customCost?: boolean;
-  metadata?: string;
-  modelType?: string;
-  requestContentType?: string;
-  requestType?: string;
-  responseContentType?: string;
-  statusCode?: number;
-  step?: number;
+  cost?: number | null;
+  customCost?: boolean | null;
+  metadata?: string | null;
+  modelType?: string | null;
+  requestContentType?: string | null;
+  requestType?: string | null;
+  responseContentType?: string | null;
+  statusCode?: number | null;
+  step?: number | null;
 }[];
 
 export const ListLogsResponse = Schema.Array(
@@ -2926,15 +2952,19 @@ export const ListLogsResponse = Schema.Array(
     success: Schema.Boolean,
     tokensIn: Schema.Union([Schema.Number, Schema.Null]),
     tokensOut: Schema.Union([Schema.Number, Schema.Null]),
-    cost: Schema.optional(Schema.Number),
-    customCost: Schema.optional(Schema.Boolean),
-    metadata: Schema.optional(Schema.String),
-    modelType: Schema.optional(Schema.String),
-    requestContentType: Schema.optional(Schema.String),
-    requestType: Schema.optional(Schema.String),
-    responseContentType: Schema.optional(Schema.String),
-    statusCode: Schema.optional(Schema.Number),
-    step: Schema.optional(Schema.Number),
+    cost: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    customCost: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    metadata: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    requestContentType: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    requestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    responseContentType: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

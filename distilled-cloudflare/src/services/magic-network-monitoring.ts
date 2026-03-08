@@ -456,12 +456,17 @@ export const GetRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -619,12 +624,17 @@ export const CreateRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -758,12 +768,17 @@ export const UpdateRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -891,12 +906,17 @@ export const PatchRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -993,12 +1013,17 @@ export const DeleteRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),

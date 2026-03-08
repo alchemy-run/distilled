@@ -41,7 +41,7 @@ export interface GetConfigAsnResponse {
 }
 
 export const GetConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
 export type GetConfigAsnError = CommonErrors;
@@ -78,7 +78,7 @@ export interface DeleteConfigAsnResponse {
 }
 
 export const DeleteConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
 export type DeleteConfigAsnError = CommonErrors;
@@ -124,9 +124,9 @@ export interface DayReportAsnResponse {
 }
 
 export const DayReportAsnResponse = Schema.Struct({
-  cidr: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     cidr: "cidr",
@@ -171,9 +171,9 @@ export interface FullReportAsnResponse {
 }
 
 export const FullReportAsnResponse = Schema.Struct({
-  cidr: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     cidr: "cidr",

@@ -100,7 +100,9 @@ const CACHE_DIR = ".distilled/cache";
  */
 const getGitHash = (repoPath: string) =>
   ChildProcessSpawner.ChildProcessSpawner.use((spawner) =>
-    spawner.string(ChildProcess.make("git", ["rev-parse", "HEAD"], { cwd: repoPath })),
+    spawner.string(
+      ChildProcess.make("git", ["rev-parse", "HEAD"], { cwd: repoPath }),
+    ),
   ).pipe(
     Effect.map((s) => s.trim()),
     Effect.catch(() => Effect.succeed("")),
@@ -548,7 +550,9 @@ function extractHttpMethod(
                 ts.isStringLiteral(prop.initializer)
               ) {
                 const override = prop.initializer.text.toUpperCase();
-                if (["GET", "POST", "PUT", "PATCH", "DELETE"].includes(override)) {
+                if (
+                  ["GET", "POST", "PUT", "PATCH", "DELETE"].includes(override)
+                ) {
                   httpMethod = override as typeof httpMethod;
                 }
               }
@@ -600,7 +604,9 @@ function detectMultipart(methodBody: ts.Block): boolean {
  * Detect pagination type from the page class used in getAPIList/postAPIList calls.
  * Returns "items" for V4PagePagination (result.items wrapper), "array" for V4PagePaginationArray/SinglePage (bare array).
  */
-function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefined {
+function detectPaginationType(
+  methodBody: ts.Block,
+): "items" | "array" | undefined {
   let paginationType: "items" | "array" | undefined;
 
   function visit(node: ts.Node) {
@@ -618,7 +624,10 @@ function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefin
             const pageClassName = pageClassArg.getText();
             // V4PagePagination uses result.items wrapper
             // V4PagePaginationArray and SinglePage use result directly as array
-            if (pageClassName.includes("V4PagePagination") && !pageClassName.includes("V4PagePaginationArray")) {
+            if (
+              pageClassName.includes("V4PagePagination") &&
+              !pageClassName.includes("V4PagePaginationArray")
+            ) {
               paginationType = "items";
             } else {
               paginationType = "array";
@@ -1281,7 +1290,5 @@ export const parseCode = (options: ParseOptions) => {
 
 export const loadModel = (options: ParseOptions) =>
   Effect.runPromise(
-    parseCode(options).pipe(
-      Effect.provide(NodeServices.layer),
-    ),
+    parseCode(options).pipe(Effect.provide(NodeServices.layer)),
   );

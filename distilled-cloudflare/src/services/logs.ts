@@ -44,8 +44,10 @@ export interface GetControlCmbConfigResponse {
 }
 
 export const GetControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
-  regions: Schema.optional(Schema.String),
+  allowOutOfRegionAccess: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     allowOutOfRegionAccess: "allow_out_of_region_access",
@@ -98,8 +100,10 @@ export interface CreateControlCmbConfigResponse {
 }
 
 export const CreateControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
-  regions: Schema.optional(Schema.String),
+  allowOutOfRegionAccess: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     allowOutOfRegionAccess: "allow_out_of_region_access",
@@ -176,7 +180,7 @@ export interface GetControlRetentionResponse {
 }
 
 export const GetControlRetentionResponse = Schema.Struct({
-  flag: Schema.optional(Schema.Boolean),
+  flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
 export type GetControlRetentionError = CommonErrors;
@@ -215,7 +219,7 @@ export interface CreateControlRetentionResponse {
 }
 
 export const CreateControlRetentionResponse = Schema.Struct({
-  flag: Schema.optional(Schema.Boolean),
+  flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
 export type CreateControlRetentionError = CommonErrors;
@@ -349,7 +353,7 @@ export interface GetReceivedFieldResponse {
 }
 
 export const GetReceivedFieldResponse = Schema.Struct({
-  key: Schema.optional(Schema.String),
+  key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetReceivedFieldResponse>;
 
 export type GetReceivedFieldError = CommonErrors;

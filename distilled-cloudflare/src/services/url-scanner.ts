@@ -112,7 +112,7 @@ export interface GetScanResponse {
         mixedContentType: string;
         referrerPolicy: string;
         url: string;
-        headers?: unknown;
+        headers?: unknown | null;
       };
       response: {
         asn: {
@@ -161,33 +161,35 @@ export interface GetScanResponse {
           status: number;
           statusText: string;
           url: string;
-          headers?: unknown;
+          headers?: unknown | null;
         };
         size: number;
         type: string;
-        contentAvailable?: boolean;
-        hash?: string;
+        contentAvailable?: boolean | null;
+        hash?: string | null;
       };
-      requests?: {
-        documentURL: string;
-        frameId: string;
-        hasUserGesture: boolean;
-        initiator: { type: string };
-        loaderId: string;
-        redirectHasExtraInfo: boolean;
-        request: {
-          headers: { name: string };
-          initialPriority: string;
-          isSameSite: boolean;
-          method: string;
-          mixedContentType: string;
-          referrerPolicy: string;
-          url: string;
-        };
-        requestId: string;
-        type: string;
-        wallTime: number;
-      }[];
+      requests?:
+        | {
+            documentURL: string;
+            frameId: string;
+            hasUserGesture: boolean;
+            initiator: { type: string };
+            loaderId: string;
+            redirectHasExtraInfo: boolean;
+            request: {
+              headers: { name: string };
+              initialPriority: string;
+              isSameSite: boolean;
+              method: string;
+              mixedContentType: string;
+              referrerPolicy: string;
+              url: string;
+            };
+            requestId: string;
+            type: string;
+            wallTime: number;
+          }[]
+        | null;
     }[];
   };
   lists: {
@@ -243,7 +245,7 @@ export interface GetScanResponse {
       };
       phishing: { data: string[] };
       radarRank: {
-        data: { bucket: string; hostname: string; rank?: number }[];
+        data: { bucket: string; hostname: string; rank?: number | null }[];
       };
       wappa: {
         data: {
@@ -271,7 +273,7 @@ export interface GetScanResponse {
           name: string;
           risks: { id: number; name: string; superCategoryId: number }[];
         }[];
-      };
+      } | null;
     };
   };
   page: {
@@ -296,7 +298,7 @@ export interface GetScanResponse {
       mm3Hash: number;
       name: string;
       phash: string;
-    };
+    } | null;
   };
   scanner: { colo: string; country: string };
   stats: {
@@ -336,7 +338,7 @@ export interface GetScanResponse {
       redirects: number;
       requests: number;
       size: number;
-      count?: number;
+      count?: number | null;
     }[];
     iPv6Percentage: number;
     malicious: number;
@@ -386,7 +388,10 @@ export interface GetScanResponse {
     domain: string;
     domURL: string;
     method: string;
-    options: { customHeaders?: unknown; screenshotsResolutions?: string[] };
+    options: {
+      customHeaders?: unknown | null;
+      screenshotsResolutions?: string[] | null;
+    };
     reportURL: string;
     screenshotURL: string;
     source: string;
@@ -464,7 +469,7 @@ export const GetScanResponse = Schema.Struct({
           mixedContentType: Schema.String,
           referrerPolicy: Schema.String,
           url: Schema.String,
-          headers: Schema.optional(Schema.Unknown),
+          headers: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
         }),
         response: Schema.Struct({
           asn: Schema.Struct({
@@ -527,40 +532,47 @@ export const GetScanResponse = Schema.Struct({
             status: Schema.Number,
             statusText: Schema.String,
             url: Schema.String,
-            headers: Schema.optional(Schema.Unknown),
+            headers: Schema.optional(
+              Schema.Union([Schema.Unknown, Schema.Null]),
+            ),
           }),
           size: Schema.Number,
           type: Schema.String,
-          contentAvailable: Schema.optional(Schema.Boolean),
-          hash: Schema.optional(Schema.String),
+          contentAvailable: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          hash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }),
         requests: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              documentURL: Schema.String,
-              frameId: Schema.String,
-              hasUserGesture: Schema.Boolean,
-              initiator: Schema.Struct({
-                type: Schema.String,
-              }),
-              loaderId: Schema.String,
-              redirectHasExtraInfo: Schema.Boolean,
-              request: Schema.Struct({
-                headers: Schema.Struct({
-                  name: Schema.String,
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                documentURL: Schema.String,
+                frameId: Schema.String,
+                hasUserGesture: Schema.Boolean,
+                initiator: Schema.Struct({
+                  type: Schema.String,
                 }),
-                initialPriority: Schema.String,
-                isSameSite: Schema.Boolean,
-                method: Schema.String,
-                mixedContentType: Schema.String,
-                referrerPolicy: Schema.String,
-                url: Schema.String,
+                loaderId: Schema.String,
+                redirectHasExtraInfo: Schema.Boolean,
+                request: Schema.Struct({
+                  headers: Schema.Struct({
+                    name: Schema.String,
+                  }),
+                  initialPriority: Schema.String,
+                  isSameSite: Schema.Boolean,
+                  method: Schema.String,
+                  mixedContentType: Schema.String,
+                  referrerPolicy: Schema.String,
+                  url: Schema.String,
+                }),
+                requestId: Schema.String,
+                type: Schema.String,
+                wallTime: Schema.Number,
               }),
-              requestId: Schema.String,
-              type: Schema.String,
-              wallTime: Schema.Number,
-            }),
-          ),
+            ),
+            Schema.Null,
+          ]),
         ),
       }),
     ),
@@ -653,7 +665,7 @@ export const GetScanResponse = Schema.Struct({
           Schema.Struct({
             bucket: Schema.String,
             hostname: Schema.String,
-            rank: Schema.optional(Schema.Number),
+            rank: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
           }),
         ),
       }),
@@ -682,23 +694,10 @@ export const GetScanResponse = Schema.Struct({
         ),
       }),
       urlCategories: Schema.optional(
-        Schema.Struct({
-          data: Schema.Array(
-            Schema.Struct({
-              content: Schema.Array(
-                Schema.Struct({
-                  id: Schema.Number,
-                  name: Schema.String,
-                  superCategoryId: Schema.Number,
-                }).pipe(
-                  Schema.encodeKeys({
-                    id: "id",
-                    name: "name",
-                    superCategoryId: "super_category_id",
-                  }),
-                ),
-              ),
-              inherited: Schema.Struct({
+        Schema.Union([
+          Schema.Struct({
+            data: Schema.Array(
+              Schema.Struct({
                 content: Schema.Array(
                   Schema.Struct({
                     id: Schema.Number,
@@ -712,7 +711,36 @@ export const GetScanResponse = Schema.Struct({
                     }),
                   ),
                 ),
-                from: Schema.String,
+                inherited: Schema.Struct({
+                  content: Schema.Array(
+                    Schema.Struct({
+                      id: Schema.Number,
+                      name: Schema.String,
+                      superCategoryId: Schema.Number,
+                    }).pipe(
+                      Schema.encodeKeys({
+                        id: "id",
+                        name: "name",
+                        superCategoryId: "super_category_id",
+                      }),
+                    ),
+                  ),
+                  from: Schema.String,
+                  risks: Schema.Array(
+                    Schema.Struct({
+                      id: Schema.Number,
+                      name: Schema.String,
+                      superCategoryId: Schema.Number,
+                    }).pipe(
+                      Schema.encodeKeys({
+                        id: "id",
+                        name: "name",
+                        superCategoryId: "super_category_id",
+                      }),
+                    ),
+                  ),
+                }),
+                name: Schema.String,
                 risks: Schema.Array(
                   Schema.Struct({
                     id: Schema.Number,
@@ -727,23 +755,10 @@ export const GetScanResponse = Schema.Struct({
                   ),
                 ),
               }),
-              name: Schema.String,
-              risks: Schema.Array(
-                Schema.Struct({
-                  id: Schema.Number,
-                  name: Schema.String,
-                  superCategoryId: Schema.Number,
-                }).pipe(
-                  Schema.encodeKeys({
-                    id: "id",
-                    name: "name",
-                    superCategoryId: "super_category_id",
-                  }),
-                ),
-              ),
-            }),
-          ),
-        }),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }),
   }),
@@ -765,12 +780,15 @@ export const GetScanResponse = Schema.Struct({
     tlsValidFrom: Schema.String,
     url: Schema.String,
     screenshot: Schema.optional(
-      Schema.Struct({
-        dhash: Schema.String,
-        mm3Hash: Schema.Number,
-        name: Schema.String,
-        phash: Schema.String,
-      }),
+      Schema.Union([
+        Schema.Struct({
+          dhash: Schema.String,
+          mm3Hash: Schema.Number,
+          name: Schema.String,
+          phash: Schema.String,
+        }),
+        Schema.Null,
+      ]),
     ),
   }),
   scanner: Schema.Struct({
@@ -825,7 +843,7 @@ export const GetScanResponse = Schema.Struct({
         redirects: Schema.Number,
         requests: Schema.Number,
         size: Schema.Number,
-        count: Schema.optional(Schema.Number),
+        count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       }),
     ),
     iPv6Percentage: Schema.Number,
@@ -903,8 +921,12 @@ export const GetScanResponse = Schema.Struct({
     domURL: Schema.String,
     method: Schema.String,
     options: Schema.Struct({
-      customHeaders: Schema.optional(Schema.Unknown),
-      screenshotsResolutions: Schema.optional(Schema.Array(Schema.String)),
+      customHeaders: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      screenshotsResolutions: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }),
     reportURL: Schema.String,
     screenshotURL: Schema.String,
@@ -1465,7 +1487,7 @@ export interface CreateScanResponse {
   uuid: string;
   /** Submitted visibility status. */
   visibility: "public" | "unlisted";
-  options?: { useragent?: string };
+  options?: { useragent?: string | null };
 }
 
 export const CreateScanResponse = Schema.Struct({
@@ -1476,9 +1498,12 @@ export const CreateScanResponse = Schema.Struct({
   uuid: Schema.String,
   visibility: Schema.Literals(["public", "unlisted"]),
   options: Schema.optional(
-    Schema.Struct({
-      useragent: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        useragent: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<CreateScanResponse>;
 
@@ -1535,7 +1560,7 @@ export type BulkCreateScansResponse = {
   url: string;
   uuid: string;
   visibility: "public" | "unlisted";
-  options?: { useragent?: string };
+  options?: { useragent?: string | null } | null;
 }[];
 
 export const BulkCreateScansResponse = Schema.Array(
@@ -1546,9 +1571,14 @@ export const BulkCreateScansResponse = Schema.Array(
     uuid: Schema.String,
     visibility: Schema.Literals(["public", "unlisted"]),
     options: Schema.optional(
-      Schema.Struct({
-        useragent: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          useragent: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
   }),
 ) as unknown as Schema.Schema<BulkCreateScansResponse>;
@@ -1640,7 +1670,11 @@ export interface HarScanResponse {
       response: {
         transferSize: number;
         bodySize: number;
-        content: { mimeType: string; size: number; compression?: number };
+        content: {
+          mimeType: string;
+          size: number;
+          compression?: number | null;
+        };
         headers: { name: string; value: string }[];
         headersSize: number;
         httpVersion: string;
@@ -1699,7 +1733,9 @@ export const HarScanResponse = Schema.Struct({
           content: Schema.Struct({
             mimeType: Schema.String,
             size: Schema.Number,
-            compression: Schema.optional(Schema.Number),
+            compression: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
           }),
           headers: Schema.Array(
             Schema.Struct({

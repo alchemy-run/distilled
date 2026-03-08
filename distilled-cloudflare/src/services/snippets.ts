@@ -76,8 +76,8 @@ export type ListRulesResponse = {
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
@@ -86,8 +86,8 @@ export const ListRulesResponse = Schema.Array(
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -113,7 +113,7 @@ export const listRules: API.OperationMethod<
   errors: [],
 }));
 
-export interface UpdateRuleRequest {
+export interface PutRuleRequest {
   /** Path param: The unique ID of the zone. */
   zoneId: string;
   /** Body param: A list of snippet rules. */
@@ -125,7 +125,7 @@ export interface UpdateRuleRequest {
   }[];
 }
 
-export const UpdateRuleRequest = Schema.Struct({
+export const PutRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   rules: Schema.Array(
     Schema.Struct({
@@ -143,26 +143,26 @@ export const UpdateRuleRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/snippets/snippet_rules" }),
-) as unknown as Schema.Schema<UpdateRuleRequest>;
+  T.Http({ method: "PUT", path: "/zones/{zone_id}/snippets/snippet_rules" }),
+) as unknown as Schema.Schema<PutRuleRequest>;
 
-export type UpdateRuleResponse = {
+export type PutRuleResponse = {
   id: string;
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
-export const UpdateRuleResponse = Schema.Array(
+export const PutRuleResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -173,18 +173,18 @@ export const UpdateRuleResponse = Schema.Array(
       enabled: "enabled",
     }),
   ),
-) as unknown as Schema.Schema<UpdateRuleResponse>;
+) as unknown as Schema.Schema<PutRuleResponse>;
 
-export type UpdateRuleError = CommonErrors;
+export type PutRuleError = CommonErrors;
 
-export const updateRule: API.OperationMethod<
-  UpdateRuleRequest,
-  UpdateRuleResponse,
-  UpdateRuleError,
+export const putRule: API.OperationMethod<
+  PutRuleRequest,
+  PutRuleResponse,
+  PutRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UpdateRuleRequest,
-  output: UpdateRuleResponse,
+  input: PutRuleRequest,
+  output: PutRuleResponse,
   errors: [],
 }));
 
@@ -196,7 +196,7 @@ export interface DeleteRuleRequest {
 export const DeleteRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/snippets/snippet_rules" }),
+  T.Http({ method: "DELETE", path: "/zones/{zone_id}/snippets/snippet_rules" }),
 ) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export type DeleteRuleResponse = {
@@ -204,8 +204,8 @@ export type DeleteRuleResponse = {
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
 export const DeleteRuleResponse = Schema.Array(
@@ -214,8 +214,8 @@ export const DeleteRuleResponse = Schema.Array(
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -270,7 +270,7 @@ export interface GetSnippetResponse {
 export const GetSnippetResponse = Schema.Struct({
   createdOn: Schema.String,
   snippetName: Schema.String,
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     createdOn: "created_on",
@@ -306,14 +306,14 @@ export const ListSnippetsRequest = Schema.Struct({
 export type ListSnippetsResponse = {
   createdOn: string;
   snippetName: string;
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }[];
 
 export const ListSnippetsResponse = Schema.Array(
   Schema.Struct({
     createdOn: Schema.String,
     snippetName: Schema.String,
-    modifiedOn: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       createdOn: "created_on",
@@ -351,7 +351,11 @@ export const PutSnippetRequest = Schema.Struct({
     mainModule: Schema.String,
   }).pipe(Schema.encodeKeys({ mainModule: "main_module" })),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/snippets/{snippetName}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/snippets/{snippetName}",
+    contentType: "multipart",
+  }),
 ) as unknown as Schema.Schema<PutSnippetRequest>;
 
 export interface PutSnippetResponse {
@@ -366,7 +370,7 @@ export interface PutSnippetResponse {
 export const PutSnippetResponse = Schema.Struct({
   createdOn: Schema.String,
   snippetName: Schema.String,
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     createdOn: "created_on",

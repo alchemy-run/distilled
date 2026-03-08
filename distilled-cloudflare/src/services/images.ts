@@ -94,13 +94,17 @@ export interface GetV1Response {
 }
 
 export const GetV1Response = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  filename: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Unknown),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String)),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  variants: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<GetV1Response>;
 
 export type GetV1Error = CommonErrors | ImagesAccessNotEnabled | ImageNotFound;
@@ -133,31 +137,46 @@ export const ListV1sRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListV1sRequest>;
 
 export type ListV1sResponse = {
-  images?: {
-    id?: string;
-    creator?: string | null;
-    filename?: string;
-    meta?: unknown;
-    requireSignedURLs?: boolean;
-    uploaded?: string;
-    variants?: string[];
-  }[];
+  images?:
+    | {
+        id?: string | null;
+        creator?: string | null;
+        filename?: string | null;
+        meta?: unknown | null;
+        requireSignedURLs?: boolean | null;
+        uploaded?: string | null;
+        variants?: string[] | null;
+      }[]
+    | null;
 }[];
 
 export const ListV1sResponse = Schema.Array(
   Schema.Struct({
     images: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          filename: Schema.optional(Schema.String),
-          meta: Schema.optional(Schema.Unknown),
-          requireSignedURLs: Schema.optional(Schema.Boolean),
-          uploaded: Schema.optional(Schema.String),
-          variants: Schema.optional(Schema.Array(Schema.String)),
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            creator: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            filename: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+            requireSignedURLs: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            uploaded: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            variants: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }),
 ) as unknown as Schema.Schema<ListV1sResponse>;
@@ -226,13 +245,17 @@ export interface CreateV1Response {
 }
 
 export const CreateV1Response = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  filename: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Unknown),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String)),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  variants: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<CreateV1Response>;
 
 export type CreateV1Error = CommonErrors | ImagesAccessNotEnabled;
@@ -291,13 +314,17 @@ export interface PatchV1Response {
 }
 
 export const PatchV1Response = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  filename: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Unknown),
-  requireSignedURLs: Schema.optional(Schema.Boolean),
-  uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String)),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  requireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  uploaded: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  variants: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<PatchV1Response>;
 
 export type PatchV1Error =
@@ -410,17 +437,20 @@ export const ListV1KeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListV1KeysRequest>;
 
 export interface ListV1KeysResponse {
-  keys?: { name?: string; value?: string }[];
+  keys?: { name?: string | null; value?: string | null }[];
 }
 
 export const ListV1KeysResponse = Schema.Struct({
   keys: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListV1KeysResponse>;
 
@@ -454,17 +484,20 @@ export const PutV1KeyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PutV1KeyRequest>;
 
 export interface PutV1KeyResponse {
-  keys?: { name?: string; value?: string }[];
+  keys?: { name?: string | null; value?: string | null }[];
 }
 
 export const PutV1KeyResponse = Schema.Struct({
   keys: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<PutV1KeyResponse>;
 
@@ -498,17 +531,20 @@ export const DeleteV1KeyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteV1KeyRequest>;
 
 export interface DeleteV1KeyResponse {
-  keys?: { name?: string; value?: string }[];
+  keys?: { name?: string | null; value?: string | null }[];
 }
 
 export const DeleteV1KeyResponse = Schema.Struct({
   keys: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
@@ -544,15 +580,18 @@ export const GetV1StatRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetV1StatRequest>;
 
 export interface GetV1StatResponse {
-  count?: { allowed?: number; current?: number };
+  count?: { allowed?: number | null; current?: number | null };
 }
 
 export const GetV1StatResponse = Schema.Struct({
   count: Schema.optional(
-    Schema.Struct({
-      allowed: Schema.optional(Schema.Number),
-      current: Schema.optional(Schema.Number),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        allowed: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        current: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetV1StatResponse>;
 
@@ -598,22 +637,33 @@ export interface GetV1VariantResponse {
       metadata: "keep" | "copyright" | "none";
       width: number;
     };
-    neverRequireSignedURLs?: boolean;
+    neverRequireSignedURLs?: boolean | null;
   };
 }
 
 export const GetV1VariantResponse = Schema.Struct({
   variant: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      options: Schema.Struct({
-        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-        height: Schema.Number,
-        metadata: Schema.Literals(["keep", "copyright", "none"]),
-        width: Schema.Number,
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        options: Schema.Struct({
+          fit: Schema.Literals([
+            "scale-down",
+            "contain",
+            "cover",
+            "crop",
+            "pad",
+          ]),
+          height: Schema.Number,
+          metadata: Schema.Literals(["keep", "copyright", "none"]),
+          width: Schema.Number,
+        }),
+        neverRequireSignedURLs: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }),
-      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
-    }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetV1VariantResponse>;
 
@@ -666,7 +716,9 @@ export const ListV1VariantsResponse = Schema.Struct({
     metadata: Schema.Literals(["keep", "copyright", "none"]),
     width: Schema.Number,
   }),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+  neverRequireSignedURLs: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
 export type ListV1VariantsError = CommonErrors | ImagesAccessNotEnabled;
@@ -721,22 +773,33 @@ export interface CreateV1VariantResponse {
       metadata: "keep" | "copyright" | "none";
       width: number;
     };
-    neverRequireSignedURLs?: boolean;
+    neverRequireSignedURLs?: boolean | null;
   };
 }
 
 export const CreateV1VariantResponse = Schema.Struct({
   variant: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      options: Schema.Struct({
-        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-        height: Schema.Number,
-        metadata: Schema.Literals(["keep", "copyright", "none"]),
-        width: Schema.Number,
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        options: Schema.Struct({
+          fit: Schema.Literals([
+            "scale-down",
+            "contain",
+            "cover",
+            "crop",
+            "pad",
+          ]),
+          height: Schema.Number,
+          metadata: Schema.Literals(["keep", "copyright", "none"]),
+          width: Schema.Number,
+        }),
+        neverRequireSignedURLs: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }),
-      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
-    }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
@@ -797,22 +860,33 @@ export interface PatchV1VariantResponse {
       metadata: "keep" | "copyright" | "none";
       width: number;
     };
-    neverRequireSignedURLs?: boolean;
+    neverRequireSignedURLs?: boolean | null;
   };
 }
 
 export const PatchV1VariantResponse = Schema.Struct({
   variant: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      options: Schema.Struct({
-        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-        height: Schema.Number,
-        metadata: Schema.Literals(["keep", "copyright", "none"]),
-        width: Schema.Number,
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        options: Schema.Struct({
+          fit: Schema.Literals([
+            "scale-down",
+            "contain",
+            "cover",
+            "crop",
+            "pad",
+          ]),
+          height: Schema.Number,
+          metadata: Schema.Literals(["keep", "copyright", "none"]),
+          width: Schema.Number,
+        }),
+        neverRequireSignedURLs: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }),
-      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
-    }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
@@ -914,7 +988,9 @@ export const ListV2sResponse = Schema.Struct({
   continuationToken: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-  images: Schema.optional(Schema.Array(Schema.Unknown)),
+  images: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     continuationToken: "continuation_token",
@@ -965,6 +1041,7 @@ export const CreateV2DirectUploadRequest = Schema.Struct({
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/images/v2/direct_upload",
+    contentType: "multipart",
   }),
 ) as unknown as Schema.Schema<CreateV2DirectUploadRequest>;
 
@@ -976,8 +1053,8 @@ export interface CreateV2DirectUploadResponse {
 }
 
 export const CreateV2DirectUploadResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  uploadURL: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadURL: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
 export type CreateV2DirectUploadError =

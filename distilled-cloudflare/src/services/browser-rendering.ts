@@ -2337,12 +2337,15 @@ export interface CreateScreenshotResponse {
 export const CreateScreenshotResponse = Schema.Struct({
   success: Schema.Boolean,
   errors: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        code: Schema.Number,
-        message: Schema.String,
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          code: Schema.Number,
+          message: Schema.String,
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<CreateScreenshotResponse>;
 

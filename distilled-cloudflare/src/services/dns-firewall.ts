@@ -207,8 +207,8 @@ export interface GetDnsFirewallResponse {
   upstreamIps: string[];
   /** Attack mitigation settings */
   attackMitigation?: {
-    enabled?: boolean;
-    onlyWhenUpstreamUnhealthy?: boolean;
+    enabled?: boolean | null;
+    onlyWhenUpstreamUnhealthy?: boolean | null;
   } | null;
 }
 
@@ -228,8 +228,10 @@ export const GetDnsFirewallResponse = Schema.Struct({
   attackMitigation: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        onlyWhenUpstreamUnhealthy: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           enabled: "enabled",
@@ -295,8 +297,8 @@ export type ListDnsFirewallsResponse = {
   retries: number;
   upstreamIps: string[];
   attackMitigation?: {
-    enabled?: boolean;
-    onlyWhenUpstreamUnhealthy?: boolean;
+    enabled?: boolean | null;
+    onlyWhenUpstreamUnhealthy?: boolean | null;
   } | null;
 }[];
 
@@ -317,8 +319,10 @@ export const ListDnsFirewallsResponse = Schema.Array(
     attackMitigation: Schema.optional(
       Schema.Union([
         Schema.Struct({
-          enabled: Schema.optional(Schema.Boolean),
-          onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          onlyWhenUpstreamUnhealthy: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
         }).pipe(
           Schema.encodeKeys({
             enabled: "enabled",
@@ -454,8 +458,8 @@ export interface CreateDnsFirewallResponse {
   upstreamIps: string[];
   /** Attack mitigation settings */
   attackMitigation?: {
-    enabled?: boolean;
-    onlyWhenUpstreamUnhealthy?: boolean;
+    enabled?: boolean | null;
+    onlyWhenUpstreamUnhealthy?: boolean | null;
   } | null;
 }
 
@@ -475,8 +479,10 @@ export const CreateDnsFirewallResponse = Schema.Struct({
   attackMitigation: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        onlyWhenUpstreamUnhealthy: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           enabled: "enabled",
@@ -616,8 +622,8 @@ export interface PatchDnsFirewallResponse {
   upstreamIps: string[];
   /** Attack mitigation settings */
   attackMitigation?: {
-    enabled?: boolean;
-    onlyWhenUpstreamUnhealthy?: boolean;
+    enabled?: boolean | null;
+    onlyWhenUpstreamUnhealthy?: boolean | null;
   } | null;
 }
 
@@ -637,8 +643,10 @@ export const PatchDnsFirewallResponse = Schema.Struct({
   attackMitigation: Schema.optional(
     Schema.Union([
       Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        onlyWhenUpstreamUnhealthy: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           enabled: "enabled",
@@ -701,7 +709,7 @@ export interface DeleteDnsFirewallResponse {
 }
 
 export const DeleteDnsFirewallResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteDnsFirewallResponse>;
 
 export type DeleteDnsFirewallError = CommonErrors;

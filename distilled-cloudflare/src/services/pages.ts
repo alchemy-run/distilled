@@ -112,19 +112,19 @@ export interface GetProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -137,52 +137,52 @@ export interface GetProjectResponse {
   /** Configs for deployments in a project. */
   deploymentConfigs: {
     preview: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
     production: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
   };
   /** Framework the project is using. */
@@ -221,19 +221,19 @@ export interface GetProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -265,19 +265,19 @@ export interface GetProjectResponse {
   /** Configs for the project source control. */
   source?: {
     config: {
-      deploymentsEnabled?: boolean;
-      owner?: string;
-      ownerId?: string;
-      pathExcludes?: string[];
-      pathIncludes?: string[];
-      prCommentsEnabled?: boolean;
-      previewBranchExcludes?: string[];
-      previewBranchIncludes?: string[];
-      previewDeploymentSetting?: "all" | "none" | "custom";
-      productionBranch?: string;
-      productionDeploymentsEnabled?: boolean;
-      repoId?: string;
-      repoName?: string;
+      deploymentsEnabled?: boolean | null;
+      owner?: string | null;
+      ownerId?: string | null;
+      pathExcludes?: string[] | null;
+      pathIncludes?: string[] | null;
+      prCommentsEnabled?: boolean | null;
+      previewBranchExcludes?: string[] | null;
+      previewBranchIncludes?: string[] | null;
+      previewDeploymentSetting?: "all" | "none" | "custom" | null;
+      productionBranch?: string | null;
+      productionDeploymentsEnabled?: boolean | null;
+      repoId?: string | null;
+      repoName?: string | null;
     };
     type: "github" | "gitlab";
   };
@@ -341,21 +341,40 @@ export const GetProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -406,38 +425,77 @@ export const GetProjectResponse = Schema.Struct({
   createdOn: Schema.String,
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -466,38 +524,77 @@ export const GetProjectResponse = Schema.Struct({
       }),
     ),
     production: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -582,21 +679,40 @@ export const GetProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -650,68 +766,97 @@ export const GetProjectResponse = Schema.Struct({
   productionScriptName: Schema.String,
   usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]),
   buildConfig: Schema.optional(
-    Schema.Struct({
-      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
-      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
-      buildCaching: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      buildCommand: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      destinationDir: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        webAnalyticsTag: "web_analytics_tag",
-        webAnalyticsToken: "web_analytics_token",
-        buildCaching: "build_caching",
-        buildCommand: "build_command",
-        destinationDir: "destination_dir",
-        rootDir: "root_dir",
-      }),
-    ),
-  ),
-  domains: Schema.optional(Schema.Array(Schema.String)),
-  source: Schema.optional(
-    Schema.Struct({
-      config: Schema.Struct({
-        deploymentsEnabled: Schema.optional(Schema.Boolean),
-        owner: Schema.optional(Schema.String),
-        ownerId: Schema.optional(Schema.String),
-        pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-        pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-        prCommentsEnabled: Schema.optional(Schema.Boolean),
-        previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-        previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-        previewDeploymentSetting: Schema.optional(
-          Schema.Literals(["all", "none", "custom"]),
+    Schema.Union([
+      Schema.Struct({
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
+        buildCaching: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-        productionBranch: Schema.optional(Schema.String),
-        productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-        repoId: Schema.optional(Schema.String),
-        repoName: Schema.optional(Schema.String),
+        buildCommand: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        destinationDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
-          deploymentsEnabled: "deployments_enabled",
-          owner: "owner",
-          ownerId: "owner_id",
-          pathExcludes: "path_excludes",
-          pathIncludes: "path_includes",
-          prCommentsEnabled: "pr_comments_enabled",
-          previewBranchExcludes: "preview_branch_excludes",
-          previewBranchIncludes: "preview_branch_includes",
-          previewDeploymentSetting: "preview_deployment_setting",
-          productionBranch: "production_branch",
-          productionDeploymentsEnabled: "production_deployments_enabled",
-          repoId: "repo_id",
-          repoName: "repo_name",
+          webAnalyticsTag: "web_analytics_tag",
+          webAnalyticsToken: "web_analytics_token",
+          buildCaching: "build_caching",
+          buildCommand: "build_command",
+          destinationDir: "destination_dir",
+          rootDir: "root_dir",
         }),
       ),
-      type: Schema.Literals(["github", "gitlab"]),
-    }),
+      Schema.Null,
+    ]),
   ),
-  subdomain: Schema.optional(Schema.String),
+  domains: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  source: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        config: Schema.Struct({
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
+            ownerId: "owner_id",
+            pathExcludes: "path_excludes",
+            pathIncludes: "path_includes",
+            prCommentsEnabled: "pr_comments_enabled",
+            previewBranchExcludes: "preview_branch_excludes",
+            previewBranchIncludes: "preview_branch_includes",
+            previewDeploymentSetting: "preview_deployment_setting",
+            productionBranch: "production_branch",
+            productionDeploymentsEnabled: "production_deployments_enabled",
+            repoId: "repo_id",
+            repoName: "repo_name",
+          }),
+        ),
+        type: Schema.Literals(["github", "gitlab"]),
+      }),
+      Schema.Null,
+    ]),
+  ),
+  subdomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -790,19 +935,19 @@ export type ListProjectsResponse = {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -813,52 +958,52 @@ export type ListProjectsResponse = {
   createdOn: string;
   deploymentConfigs: {
     preview: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
     production: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
   };
   framework: string;
@@ -894,19 +1039,19 @@ export type ListProjectsResponse = {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -926,27 +1071,27 @@ export type ListProjectsResponse = {
     buildCommand?: string | null;
     destinationDir?: string | null;
     rootDir?: string | null;
-  };
-  domains?: string[];
+  } | null;
+  domains?: string[] | null;
   source?: {
     config: {
-      deploymentsEnabled?: boolean;
-      owner?: string;
-      ownerId?: string;
-      pathExcludes?: string[];
-      pathIncludes?: string[];
-      prCommentsEnabled?: boolean;
-      previewBranchExcludes?: string[];
-      previewBranchIncludes?: string[];
-      previewDeploymentSetting?: "all" | "none" | "custom";
-      productionBranch?: string;
-      productionDeploymentsEnabled?: boolean;
-      repoId?: string;
-      repoName?: string;
+      deploymentsEnabled?: boolean | null;
+      owner?: string | null;
+      ownerId?: string | null;
+      pathExcludes?: string[] | null;
+      pathIncludes?: string[] | null;
+      prCommentsEnabled?: boolean | null;
+      previewBranchExcludes?: string[] | null;
+      previewBranchIncludes?: string[] | null;
+      previewDeploymentSetting?: "all" | "none" | "custom" | null;
+      productionBranch?: string | null;
+      productionDeploymentsEnabled?: boolean | null;
+      repoId?: string | null;
+      repoName?: string | null;
     };
     type: "github" | "gitlab";
-  };
-  subdomain?: string;
+  } | null;
+  subdomain?: string | null;
 }[];
 
 export const ListProjectsResponse = Schema.Array(
@@ -1006,21 +1151,44 @@ export const ListProjectsResponse = Schema.Array(
         shortId: Schema.String,
         source: Schema.Struct({
           config: Schema.Struct({
-            deploymentsEnabled: Schema.optional(Schema.Boolean),
-            owner: Schema.optional(Schema.String),
-            ownerId: Schema.optional(Schema.String),
-            pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-            pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-            prCommentsEnabled: Schema.optional(Schema.Boolean),
-            previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-            previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-            previewDeploymentSetting: Schema.optional(
-              Schema.Literals(["all", "none", "custom"]),
+            deploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            productionBranch: Schema.optional(Schema.String),
-            productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-            repoId: Schema.optional(Schema.String),
-            repoName: Schema.optional(Schema.String),
+            owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            ownerId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            pathExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            prCommentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            previewBranchExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewBranchIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewDeploymentSetting: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["all", "none", "custom"]),
+                Schema.Null,
+              ]),
+            ),
+            productionBranch: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            productionDeploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            repoName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
             Schema.encodeKeys({
               deploymentsEnabled: "deployments_enabled",
@@ -1071,38 +1239,83 @@ export const ListProjectsResponse = Schema.Array(
     createdOn: Schema.String,
     deploymentConfigs: Schema.Struct({
       preview: Schema.Struct({
-        aiBindings: Schema.optional(Schema.Struct({})),
-        alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-        analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-        browsers: Schema.optional(Schema.Struct({})),
-        buildImageMajorVersion: Schema.optional(Schema.Number),
-        compatibilityDate: Schema.optional(Schema.String),
-        compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-        d1Databases: Schema.optional(Schema.Struct({})),
-        durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-        envVars: Schema.optional(Schema.Struct({})),
-        failOpen: Schema.optional(Schema.Boolean),
-        hyperdriveBindings: Schema.optional(Schema.Struct({})),
-        kvNamespaces: Schema.optional(Schema.Struct({})),
+        aiBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        alwaysUseLatestCompatibilityDate: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        analyticsEngineDatasets: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        browsers: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        buildImageMajorVersion: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        compatibilityDate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        compatibilityFlags: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        d1Databases: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        durableObjectNamespaces: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        envVars: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        hyperdriveBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        kvNamespaces: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         limits: Schema.optional(
-          Schema.Struct({
-            cpuMs: Schema.Number,
-          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Union([
+            Schema.Struct({
+              cpuMs: Schema.Number,
+            }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+            Schema.Null,
+          ]),
         ),
-        mtlsCertificates: Schema.optional(Schema.Struct({})),
+        mtlsCertificates: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         placement: Schema.optional(
-          Schema.Struct({
-            mode: Schema.String,
-          }),
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.String,
+            }),
+            Schema.Null,
+          ]),
         ),
-        queueProducers: Schema.optional(Schema.Struct({})),
-        r2Buckets: Schema.optional(Schema.Struct({})),
-        services: Schema.optional(Schema.Struct({})),
+        queueProducers: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        r2Buckets: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        services: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         usageModel: Schema.optional(
-          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Union([
+            Schema.Literals(["standard", "bundled", "unbound"]),
+            Schema.Null,
+          ]),
         ),
-        vectorizeBindings: Schema.optional(Schema.Struct({})),
-        wranglerConfigHash: Schema.optional(Schema.String),
+        vectorizeBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        wranglerConfigHash: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           aiBindings: "ai_bindings",
@@ -1131,38 +1344,83 @@ export const ListProjectsResponse = Schema.Array(
         }),
       ),
       production: Schema.Struct({
-        aiBindings: Schema.optional(Schema.Struct({})),
-        alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-        analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-        browsers: Schema.optional(Schema.Struct({})),
-        buildImageMajorVersion: Schema.optional(Schema.Number),
-        compatibilityDate: Schema.optional(Schema.String),
-        compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-        d1Databases: Schema.optional(Schema.Struct({})),
-        durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-        envVars: Schema.optional(Schema.Struct({})),
-        failOpen: Schema.optional(Schema.Boolean),
-        hyperdriveBindings: Schema.optional(Schema.Struct({})),
-        kvNamespaces: Schema.optional(Schema.Struct({})),
+        aiBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        alwaysUseLatestCompatibilityDate: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        analyticsEngineDatasets: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        browsers: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        buildImageMajorVersion: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        compatibilityDate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        compatibilityFlags: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        d1Databases: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        durableObjectNamespaces: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        envVars: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        hyperdriveBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        kvNamespaces: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         limits: Schema.optional(
-          Schema.Struct({
-            cpuMs: Schema.Number,
-          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Union([
+            Schema.Struct({
+              cpuMs: Schema.Number,
+            }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+            Schema.Null,
+          ]),
         ),
-        mtlsCertificates: Schema.optional(Schema.Struct({})),
+        mtlsCertificates: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         placement: Schema.optional(
-          Schema.Struct({
-            mode: Schema.String,
-          }),
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.String,
+            }),
+            Schema.Null,
+          ]),
         ),
-        queueProducers: Schema.optional(Schema.Struct({})),
-        r2Buckets: Schema.optional(Schema.Struct({})),
-        services: Schema.optional(Schema.Struct({})),
+        queueProducers: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        r2Buckets: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        services: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
         usageModel: Schema.optional(
-          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Union([
+            Schema.Literals(["standard", "bundled", "unbound"]),
+            Schema.Null,
+          ]),
         ),
-        vectorizeBindings: Schema.optional(Schema.Struct({})),
-        wranglerConfigHash: Schema.optional(Schema.String),
+        vectorizeBindings: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        wranglerConfigHash: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           aiBindings: "ai_bindings",
@@ -1247,21 +1505,44 @@ export const ListProjectsResponse = Schema.Array(
         shortId: Schema.String,
         source: Schema.Struct({
           config: Schema.Struct({
-            deploymentsEnabled: Schema.optional(Schema.Boolean),
-            owner: Schema.optional(Schema.String),
-            ownerId: Schema.optional(Schema.String),
-            pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-            pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-            prCommentsEnabled: Schema.optional(Schema.Boolean),
-            previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-            previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-            previewDeploymentSetting: Schema.optional(
-              Schema.Literals(["all", "none", "custom"]),
+            deploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
             ),
-            productionBranch: Schema.optional(Schema.String),
-            productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-            repoId: Schema.optional(Schema.String),
-            repoName: Schema.optional(Schema.String),
+            owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            ownerId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            pathExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            prCommentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            previewBranchExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewBranchIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewDeploymentSetting: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["all", "none", "custom"]),
+                Schema.Null,
+              ]),
+            ),
+            productionBranch: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            productionDeploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            repoName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
             Schema.encodeKeys({
               deploymentsEnabled: "deployments_enabled",
@@ -1315,70 +1596,101 @@ export const ListProjectsResponse = Schema.Array(
     productionScriptName: Schema.String,
     usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]),
     buildConfig: Schema.optional(
-      Schema.Struct({
-        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
-        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
-        buildCaching: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        buildCommand: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        destinationDir: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          webAnalyticsTag: "web_analytics_tag",
-          webAnalyticsToken: "web_analytics_token",
-          buildCaching: "build_caching",
-          buildCommand: "build_command",
-          destinationDir: "destination_dir",
-          rootDir: "root_dir",
-        }),
-      ),
-    ),
-    domains: Schema.optional(Schema.Array(Schema.String)),
-    source: Schema.optional(
-      Schema.Struct({
-        config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+      Schema.Union([
+        Schema.Struct({
+          webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
+          webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
+          buildCaching: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          buildCommand: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          destinationDir: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
-            deploymentsEnabled: "deployments_enabled",
-            owner: "owner",
-            ownerId: "owner_id",
-            pathExcludes: "path_excludes",
-            pathIncludes: "path_includes",
-            prCommentsEnabled: "pr_comments_enabled",
-            previewBranchExcludes: "preview_branch_excludes",
-            previewBranchIncludes: "preview_branch_includes",
-            previewDeploymentSetting: "preview_deployment_setting",
-            productionBranch: "production_branch",
-            productionDeploymentsEnabled: "production_deployments_enabled",
-            repoId: "repo_id",
-            repoName: "repo_name",
+            webAnalyticsTag: "web_analytics_tag",
+            webAnalyticsToken: "web_analytics_token",
+            buildCaching: "build_caching",
+            buildCommand: "build_command",
+            destinationDir: "destination_dir",
+            rootDir: "root_dir",
           }),
         ),
-        type: Schema.Literals(["github", "gitlab"]),
-      }),
+        Schema.Null,
+      ]),
     ),
-    subdomain: Schema.optional(Schema.String),
+    domains: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    source: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          config: Schema.Struct({
+            deploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            ownerId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            pathExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            prCommentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            previewBranchExcludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewBranchIncludes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            previewDeploymentSetting: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["all", "none", "custom"]),
+                Schema.Null,
+              ]),
+            ),
+            productionBranch: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            productionDeploymentsEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            repoName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              deploymentsEnabled: "deployments_enabled",
+              owner: "owner",
+              ownerId: "owner_id",
+              pathExcludes: "path_excludes",
+              pathIncludes: "path_includes",
+              prCommentsEnabled: "pr_comments_enabled",
+              previewBranchExcludes: "preview_branch_excludes",
+              previewBranchIncludes: "preview_branch_includes",
+              previewDeploymentSetting: "preview_deployment_setting",
+              productionBranch: "production_branch",
+              productionDeploymentsEnabled: "production_deployments_enabled",
+              repoId: "repo_id",
+              repoName: "repo_name",
+            }),
+          ),
+          type: Schema.Literals(["github", "gitlab"]),
+        }),
+        Schema.Null,
+      ]),
+    ),
+    subdomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1741,19 +2053,19 @@ export interface CreateProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -1766,52 +2078,52 @@ export interface CreateProjectResponse {
   /** Configs for deployments in a project. */
   deploymentConfigs: {
     preview: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
     production: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
   };
   /** Framework the project is using. */
@@ -1850,19 +2162,19 @@ export interface CreateProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -1894,19 +2206,19 @@ export interface CreateProjectResponse {
   /** Configs for the project source control. */
   source?: {
     config: {
-      deploymentsEnabled?: boolean;
-      owner?: string;
-      ownerId?: string;
-      pathExcludes?: string[];
-      pathIncludes?: string[];
-      prCommentsEnabled?: boolean;
-      previewBranchExcludes?: string[];
-      previewBranchIncludes?: string[];
-      previewDeploymentSetting?: "all" | "none" | "custom";
-      productionBranch?: string;
-      productionDeploymentsEnabled?: boolean;
-      repoId?: string;
-      repoName?: string;
+      deploymentsEnabled?: boolean | null;
+      owner?: string | null;
+      ownerId?: string | null;
+      pathExcludes?: string[] | null;
+      pathIncludes?: string[] | null;
+      prCommentsEnabled?: boolean | null;
+      previewBranchExcludes?: string[] | null;
+      previewBranchIncludes?: string[] | null;
+      previewDeploymentSetting?: "all" | "none" | "custom" | null;
+      productionBranch?: string | null;
+      productionDeploymentsEnabled?: boolean | null;
+      repoId?: string | null;
+      repoName?: string | null;
     };
     type: "github" | "gitlab";
   };
@@ -1970,21 +2282,40 @@ export const CreateProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -2035,38 +2366,77 @@ export const CreateProjectResponse = Schema.Struct({
   createdOn: Schema.String,
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -2095,38 +2465,77 @@ export const CreateProjectResponse = Schema.Struct({
       }),
     ),
     production: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -2211,21 +2620,40 @@ export const CreateProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -2279,68 +2707,97 @@ export const CreateProjectResponse = Schema.Struct({
   productionScriptName: Schema.String,
   usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]),
   buildConfig: Schema.optional(
-    Schema.Struct({
-      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
-      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
-      buildCaching: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      buildCommand: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      destinationDir: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        webAnalyticsTag: "web_analytics_tag",
-        webAnalyticsToken: "web_analytics_token",
-        buildCaching: "build_caching",
-        buildCommand: "build_command",
-        destinationDir: "destination_dir",
-        rootDir: "root_dir",
-      }),
-    ),
-  ),
-  domains: Schema.optional(Schema.Array(Schema.String)),
-  source: Schema.optional(
-    Schema.Struct({
-      config: Schema.Struct({
-        deploymentsEnabled: Schema.optional(Schema.Boolean),
-        owner: Schema.optional(Schema.String),
-        ownerId: Schema.optional(Schema.String),
-        pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-        pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-        prCommentsEnabled: Schema.optional(Schema.Boolean),
-        previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-        previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-        previewDeploymentSetting: Schema.optional(
-          Schema.Literals(["all", "none", "custom"]),
+    Schema.Union([
+      Schema.Struct({
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
+        buildCaching: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-        productionBranch: Schema.optional(Schema.String),
-        productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-        repoId: Schema.optional(Schema.String),
-        repoName: Schema.optional(Schema.String),
+        buildCommand: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        destinationDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
-          deploymentsEnabled: "deployments_enabled",
-          owner: "owner",
-          ownerId: "owner_id",
-          pathExcludes: "path_excludes",
-          pathIncludes: "path_includes",
-          prCommentsEnabled: "pr_comments_enabled",
-          previewBranchExcludes: "preview_branch_excludes",
-          previewBranchIncludes: "preview_branch_includes",
-          previewDeploymentSetting: "preview_deployment_setting",
-          productionBranch: "production_branch",
-          productionDeploymentsEnabled: "production_deployments_enabled",
-          repoId: "repo_id",
-          repoName: "repo_name",
+          webAnalyticsTag: "web_analytics_tag",
+          webAnalyticsToken: "web_analytics_token",
+          buildCaching: "build_caching",
+          buildCommand: "build_command",
+          destinationDir: "destination_dir",
+          rootDir: "root_dir",
         }),
       ),
-      type: Schema.Literals(["github", "gitlab"]),
-    }),
+      Schema.Null,
+    ]),
   ),
-  subdomain: Schema.optional(Schema.String),
+  domains: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  source: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        config: Schema.Struct({
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
+            ownerId: "owner_id",
+            pathExcludes: "path_excludes",
+            pathIncludes: "path_includes",
+            prCommentsEnabled: "pr_comments_enabled",
+            previewBranchExcludes: "preview_branch_excludes",
+            previewBranchIncludes: "preview_branch_includes",
+            previewDeploymentSetting: "preview_deployment_setting",
+            productionBranch: "production_branch",
+            productionDeploymentsEnabled: "production_deployments_enabled",
+            repoId: "repo_id",
+            repoName: "repo_name",
+          }),
+        ),
+        type: Schema.Literals(["github", "gitlab"]),
+      }),
+      Schema.Null,
+    ]),
+  ),
+  subdomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -2707,19 +3164,19 @@ export interface PatchProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -2732,52 +3189,52 @@ export interface PatchProjectResponse {
   /** Configs for deployments in a project. */
   deploymentConfigs: {
     preview: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
     production: {
-      aiBindings?: Record<string, unknown>;
-      alwaysUseLatestCompatibilityDate?: boolean;
-      analyticsEngineDatasets?: Record<string, unknown>;
-      browsers?: Record<string, unknown>;
-      buildImageMajorVersion?: number;
-      compatibilityDate?: string;
-      compatibilityFlags?: string[];
-      d1Databases?: Record<string, unknown>;
-      durableObjectNamespaces?: Record<string, unknown>;
-      envVars?: Record<string, unknown>;
-      failOpen?: boolean;
-      hyperdriveBindings?: Record<string, unknown>;
-      kvNamespaces?: Record<string, unknown>;
-      limits?: { cpuMs: number };
-      mtlsCertificates?: Record<string, unknown>;
-      placement?: { mode: string };
-      queueProducers?: Record<string, unknown>;
-      r2Buckets?: Record<string, unknown>;
-      services?: Record<string, unknown>;
-      usageModel?: "standard" | "bundled" | "unbound";
-      vectorizeBindings?: Record<string, unknown>;
-      wranglerConfigHash?: string;
+      aiBindings?: Record<string, unknown> | null;
+      alwaysUseLatestCompatibilityDate?: boolean | null;
+      analyticsEngineDatasets?: Record<string, unknown> | null;
+      browsers?: Record<string, unknown> | null;
+      buildImageMajorVersion?: number | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      d1Databases?: Record<string, unknown> | null;
+      durableObjectNamespaces?: Record<string, unknown> | null;
+      envVars?: Record<string, unknown> | null;
+      failOpen?: boolean | null;
+      hyperdriveBindings?: Record<string, unknown> | null;
+      kvNamespaces?: Record<string, unknown> | null;
+      limits?: { cpuMs: number } | null;
+      mtlsCertificates?: Record<string, unknown> | null;
+      placement?: { mode: string } | null;
+      queueProducers?: Record<string, unknown> | null;
+      r2Buckets?: Record<string, unknown> | null;
+      services?: Record<string, unknown> | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+      vectorizeBindings?: Record<string, unknown> | null;
+      wranglerConfigHash?: string | null;
     };
   };
   /** Framework the project is using. */
@@ -2816,19 +3273,19 @@ export interface PatchProjectResponse {
     shortId: string;
     source: {
       config: {
-        deploymentsEnabled?: boolean;
-        owner?: string;
-        ownerId?: string;
-        pathExcludes?: string[];
-        pathIncludes?: string[];
-        prCommentsEnabled?: boolean;
-        previewBranchExcludes?: string[];
-        previewBranchIncludes?: string[];
-        previewDeploymentSetting?: "all" | "none" | "custom";
-        productionBranch?: string;
-        productionDeploymentsEnabled?: boolean;
-        repoId?: string;
-        repoName?: string;
+        deploymentsEnabled?: boolean | null;
+        owner?: string | null;
+        ownerId?: string | null;
+        pathExcludes?: string[] | null;
+        pathIncludes?: string[] | null;
+        prCommentsEnabled?: boolean | null;
+        previewBranchExcludes?: string[] | null;
+        previewBranchIncludes?: string[] | null;
+        previewDeploymentSetting?: "all" | "none" | "custom" | null;
+        productionBranch?: string | null;
+        productionDeploymentsEnabled?: boolean | null;
+        repoId?: string | null;
+        repoName?: string | null;
       };
       type: "github" | "gitlab";
     };
@@ -2860,19 +3317,19 @@ export interface PatchProjectResponse {
   /** Configs for the project source control. */
   source?: {
     config: {
-      deploymentsEnabled?: boolean;
-      owner?: string;
-      ownerId?: string;
-      pathExcludes?: string[];
-      pathIncludes?: string[];
-      prCommentsEnabled?: boolean;
-      previewBranchExcludes?: string[];
-      previewBranchIncludes?: string[];
-      previewDeploymentSetting?: "all" | "none" | "custom";
-      productionBranch?: string;
-      productionDeploymentsEnabled?: boolean;
-      repoId?: string;
-      repoName?: string;
+      deploymentsEnabled?: boolean | null;
+      owner?: string | null;
+      ownerId?: string | null;
+      pathExcludes?: string[] | null;
+      pathIncludes?: string[] | null;
+      prCommentsEnabled?: boolean | null;
+      previewBranchExcludes?: string[] | null;
+      previewBranchIncludes?: string[] | null;
+      previewDeploymentSetting?: "all" | "none" | "custom" | null;
+      productionBranch?: string | null;
+      productionDeploymentsEnabled?: boolean | null;
+      repoId?: string | null;
+      repoName?: string | null;
     };
     type: "github" | "gitlab";
   };
@@ -2936,21 +3393,40 @@ export const PatchProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -3001,38 +3477,77 @@ export const PatchProjectResponse = Schema.Struct({
   createdOn: Schema.String,
   deploymentConfigs: Schema.Struct({
     preview: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -3061,38 +3576,77 @@ export const PatchProjectResponse = Schema.Struct({
       }),
     ),
     production: Schema.Struct({
-      aiBindings: Schema.optional(Schema.Struct({})),
-      alwaysUseLatestCompatibilityDate: Schema.optional(Schema.Boolean),
-      analyticsEngineDatasets: Schema.optional(Schema.Struct({})),
-      browsers: Schema.optional(Schema.Struct({})),
-      buildImageMajorVersion: Schema.optional(Schema.Number),
-      compatibilityDate: Schema.optional(Schema.String),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
-      d1Databases: Schema.optional(Schema.Struct({})),
-      durableObjectNamespaces: Schema.optional(Schema.Struct({})),
-      envVars: Schema.optional(Schema.Struct({})),
-      failOpen: Schema.optional(Schema.Boolean),
-      hyperdriveBindings: Schema.optional(Schema.Struct({})),
-      kvNamespaces: Schema.optional(Schema.Struct({})),
+      aiBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      alwaysUseLatestCompatibilityDate: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      analyticsEngineDatasets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      browsers: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      buildImageMajorVersion: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      d1Databases: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      durableObjectNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      envVars: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      failOpen: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hyperdriveBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      kvNamespaces: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       limits: Schema.optional(
-        Schema.Struct({
-          cpuMs: Schema.Number,
-        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+        Schema.Union([
+          Schema.Struct({
+            cpuMs: Schema.Number,
+          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+          Schema.Null,
+        ]),
       ),
-      mtlsCertificates: Schema.optional(Schema.Struct({})),
+      mtlsCertificates: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            mode: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      queueProducers: Schema.optional(Schema.Struct({})),
-      r2Buckets: Schema.optional(Schema.Struct({})),
-      services: Schema.optional(Schema.Struct({})),
+      queueProducers: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      r2Buckets: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      services: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
       usageModel: Schema.optional(
-        Schema.Literals(["standard", "bundled", "unbound"]),
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
       ),
-      vectorizeBindings: Schema.optional(Schema.Struct({})),
-      wranglerConfigHash: Schema.optional(Schema.String),
+      vectorizeBindings: Schema.optional(
+        Schema.Union([Schema.Struct({}), Schema.Null]),
+      ),
+      wranglerConfigHash: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         aiBindings: "ai_bindings",
@@ -3177,21 +3731,40 @@ export const PatchProjectResponse = Schema.Struct({
       shortId: Schema.String,
       source: Schema.Struct({
         config: Schema.Struct({
-          deploymentsEnabled: Schema.optional(Schema.Boolean),
-          owner: Schema.optional(Schema.String),
-          ownerId: Schema.optional(Schema.String),
-          pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-          pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-          prCommentsEnabled: Schema.optional(Schema.Boolean),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-          previewDeploymentSetting: Schema.optional(
-            Schema.Literals(["all", "none", "custom"]),
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
           ),
-          productionBranch: Schema.optional(Schema.String),
-          productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-          repoId: Schema.optional(Schema.String),
-          repoName: Schema.optional(Schema.String),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
@@ -3245,68 +3818,97 @@ export const PatchProjectResponse = Schema.Struct({
   productionScriptName: Schema.String,
   usesFunctions: Schema.Union([Schema.Boolean, Schema.Null]),
   buildConfig: Schema.optional(
-    Schema.Struct({
-      webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
-      webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
-      buildCaching: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      buildCommand: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      destinationDir: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        webAnalyticsTag: "web_analytics_tag",
-        webAnalyticsToken: "web_analytics_token",
-        buildCaching: "build_caching",
-        buildCommand: "build_command",
-        destinationDir: "destination_dir",
-        rootDir: "root_dir",
-      }),
-    ),
-  ),
-  domains: Schema.optional(Schema.Array(Schema.String)),
-  source: Schema.optional(
-    Schema.Struct({
-      config: Schema.Struct({
-        deploymentsEnabled: Schema.optional(Schema.Boolean),
-        owner: Schema.optional(Schema.String),
-        ownerId: Schema.optional(Schema.String),
-        pathExcludes: Schema.optional(Schema.Array(Schema.String)),
-        pathIncludes: Schema.optional(Schema.Array(Schema.String)),
-        prCommentsEnabled: Schema.optional(Schema.Boolean),
-        previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)),
-        previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)),
-        previewDeploymentSetting: Schema.optional(
-          Schema.Literals(["all", "none", "custom"]),
+    Schema.Union([
+      Schema.Struct({
+        webAnalyticsTag: Schema.Union([Schema.String, Schema.Null]),
+        webAnalyticsToken: Schema.Union([Schema.String, Schema.Null]),
+        buildCaching: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-        productionBranch: Schema.optional(Schema.String),
-        productionDeploymentsEnabled: Schema.optional(Schema.Boolean),
-        repoId: Schema.optional(Schema.String),
-        repoName: Schema.optional(Schema.String),
+        buildCommand: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        destinationDir: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        rootDir: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
-          deploymentsEnabled: "deployments_enabled",
-          owner: "owner",
-          ownerId: "owner_id",
-          pathExcludes: "path_excludes",
-          pathIncludes: "path_includes",
-          prCommentsEnabled: "pr_comments_enabled",
-          previewBranchExcludes: "preview_branch_excludes",
-          previewBranchIncludes: "preview_branch_includes",
-          previewDeploymentSetting: "preview_deployment_setting",
-          productionBranch: "production_branch",
-          productionDeploymentsEnabled: "production_deployments_enabled",
-          repoId: "repo_id",
-          repoName: "repo_name",
+          webAnalyticsTag: "web_analytics_tag",
+          webAnalyticsToken: "web_analytics_token",
+          buildCaching: "build_caching",
+          buildCommand: "build_command",
+          destinationDir: "destination_dir",
+          rootDir: "root_dir",
         }),
       ),
-      type: Schema.Literals(["github", "gitlab"]),
-    }),
+      Schema.Null,
+    ]),
   ),
-  subdomain: Schema.optional(Schema.String),
+  domains: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  source: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        config: Schema.Struct({
+          deploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ownerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          pathExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prCommentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          previewBranchExcludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewBranchIncludes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["all", "none", "custom"]),
+              Schema.Null,
+            ]),
+          ),
+          productionBranch: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          productionDeploymentsEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          repoId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          repoName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
+            ownerId: "owner_id",
+            pathExcludes: "path_excludes",
+            pathIncludes: "path_includes",
+            prCommentsEnabled: "pr_comments_enabled",
+            previewBranchExcludes: "preview_branch_excludes",
+            previewBranchIncludes: "preview_branch_includes",
+            previewDeploymentSetting: "preview_deployment_setting",
+            productionBranch: "production_branch",
+            productionDeploymentsEnabled: "production_deployments_enabled",
+            repoId: "repo_id",
+            repoName: "repo_name",
+          }),
+        ),
+        type: Schema.Literals(["github", "gitlab"]),
+      }),
+      Schema.Null,
+    ]),
+  ),
+  subdomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -4580,13 +5182,13 @@ export interface GetProjectDomainResponse {
   validationData: {
     method: "http" | "txt";
     status: "initializing" | "pending" | "active" | "deactivated" | "error";
-    errorMessage?: string;
-    txtName?: string;
-    txtValue?: string;
+    errorMessage?: string | null;
+    txtName?: string | null;
+    txtValue?: string | null;
   };
   verificationData: {
     status: "pending" | "active" | "deactivated" | "blocked" | "error";
-    errorMessage?: string;
+    errorMessage?: string | null;
   };
   zoneTag: string;
 }
@@ -4614,9 +5216,9 @@ export const GetProjectDomainResponse = Schema.Struct({
       "deactivated",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
-    txtName: Schema.optional(Schema.String),
-    txtValue: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       method: "method",
@@ -4634,7 +5236,7 @@ export const GetProjectDomainResponse = Schema.Struct({
       "blocked",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
   ),
@@ -4698,13 +5300,13 @@ export type ListProjectDomainsResponse = {
   validationData: {
     method: "http" | "txt";
     status: "initializing" | "pending" | "active" | "deactivated" | "error";
-    errorMessage?: string;
-    txtName?: string;
-    txtValue?: string;
+    errorMessage?: string | null;
+    txtName?: string | null;
+    txtValue?: string | null;
   };
   verificationData: {
     status: "pending" | "active" | "deactivated" | "blocked" | "error";
-    errorMessage?: string;
+    errorMessage?: string | null;
   };
   zoneTag: string;
 }[];
@@ -4733,9 +5335,9 @@ export const ListProjectDomainsResponse = Schema.Array(
         "deactivated",
         "error",
       ]),
-      errorMessage: Schema.optional(Schema.String),
-      txtName: Schema.optional(Schema.String),
-      txtValue: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         method: "method",
@@ -4753,7 +5355,7 @@ export const ListProjectDomainsResponse = Schema.Array(
         "blocked",
         "error",
       ]),
-      errorMessage: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
     ),
@@ -4822,13 +5424,13 @@ export interface CreateProjectDomainResponse {
   validationData: {
     method: "http" | "txt";
     status: "initializing" | "pending" | "active" | "deactivated" | "error";
-    errorMessage?: string;
-    txtName?: string;
-    txtValue?: string;
+    errorMessage?: string | null;
+    txtName?: string | null;
+    txtValue?: string | null;
   };
   verificationData: {
     status: "pending" | "active" | "deactivated" | "blocked" | "error";
-    errorMessage?: string;
+    errorMessage?: string | null;
   };
   zoneTag: string;
 }
@@ -4856,9 +5458,9 @@ export const CreateProjectDomainResponse = Schema.Struct({
       "deactivated",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
-    txtName: Schema.optional(Schema.String),
-    txtValue: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       method: "method",
@@ -4876,7 +5478,7 @@ export const CreateProjectDomainResponse = Schema.Struct({
       "blocked",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
   ),
@@ -4943,13 +5545,13 @@ export interface PatchProjectDomainResponse {
   validationData: {
     method: "http" | "txt";
     status: "initializing" | "pending" | "active" | "deactivated" | "error";
-    errorMessage?: string;
-    txtName?: string;
-    txtValue?: string;
+    errorMessage?: string | null;
+    txtName?: string | null;
+    txtValue?: string | null;
   };
   verificationData: {
     status: "pending" | "active" | "deactivated" | "blocked" | "error";
-    errorMessage?: string;
+    errorMessage?: string | null;
   };
   zoneTag: string;
 }
@@ -4977,9 +5579,9 @@ export const PatchProjectDomainResponse = Schema.Struct({
       "deactivated",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
-    txtName: Schema.optional(Schema.String),
-    txtValue: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       method: "method",
@@ -4997,7 +5599,7 @@ export const PatchProjectDomainResponse = Schema.Struct({
       "blocked",
       "error",
     ]),
-    errorMessage: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
   ),

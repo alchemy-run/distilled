@@ -68,62 +68,76 @@ export const RunAiRequest = Schema.Struct({
 ) as unknown as Schema.Schema<RunAiRequest>;
 
 export type RunAiResponse =
-  | { label?: string; score?: number }[]
+  | { label?: string | null; score?: number | null }[]
   | File
   | Blob
-  | { audio?: string }
-  | { data?: number[][]; shape?: number[] }
+  | { audio?: string | null }
+  | { data?: number[][] | null; shape?: number[] | null }
   | {
       text: string;
-      vtt?: string;
-      wordCount?: number;
-      words?: { end?: number; start?: number; word?: string }[];
+      vtt?: string | null;
+      wordCount?: number | null;
+      words?:
+        | { end?: number | null; start?: number | null; word?: string | null }[]
+        | null;
     }
   | {
-      box?: { xmax?: number; xmin?: number; ymax?: number; ymin?: number };
-      label?: string;
-      score?: number;
+      box?: {
+        xmax?: number | null;
+        xmin?: number | null;
+        ymax?: number | null;
+        ymin?: number | null;
+      } | null;
+      label?: string | null;
+      score?: number | null;
     }[]
   | {
       response: string;
-      toolCalls?: { arguments?: unknown; name?: string }[];
+      toolCalls?: { arguments?: unknown | null; name?: string | null }[] | null;
       usage?: {
-        completionTokens?: number;
-        promptTokens?: number;
-        totalTokens?: number;
-      };
+        completionTokens?: number | null;
+        promptTokens?: number | null;
+        totalTokens?: number | null;
+      } | null;
     }
-  | { translatedText?: string }
-  | { summary?: string }
-  | { description?: string };
+  | { translatedText?: string | null }
+  | { summary?: string | null }
+  | { description?: string | null };
 
 export const RunAiResponse = Schema.Union([
   Schema.Array(
     Schema.Struct({
-      label: Schema.optional(Schema.String),
-      score: Schema.optional(Schema.Number),
+      label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      score: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   UploadableSchema.pipe(T.HttpFormDataFile()),
   Schema.Struct({
-    audio: Schema.optional(Schema.String),
+    audio: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   Schema.Struct({
-    data: Schema.optional(Schema.Array(Schema.Array(Schema.Number))),
-    shape: Schema.optional(Schema.Array(Schema.Number)),
+    data: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Array(Schema.Number)), Schema.Null]),
+    ),
+    shape: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Number), Schema.Null]),
+    ),
   }),
   Schema.Struct({
     text: Schema.String,
-    vtt: Schema.optional(Schema.String),
-    wordCount: Schema.optional(Schema.Number),
+    vtt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    wordCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     words: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          end: Schema.optional(Schema.Number),
-          start: Schema.optional(Schema.Number),
-          word: Schema.optional(Schema.String),
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            end: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            start: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            word: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -136,39 +150,56 @@ export const RunAiResponse = Schema.Union([
   Schema.Array(
     Schema.Struct({
       box: Schema.optional(
-        Schema.Struct({
-          xmax: Schema.optional(Schema.Number),
-          xmin: Schema.optional(Schema.Number),
-          ymax: Schema.optional(Schema.Number),
-          ymin: Schema.optional(Schema.Number),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            xmax: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            xmin: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            ymax: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            ymin: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
       ),
-      label: Schema.optional(Schema.String),
-      score: Schema.optional(Schema.Number),
+      label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      score: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   Schema.Struct({
     response: Schema.String,
     toolCalls: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          arguments: Schema.optional(Schema.Unknown),
-          name: Schema.optional(Schema.String),
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            arguments: Schema.optional(
+              Schema.Union([Schema.Unknown, Schema.Null]),
+            ),
+            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
     usage: Schema.optional(
-      Schema.Struct({
-        completionTokens: Schema.optional(Schema.Number),
-        promptTokens: Schema.optional(Schema.Number),
-        totalTokens: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          completionTokens: "completion_tokens",
-          promptTokens: "prompt_tokens",
-          totalTokens: "total_tokens",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          completionTokens: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          promptTokens: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          totalTokens: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            completionTokens: "completion_tokens",
+            promptTokens: "prompt_tokens",
+            totalTokens: "total_tokens",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -178,13 +209,13 @@ export const RunAiResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    translatedText: Schema.optional(Schema.String),
+    translatedText: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(Schema.encodeKeys({ translatedText: "translated_text" })),
   Schema.Struct({
-    summary: Schema.optional(Schema.String),
+    summary: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   Schema.Struct({
-    description: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ]) as unknown as Schema.Schema<RunAiResponse>;
 
@@ -254,7 +285,7 @@ export type ListFinetunesResponse = {
   model: string;
   modifiedAt: string;
   name: string;
-  description?: string;
+  description?: string | null;
 }[];
 
 export const ListFinetunesResponse = Schema.Array(
@@ -264,7 +295,7 @@ export const ListFinetunesResponse = Schema.Array(
     model: Schema.String,
     modifiedAt: Schema.String,
     name: Schema.String,
-    description: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -330,7 +361,7 @@ export const CreateFinetuneResponse = Schema.Struct({
   modifiedAt: Schema.String,
   name: Schema.String,
   public: Schema.Boolean,
-  description: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -442,7 +473,7 @@ export type ListFinetunePublicsResponse = {
   modifiedAt: string;
   name: string;
   public: boolean;
-  description?: string;
+  description?: string | null;
 }[];
 
 export const ListFinetunePublicsResponse = Schema.Array(
@@ -453,7 +484,7 @@ export const ListFinetunePublicsResponse = Schema.Array(
     modifiedAt: Schema.String,
     name: Schema.String,
     public: Schema.Boolean,
-    description: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -654,7 +685,7 @@ export interface TransformToMarkdownRequest {
 export const TransformToMarkdownRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/ai/tomarkdown" }),
+  T.Http({ method: "POST", path: "/accounts/{account_id}/ai/tomarkdown" }),
 ) as unknown as Schema.Schema<TransformToMarkdownRequest>;
 
 export type TransformToMarkdownResponse = {

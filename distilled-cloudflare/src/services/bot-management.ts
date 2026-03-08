@@ -36,63 +36,70 @@ export const GetBotManagementRequest = Schema.Struct({
 export type GetBotManagementResponse =
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      fightMode?: boolean;
-      isRobotsTxtManaged?: boolean;
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      fightMode?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      optimizeWordpress?: boolean;
-      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmStaticResourceProtection?: boolean;
-      sbfmVerifiedBots?: "allow" | "block";
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      optimizeWordpress?: boolean | null;
+      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmStaticResourceProtection?: boolean | null;
+      sbfmVerifiedBots?: "allow" | "block" | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      optimizeWordpress?: boolean;
-      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmLikelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmStaticResourceProtection?: boolean;
-      sbfmVerifiedBots?: "allow" | "block";
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      optimizeWordpress?: boolean | null;
+      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmLikelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmStaticResourceProtection?: boolean | null;
+      sbfmVerifiedBots?: "allow" | "block" | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      autoUpdateModel?: boolean;
-      bmCookieEnabled?: boolean;
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      suppressSessionScore?: boolean;
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      autoUpdateModel?: boolean | null;
+      bmCookieEnabled?: boolean | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      suppressSessionScore?: boolean | null;
     };
 
 export const GetBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    fightMode: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    fightMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -107,20 +114,36 @@ export const GetBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    optimizeWordpress: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    optimizeWordpress: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
-    sbfmStaticResourceProtection: Schema.optional(Schema.Boolean),
-    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])),
+    sbfmStaticResourceProtection: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    sbfmVerifiedBots: Schema.optional(
+      Schema.Union([Schema.Literals(["allow", "block"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -138,23 +161,42 @@ export const GetBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    optimizeWordpress: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    optimizeWordpress: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
     sbfmLikelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
-    sbfmStaticResourceProtection: Schema.optional(Schema.Boolean),
-    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])),
+    sbfmStaticResourceProtection: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    sbfmVerifiedBots: Schema.optional(
+      Schema.Union([Schema.Literals(["allow", "block"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -173,17 +215,30 @@ export const GetBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    autoUpdateModel: Schema.optional(Schema.Boolean),
-    bmCookieEnabled: Schema.optional(Schema.Boolean),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    autoUpdateModel: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    bmCookieEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    suppressSessionScore: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    suppressSessionScore: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -254,63 +309,70 @@ export const PutBotManagementRequest = Schema.Struct({
 export type PutBotManagementResponse =
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      fightMode?: boolean;
-      isRobotsTxtManaged?: boolean;
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      fightMode?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      optimizeWordpress?: boolean;
-      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmStaticResourceProtection?: boolean;
-      sbfmVerifiedBots?: "allow" | "block";
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      optimizeWordpress?: boolean | null;
+      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmStaticResourceProtection?: boolean | null;
+      sbfmVerifiedBots?: "allow" | "block" | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      optimizeWordpress?: boolean;
-      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmLikelyAutomated?: "allow" | "block" | "managed_challenge";
-      sbfmStaticResourceProtection?: boolean;
-      sbfmVerifiedBots?: "allow" | "block";
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      optimizeWordpress?: boolean | null;
+      sbfmDefinitelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmLikelyAutomated?: "allow" | "block" | "managed_challenge" | null;
+      sbfmStaticResourceProtection?: boolean | null;
+      sbfmVerifiedBots?: "allow" | "block" | null;
     }
   | {
       zoneId: string;
-      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages";
-      autoUpdateModel?: boolean;
-      bmCookieEnabled?: boolean;
-      cfRobotsVariant?: "off" | "policy_only";
-      crawlerProtection?: "enabled" | "disabled";
-      enableJs?: boolean;
-      isRobotsTxtManaged?: boolean;
-      suppressSessionScore?: boolean;
+      aiBotsProtection?: "block" | "disabled" | "only_on_ad_pages" | null;
+      autoUpdateModel?: boolean | null;
+      bmCookieEnabled?: boolean | null;
+      cfRobotsVariant?: "off" | "policy_only" | null;
+      crawlerProtection?: "enabled" | "disabled" | null;
+      enableJs?: boolean | null;
+      isRobotsTxtManaged?: boolean | null;
+      suppressSessionScore?: boolean | null;
     };
 
 export const PutBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    fightMode: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    fightMode: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -325,20 +387,36 @@ export const PutBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    optimizeWordpress: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    optimizeWordpress: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
-    sbfmStaticResourceProtection: Schema.optional(Schema.Boolean),
-    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])),
+    sbfmStaticResourceProtection: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    sbfmVerifiedBots: Schema.optional(
+      Schema.Union([Schema.Literals(["allow", "block"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -356,23 +434,42 @@ export const PutBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    optimizeWordpress: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    optimizeWordpress: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
     sbfmLikelyAutomated: Schema.optional(
-      Schema.Literals(["allow", "block", "managed_challenge"]),
+      Schema.Union([
+        Schema.Literals(["allow", "block", "managed_challenge"]),
+        Schema.Null,
+      ]),
     ),
-    sbfmStaticResourceProtection: Schema.optional(Schema.Boolean),
-    sbfmVerifiedBots: Schema.optional(Schema.Literals(["allow", "block"])),
+    sbfmStaticResourceProtection: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    sbfmVerifiedBots: Schema.optional(
+      Schema.Union([Schema.Literals(["allow", "block"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",
@@ -391,17 +488,30 @@ export const PutBotManagementResponse = Schema.Union([
   Schema.Struct({
     zoneId: Schema.String,
     aiBotsProtection: Schema.optional(
-      Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+      Schema.Union([
+        Schema.Literals(["block", "disabled", "only_on_ad_pages"]),
+        Schema.Null,
+      ]),
     ),
-    autoUpdateModel: Schema.optional(Schema.Boolean),
-    bmCookieEnabled: Schema.optional(Schema.Boolean),
-    cfRobotsVariant: Schema.optional(Schema.Literals(["off", "policy_only"])),
+    autoUpdateModel: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    bmCookieEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    cfRobotsVariant: Schema.optional(
+      Schema.Union([Schema.Literals(["off", "policy_only"]), Schema.Null]),
+    ),
     crawlerProtection: Schema.optional(
-      Schema.Literals(["enabled", "disabled"]),
+      Schema.Union([Schema.Literals(["enabled", "disabled"]), Schema.Null]),
     ),
-    enableJs: Schema.optional(Schema.Boolean),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean),
-    suppressSessionScore: Schema.optional(Schema.Boolean),
+    enableJs: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isRobotsTxtManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    suppressSessionScore: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       zoneId: "zone_id",

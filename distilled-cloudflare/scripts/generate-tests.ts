@@ -112,9 +112,7 @@ const runOpencode = (
           if (code === 0) resolve(stdout);
           else
             reject(
-              new Error(
-                `opencode exited with code ${code}\nstderr: ${stderr}`,
-              ),
+              new Error(`opencode exited with code ${code}\nstderr: ${stderr}`),
             );
         });
         cp.on("error", reject);

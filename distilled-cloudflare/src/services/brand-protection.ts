@@ -42,8 +42,12 @@ export interface SubmitBrandProtectionResponse {
 }
 
 export const SubmitBrandProtectionResponse = Schema.Struct({
-  skippedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
-  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
+  skippedUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  submittedUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     skippedUrls: "skipped_urls",
@@ -138,9 +142,9 @@ export interface CreateLogoResponse {
 }
 
 export const CreateLogoResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
-  uploadPath: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ id: "id", tag: "tag", uploadPath: "upload_path" }),
 ) as unknown as Schema.Schema<CreateLogoResponse>;
@@ -226,8 +230,10 @@ export interface GetLogoMatchResponse {
 }
 
 export const GetLogoMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetLogoMatchResponse>;
 
 export type GetLogoMatchError = CommonErrors;
@@ -274,8 +280,10 @@ export interface DownloadLogoMatchResponse {
 }
 
 export const DownloadLogoMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DownloadLogoMatchResponse>;
 
 export type DownloadLogoMatchError = CommonErrors;
@@ -329,8 +337,10 @@ export interface GetMatchResponse {
 }
 
 export const GetMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetMatchResponse>;
 
 export type GetMatchError = CommonErrors;
@@ -380,8 +390,10 @@ export interface DownloadMatchResponse {
 }
 
 export const DownloadMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DownloadMatchResponse>;
 
 export type DownloadMatchError = CommonErrors;

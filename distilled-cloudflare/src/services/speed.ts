@@ -35,76 +35,124 @@ export const ListAvailabilitiesRequest = Schema.Struct({
 
 export interface ListAvailabilitiesResponse {
   quota?: {
-    plan?: string;
+    plan?: string | null;
     quotasPerPlan?: {
       value?: {
-        business?: number;
-        enterprise?: number;
-        free?: number;
-        pro?: number;
-      };
-    };
-    remainingSchedules?: number;
-    remainingTests?: number;
+        business?: number | null;
+        enterprise?: number | null;
+        free?: number | null;
+        pro?: number | null;
+      } | null;
+    } | null;
+    remainingSchedules?: number | null;
+    remainingTests?: number | null;
     scheduleQuotasPerPlan?: {
       value?: {
-        business?: number;
-        enterprise?: number;
-        free?: number;
-        pro?: number;
-      };
-    };
+        business?: number | null;
+        enterprise?: number | null;
+        free?: number | null;
+        pro?: number | null;
+      } | null;
+    } | null;
   };
   regions?: unknown[];
   /** Available regions. */
   regionsPerPlan?: {
-    business?: unknown[];
-    enterprise?: unknown[];
-    free?: unknown[];
-    pro?: unknown[];
+    business?: unknown[] | null;
+    enterprise?: unknown[] | null;
+    free?: unknown[] | null;
+    pro?: unknown[] | null;
   };
 }
 
 export const ListAvailabilitiesResponse = Schema.Struct({
   quota: Schema.optional(
-    Schema.Struct({
-      plan: Schema.optional(Schema.String),
-      quotasPerPlan: Schema.optional(
-        Schema.Struct({
-          value: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        plan: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        quotasPerPlan: Schema.optional(
+          Schema.Union([
             Schema.Struct({
-              business: Schema.optional(Schema.Number),
-              enterprise: Schema.optional(Schema.Number),
-              free: Schema.optional(Schema.Number),
-              pro: Schema.optional(Schema.Number),
+              value: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    business: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    enterprise: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    free: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    pro: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                  }),
+                  Schema.Null,
+                ]),
+              ),
             }),
-          ),
-        }),
-      ),
-      remainingSchedules: Schema.optional(Schema.Number),
-      remainingTests: Schema.optional(Schema.Number),
-      scheduleQuotasPerPlan: Schema.optional(
-        Schema.Struct({
-          value: Schema.optional(
+            Schema.Null,
+          ]),
+        ),
+        remainingSchedules: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        remainingTests: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        scheduleQuotasPerPlan: Schema.optional(
+          Schema.Union([
             Schema.Struct({
-              business: Schema.optional(Schema.Number),
-              enterprise: Schema.optional(Schema.Number),
-              free: Schema.optional(Schema.Number),
-              pro: Schema.optional(Schema.Number),
+              value: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    business: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    enterprise: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    free: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                    pro: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                  }),
+                  Schema.Null,
+                ]),
+              ),
             }),
-          ),
-        }),
-      ),
-    }),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  regions: Schema.optional(Schema.Array(Schema.Unknown)),
+  regions: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   regionsPerPlan: Schema.optional(
-    Schema.Struct({
-      business: Schema.optional(Schema.Array(Schema.Unknown)),
-      enterprise: Schema.optional(Schema.Array(Schema.Unknown)),
-      free: Schema.optional(Schema.Array(Schema.Unknown)),
-      pro: Schema.optional(Schema.Array(Schema.Unknown)),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        business: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+        ),
+        enterprise: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+        ),
+        free: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+        ),
+        pro: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListAvailabilitiesResponse>;
 
@@ -137,18 +185,22 @@ export const ListPagesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPagesRequest>;
 
 export type ListPagesResponse = {
-  region?: unknown;
-  scheduleFrequency?: "DAILY" | "WEEKLY";
-  tests?: unknown[];
-  url?: string;
+  region?: unknown | null;
+  scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+  tests?: unknown[] | null;
+  url?: string | null;
 }[];
 
 export const ListPagesResponse = Schema.Array(
   Schema.Struct({
-    region: Schema.optional(Schema.Unknown),
-    scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
-    tests: Schema.optional(Schema.Array(Schema.Unknown)),
-    url: Schema.optional(Schema.String),
+    region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    scheduleFrequency: Schema.optional(
+      Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+    ),
+    tests: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+    ),
+    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListPagesResponse>;
 
@@ -301,13 +353,15 @@ export interface GetPageTestResponse {
 }
 
 export const GetPageTestResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  desktopReport: Schema.optional(Schema.Unknown),
-  mobileReport: Schema.optional(Schema.Unknown),
-  region: Schema.optional(Schema.Unknown),
-  scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
-  url: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  desktopReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  mobileReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  scheduleFrequency: Schema.optional(
+    Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+  ),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetPageTestResponse>;
 
 export type GetPageTestError = CommonErrors;
@@ -388,24 +442,26 @@ export const ListPageTestsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPageTestsRequest>;
 
 export type ListPageTestsResponse = {
-  id?: string;
-  date?: string;
-  desktopReport?: unknown;
-  mobileReport?: unknown;
-  region?: unknown;
-  scheduleFrequency?: "DAILY" | "WEEKLY";
-  url?: string;
+  id?: string | null;
+  date?: string | null;
+  desktopReport?: unknown | null;
+  mobileReport?: unknown | null;
+  region?: unknown | null;
+  scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+  url?: string | null;
 }[];
 
 export const ListPageTestsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    date: Schema.optional(Schema.String),
-    desktopReport: Schema.optional(Schema.Unknown),
-    mobileReport: Schema.optional(Schema.Unknown),
-    region: Schema.optional(Schema.Unknown),
-    scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
-    url: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    desktopReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    mobileReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    scheduleFrequency: Schema.optional(
+      Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+    ),
+    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListPageTestsResponse>;
 
@@ -503,13 +559,15 @@ export interface CreatePageTestResponse {
 }
 
 export const CreatePageTestResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  desktopReport: Schema.optional(Schema.Unknown),
-  mobileReport: Schema.optional(Schema.Unknown),
-  region: Schema.optional(Schema.Unknown),
-  scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
-  url: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  desktopReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  mobileReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  scheduleFrequency: Schema.optional(
+    Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+  ),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreatePageTestResponse>;
 
 export type CreatePageTestError = CommonErrors;
@@ -595,7 +653,7 @@ export interface DeletePageTestResponse {
 }
 
 export const DeletePageTestResponse = Schema.Struct({
-  count: Schema.optional(Schema.Number),
+  count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeletePageTestResponse>;
 
 export type DeletePageTestError = CommonErrors;
@@ -707,33 +765,38 @@ export interface GetScheduleResponse {
 }
 
 export const GetScheduleResponse = Schema.Struct({
-  frequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
+  frequency: Schema.optional(
+    Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+  ),
   region: Schema.optional(
-    Schema.Literals([
-      "asia-east1",
-      "asia-northeast1",
-      "asia-northeast2",
-      "asia-south1",
-      "asia-southeast1",
-      "australia-southeast1",
-      "europe-north1",
-      "europe-southwest1",
-      "europe-west1",
-      "europe-west2",
-      "europe-west3",
-      "europe-west4",
-      "europe-west8",
-      "europe-west9",
-      "me-west1",
-      "southamerica-east1",
-      "us-central1",
-      "us-east1",
-      "us-east4",
-      "us-south1",
-      "us-west1",
+    Schema.Union([
+      Schema.Literals([
+        "asia-east1",
+        "asia-northeast1",
+        "asia-northeast2",
+        "asia-south1",
+        "asia-southeast1",
+        "australia-southeast1",
+        "europe-north1",
+        "europe-southwest1",
+        "europe-west1",
+        "europe-west2",
+        "europe-west3",
+        "europe-west4",
+        "europe-west8",
+        "europe-west9",
+        "me-west1",
+        "southamerica-east1",
+        "us-central1",
+        "us-east1",
+        "us-east4",
+        "us-south1",
+        "us-west1",
+      ]),
+      Schema.Null,
     ]),
   ),
-  url: Schema.optional(Schema.String),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetScheduleResponse>;
 
 export type GetScheduleError = CommonErrors;
@@ -813,7 +876,7 @@ export const CreateScheduleRequest = Schema.Struct({
 export interface CreateScheduleResponse {
   /** The test schedule. */
   schedule?: {
-    frequency?: "DAILY" | "WEEKLY";
+    frequency?: "DAILY" | "WEEKLY" | null;
     region?:
       | "asia-east1"
       | "asia-northeast1"
@@ -835,45 +898,54 @@ export interface CreateScheduleResponse {
       | "us-east1"
       | "us-east4"
       | "us-south1"
-      | "us-west1";
-    url?: string;
+      | "us-west1"
+      | null;
+    url?: string | null;
   };
   test?: unknown;
 }
 
 export const CreateScheduleResponse = Schema.Struct({
   schedule: Schema.optional(
-    Schema.Struct({
-      frequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
-      region: Schema.optional(
-        Schema.Literals([
-          "asia-east1",
-          "asia-northeast1",
-          "asia-northeast2",
-          "asia-south1",
-          "asia-southeast1",
-          "australia-southeast1",
-          "europe-north1",
-          "europe-southwest1",
-          "europe-west1",
-          "europe-west2",
-          "europe-west3",
-          "europe-west4",
-          "europe-west8",
-          "europe-west9",
-          "me-west1",
-          "southamerica-east1",
-          "us-central1",
-          "us-east1",
-          "us-east4",
-          "us-south1",
-          "us-west1",
-        ]),
-      ),
-      url: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        frequency: Schema.optional(
+          Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+        ),
+        region: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "asia-east1",
+              "asia-northeast1",
+              "asia-northeast2",
+              "asia-south1",
+              "asia-southeast1",
+              "australia-southeast1",
+              "europe-north1",
+              "europe-southwest1",
+              "europe-west1",
+              "europe-west2",
+              "europe-west3",
+              "europe-west4",
+              "europe-west8",
+              "europe-west9",
+              "me-west1",
+              "southamerica-east1",
+              "us-central1",
+              "us-east1",
+              "us-east4",
+              "us-south1",
+              "us-west1",
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  test: Schema.optional(Schema.Unknown),
+  test: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }) as unknown as Schema.Schema<CreateScheduleResponse>;
 
 export type CreateScheduleError = CommonErrors;
@@ -959,7 +1031,7 @@ export interface DeleteScheduleResponse {
 }
 
 export const DeleteScheduleResponse = Schema.Struct({
-  count: Schema.optional(Schema.Number),
+  count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteScheduleResponse>;
 
 export type DeleteScheduleError = CommonErrors;

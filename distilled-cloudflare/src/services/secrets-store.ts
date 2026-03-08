@@ -275,10 +275,10 @@ export interface DeleteStoreResponse {
 }
 
 export const DeleteStoreResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteStoreResponse>;
 
 export type DeleteStoreError =
@@ -652,12 +652,17 @@ export interface DeleteStoreSecretResponse {
 }
 
 export const DeleteStoreSecretResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literals(["pending", "active", "deleted"])),
-  storeId: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["pending", "active", "deleted"]),
+      Schema.Null,
+    ]),
+  ),
+  storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
@@ -712,7 +717,7 @@ export type BulkDeleteStoreSecretsResponse = {
   name: string;
   status: "pending" | "active" | "deleted";
   storeId: string;
-  comment?: string;
+  comment?: string | null;
 }[];
 
 export const BulkDeleteStoreSecretsResponse = Schema.Array(
@@ -723,7 +728,7 @@ export const BulkDeleteStoreSecretsResponse = Schema.Array(
     name: Schema.String,
     status: Schema.Literals(["pending", "active", "deleted"]),
     storeId: Schema.String,
-    comment: Schema.optional(Schema.String),
+    comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

@@ -18,7 +18,8 @@ import * as T from "../traits.ts";
 function isArraySchema(ast: AST.AST): boolean {
   if (ast._tag === "Arrays") return true;
   if (ast._tag === "Suspend") return isArraySchema(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0) return isArraySchema(ast.encoding[0].to);
+  if (ast.encoding && ast.encoding.length > 0)
+    return isArraySchema(ast.encoding[0].to);
   return false;
 }
 
@@ -230,7 +231,8 @@ function findMatchingError(
       expectedCodes ?? (expectedCode !== undefined ? [expectedCode] : []);
 
     // Must match at least one code (legacy matchers require a code)
-    if (codes.length === 0 || code === undefined || !codes.includes(code)) continue;
+    if (codes.length === 0 || code === undefined || !codes.includes(code))
+      continue;
 
     let score = 1; // Base score for code match
 

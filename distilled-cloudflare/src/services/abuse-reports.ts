@@ -94,10 +94,10 @@ export interface GetAbuseReportResponse {
   originalWork?: string;
   /** Information about the submitter of the report. */
   submitter?: {
-    company?: string;
-    email?: string;
-    name?: string;
-    telephone?: string;
+    company?: string | null;
+    email?: string | null;
+    name?: string | null;
+    telephone?: string | null;
   };
   urls?: string[];
 }
@@ -133,17 +133,22 @@ export const GetAbuseReportResponse = Schema.Struct({
     "NCSEI",
     "NETWORK",
   ]),
-  justification: Schema.optional(Schema.String),
-  originalWork: Schema.optional(Schema.String),
+  justification: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  originalWork: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   submitter: Schema.optional(
-    Schema.Struct({
-      company: Schema.optional(Schema.String),
-      email: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      telephone: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        company: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
-  urls: Schema.optional(Schema.Array(Schema.String)),
+  urls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -265,15 +270,15 @@ export interface ListAbuseReportsResponse {
           | "REG_WHO"
           | "NCSEI"
           | "NETWORK";
-        justification?: string;
-        originalWork?: string;
+        justification?: string | null;
+        originalWork?: string | null;
         submitter?: {
-          company?: string;
-          email?: string;
-          name?: string;
-          telephone?: string;
-        };
-        urls?: string[];
+          company?: string | null;
+          email?: string | null;
+          name?: string | null;
+          telephone?: string | null;
+        } | null;
+        urls?: string[] | null;
       }[]
     | null;
 }
@@ -312,17 +317,32 @@ export const ListAbuseReportsResponse = Schema.Struct({
           "NCSEI",
           "NETWORK",
         ]),
-        justification: Schema.optional(Schema.String),
-        originalWork: Schema.optional(Schema.String),
-        submitter: Schema.optional(
-          Schema.Struct({
-            company: Schema.optional(Schema.String),
-            email: Schema.optional(Schema.String),
-            name: Schema.optional(Schema.String),
-            telephone: Schema.optional(Schema.String),
-          }),
+        justification: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
         ),
-        urls: Schema.optional(Schema.Array(Schema.String)),
+        originalWork: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        submitter: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              company: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              email: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              telephone: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        urls: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           id: "id",
@@ -641,7 +661,7 @@ export const ReviewMitigationRequest = Schema.Struct({
   ),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/abuse-reports/{reportId}/mitigations/appeal",
   }),
 ) as unknown as Schema.Schema<ReviewMitigationRequest>;

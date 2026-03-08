@@ -141,7 +141,11 @@ export const buildRequest = <I>(
           value,
           value instanceof File ? value.name : wireName,
         );
-      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
+      } else if (
+        Array.isArray(value) &&
+        value.length > 0 &&
+        isFileOrBlob(value[0])
+      ) {
         // Array of files/blobs
         for (const file of value) {
           if (isFileOrBlob(file)) {

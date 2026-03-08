@@ -41,21 +41,24 @@ export const GetSettingTlsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSettingTlsRequest>;
 
 export type GetSettingTlsResponse = {
-  createdAt?: string;
-  hostname?: string;
-  status?: string;
-  updatedAt?: string;
-  value?: string | number | unknown;
+  createdAt?: string | null;
+  hostname?: string | null;
+  status?: string | null;
+  updatedAt?: string | null;
+  value?: string | number | unknown | null;
 }[];
 
 export const GetSettingTlsResponse = Schema.Array(
   Schema.Struct({
-    createdAt: Schema.optional(Schema.String),
-    hostname: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(
-      Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+      Schema.Union([
+        Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -118,12 +121,15 @@ export interface PutSettingTlsResponse {
 }
 
 export const PutSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
-  hostname: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   value: Schema.optional(
-    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+    Schema.Union([
+      Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -182,12 +188,15 @@ export interface DeleteSettingTlsResponse {
 }
 
 export const DeleteSettingTlsResponse = Schema.Struct({
-  createdAt: Schema.optional(Schema.String),
-  hostname: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   value: Schema.optional(
-    Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+    Schema.Union([
+      Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({

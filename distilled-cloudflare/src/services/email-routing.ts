@@ -56,12 +56,12 @@ export interface GetAddressResponse {
 }
 
 export const GetAddressResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  verified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetAddressResponse>;
 
 export type GetAddressError = CommonErrors;
@@ -102,22 +102,22 @@ export const ListAddressesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAddressesRequest>;
 
 export type ListAddressesResponse = {
-  id?: string;
-  created?: string;
-  email?: string;
-  modified?: string;
-  tag?: string;
-  verified?: string;
+  id?: string | null;
+  created?: string | null;
+  email?: string | null;
+  modified?: string | null;
+  tag?: string | null;
+  verified?: string | null;
 }[];
 
 export const ListAddressesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    created: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    modified: Schema.optional(Schema.String),
-    tag: Schema.optional(Schema.String),
-    verified: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    verified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListAddressesResponse>;
 
@@ -167,12 +167,12 @@ export interface CreateAddressResponse {
 }
 
 export const CreateAddressResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  verified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateAddressResponse>;
 
 export type CreateAddressError = CommonErrors;
@@ -222,12 +222,12 @@ export interface DeleteAddressResponse {
 }
 
 export const DeleteAddressResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
-  verified: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  verified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteAddressResponse>;
 
 export type DeleteAddressError = CommonErrors;
@@ -266,48 +266,48 @@ export type GetDnsResponse =
       errors: {
         code: number;
         message: string;
-        documentationUrl?: string;
-        source?: { pointer?: string };
+        documentationUrl?: string | null;
+        source?: { pointer?: string | null } | null;
       }[];
       messages: {
         code: number;
         message: string;
-        documentationUrl?: string;
-        source?: { pointer?: string };
+        documentationUrl?: string | null;
+        source?: { pointer?: string | null } | null;
       }[];
       success: true;
       result?: {
-        errors?: { code?: string; missing?: unknown }[];
-        record?: unknown[];
-      };
+        errors?: { code?: string | null; missing?: unknown | null }[] | null;
+        record?: unknown[] | null;
+      } | null;
       resultInfo?: {
-        count?: number;
-        page?: number;
-        perPage?: number;
-        totalCount?: number;
-      };
+        count?: number | null;
+        page?: number | null;
+        perPage?: number | null;
+        totalCount?: number | null;
+      } | null;
     }
   | {
       errors: {
         code: number;
         message: string;
-        documentationUrl?: string;
-        source?: { pointer?: string };
+        documentationUrl?: string | null;
+        source?: { pointer?: string | null } | null;
       }[];
       messages: {
         code: number;
         message: string;
-        documentationUrl?: string;
-        source?: { pointer?: string };
+        documentationUrl?: string | null;
+        source?: { pointer?: string | null } | null;
       }[];
       success: true;
-      result?: unknown[];
+      result?: unknown[] | null;
       resultInfo?: {
-        count?: number;
-        page?: number;
-        perPage?: number;
-        totalCount?: number;
-      };
+        count?: number | null;
+        page?: number | null;
+        perPage?: number | null;
+        totalCount?: number | null;
+      } | null;
     };
 
 export const GetDnsResponse = Schema.Union([
@@ -316,11 +316,18 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String),
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
         source: Schema.optional(
-          Schema.Struct({
-            pointer: Schema.optional(Schema.String),
-          }),
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -335,11 +342,18 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String),
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
         source: Schema.optional(
-          Schema.Struct({
-            pointer: Schema.optional(Schema.String),
-          }),
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -352,32 +366,49 @@ export const GetDnsResponse = Schema.Union([
     ),
     success: Schema.Literal(true),
     result: Schema.optional(
-      Schema.Struct({
-        errors: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              code: Schema.optional(Schema.String),
-              missing: Schema.optional(Schema.Unknown),
-            }),
+      Schema.Union([
+        Schema.Struct({
+          errors: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  code: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  missing: Schema.optional(
+                    Schema.Union([Schema.Unknown, Schema.Null]),
+                  ),
+                }),
+              ),
+              Schema.Null,
+            ]),
           ),
-        ),
-        record: Schema.optional(Schema.Array(Schema.Unknown)),
-      }),
+          record: Schema.optional(
+            Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
     resultInfo: Schema.optional(
-      Schema.Struct({
-        count: Schema.optional(Schema.Number),
-        page: Schema.optional(Schema.Number),
-        perPage: Schema.optional(Schema.Number),
-        totalCount: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          count: "count",
-          page: "page",
-          perPage: "per_page",
-          totalCount: "total_count",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -393,11 +424,18 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String),
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
         source: Schema.optional(
-          Schema.Struct({
-            pointer: Schema.optional(Schema.String),
-          }),
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -412,11 +450,18 @@ export const GetDnsResponse = Schema.Union([
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String),
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
         source: Schema.optional(
-          Schema.Struct({
-            pointer: Schema.optional(Schema.String),
-          }),
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -428,21 +473,28 @@ export const GetDnsResponse = Schema.Union([
       ),
     ),
     success: Schema.Literal(true),
-    result: Schema.optional(Schema.Array(Schema.Unknown)),
+    result: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+    ),
     resultInfo: Schema.optional(
-      Schema.Struct({
-        count: Schema.optional(Schema.Number),
-        page: Schema.optional(Schema.Number),
-        perPage: Schema.optional(Schema.Number),
-        totalCount: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          count: "count",
-          page: "page",
-          perPage: "per_page",
-          totalCount: "total_count",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -540,14 +592,14 @@ export interface DeleteDnsRequest {
 export const DeleteDnsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/dns" }),
+  T.Http({ method: "DELETE", path: "/zones/{zone_id}/email/routing/dns" }),
 ) as unknown as Schema.Schema<DeleteDnsRequest>;
 
 export type DeleteDnsResponse = {
-  content?: string;
-  name?: string;
-  priority?: number;
-  ttl?: number | "1";
+  content?: string | null;
+  name?: string | null;
+  priority?: number | null;
+  ttl?: number | "1" | null;
   type?:
     | "A"
     | "AAAA"
@@ -566,35 +618,44 @@ export type DeleteDnsResponse = {
     | "SSHFP"
     | "SVCB"
     | "TLSA"
-    | "URI";
+    | "URI"
+    | null;
 }[];
 
 export const DeleteDnsResponse = Schema.Array(
   Schema.Struct({
-    content: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    priority: Schema.optional(Schema.Number),
-    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Literal("1")])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    ttl: Schema.optional(
+      Schema.Union([
+        Schema.Union([Schema.Number, Schema.Literal("1")]),
+        Schema.Null,
+      ]),
+    ),
     type: Schema.optional(
-      Schema.Literals([
-        "A",
-        "AAAA",
-        "CNAME",
-        "HTTPS",
-        "TXT",
-        "SRV",
-        "LOC",
-        "MX",
-        "NS",
-        "CERT",
-        "DNSKEY",
-        "DS",
-        "NAPTR",
-        "SMIMEA",
-        "SSHFP",
-        "SVCB",
-        "TLSA",
-        "URI",
+      Schema.Union([
+        Schema.Literals([
+          "A",
+          "AAAA",
+          "CNAME",
+          "HTTPS",
+          "TXT",
+          "SRV",
+          "LOC",
+          "MX",
+          "NS",
+          "CERT",
+          "DNSKEY",
+          "DS",
+          "NAPTR",
+          "SMIMEA",
+          "SSHFP",
+          "SVCB",
+          "TLSA",
+          "URI",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
@@ -656,19 +717,24 @@ export const GetEmailRoutingResponse = Schema.Struct({
   id: Schema.String,
   enabled: Schema.Literals([true, false]),
   name: Schema.String,
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  skipWizard: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals([
-      "ready",
-      "unconfigured",
-      "misconfigured",
-      "misconfigured/locked",
-      "unlocked",
+    Schema.Union([
+      Schema.Literals([
+        "ready",
+        "unconfigured",
+        "misconfigured",
+        "misconfigured/locked",
+        "unlocked",
+      ]),
+      Schema.Null,
     ]),
   ),
-  tag: Schema.optional(Schema.String),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -737,19 +803,24 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   id: Schema.String,
   enabled: Schema.Literals([true, false]),
   name: Schema.String,
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  skipWizard: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals([
-      "ready",
-      "unconfigured",
-      "misconfigured",
-      "misconfigured/locked",
-      "unlocked",
+    Schema.Union([
+      Schema.Literals([
+        "ready",
+        "unconfigured",
+        "misconfigured",
+        "misconfigured/locked",
+        "unlocked",
+      ]),
+      Schema.Null,
     ]),
   ),
-  tag: Schema.optional(Schema.String),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -818,19 +889,24 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   id: Schema.String,
   enabled: Schema.Literals([true, false]),
   name: Schema.String,
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literals([true, false])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  skipWizard: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals([
-      "ready",
-      "unconfigured",
-      "misconfigured",
-      "misconfigured/locked",
-      "unlocked",
+    Schema.Union([
+      Schema.Literals([
+        "ready",
+        "unconfigured",
+        "misconfigured",
+        "misconfigured/locked",
+        "unlocked",
+      ]),
+      Schema.Null,
     ]),
   ),
-  tag: Schema.optional(Schema.String),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -881,11 +957,15 @@ export interface GetRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  matchers?: {
+    type: "all" | "literal";
+    field?: "to" | null;
+    value?: string | null;
+  }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -895,28 +975,40 @@ export interface GetRuleResponse {
 }
 
 export const GetRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["all", "literal"]),
-        field: Schema.optional(Schema.Literal("to")),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(
+            Schema.Union([Schema.Literal("to"), Schema.Null]),
+          ),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
 export type GetRuleError = CommonErrors;
@@ -949,39 +1041,55 @@ export const ListRulesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRulesRequest>;
 
 export type ListRulesResponse = {
-  id?: string;
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
-  enabled?: true | false;
-  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
-  name?: string;
-  priority?: number;
-  tag?: string;
+  id?: string | null;
+  actions?:
+    | { type: "drop" | "forward" | "worker"; value?: string[] | null }[]
+    | null;
+  enabled?: true | false | null;
+  matchers?:
+    | { type: "all" | "literal"; field?: "to" | null; value?: string | null }[]
+    | null;
+  name?: string | null;
+  priority?: number | null;
+  tag?: string | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     actions: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          type: Schema.Literals(["drop", "forward", "worker"]),
-          value: Schema.optional(Schema.Array(Schema.String)),
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.Literals(["drop", "forward", "worker"]),
+            value: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    enabled: Schema.optional(Schema.Literals([true, false])),
+    enabled: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     matchers: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          type: Schema.Literals(["all", "literal"]),
-          field: Schema.optional(Schema.Literal("to")),
-          value: Schema.optional(Schema.String),
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.Literals(["all", "literal"]),
+            field: Schema.optional(
+              Schema.Union([Schema.Literal("to"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
-    priority: Schema.optional(Schema.Number),
-    tag: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
@@ -1039,11 +1147,15 @@ export interface CreateRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  matchers?: {
+    type: "all" | "literal";
+    field?: "to" | null;
+    value?: string | null;
+  }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -1053,28 +1165,40 @@ export interface CreateRuleResponse {
 }
 
 export const CreateRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["all", "literal"]),
-        field: Schema.optional(Schema.Literal("to")),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(
+            Schema.Union([Schema.Literal("to"), Schema.Null]),
+          ),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export type CreateRuleError = CommonErrors;
@@ -1136,11 +1260,15 @@ export interface UpdateRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  matchers?: {
+    type: "all" | "literal";
+    field?: "to" | null;
+    value?: string | null;
+  }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -1150,28 +1278,40 @@ export interface UpdateRuleResponse {
 }
 
 export const UpdateRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["all", "literal"]),
-        field: Schema.optional(Schema.Literal("to")),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(
+            Schema.Union([Schema.Literal("to"), Schema.Null]),
+          ),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateRuleResponse>;
 
 export type UpdateRuleError = CommonErrors;
@@ -1207,11 +1347,15 @@ export interface DeleteRuleResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions patterns. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** Matching patterns to forward to your actions. */
-  matchers?: { type: "all" | "literal"; field?: "to"; value?: string }[];
+  matchers?: {
+    type: "all" | "literal";
+    field?: "to" | null;
+    value?: string | null;
+  }[];
   /** Routing rule name. */
   name?: string;
   /** Priority of the routing rule. */
@@ -1221,28 +1365,40 @@ export interface DeleteRuleResponse {
 }
 
 export const DeleteRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["all", "literal"]),
-        field: Schema.optional(Schema.Literal("to")),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["all", "literal"]),
+          field: Schema.optional(
+            Schema.Union([Schema.Literal("to"), Schema.Null]),
+          ),
+          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = CommonErrors;
@@ -1280,7 +1436,7 @@ export interface GetRuleCatchAllResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions for the catch-all routing rule. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** List of matchers for the catch-all routing rule. */
@@ -1292,25 +1448,35 @@ export interface GetRuleCatchAllResponse {
 }
 
 export const GetRuleCatchAllResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literal("all"),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literal("all"),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetRuleCatchAllResponse>;
 
 export type GetRuleCatchAllError = CommonErrors;
@@ -1365,7 +1531,7 @@ export interface PutRuleCatchAllResponse {
   /** Routing rule identifier. */
   id?: string;
   /** List actions for the catch-all routing rule. */
-  actions?: { type: "drop" | "forward" | "worker"; value?: string[] }[];
+  actions?: { type: "drop" | "forward" | "worker"; value?: string[] | null }[];
   /** Routing rule status. */
   enabled?: true | false;
   /** List of matchers for the catch-all routing rule. */
@@ -1377,25 +1543,35 @@ export interface PutRuleCatchAllResponse {
 }
 
 export const PutRuleCatchAllResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   actions: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literals(["drop", "forward", "worker"]),
-        value: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literals(["drop", "forward", "worker"]),
+          value: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Literals([true, false])),
+  enabled: Schema.optional(
+    Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+  ),
   matchers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        type: Schema.Literal("all"),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.Literal("all"),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  name: Schema.optional(Schema.String),
-  tag: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<PutRuleCatchAllResponse>;
 
 export type PutRuleCatchAllError = CommonErrors;

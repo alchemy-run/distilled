@@ -61,7 +61,9 @@ export const GetSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -111,7 +113,7 @@ export type ListSchemasResponse = {
   name: string;
   schemaId: string;
   source: string;
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | null;
 }[];
 
 export const ListSchemasResponse = Schema.Array(
@@ -121,7 +123,9 @@ export const ListSchemasResponse = Schema.Array(
     name: Schema.String,
     schemaId: Schema.String,
     source: Schema.String,
-    validationEnabled: Schema.optional(Schema.Boolean),
+    validationEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
@@ -199,7 +203,9 @@ export const CreateSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -264,7 +270,9 @@ export const PatchSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -354,7 +362,9 @@ export interface GetSettingResponse {
 
 export const GetSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -410,7 +420,9 @@ export interface PutSettingResponse {
 
 export const PutSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -468,7 +480,9 @@ export interface PatchSettingResponse {
 
 export const PatchSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -660,7 +674,7 @@ export interface DeleteSettingOperationResponse {
 }
 
 export const DeleteSettingOperationResponse = Schema.Struct({
-  operationId: Schema.optional(Schema.String),
+  operationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;

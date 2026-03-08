@@ -144,8 +144,8 @@ export interface CreateTraceResponse {
 }
 
 export const CreateTraceResponse = Schema.Struct({
-  statusCode: Schema.optional(Schema.Number),
-  trace: Schema.optional(Schema.Unknown),
+  statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  trace: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
 ) as unknown as Schema.Schema<CreateTraceResponse>;

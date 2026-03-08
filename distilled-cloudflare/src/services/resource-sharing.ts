@@ -80,21 +80,24 @@ export const GetRecipientResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        error: Schema.String,
-        resourceId: Schema.String,
-        resourceVersion: Schema.Number,
-        terminal: Schema.Boolean,
-      }).pipe(
-        Schema.encodeKeys({
-          error: "error",
-          resourceId: "resource_id",
-          resourceVersion: "resource_version",
-          terminal: "terminal",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          error: Schema.String,
+          resourceId: Schema.String,
+          resourceVersion: Schema.Number,
+          terminal: Schema.Boolean,
+        }).pipe(
+          Schema.encodeKeys({
+            error: "error",
+            resourceId: "resource_id",
+            resourceVersion: "resource_version",
+            terminal: "terminal",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -151,12 +154,14 @@ export type ListRecipientsResponse = {
     | "disassociated";
   created: string;
   modified: string;
-  resources?: {
-    error: string;
-    resourceId: string;
-    resourceVersion: number;
-    terminal: boolean;
-  }[];
+  resources?:
+    | {
+        error: string;
+        resourceId: string;
+        resourceVersion: number;
+        terminal: boolean;
+      }[]
+    | null;
 }[];
 
 export const ListRecipientsResponse = Schema.Array(
@@ -172,21 +177,24 @@ export const ListRecipientsResponse = Schema.Array(
     created: Schema.String,
     modified: Schema.String,
     resources: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          error: Schema.String,
-          resourceId: Schema.String,
-          resourceVersion: Schema.Number,
-          terminal: Schema.Boolean,
-        }).pipe(
-          Schema.encodeKeys({
-            error: "error",
-            resourceId: "resource_id",
-            resourceVersion: "resource_version",
-            terminal: "terminal",
-          }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            error: Schema.String,
+            resourceId: Schema.String,
+            resourceVersion: Schema.Number,
+            terminal: Schema.Boolean,
+          }).pipe(
+            Schema.encodeKeys({
+              error: "error",
+              resourceId: "resource_id",
+              resourceVersion: "resource_version",
+              terminal: "terminal",
+            }),
+          ),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -274,21 +282,24 @@ export const CreateRecipientResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        error: Schema.String,
-        resourceId: Schema.String,
-        resourceVersion: Schema.Number,
-        terminal: Schema.Boolean,
-      }).pipe(
-        Schema.encodeKeys({
-          error: "error",
-          resourceId: "resource_id",
-          resourceVersion: "resource_version",
-          terminal: "terminal",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          error: Schema.String,
+          resourceId: Schema.String,
+          resourceVersion: Schema.Number,
+          terminal: Schema.Boolean,
+        }).pipe(
+          Schema.encodeKeys({
+            error: "error",
+            resourceId: "resource_id",
+            resourceVersion: "resource_version",
+            terminal: "terminal",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -367,21 +378,24 @@ export const DeleteRecipientResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        error: Schema.String,
-        resourceId: Schema.String,
-        resourceVersion: Schema.Number,
-        terminal: Schema.Boolean,
-      }).pipe(
-        Schema.encodeKeys({
-          error: "error",
-          resourceId: "resource_id",
-          resourceVersion: "resource_version",
-          terminal: "terminal",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          error: Schema.String,
+          resourceId: Schema.String,
+          resourceVersion: Schema.Number,
+          terminal: Schema.Boolean,
+        }).pipe(
+          Schema.encodeKeys({
+            error: "error",
+            resourceId: "resource_id",
+            resourceVersion: "resource_version",
+            terminal: "terminal",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -985,44 +999,57 @@ export const GetResourceSharingResponse = Schema.Struct({
   organizationId: Schema.String,
   status: Schema.Literals(["active", "deleting", "deleted"]),
   targetType: Schema.Literals(["account", "organization"]),
-  associatedRecipientCount: Schema.optional(Schema.Number),
-  associatingRecipientCount: Schema.optional(Schema.Number),
-  disassociatedRecipientCount: Schema.optional(Schema.Number),
-  disassociatingRecipientCount: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.Literals(["sent", "received"])),
+  associatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  associatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+  ),
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        created: Schema.String,
-        meta: Schema.Unknown,
-        modified: Schema.String,
-        resourceAccountId: Schema.String,
-        resourceId: Schema.String,
-        resourceType: Schema.Literals([
-          "custom-ruleset",
-          "widget",
-          "gateway-policy",
-          "gateway-destination-ip",
-          "gateway-block-page-settings",
-          "gateway-extended-email-matching",
-        ]),
-        resourceVersion: Schema.Number,
-        status: Schema.Literals(["active", "deleting", "deleted"]),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          created: "created",
-          meta: "meta",
-          modified: "modified",
-          resourceAccountId: "resource_account_id",
-          resourceId: "resource_id",
-          resourceType: "resource_type",
-          resourceVersion: "resource_version",
-          status: "status",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          created: Schema.String,
+          meta: Schema.Unknown,
+          modified: Schema.String,
+          resourceAccountId: Schema.String,
+          resourceId: Schema.String,
+          resourceType: Schema.Literals([
+            "custom-ruleset",
+            "widget",
+            "gateway-policy",
+            "gateway-destination-ip",
+            "gateway-block-page-settings",
+            "gateway-extended-email-matching",
+          ]),
+          resourceVersion: Schema.Number,
+          status: Schema.Literals(["active", "deleting", "deleted"]),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            meta: "meta",
+            modified: "modified",
+            resourceAccountId: "resource_account_id",
+            resourceId: "resource_id",
+            resourceType: "resource_type",
+            resourceVersion: "resource_version",
+            status: "status",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1134,28 +1161,30 @@ export type ListResourceSharingsResponse = {
   organizationId: string;
   status: "active" | "deleting" | "deleted";
   targetType: "account" | "organization";
-  associatedRecipientCount?: number;
-  associatingRecipientCount?: number;
-  disassociatedRecipientCount?: number;
-  disassociatingRecipientCount?: number;
-  kind?: "sent" | "received";
-  resources?: {
-    id: string;
-    created: string;
-    meta: unknown;
-    modified: string;
-    resourceAccountId: string;
-    resourceId: string;
-    resourceType:
-      | "custom-ruleset"
-      | "widget"
-      | "gateway-policy"
-      | "gateway-destination-ip"
-      | "gateway-block-page-settings"
-      | "gateway-extended-email-matching";
-    resourceVersion: number;
-    status: "active" | "deleting" | "deleted";
-  }[];
+  associatedRecipientCount?: number | null;
+  associatingRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null;
+  disassociatingRecipientCount?: number | null;
+  kind?: "sent" | "received" | null;
+  resources?:
+    | {
+        id: string;
+        created: string;
+        meta: unknown;
+        modified: string;
+        resourceAccountId: string;
+        resourceId: string;
+        resourceType:
+          | "custom-ruleset"
+          | "widget"
+          | "gateway-policy"
+          | "gateway-destination-ip"
+          | "gateway-block-page-settings"
+          | "gateway-extended-email-matching";
+        resourceVersion: number;
+        status: "active" | "deleting" | "deleted";
+      }[]
+    | null;
 }[];
 
 export const ListResourceSharingsResponse = Schema.Array(
@@ -1169,44 +1198,57 @@ export const ListResourceSharingsResponse = Schema.Array(
     organizationId: Schema.String,
     status: Schema.Literals(["active", "deleting", "deleted"]),
     targetType: Schema.Literals(["account", "organization"]),
-    associatedRecipientCount: Schema.optional(Schema.Number),
-    associatingRecipientCount: Schema.optional(Schema.Number),
-    disassociatedRecipientCount: Schema.optional(Schema.Number),
-    disassociatingRecipientCount: Schema.optional(Schema.Number),
-    kind: Schema.optional(Schema.Literals(["sent", "received"])),
+    associatedRecipientCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    associatingRecipientCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    disassociatedRecipientCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    disassociatingRecipientCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    kind: Schema.optional(
+      Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+    ),
     resources: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.String,
-          created: Schema.String,
-          meta: Schema.Unknown,
-          modified: Schema.String,
-          resourceAccountId: Schema.String,
-          resourceId: Schema.String,
-          resourceType: Schema.Literals([
-            "custom-ruleset",
-            "widget",
-            "gateway-policy",
-            "gateway-destination-ip",
-            "gateway-block-page-settings",
-            "gateway-extended-email-matching",
-          ]),
-          resourceVersion: Schema.Number,
-          status: Schema.Literals(["active", "deleting", "deleted"]),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            created: "created",
-            meta: "meta",
-            modified: "modified",
-            resourceAccountId: "resource_account_id",
-            resourceId: "resource_id",
-            resourceType: "resource_type",
-            resourceVersion: "resource_version",
-            status: "status",
-          }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.String,
+            created: Schema.String,
+            meta: Schema.Unknown,
+            modified: Schema.String,
+            resourceAccountId: Schema.String,
+            resourceId: Schema.String,
+            resourceType: Schema.Literals([
+              "custom-ruleset",
+              "widget",
+              "gateway-policy",
+              "gateway-destination-ip",
+              "gateway-block-page-settings",
+              "gateway-extended-email-matching",
+            ]),
+            resourceVersion: Schema.Number,
+            status: Schema.Literals(["active", "deleting", "deleted"]),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              created: "created",
+              meta: "meta",
+              modified: "modified",
+              resourceAccountId: "resource_account_id",
+              resourceId: "resource_id",
+              resourceType: "resource_type",
+              resourceVersion: "resource_version",
+              status: "status",
+            }),
+          ),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -1360,44 +1402,57 @@ export const CreateResourceSharingResponse = Schema.Struct({
   organizationId: Schema.String,
   status: Schema.Literals(["active", "deleting", "deleted"]),
   targetType: Schema.Literals(["account", "organization"]),
-  associatedRecipientCount: Schema.optional(Schema.Number),
-  associatingRecipientCount: Schema.optional(Schema.Number),
-  disassociatedRecipientCount: Schema.optional(Schema.Number),
-  disassociatingRecipientCount: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.Literals(["sent", "received"])),
+  associatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  associatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+  ),
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        created: Schema.String,
-        meta: Schema.Unknown,
-        modified: Schema.String,
-        resourceAccountId: Schema.String,
-        resourceId: Schema.String,
-        resourceType: Schema.Literals([
-          "custom-ruleset",
-          "widget",
-          "gateway-policy",
-          "gateway-destination-ip",
-          "gateway-block-page-settings",
-          "gateway-extended-email-matching",
-        ]),
-        resourceVersion: Schema.Number,
-        status: Schema.Literals(["active", "deleting", "deleted"]),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          created: "created",
-          meta: "meta",
-          modified: "modified",
-          resourceAccountId: "resource_account_id",
-          resourceId: "resource_id",
-          resourceType: "resource_type",
-          resourceVersion: "resource_version",
-          status: "status",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          created: Schema.String,
+          meta: Schema.Unknown,
+          modified: Schema.String,
+          resourceAccountId: Schema.String,
+          resourceId: Schema.String,
+          resourceType: Schema.Literals([
+            "custom-ruleset",
+            "widget",
+            "gateway-policy",
+            "gateway-destination-ip",
+            "gateway-block-page-settings",
+            "gateway-extended-email-matching",
+          ]),
+          resourceVersion: Schema.Number,
+          status: Schema.Literals(["active", "deleting", "deleted"]),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            meta: "meta",
+            modified: "modified",
+            resourceAccountId: "resource_account_id",
+            resourceId: "resource_id",
+            resourceType: "resource_type",
+            resourceVersion: "resource_version",
+            status: "status",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1504,44 +1559,57 @@ export const UpdateResourceSharingResponse = Schema.Struct({
   organizationId: Schema.String,
   status: Schema.Literals(["active", "deleting", "deleted"]),
   targetType: Schema.Literals(["account", "organization"]),
-  associatedRecipientCount: Schema.optional(Schema.Number),
-  associatingRecipientCount: Schema.optional(Schema.Number),
-  disassociatedRecipientCount: Schema.optional(Schema.Number),
-  disassociatingRecipientCount: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.Literals(["sent", "received"])),
+  associatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  associatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+  ),
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        created: Schema.String,
-        meta: Schema.Unknown,
-        modified: Schema.String,
-        resourceAccountId: Schema.String,
-        resourceId: Schema.String,
-        resourceType: Schema.Literals([
-          "custom-ruleset",
-          "widget",
-          "gateway-policy",
-          "gateway-destination-ip",
-          "gateway-block-page-settings",
-          "gateway-extended-email-matching",
-        ]),
-        resourceVersion: Schema.Number,
-        status: Schema.Literals(["active", "deleting", "deleted"]),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          created: "created",
-          meta: "meta",
-          modified: "modified",
-          resourceAccountId: "resource_account_id",
-          resourceId: "resource_id",
-          resourceType: "resource_type",
-          resourceVersion: "resource_version",
-          status: "status",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          created: Schema.String,
+          meta: Schema.Unknown,
+          modified: Schema.String,
+          resourceAccountId: Schema.String,
+          resourceId: Schema.String,
+          resourceType: Schema.Literals([
+            "custom-ruleset",
+            "widget",
+            "gateway-policy",
+            "gateway-destination-ip",
+            "gateway-block-page-settings",
+            "gateway-extended-email-matching",
+          ]),
+          resourceVersion: Schema.Number,
+          status: Schema.Literals(["active", "deleting", "deleted"]),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            meta: "meta",
+            modified: "modified",
+            resourceAccountId: "resource_account_id",
+            resourceId: "resource_id",
+            resourceType: "resource_type",
+            resourceVersion: "resource_version",
+            status: "status",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1645,44 +1713,57 @@ export const DeleteResourceSharingResponse = Schema.Struct({
   organizationId: Schema.String,
   status: Schema.Literals(["active", "deleting", "deleted"]),
   targetType: Schema.Literals(["account", "organization"]),
-  associatedRecipientCount: Schema.optional(Schema.Number),
-  associatingRecipientCount: Schema.optional(Schema.Number),
-  disassociatedRecipientCount: Schema.optional(Schema.Number),
-  disassociatingRecipientCount: Schema.optional(Schema.Number),
-  kind: Schema.optional(Schema.Literals(["sent", "received"])),
+  associatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  associatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatedRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  disassociatingRecipientCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+  ),
   resources: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        created: Schema.String,
-        meta: Schema.Unknown,
-        modified: Schema.String,
-        resourceAccountId: Schema.String,
-        resourceId: Schema.String,
-        resourceType: Schema.Literals([
-          "custom-ruleset",
-          "widget",
-          "gateway-policy",
-          "gateway-destination-ip",
-          "gateway-block-page-settings",
-          "gateway-extended-email-matching",
-        ]),
-        resourceVersion: Schema.Number,
-        status: Schema.Literals(["active", "deleting", "deleted"]),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          created: "created",
-          meta: "meta",
-          modified: "modified",
-          resourceAccountId: "resource_account_id",
-          resourceId: "resource_id",
-          resourceType: "resource_type",
-          resourceVersion: "resource_version",
-          status: "status",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          created: Schema.String,
+          meta: Schema.Unknown,
+          modified: Schema.String,
+          resourceAccountId: Schema.String,
+          resourceId: Schema.String,
+          resourceType: Schema.Literals([
+            "custom-ruleset",
+            "widget",
+            "gateway-policy",
+            "gateway-destination-ip",
+            "gateway-block-page-settings",
+            "gateway-extended-email-matching",
+          ]),
+          resourceVersion: Schema.Number,
+          status: Schema.Literals(["active", "deleting", "deleted"]),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            meta: "meta",
+            modified: "modified",
+            resourceAccountId: "resource_account_id",
+            resourceId: "resource_id",
+            resourceType: "resource_type",
+            resourceVersion: "resource_version",
+            status: "status",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({

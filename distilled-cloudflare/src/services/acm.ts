@@ -72,10 +72,13 @@ export interface GetTotalTlResponse {
 
 export const GetTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+    Schema.Union([
+      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
@@ -134,10 +137,13 @@ export interface CreateTotalTlResponse {
 
 export const CreateTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+    Schema.Union([
+      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",

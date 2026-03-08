@@ -56,17 +56,23 @@ export interface GetHostnameResponse {
 }
 
 export const GetHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -106,29 +112,35 @@ export const ListHostnamesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListHostnamesRequest>;
 
 export type ListHostnamesResponse = {
-  id?: string;
-  createdOn?: string;
-  description?: string;
-  dnslink?: string;
-  modifiedOn?: string;
-  name?: string;
-  status?: "active" | "pending" | "deleting" | "error";
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+  id?: string | null;
+  createdOn?: string | null;
+  description?: string | null;
+  dnslink?: string | null;
+  modifiedOn?: string | null;
+  name?: string | null;
+  status?: "active" | "pending" | "deleting" | "error" | null;
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
 }[];
 
 export const ListHostnamesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    dnslink: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     status: Schema.optional(
-      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Union([
+        Schema.Literals(["active", "pending", "deleting", "error"]),
+        Schema.Null,
+      ]),
     ),
     target: Schema.optional(
-      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Union([
+        Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -198,17 +210,23 @@ export interface CreateHostnameResponse {
 }
 
 export const CreateHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -276,17 +294,23 @@ export interface PatchHostnameResponse {
 }
 
 export const PatchHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -378,7 +402,7 @@ export interface GetHostnameIpfsUniversalPathContentListResponse {
 }
 
 export const GetHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
-  action: Schema.optional(Schema.Literal("block")),
+  action: Schema.optional(Schema.Union([Schema.Literal("block"), Schema.Null])),
 }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
 
 export type GetHostnameIpfsUniversalPathContentListError = CommonErrors;
@@ -432,7 +456,7 @@ export interface PutHostnameIpfsUniversalPathContentListResponse {
 }
 
 export const PutHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
-  action: Schema.optional(Schema.Literal("block")),
+  action: Schema.optional(Schema.Union([Schema.Literal("block"), Schema.Null])),
 }) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
 
 export type PutHostnameIpfsUniversalPathContentListError = CommonErrors;
@@ -488,12 +512,14 @@ export interface GetHostnameIpfsUniversalPathContentListEntryResponse {
 
 export const GetHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -538,37 +564,53 @@ export const ListHostnameIpfsUniversalPathContentListEntriesRequest =
 export interface ListHostnameIpfsUniversalPathContentListEntriesResponse {
   /** Provides content list entries. */
   entries?: {
-    id?: string;
-    content?: string;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    type?: "cid" | "content_path";
+    id?: string | null;
+    content?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    type?: "cid" | "content_path" | null;
   }[];
 }
 
 export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
   Schema.Struct({
     entries: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          createdOn: Schema.optional(Schema.String),
-          description: Schema.optional(Schema.String),
-          modifiedOn: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            content: "content",
-            createdOn: "created_on",
-            description: "description",
-            modifiedOn: "modified_on",
-            type: "type",
-          }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            content: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            createdOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            description: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            modifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["cid", "content_path"]),
+                Schema.Null,
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              content: "content",
+              createdOn: "created_on",
+              description: "description",
+              modifiedOn: "modified_on",
+              type: "type",
+            }),
+          ),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
   }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
@@ -626,12 +668,14 @@ export interface CreateHostnameIpfsUniversalPathContentListEntryResponse {
 
 export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -701,12 +745,14 @@ export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
 
 export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

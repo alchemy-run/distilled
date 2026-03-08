@@ -281,11 +281,11 @@ export interface CreateEdgeResponse {
 }
 
 export const CreateEdgeResponse = Schema.Struct({
-  destinationConf: Schema.optional(Schema.String),
-  fields: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  sample: Schema.optional(Schema.Number),
-  sessionId: Schema.optional(Schema.String),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  fields: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  sample: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  sessionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     destinationConf: "destination_conf",
@@ -339,7 +339,7 @@ export interface DestinationExistsValidateResponse {
 }
 
 export const DestinationExistsValidateResponse = Schema.Struct({
-  exists: Schema.optional(Schema.Boolean),
+  exists: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
 export type DestinationExistsValidateError = CommonErrors;
@@ -438,19 +438,19 @@ export interface GetJobResponse {
     batchSuffix?: string | null;
     "CVE-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const GetJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -486,13 +486,15 @@ export const GetJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -521,8 +523,12 @@ export const GetJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -537,7 +543,10 @@ export const GetJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -892,19 +901,19 @@ export interface CreateJobResponse {
     batchSuffix?: string | null;
     "CVE-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const CreateJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -940,13 +949,15 @@ export const CreateJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -975,8 +986,12 @@ export const CreateJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -991,7 +1006,10 @@ export const CreateJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -1252,19 +1270,19 @@ export interface UpdateJobResponse {
     batchSuffix?: string | null;
     "CVE-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const UpdateJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -1300,13 +1318,15 @@ export const UpdateJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1335,8 +1355,12 @@ export const UpdateJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -1351,7 +1375,10 @@ export const UpdateJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -1424,7 +1451,7 @@ export interface DeleteJobResponse {
 }
 
 export const DeleteJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
 export type DeleteJobError = CommonErrors;
@@ -1472,9 +1499,9 @@ export interface CreateOwnershipResponse {
 }
 
 export const CreateOwnershipResponse = Schema.Struct({
-  filename: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
 export type CreateOwnershipError = CommonErrors;
@@ -1522,7 +1549,7 @@ export interface ValidateOwnershipResponse {
 }
 
 export const ValidateOwnershipResponse = Schema.Struct({
-  valid: Schema.optional(Schema.Boolean),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
 export type ValidateOwnershipError = CommonErrors;
@@ -1569,8 +1596,8 @@ export interface DestinationValidateResponse {
 }
 
 export const DestinationValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
 export type DestinationValidateError = CommonErrors;
@@ -1613,8 +1640,8 @@ export interface OriginValidateResponse {
 }
 
 export const OriginValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<OriginValidateResponse>;
 
 export type OriginValidateError = CommonErrors;

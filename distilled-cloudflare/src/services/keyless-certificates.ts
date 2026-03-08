@@ -72,10 +72,15 @@ export const GetKeylessCertificateResponse = Schema.Struct({
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
-    Schema.Struct({
-      privateIp: Schema.String,
-      vnetId: Schema.String,
-    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
+    Schema.Union([
+      Schema.Struct({
+        privateIp: Schema.String,
+        vnetId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -126,7 +131,7 @@ export type ListKeylessCertificatesResponse = {
   permissions: string[];
   port: number;
   status: "active" | "deleted";
-  tunnel?: { privateIp: string; vnetId: string };
+  tunnel?: { privateIp: string; vnetId: string } | null;
 }[];
 
 export const ListKeylessCertificatesResponse = Schema.Array(
@@ -141,12 +146,15 @@ export const ListKeylessCertificatesResponse = Schema.Array(
     port: Schema.Number,
     status: Schema.Literals(["active", "deleted"]),
     tunnel: Schema.optional(
-      Schema.Struct({
-        privateIp: Schema.String,
-        vnetId: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          privateIp: Schema.String,
+          vnetId: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -255,10 +263,15 @@ export const CreateKeylessCertificateResponse = Schema.Struct({
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
-    Schema.Struct({
-      privateIp: Schema.String,
-      vnetId: Schema.String,
-    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
+    Schema.Union([
+      Schema.Struct({
+        privateIp: Schema.String,
+        vnetId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -358,10 +371,15 @@ export const PatchKeylessCertificateResponse = Schema.Struct({
   port: Schema.Number,
   status: Schema.Literals(["active", "deleted"]),
   tunnel: Schema.optional(
-    Schema.Struct({
-      privateIp: Schema.String,
-      vnetId: Schema.String,
-    }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
+    Schema.Union([
+      Schema.Struct({
+        privateIp: Schema.String,
+        vnetId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -413,7 +431,7 @@ export interface DeleteKeylessCertificateResponse {
 }
 
 export const DeleteKeylessCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteKeylessCertificateResponse>;
 
 export type DeleteKeylessCertificateError = CommonErrors;

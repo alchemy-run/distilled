@@ -386,6 +386,7 @@ function typeInfoToSchema(
   type: TypeInfo,
   indent: string = "",
   depth: number = 0,
+  optionalObjectPropsNullable: boolean = false,
 ): string {
   // Prevent infinite recursion
   if (depth > 10) {
@@ -439,7 +440,9 @@ function typeInfoToSchema(
       // General union - de-duplicate and filter unknowns
       const unionParts = type.values
         .filter((v) => v.kind !== "unknown")
-        .map((v) => typeInfoToSchema(v, indent, depth + 1));
+        .map((v) =>
+          typeInfoToSchema(v, indent, depth + 1, optionalObjectPropsNullable),
+        );
       const uniqueUnionParts = [...new Set(unionParts)];
       if (uniqueUnionParts.length === 0) {
         return "Schema.Unknown";
@@ -457,6 +460,7 @@ function typeInfoToSchema(
         type.elementType,
         indent,
         depth + 1,
+        optionalObjectPropsNullable,
       );
       return `Schema.Array(${elementSchema})`;
 
@@ -472,8 +476,16 @@ function typeInfoToSchema(
           .map((p) => {
             const wireName = p.name;
             const propName = toCamelCase(wireName);
-            let propSchema = typeInfoToSchema(p.type, indent + "  ", depth + 1);
+            let propSchema = typeInfoToSchema(
+              p.type,
+              indent + "  ",
+              depth + 1,
+              optionalObjectPropsNullable,
+            );
             if (!p.required) {
+              if (optionalObjectPropsNullable && !typeIncludesNull(p.type)) {
+                propSchema = `Schema.Union([${propSchema}, Schema.Null])`;
+              }
               propSchema = `Schema.optional(${propSchema})`;
             }
             // Always collect mapping for encodeKeys
@@ -508,7 +520,11 @@ function typeInfoToSchema(
 /**
  * Convert TypeInfo to TypeScript type string for interfaces.
  */
-function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
+function typeInfoToTsType(
+  type: TypeInfo,
+  depth: number = 0,
+  optionalObjectPropsNullable: boolean = false,
+): string {
   // Prevent infinite recursion
   if (depth > 10) {
     return "unknown";
@@ -545,7 +561,7 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
         ) {
           continue;
         }
-        const t = typeInfoToTsType(v, depth + 1);
+        const t = typeInfoToTsType(v, depth + 1, optionalObjectPropsNullable);
         tsTypeSet.add(t);
       }
       const uniqueTsTypes = [...tsTypeSet];
@@ -558,7 +574,11 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
       if (!type.elementType) {
         return "unknown[]";
       }
-      const elementType = typeInfoToTsType(type.elementType, depth + 1);
+      const elementType = typeInfoToTsType(
+        type.elementType,
+        depth + 1,
+        optionalObjectPropsNullable,
+      );
       // Wrap union types in parentheses
       if (elementType.includes("|")) {
         return `(${elementType})[]`;
@@ -575,7 +595,18 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
           .map((p) => {
             const propName = toCamelCase(p.name);
             const optMark = !p.required ? "?" : "";
-            return `${propName}${optMark}: ${typeInfoToTsType(p.type, depth + 1)}`;
+            const propType = typeInfoToTsType(
+              p.type,
+              depth + 1,
+              optionalObjectPropsNullable,
+            );
+            return `${propName}${optMark}: ${
+              !p.required &&
+              optionalObjectPropsNullable &&
+              !typeIncludesNull(p.type)
+                ? `${propType} | null`
+                : propType
+            }`;
           })
           .join("; ");
         return `{ ${props} }`;
@@ -589,6 +620,13 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
     default:
       return "unknown";
   }
+}
+
+function typeIncludesNull(type: TypeInfo): boolean {
+  if (type.kind === "null") {
+    return true;
+  }
+  return type.kind === "union" && !!type.values?.some(typeIncludesNull);
 }
 
 /**
@@ -869,8 +907,8 @@ function generateOperationSchema(
 
   if (isTypeAlias && resolvedResponseType) {
     // Type alias response (e.g., `type Response = string` or `type Response = unknown`)
-    const tsType = typeInfoToTsType(resolvedResponseType, 0);
-    const schema = typeInfoToSchema(resolvedResponseType, "", 0);
+    const tsType = typeInfoToTsType(resolvedResponseType, 0, true);
+    const schema = typeInfoToSchema(resolvedResponseType, "", 0, true);
 
     lines.push(`export type ${responseTypeName} = ${tsType};`);
     lines.push("");
@@ -887,7 +925,7 @@ function generateOperationSchema(
     lines.push(`export interface ${responseTypeName} {`);
     for (const prop of resolvedResponseType.properties) {
       const propName = toCamelCase(prop.name);
-      const tsType = typeInfoToTsType(prop.type, 0);
+      const tsType = typeInfoToTsType(prop.type, 0, true);
       const optMark = prop.required ? "" : "?";
       if (prop.description) {
         lines.push(
@@ -907,8 +945,11 @@ function generateOperationSchema(
     const responseProps = resolvedResponseType.properties.map((prop) => {
       const wireName = prop.name;
       const propName = toCamelCase(wireName);
-      let schema = typeInfoToSchema(prop.type, "", 0);
+      let schema = typeInfoToSchema(prop.type, "", 0, true);
       if (!prop.required) {
+        if (!typeIncludesNull(prop.type)) {
+          schema = `Schema.Union([${schema}, Schema.Null])`;
+        }
         schema = `Schema.optional(${schema})`;
       }
       // Always collect mapping for encodeKeys

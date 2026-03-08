@@ -886,7 +886,9 @@ describe("Workflows", () => {
 
           if (result.ok) {
             // If the API accepts it, great
-            expect(result.value !== undefined || result.value === undefined).toBe(true);
+            expect(
+              result.value !== undefined || result.value === undefined,
+            ).toBe(true);
           } else {
             // Simple workflows without waitForEvent steps return InvalidBody
             expect(result.tag).toBe("InvalidBody");

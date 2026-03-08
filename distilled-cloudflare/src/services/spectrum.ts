@@ -153,7 +153,10 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
 
 export interface GetAnalyticEventBytimeResponse {
   /** List of columns returned by the analytics query. */
-  data: { dimensions?: string[]; metrics?: number[] | number[][] }[];
+  data: {
+    dimensions?: string[] | null;
+    metrics?: number[] | number[][] | null;
+  }[];
   /** Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing. */
   dataLag: number;
   /** Maximum result for each selected metrics across all data. */
@@ -161,21 +164,23 @@ export interface GetAnalyticEventBytimeResponse {
   /** Minimum result for each selected metrics across all data. */
   min: Record<string, unknown>;
   query: {
-    dimensions?: ("event" | "appID" | "coloName" | "ipVersion")[];
-    filters?: string;
-    limit?: number;
-    metrics?: (
-      | "count"
-      | "bytesIngress"
-      | "bytesEgress"
-      | "durationAvg"
-      | "durationMedian"
-      | "duration90th"
-      | "duration99th"
-    )[];
-    since?: string;
-    sort?: string[];
-    until?: string;
+    dimensions?: ("event" | "appID" | "coloName" | "ipVersion")[] | null;
+    filters?: string | null;
+    limit?: number | null;
+    metrics?:
+      | (
+          | "count"
+          | "bytesIngress"
+          | "bytesEgress"
+          | "durationAvg"
+          | "durationMedian"
+          | "duration90th"
+          | "duration99th"
+        )[]
+      | null;
+    since?: string | null;
+    sort?: string[] | null;
+    until?: string | null;
   };
   /** Total number of rows in the result. */
   rows: number;
@@ -188,11 +193,16 @@ export interface GetAnalyticEventBytimeResponse {
 export const GetAnalyticEventBytimeResponse = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
-      dimensions: Schema.optional(Schema.Array(Schema.String)),
+      dimensions: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       metrics: Schema.optional(
         Schema.Union([
-          Schema.Array(Schema.Number),
-          Schema.Array(Schema.Array(Schema.Number)),
+          Schema.Union([
+            Schema.Array(Schema.Number),
+            Schema.Array(Schema.Array(Schema.Number)),
+          ]),
+          Schema.Null,
         ]),
       ),
     }),
@@ -202,32 +212,42 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(
-        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+        ),
+        Schema.Null,
+      ]),
     ),
-    filters: Schema.optional(Schema.String),
-    limit: Schema.optional(Schema.Number),
+    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     metrics: Schema.optional(
-      Schema.Array(
-        Schema.Literals([
-          "count",
-          "bytesIngress",
-          "bytesEgress",
-          "durationAvg",
-          "durationMedian",
-          "duration90th",
-          "duration99th",
-        ]),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "count",
+            "bytesIngress",
+            "bytesEgress",
+            "durationAvg",
+            "durationMedian",
+            "duration90th",
+            "duration99th",
+          ]),
+        ),
+        Schema.Null,
+      ]),
     ),
-    since: Schema.optional(Schema.String),
-    sort: Schema.optional(Schema.Array(Schema.String)),
-    until: Schema.optional(Schema.String),
+    since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sort: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+  timeIntervals: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     data: "data",
@@ -314,7 +334,10 @@ export const GetAnalyticEventSummaryRequest = Schema.Struct({
 
 export interface GetAnalyticEventSummaryResponse {
   /** List of columns returned by the analytics query. */
-  data: { dimensions?: string[]; metrics?: number[] | number[][] }[];
+  data: {
+    dimensions?: string[] | null;
+    metrics?: number[] | number[][] | null;
+  }[];
   /** Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing. */
   dataLag: number;
   /** Maximum result for each selected metrics across all data. */
@@ -322,21 +345,23 @@ export interface GetAnalyticEventSummaryResponse {
   /** Minimum result for each selected metrics across all data. */
   min: Record<string, unknown>;
   query: {
-    dimensions?: ("event" | "appID" | "coloName" | "ipVersion")[];
-    filters?: string;
-    limit?: number;
-    metrics?: (
-      | "count"
-      | "bytesIngress"
-      | "bytesEgress"
-      | "durationAvg"
-      | "durationMedian"
-      | "duration90th"
-      | "duration99th"
-    )[];
-    since?: string;
-    sort?: string[];
-    until?: string;
+    dimensions?: ("event" | "appID" | "coloName" | "ipVersion")[] | null;
+    filters?: string | null;
+    limit?: number | null;
+    metrics?:
+      | (
+          | "count"
+          | "bytesIngress"
+          | "bytesEgress"
+          | "durationAvg"
+          | "durationMedian"
+          | "duration90th"
+          | "duration99th"
+        )[]
+      | null;
+    since?: string | null;
+    sort?: string[] | null;
+    until?: string | null;
   };
   /** Total number of rows in the result. */
   rows: number;
@@ -349,11 +374,16 @@ export interface GetAnalyticEventSummaryResponse {
 export const GetAnalyticEventSummaryResponse = Schema.Struct({
   data: Schema.Array(
     Schema.Struct({
-      dimensions: Schema.optional(Schema.Array(Schema.String)),
+      dimensions: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
       metrics: Schema.optional(
         Schema.Union([
-          Schema.Array(Schema.Number),
-          Schema.Array(Schema.Array(Schema.Number)),
+          Schema.Union([
+            Schema.Array(Schema.Number),
+            Schema.Array(Schema.Array(Schema.Number)),
+          ]),
+          Schema.Null,
         ]),
       ),
     }),
@@ -363,32 +393,42 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   min: Schema.Struct({}),
   query: Schema.Struct({
     dimensions: Schema.optional(
-      Schema.Array(
-        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+        ),
+        Schema.Null,
+      ]),
     ),
-    filters: Schema.optional(Schema.String),
-    limit: Schema.optional(Schema.Number),
+    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     metrics: Schema.optional(
-      Schema.Array(
-        Schema.Literals([
-          "count",
-          "bytesIngress",
-          "bytesEgress",
-          "durationAvg",
-          "durationMedian",
-          "duration90th",
-          "duration99th",
-        ]),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "count",
+            "bytesIngress",
+            "bytesEgress",
+            "durationAvg",
+            "durationMedian",
+            "duration90th",
+            "duration99th",
+          ]),
+        ),
+        Schema.Null,
+      ]),
     ),
-    since: Schema.optional(Schema.String),
-    sort: Schema.optional(Schema.Array(Schema.String)),
-    until: Schema.optional(Schema.String),
+    since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sort: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
+  timeIntervals: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     data: "data",
@@ -440,14 +480,14 @@ export type GetAppResponse =
       modifiedOn: string;
       protocol: string;
       trafficType: "direct" | "http" | "https";
-      argoSmartRouting?: boolean;
-      edgeIps?: unknown;
-      ipFirewall?: boolean;
-      originDirect?: string[];
-      originDns?: unknown;
-      originPort?: string | number;
-      proxyProtocol?: "off" | "v1" | "v2" | "simple";
-      tls?: "off" | "flexible" | "full" | "strict";
+      argoSmartRouting?: boolean | null;
+      edgeIps?: unknown | null;
+      ipFirewall?: boolean | null;
+      originDirect?: string[] | null;
+      originDns?: unknown | null;
+      originPort?: string | number | null;
+      proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+      tls?: "off" | "flexible" | "full" | "strict" | null;
     }
   | {
       id: string;
@@ -455,7 +495,7 @@ export type GetAppResponse =
       dns: unknown;
       modifiedOn: string;
       protocol: string;
-      originDirect?: string[];
+      originDirect?: string[] | null;
     };
 
 export const GetAppResponse = Schema.Union([
@@ -466,17 +506,29 @@ export const GetAppResponse = Schema.Union([
     modifiedOn: Schema.String,
     protocol: Schema.String,
     trafficType: Schema.Literals(["direct", "http", "https"]),
-    argoSmartRouting: Schema.optional(Schema.Boolean),
-    edgeIps: Schema.optional(Schema.Unknown),
-    ipFirewall: Schema.optional(Schema.Boolean),
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
-    originDns: Schema.optional(Schema.Unknown),
-    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+    argoSmartRouting: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    ipFirewall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    originPort: Schema.optional(
+      Schema.Union([Schema.Union([Schema.String, Schema.Number]), Schema.Null]),
+    ),
     proxyProtocol: Schema.optional(
-      Schema.Literals(["off", "v1", "v2", "simple"]),
+      Schema.Union([
+        Schema.Literals(["off", "v1", "v2", "simple"]),
+        Schema.Null,
+      ]),
     ),
     tls: Schema.optional(
-      Schema.Literals(["off", "flexible", "full", "strict"]),
+      Schema.Union([
+        Schema.Literals(["off", "flexible", "full", "strict"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -502,7 +554,9 @@ export const GetAppResponse = Schema.Union([
     dns: Schema.Unknown,
     modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -557,14 +611,14 @@ export type ListAppsResponse = (
       modifiedOn: string;
       protocol: string;
       trafficType: "direct" | "http" | "https";
-      argoSmartRouting?: boolean;
-      edgeIps?: unknown;
-      ipFirewall?: boolean;
-      originDirect?: string[];
-      originDns?: unknown;
-      originPort?: string | number;
-      proxyProtocol?: "off" | "v1" | "v2" | "simple";
-      tls?: "off" | "flexible" | "full" | "strict";
+      argoSmartRouting?: boolean | null;
+      edgeIps?: unknown | null;
+      ipFirewall?: boolean | null;
+      originDirect?: string[] | null;
+      originDns?: unknown | null;
+      originPort?: string | number | null;
+      proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+      tls?: "off" | "flexible" | "full" | "strict" | null;
     }
   | {
       id: string;
@@ -572,7 +626,7 @@ export type ListAppsResponse = (
       dns: unknown;
       modifiedOn: string;
       protocol: string;
-      originDirect?: string[];
+      originDirect?: string[] | null;
     }
 )[];
 
@@ -585,17 +639,32 @@ export const ListAppsResponse = Schema.Array(
       modifiedOn: Schema.String,
       protocol: Schema.String,
       trafficType: Schema.Literals(["direct", "http", "https"]),
-      argoSmartRouting: Schema.optional(Schema.Boolean),
-      edgeIps: Schema.optional(Schema.Unknown),
-      ipFirewall: Schema.optional(Schema.Boolean),
-      originDirect: Schema.optional(Schema.Array(Schema.String)),
-      originDns: Schema.optional(Schema.Unknown),
-      originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+      argoSmartRouting: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      ipFirewall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      originDirect: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      originPort: Schema.optional(
+        Schema.Union([
+          Schema.Union([Schema.String, Schema.Number]),
+          Schema.Null,
+        ]),
+      ),
       proxyProtocol: Schema.optional(
-        Schema.Literals(["off", "v1", "v2", "simple"]),
+        Schema.Union([
+          Schema.Literals(["off", "v1", "v2", "simple"]),
+          Schema.Null,
+        ]),
       ),
       tls: Schema.optional(
-        Schema.Literals(["off", "flexible", "full", "strict"]),
+        Schema.Union([
+          Schema.Literals(["off", "flexible", "full", "strict"]),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -621,7 +690,9 @@ export const ListAppsResponse = Schema.Array(
       dns: Schema.Unknown,
       modifiedOn: Schema.String,
       protocol: Schema.String,
-      originDirect: Schema.optional(Schema.Array(Schema.String)),
+      originDirect: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -715,14 +786,14 @@ export type CreateAppResponse =
       modifiedOn: string;
       protocol: string;
       trafficType: "direct" | "http" | "https";
-      argoSmartRouting?: boolean;
-      edgeIps?: unknown;
-      ipFirewall?: boolean;
-      originDirect?: string[];
-      originDns?: unknown;
-      originPort?: string | number;
-      proxyProtocol?: "off" | "v1" | "v2" | "simple";
-      tls?: "off" | "flexible" | "full" | "strict";
+      argoSmartRouting?: boolean | null;
+      edgeIps?: unknown | null;
+      ipFirewall?: boolean | null;
+      originDirect?: string[] | null;
+      originDns?: unknown | null;
+      originPort?: string | number | null;
+      proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+      tls?: "off" | "flexible" | "full" | "strict" | null;
     }
   | {
       id: string;
@@ -730,7 +801,7 @@ export type CreateAppResponse =
       dns: unknown;
       modifiedOn: string;
       protocol: string;
-      originDirect?: string[];
+      originDirect?: string[] | null;
     };
 
 export const CreateAppResponse = Schema.Union([
@@ -741,17 +812,29 @@ export const CreateAppResponse = Schema.Union([
     modifiedOn: Schema.String,
     protocol: Schema.String,
     trafficType: Schema.Literals(["direct", "http", "https"]),
-    argoSmartRouting: Schema.optional(Schema.Boolean),
-    edgeIps: Schema.optional(Schema.Unknown),
-    ipFirewall: Schema.optional(Schema.Boolean),
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
-    originDns: Schema.optional(Schema.Unknown),
-    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+    argoSmartRouting: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    ipFirewall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    originPort: Schema.optional(
+      Schema.Union([Schema.Union([Schema.String, Schema.Number]), Schema.Null]),
+    ),
     proxyProtocol: Schema.optional(
-      Schema.Literals(["off", "v1", "v2", "simple"]),
+      Schema.Union([
+        Schema.Literals(["off", "v1", "v2", "simple"]),
+        Schema.Null,
+      ]),
     ),
     tls: Schema.optional(
-      Schema.Literals(["off", "flexible", "full", "strict"]),
+      Schema.Union([
+        Schema.Literals(["off", "flexible", "full", "strict"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -777,7 +860,9 @@ export const CreateAppResponse = Schema.Union([
     dns: Schema.Unknown,
     modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -872,14 +957,14 @@ export type UpdateAppResponse =
       modifiedOn: string;
       protocol: string;
       trafficType: "direct" | "http" | "https";
-      argoSmartRouting?: boolean;
-      edgeIps?: unknown;
-      ipFirewall?: boolean;
-      originDirect?: string[];
-      originDns?: unknown;
-      originPort?: string | number;
-      proxyProtocol?: "off" | "v1" | "v2" | "simple";
-      tls?: "off" | "flexible" | "full" | "strict";
+      argoSmartRouting?: boolean | null;
+      edgeIps?: unknown | null;
+      ipFirewall?: boolean | null;
+      originDirect?: string[] | null;
+      originDns?: unknown | null;
+      originPort?: string | number | null;
+      proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+      tls?: "off" | "flexible" | "full" | "strict" | null;
     }
   | {
       id: string;
@@ -887,7 +972,7 @@ export type UpdateAppResponse =
       dns: unknown;
       modifiedOn: string;
       protocol: string;
-      originDirect?: string[];
+      originDirect?: string[] | null;
     };
 
 export const UpdateAppResponse = Schema.Union([
@@ -898,17 +983,29 @@ export const UpdateAppResponse = Schema.Union([
     modifiedOn: Schema.String,
     protocol: Schema.String,
     trafficType: Schema.Literals(["direct", "http", "https"]),
-    argoSmartRouting: Schema.optional(Schema.Boolean),
-    edgeIps: Schema.optional(Schema.Unknown),
-    ipFirewall: Schema.optional(Schema.Boolean),
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
-    originDns: Schema.optional(Schema.Unknown),
-    originPort: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+    argoSmartRouting: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    ipFirewall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    originPort: Schema.optional(
+      Schema.Union([Schema.Union([Schema.String, Schema.Number]), Schema.Null]),
+    ),
     proxyProtocol: Schema.optional(
-      Schema.Literals(["off", "v1", "v2", "simple"]),
+      Schema.Union([
+        Schema.Literals(["off", "v1", "v2", "simple"]),
+        Schema.Null,
+      ]),
     ),
     tls: Schema.optional(
-      Schema.Literals(["off", "flexible", "full", "strict"]),
+      Schema.Union([
+        Schema.Literals(["off", "flexible", "full", "strict"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -934,7 +1031,9 @@ export const UpdateAppResponse = Schema.Union([
     dns: Schema.Unknown,
     modifiedOn: Schema.String,
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)),
+    originDirect: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
