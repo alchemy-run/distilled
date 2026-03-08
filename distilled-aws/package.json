@@ -1,6 +1,6 @@
 {
   "name": "distilled-aws",
-  "version": "0.0.29",
+  "version": "0.1.0",
   "files": [
     "lib",
     "src"
