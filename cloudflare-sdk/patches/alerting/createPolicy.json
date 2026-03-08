@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }],
+    "FiltersRequired": [{ "code": 17103 }],
+    "MechanismRequired": [{ "code": 17102 }]
+  }
+}

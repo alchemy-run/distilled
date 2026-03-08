@@ -20,5 +20,4 @@ generateFromOpenAPI({
   errorsImport: "../errors",
   includeOperationErrors: false, // Neon handles errors globally by HTTP status
   skipDeprecated: true,
-  formatCommand: "bunx oxfmt .",
 });

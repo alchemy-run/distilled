@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "events.events[].source": { "type": "unknown" },
+      "events.series[].data[].value": { "optional": true },
+      "run.statistics": { "optional": true },
+      "run.created": { "optional": true }
+    }
+  }
+}

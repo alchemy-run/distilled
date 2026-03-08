@@ -1,0 +1,8 @@
+{
+  "errors": {
+    "DelegationNotFound": [{ "code": 1000 }],
+    "InvalidAccountId": [
+      { "code": 7003, "message": { "includes": "Could not route" } }
+    ]
+  }
+}

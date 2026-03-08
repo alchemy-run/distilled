@@ -26,7 +26,13 @@ export interface ErrorMatcher {
 }
 
 /**
- * Apply error matchers to a schema or error class.
+ * Apply error matchers to an error class.
+ * Mutates the class's schema AST to annotate it with error matchers.
  */
-export const applyErrorMatchers = (matchers: ErrorMatcher[]) =>
-  makeAnnotation(errorMatchersSymbol, matchers);
+export const applyErrorMatchers = (cls: any, matchers: ErrorMatcher[]): void => {
+  const annotation = makeAnnotation(errorMatchersSymbol, matchers);
+  // Apply annotation to the class's AST if possible
+  if (cls && typeof cls === "function" && cls.ast) {
+    annotation(cls.ast);
+  }
+};

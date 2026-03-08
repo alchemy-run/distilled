@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "JsonDecodeFailure": [{ "code": 1198 }],
+    "InvalidRoute": [{ "code": 7003 }],
+    "EndpointNotFound": [{ "code": 1199 }]
+  }
+}

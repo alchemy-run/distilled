@@ -24,11 +24,17 @@ export interface ErrorMatcher {
 }
 
 /**
- * Apply error matchers to an error class.
- * Used to match Cloudflare API error responses to typed error classes.
+ * Apply error matchers directly to a class's AST annotations.
+ * Used for TaggedErrorClass where .pipe() on a class returns a schema
+ * (not a class), breaking `extends ... .pipe(...)`.
  */
-export const applyErrorMatchers = (matchers: ErrorMatcher[]) =>
-  makeAnnotation(errorMatchersSymbol, matchers);
+export const applyErrorMatchers = (
+  cls: { ast: AST.AST },
+  matchers: ErrorMatcher[],
+): void => {
+  const annotations = cls.ast.annotations as Record<symbol, unknown>;
+  annotations[errorMatchersSymbol] = matchers;
+};
 
 export const getErrorMatchers = (ast: AST.AST) =>
   getAnnotation<ErrorMatcher[]>(ast, errorMatchersSymbol);

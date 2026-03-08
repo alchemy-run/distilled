@@ -1,0 +1,12 @@
+{
+  "errors": {
+    "GatewayNotFound": [{ "code": 7002 }]
+  },
+  "response": {
+    "properties": {
+      "account_id": { "optional": true },
+      "account_tag": { "optional": true },
+      "internal_id": { "optional": true }
+    }
+  }
+}

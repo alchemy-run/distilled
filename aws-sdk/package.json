@@ -1,19 +1,48 @@
 {
   "name": "@distilled.cloud/aws",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "type": "module",
+  "module": "src/index.ts",
+  "exports": {
+    "./*": {
+      "bun": "./src/services/*.ts",
+      "default": "./src/services/*.ts"
+    },
+    ".": {
+      "bun": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "scripts": {
+    "typecheck": "tsgo",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint src",
+    "check": "tsgo && oxlint src && oxfmt --check src",
     "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/api-models-aws && git -C specs/api-models-aws checkout -- . && git submodule update --force --init --recursive specs/aws-sdk-js-v3 && git -C specs/aws-sdk-js-v3 checkout -- . && git submodule update --force --init --recursive specs/smithy && git -C specs/smithy checkout -- . && git submodule update --force --init --recursive specs/smithy-typescript && git -C specs/smithy-typescript checkout -- .",
     "specs:update": "git -C specs/api-models-aws fetch && git -C specs/api-models-aws checkout main && git -C specs/api-models-aws pull && git -C specs/aws-sdk-js-v3 fetch && git -C specs/aws-sdk-js-v3 checkout main && git -C specs/aws-sdk-js-v3 pull && git -C specs/smithy fetch && git -C specs/smithy checkout main && git -C specs/smithy pull && git -C specs/smithy-typescript fetch && git -C specs/smithy-typescript checkout main && git -C specs/smithy-typescript pull"
   },
   "dependencies": {
+    "@aws-crypto/crc32": "^5.2.0",
+    "@aws-crypto/util": "^5.2.0",
+    "@aws-sdk/credential-providers": "^3.994.0",
+    "@aws-sdk/types": "^3.973.1",
     "@distilled.cloud/sdk-core": "workspace:*",
+    "@smithy/shared-ini-file-loader": "^4.4.3",
+    "@smithy/types": "^4.12.0",
+    "@smithy/util-base64": "^4.3.0",
+    "aws4fetch": "^1.0.20",
     "effect": "catalog:",
-    "aws4fetch": "^1.0.20"
+    "fast-xml-parser": "catalog:"
   },
   "devDependencies": {
+    "@effect/platform-bun": "catalog:",
     "@types/bun": "catalog:",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "dedent": "^1.7.0",
+    "pathe": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
   }
 }

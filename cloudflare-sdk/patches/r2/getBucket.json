@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "NoSuchBucket": [{ "code": 10006 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "location": {
+        "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"]
+      }
+    }
+  }
+}

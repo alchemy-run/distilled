@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "KeyNotFound": [{ "code": 10009 }],
+    "NamespaceNotFound": [{ "code": 10013 }],
+    "InvalidObjectIdentifier": [{ "code": 7003 }]
+  }
+}

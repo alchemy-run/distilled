@@ -1,7 +1,49 @@
 /**
- * AWS SDK for Effect
+ * AWS Credentials providers for obtaining temporary or long-lived credentials.
+ *
+ * @since 0.0.0
  */
-export * as Category from "./category.ts";
-export * as T from "./traits.ts";
+export * as Credentials from "./credentials.ts";
+
+/**
+ * AWS Endpoint configuration for custom or local endpoints.
+ *
+ * @since 0.0.0
+ */
+export * as Endpoint from "./endpoint.ts";
+
+/**
+ * Common AWS error types shared across all services.
+ *
+ * @since 0.0.0
+ */
+export * as Errors from "./errors.ts";
+
+/**
+ * AWS Region configuration.
+ *
+ * @since 0.0.0
+ */
+export * as Region from "./region.ts";
+
+/**
+ * Retry policy configuration for AWS API calls.
+ *
+ * @since 0.0.0
+ */
 export * as Retry from "./retry.ts";
-export * from "./errors.ts";
+
+/**
+ * Sensitive data schemas for the smithy.api#sensitive trait.
+ * Wraps values in Effect's Redacted type to prevent accidental logging.
+ *
+ * @since 0.0.0
+ */
+export * as Sensitive from "./sensitive.ts";
+
+/**
+ * Smithy trait annotations for AWS service schemas.
+ *
+ * @since 0.0.0
+ */
+export * as Traits from "./traits.ts";

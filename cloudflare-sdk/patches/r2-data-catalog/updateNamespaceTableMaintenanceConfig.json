@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "TableNotFound": [{ "code": 10001 }, { "code": 40403 }],
+    "InvalidRoute": [{ "code": 7003 }],
+    "WarehouseInactive": [{ "code": 40402 }]
+  }
+}

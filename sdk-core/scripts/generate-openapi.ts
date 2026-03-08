@@ -23,7 +23,6 @@
  * });
  * ```
  */
-import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { applyAllPatches } from "../src/json-patch.ts";
@@ -183,8 +182,6 @@ export interface GeneratorConfig {
   statusToErrorClass?: Record<string, string>;
   /** Default error status codes to exclude from operation-specific errors */
   defaultErrorStatuses?: Set<string>;
-  /** Format command to run after generation (default: "bunx oxfmt .") */
-  formatCommand?: string;
   /** Whether to skip deprecated operations (default: true) */
   skipDeprecated?: boolean;
 }
@@ -1188,18 +1185,6 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
   console.log(`Written: index.ts`);
 
   console.log(`\nGenerated ${operations.length} operations.`);
-
-  // Format
-  const formatCommand = config.formatCommand ?? "bunx oxfmt .";
-  if (formatCommand) {
-    console.log("Formatting generated files...");
-    try {
-      execSync(formatCommand, { stdio: "inherit" });
-    } catch {
-      // Format failures shouldn't fail the build
-      console.log("Warning: formatting failed, continuing...");
-    }
-  }
 
   console.log("Done!");
 }

@@ -1,8 +1,12 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
+    "typecheck": "tsgo",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint src",
+    "check": "tsgo && oxlint src && oxfmt --check src",
     "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
     "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"

@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "ModelNotSupported": [{ "code": 1000 }],
+    "ModelSchemaNotFound": [{ "code": 6002 }],
+    "AccountNotFound": [{ "code": 7003 }]
+  }
+}

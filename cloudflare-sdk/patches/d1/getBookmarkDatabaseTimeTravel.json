@@ -1,0 +1,8 @@
+{
+  "errors": {
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "NoHistoryAvailable": [{ "code": 7500 }],
+    "TimestampTooOld": [{ "code": 7400 }],
+    "DatabaseNotFound": [{ "code": 7404 }]
+  }
+}

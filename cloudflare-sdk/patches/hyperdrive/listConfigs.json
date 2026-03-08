@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "PrivateHostNotAllowed": [{ "code": 2009 }],
+    "InvalidObjectIdentifier": [{ "code": 7003 }]
+  }
+}

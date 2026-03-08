@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "WorkerNotFound": [{ "code": 10007 }],
+    "DeploymentNotFound": [{ "code": 10336 }]
+  }
+}

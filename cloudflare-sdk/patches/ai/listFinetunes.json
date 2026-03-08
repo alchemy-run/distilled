@@ -1,0 +1,6 @@
+{
+  "responseType": "array",
+  "errors": {
+    "AccountNotFound": [{ "code": 7003 }]
+  }
+}

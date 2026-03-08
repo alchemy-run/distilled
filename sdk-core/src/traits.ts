@@ -231,6 +231,12 @@ export interface ServiceTrait {
   name: string;
   version?: string;
   baseUrl?: string;
+  /** GCP-specific: Root URL for the service */
+  rootUrl?: string;
+  /** GCP-specific: Service path appended to root URL */
+  servicePath?: string;
+  /** Allow additional properties for provider-specific metadata */
+  [key: string]: unknown;
 }
 
 /**

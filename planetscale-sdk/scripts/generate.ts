@@ -30,5 +30,4 @@ generateFromOpenAPI({
     "422": "UnprocessableEntity",
   },
   defaultErrorStatuses: new Set(["401", "429", "500", "503"]),
-  formatCommand: "bunx oxfmt .",
 });

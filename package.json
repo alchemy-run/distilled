@@ -2,7 +2,12 @@
   "name": "distilled",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "typecheck": "bun --filter '*' typecheck",
+    "fmt": "bun --filter '*' fmt",
+    "lint": "bun --filter '*' lint",
+    "check": "bun --filter '*' check"
+  },
   "workspaces": {
     "packages": [
       "./aws-sdk",
@@ -20,7 +25,11 @@
       "oxlint": "^1.51.0",
       "effect": "4.0.0-beta.25",
       "@effect/platform-bun": "4.0.0-beta.25",
-      "@effect/platform-node": "4.0.0-beta.25"
+      "@effect/platform-node": "4.0.0-beta.25",
+      "pathe": "^2.0.3",
+      "@effect/vitest": "4.0.0-beta.25",
+      "vitest": "^3.2.3",
+      "fast-xml-parser": "^5.3.2"
     }
   },
   "devDependencies": {

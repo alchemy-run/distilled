@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "SinkNotFound": [
+      { "code": 1015 }
+    ],
+    "InvalidSinkId": [
+      { "code": 2 }
+    ]
+  }
+}

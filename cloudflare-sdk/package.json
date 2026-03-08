@@ -1,8 +1,12 @@
 {
   "name": "@distilled.cloud/cloudflare",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
+    "typecheck": "tsgo",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint src",
+    "check": "tsgo && oxlint src && oxfmt --check src",
     "generate": "bun run scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --recursive specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",
     "specs:update": "git -C specs/cloudflare-typescript fetch && git -C specs/cloudflare-typescript checkout main && git -C specs/cloudflare-typescript pull"
@@ -12,6 +16,7 @@
     "effect": "catalog:"
   },
   "devDependencies": {
+    "@effect/platform-node": "catalog:",
     "@types/bun": "catalog:",
     "@types/node": "catalog:"
   }

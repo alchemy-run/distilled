@@ -1,0 +1,578 @@
+/**
+ * Cloudflare RULES API
+ *
+ * Generated from Cloudflare TypeScript SDK.
+ * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service rules
+ */
+
+import * as Effect from "effect/Effect";
+import * as Schema from "effect/Schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import { API } from "../client";
+import * as T from "../traits";
+import type { Credentials } from "../credentials";
+import {
+  type DefaultErrors,
+} from "../errors";
+
+// =============================================================================
+// List
+// =============================================================================
+
+export interface GetListRequest {
+  listId: string;
+  /** The Account ID for this resource. */
+  accountId: string;
+}
+
+export const GetListRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/{listId}" })) as unknown as Schema.Schema<GetListRequest>;
+
+export interface GetListResponse {
+  /** The unique ID of the list. */
+  id: string;
+  /** The RFC 3339 timestamp of when the list was created. */
+  createdOn: string;
+  /** The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects). */
+  kind: "ip" | "redirect" | "hostname" | "asn";
+  /** The RFC 3339 timestamp of when the list was last modified. */
+  modifiedOn: string;
+  /** An informative name for the list. Use this name in filter and rule expressions. */
+  name: string;
+  /** The number of items in the list. */
+  numItems: number;
+  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  numReferencingFilters: number;
+  /** An informative summary of the list. */
+  description?: string;
+}
+
+export const GetListResponse = Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+  modifiedOn: Schema.String,
+  name: Schema.String,
+  numItems: Schema.Number,
+  numReferencingFilters: Schema.Number,
+  description: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", kind: "kind", modifiedOn: "modified_on", name: "name", numItems: "num_items", numReferencingFilters: "num_referencing_filters", description: "description" })) as unknown as Schema.Schema<GetListResponse>;
+
+export type GetListError =
+  | DefaultErrors;
+
+export const getList: API.OperationMethod<
+  GetListRequest,
+  GetListResponse,
+  GetListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetListRequest,
+  output: GetListResponse,
+  errors: [],
+}));
+
+export interface ListListsRequest {
+  /** The Account ID for this resource. */
+  accountId: string;
+}
+
+export const ListListsRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists" })) as unknown as Schema.Schema<ListListsRequest>;
+
+export type ListListsResponse = ({ id: string; createdOn: string; kind: "ip" | "redirect" | "hostname" | "asn"; modifiedOn: string; name: string; numItems: number; numReferencingFilters: number; description?: string })[];
+
+export const ListListsResponse = Schema.Array(Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+  modifiedOn: Schema.String,
+  name: Schema.String,
+  numItems: Schema.Number,
+  numReferencingFilters: Schema.Number,
+  description: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", kind: "kind", modifiedOn: "modified_on", name: "name", numItems: "num_items", numReferencingFilters: "num_referencing_filters", description: "description" }))) as unknown as Schema.Schema<ListListsResponse>;
+
+export type ListListsError =
+  | DefaultErrors;
+
+export const listLists: API.OperationMethod<
+  ListListsRequest,
+  ListListsResponse,
+  ListListsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListListsRequest,
+  output: ListListsResponse,
+  errors: [],
+}));
+
+export interface CreateListRequest {
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Body param: The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects). */
+  kind: "ip" | "redirect" | "hostname" | "asn";
+  /** Body param: An informative name for the list. Use this name in filter and rule expressions. */
+  name: string;
+  /** Body param: An informative summary of the list. */
+  description?: string;
+}
+
+export const CreateListRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+  name: Schema.String,
+  description: Schema.optional(Schema.String)
+})
+  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/rules/lists" })) as unknown as Schema.Schema<CreateListRequest>;
+
+export interface CreateListResponse {
+  /** The unique ID of the list. */
+  id: string;
+  /** The RFC 3339 timestamp of when the list was created. */
+  createdOn: string;
+  /** The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects). */
+  kind: "ip" | "redirect" | "hostname" | "asn";
+  /** The RFC 3339 timestamp of when the list was last modified. */
+  modifiedOn: string;
+  /** An informative name for the list. Use this name in filter and rule expressions. */
+  name: string;
+  /** The number of items in the list. */
+  numItems: number;
+  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  numReferencingFilters: number;
+  /** An informative summary of the list. */
+  description?: string;
+}
+
+export const CreateListResponse = Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+  modifiedOn: Schema.String,
+  name: Schema.String,
+  numItems: Schema.Number,
+  numReferencingFilters: Schema.Number,
+  description: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", kind: "kind", modifiedOn: "modified_on", name: "name", numItems: "num_items", numReferencingFilters: "num_referencing_filters", description: "description" })) as unknown as Schema.Schema<CreateListResponse>;
+
+export type CreateListError =
+  | DefaultErrors;
+
+export const createList: API.OperationMethod<
+  CreateListRequest,
+  CreateListResponse,
+  CreateListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateListRequest,
+  output: CreateListResponse,
+  errors: [],
+}));
+
+export interface UpdateListRequest {
+  listId: string;
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Body param: An informative summary of the list. */
+  description?: string;
+}
+
+export const UpdateListRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  description: Schema.optional(Schema.String)
+})
+  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/rules/lists/{listId}" })) as unknown as Schema.Schema<UpdateListRequest>;
+
+export interface UpdateListResponse {
+  /** The unique ID of the list. */
+  id: string;
+  /** The RFC 3339 timestamp of when the list was created. */
+  createdOn: string;
+  /** The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects). */
+  kind: "ip" | "redirect" | "hostname" | "asn";
+  /** The RFC 3339 timestamp of when the list was last modified. */
+  modifiedOn: string;
+  /** An informative name for the list. Use this name in filter and rule expressions. */
+  name: string;
+  /** The number of items in the list. */
+  numItems: number;
+  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  numReferencingFilters: number;
+  /** An informative summary of the list. */
+  description?: string;
+}
+
+export const UpdateListResponse = Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+  modifiedOn: Schema.String,
+  name: Schema.String,
+  numItems: Schema.Number,
+  numReferencingFilters: Schema.Number,
+  description: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", kind: "kind", modifiedOn: "modified_on", name: "name", numItems: "num_items", numReferencingFilters: "num_referencing_filters", description: "description" })) as unknown as Schema.Schema<UpdateListResponse>;
+
+export type UpdateListError =
+  | DefaultErrors;
+
+export const updateList: API.OperationMethod<
+  UpdateListRequest,
+  UpdateListResponse,
+  UpdateListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UpdateListRequest,
+  output: UpdateListResponse,
+  errors: [],
+}));
+
+export interface DeleteListRequest {
+  listId: string;
+  /** The Account ID for this resource. */
+  accountId: string;
+}
+
+export const DeleteListRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id"))
+})
+  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/rules/lists/{listId}" })) as unknown as Schema.Schema<DeleteListRequest>;
+
+export interface DeleteListResponse {
+  /** The unique ID of the list. */
+  id: string;
+}
+
+export const DeleteListResponse = Schema.Struct({
+  id: Schema.String
+}) as unknown as Schema.Schema<DeleteListResponse>;
+
+export type DeleteListError =
+  | DefaultErrors;
+
+export const deleteList: API.OperationMethod<
+  DeleteListRequest,
+  DeleteListResponse,
+  DeleteListError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteListRequest,
+  output: DeleteListResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// ListBulkOperation
+// =============================================================================
+
+export interface GetListBulkOperationRequest {
+  operationId: string;
+  /** The Account ID for this resource. */
+  accountId: string;
+}
+
+export const GetListBulkOperationRequest = Schema.Struct({
+  operationId: Schema.String.pipe(T.HttpPath("operationId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/bulk_operations/{operationId}" })) as unknown as Schema.Schema<GetListBulkOperationRequest>;
+
+export type GetListBulkOperationResponse = { id: string; status: "pending" | "running" } | { id: string; completed: string; status: "completed" } | { id: string; completed: string; error: string; status: "failed" };
+
+export const GetListBulkOperationResponse = Schema.Union([Schema.Struct({
+  id: Schema.String,
+  status: Schema.Literals(["pending", "running"])
+}), Schema.Struct({
+  id: Schema.String,
+  completed: Schema.String,
+  status: Schema.Literal("completed")
+}), Schema.Struct({
+  id: Schema.String,
+  completed: Schema.String,
+  error: Schema.String,
+  status: Schema.Literal("failed")
+})]) as unknown as Schema.Schema<GetListBulkOperationResponse>;
+
+export type GetListBulkOperationError =
+  | DefaultErrors;
+
+export const getListBulkOperation: API.OperationMethod<
+  GetListBulkOperationRequest,
+  GetListBulkOperationResponse,
+  GetListBulkOperationError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetListBulkOperationRequest,
+  output: GetListBulkOperationResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// ListItem
+// =============================================================================
+
+export interface GetListItemRequest {
+  listId: string;
+  itemId: string;
+  /** The Account ID for this resource. */
+  accountId: string;
+}
+
+export const GetListItemRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  itemId: Schema.String.pipe(T.HttpPath("itemId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/{listId}/items/{itemId}" })) as unknown as Schema.Schema<GetListItemRequest>;
+
+export type GetListItemResponse = { id: string; createdOn: string; ip: string; modifiedOn: string; comment?: string } | { id: string; createdOn: string; hostname: unknown; modifiedOn: string; comment?: string } | { id: string; createdOn: string; modifiedOn: string; redirect: unknown; comment?: string } | { id: string; asn: number; createdOn: string; modifiedOn: string; comment?: string };
+
+export const GetListItemResponse = Schema.Union([Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  ip: Schema.String,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", ip: "ip", modifiedOn: "modified_on", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  hostname: Schema.Unknown,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", hostname: "hostname", modifiedOn: "modified_on", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  modifiedOn: Schema.String,
+  redirect: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", modifiedOn: "modified_on", redirect: "redirect", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  asn: Schema.Number,
+  createdOn: Schema.String,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", createdOn: "created_on", modifiedOn: "modified_on", comment: "comment" }))]) as unknown as Schema.Schema<GetListItemResponse>;
+
+export type GetListItemError =
+  | DefaultErrors;
+
+export const getListItem: API.OperationMethod<
+  GetListItemRequest,
+  GetListItemResponse,
+  GetListItemError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetListItemRequest,
+  output: GetListItemResponse,
+  errors: [],
+}));
+
+export interface ListListItemsRequest {
+  listId: string;
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Query param: Amount of results to include in each paginated response. A non-negative 32 bit integer. */
+  perPage?: number;
+  /** Query param: A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the provided string, hostnames and bulk redirects must contain the string, and  */
+  search?: string;
+}
+
+export const ListListItemsRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+  search: Schema.optional(Schema.String).pipe(T.HttpQuery("search"))
+})
+  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/{listId}/items" })) as unknown as Schema.Schema<ListListItemsRequest>;
+
+export type ListListItemsResponse = ({ id: string; createdOn: string; ip: string; modifiedOn: string; comment?: string } | { id: string; createdOn: string; hostname: unknown; modifiedOn: string; comment?: string } | { id: string; createdOn: string; modifiedOn: string; redirect: unknown; comment?: string } | { id: string; asn: number; createdOn: string; modifiedOn: string; comment?: string })[];
+
+export const ListListItemsResponse = Schema.Array(Schema.Union([Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  ip: Schema.String,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", ip: "ip", modifiedOn: "modified_on", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  hostname: Schema.Unknown,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", hostname: "hostname", modifiedOn: "modified_on", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  createdOn: Schema.String,
+  modifiedOn: Schema.String,
+  redirect: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", createdOn: "created_on", modifiedOn: "modified_on", redirect: "redirect", comment: "comment" })), Schema.Struct({
+  id: Schema.String,
+  asn: Schema.Number,
+  createdOn: Schema.String,
+  modifiedOn: Schema.String,
+  comment: Schema.optional(Schema.String)
+}).pipe(Schema.encodeKeys({ id: "id", asn: "asn", createdOn: "created_on", modifiedOn: "modified_on", comment: "comment" }))])) as unknown as Schema.Schema<ListListItemsResponse>;
+
+export type ListListItemsError =
+  | DefaultErrors;
+
+export const listListItems: API.OperationMethod<
+  ListListItemsRequest,
+  ListListItemsResponse,
+  ListListItemsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListListItemsRequest,
+  output: ListListItemsResponse,
+  errors: [],
+}));
+
+export interface CreateListItemRequest {
+  listId: string;
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Body param: */
+  body: ({ ip: string; comment?: string } | { redirect: unknown; comment?: string } | { hostname: unknown; comment?: string } | { asn: number; comment?: string })[];
+}
+
+export const CreateListItemRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  body: Schema.Array(Schema.Union([Schema.Struct({
+  ip: Schema.String,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  redirect: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  hostname: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  asn: Schema.Number,
+  comment: Schema.optional(Schema.String)
+})])).pipe(T.HttpBody())
+})
+  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/rules/lists/{listId}/items" })) as unknown as Schema.Schema<CreateListItemRequest>;
+
+export interface CreateListItemResponse {
+  /** The unique operation ID of the asynchronous action. */
+  operationId: string;
+}
+
+export const CreateListItemResponse = Schema.Struct({
+  operationId: Schema.String
+}).pipe(Schema.encodeKeys({ operationId: "operation_id" })) as unknown as Schema.Schema<CreateListItemResponse>;
+
+export type CreateListItemError =
+  | DefaultErrors;
+
+export const createListItem: API.OperationMethod<
+  CreateListItemRequest,
+  CreateListItemResponse,
+  CreateListItemError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateListItemRequest,
+  output: CreateListItemResponse,
+  errors: [],
+}));
+
+export interface UpdateListItemRequest {
+  listId: string;
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Body param: */
+  body: ({ ip: string; comment?: string } | { redirect: unknown; comment?: string } | { hostname: unknown; comment?: string } | { asn: number; comment?: string })[];
+}
+
+export const UpdateListItemRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  body: Schema.Array(Schema.Union([Schema.Struct({
+  ip: Schema.String,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  redirect: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  hostname: Schema.Unknown,
+  comment: Schema.optional(Schema.String)
+}), Schema.Struct({
+  asn: Schema.Number,
+  comment: Schema.optional(Schema.String)
+})])).pipe(T.HttpBody())
+})
+  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/rules/lists/{listId}/items" })) as unknown as Schema.Schema<UpdateListItemRequest>;
+
+export interface UpdateListItemResponse {
+  /** The unique operation ID of the asynchronous action. */
+  operationId: string;
+}
+
+export const UpdateListItemResponse = Schema.Struct({
+  operationId: Schema.String
+}).pipe(Schema.encodeKeys({ operationId: "operation_id" })) as unknown as Schema.Schema<UpdateListItemResponse>;
+
+export type UpdateListItemError =
+  | DefaultErrors;
+
+export const updateListItem: API.OperationMethod<
+  UpdateListItemRequest,
+  UpdateListItemResponse,
+  UpdateListItemError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UpdateListItemRequest,
+  output: UpdateListItemResponse,
+  errors: [],
+}));
+
+export interface DeleteListItemRequest {
+  listId: string;
+  /** Path param: The Account ID for this resource. */
+  accountId: string;
+  /** Body param: */
+  items?: { id: string }[];
+}
+
+export const DeleteListItemRequest = Schema.Struct({
+  listId: Schema.String.pipe(T.HttpPath("listId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  items: Schema.optional(Schema.Array(Schema.Struct({
+  id: Schema.String
+})))
+})
+  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/rules/lists/{listId}/items" })) as unknown as Schema.Schema<DeleteListItemRequest>;
+
+export interface DeleteListItemResponse {
+  /** The unique operation ID of the asynchronous action. */
+  operationId: string;
+}
+
+export const DeleteListItemResponse = Schema.Struct({
+  operationId: Schema.String
+}).pipe(Schema.encodeKeys({ operationId: "operation_id" })) as unknown as Schema.Schema<DeleteListItemResponse>;
+
+export type DeleteListItemError =
+  | DefaultErrors;
+
+export const deleteListItem: API.OperationMethod<
+  DeleteListItemRequest,
+  DeleteListItemResponse,
+  DeleteListItemError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteListItemRequest,
+  output: DeleteListItemResponse,
+  errors: [],
+}));

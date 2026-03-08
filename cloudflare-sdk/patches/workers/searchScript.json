@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "[].script_tag": { "optional": true }
+    }
+  }
+}

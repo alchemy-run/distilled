@@ -1,0 +1,573 @@
+/**
+ * Cloudflare ZARAZ API
+ *
+ * Generated from Cloudflare TypeScript SDK.
+ * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service zaraz
+ */
+
+import * as Effect from "effect/Effect";
+import * as Schema from "effect/Schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import { API } from "../client";
+import * as T from "../traits";
+import type { Credentials } from "../credentials";
+import {
+  type DefaultErrors,
+} from "../errors";
+
+// =============================================================================
+// Config
+// =============================================================================
+
+export interface GetConfigRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetConfigRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/config" })) as unknown as Schema.Schema<GetConfigRequest>;
+
+export interface GetConfigResponse {
+  /** Data layer compatibility mode enabled. */
+  dataLayer: boolean;
+  /** The key for Zaraz debug mode. */
+  debugKey: string;
+  /** General Zaraz settings. */
+  settings: { autoInjectScript: boolean; contextEnricher?: { escapedWorkerName: string; workerTag: string }; cookieDomain?: string; ecommerce?: boolean; eventsApiPath?: string; hideExternalReferer?: boolean; hideIPAddress?: boolean; hideQueryParams?: boolean; hideUserAgent?: boolean; initPath?: string; injectIframes?: boolean; mcRootPath?: string; scriptPath?: string; trackPath?: string };
+  /** Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. */
+  tools: Record<string, unknown>;
+  /** Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. */
+  triggers: Record<string, unknown>;
+  /** Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. */
+  variables: Record<string, unknown>;
+  /** Zaraz internal version of the config. */
+  zarazVersion: number;
+  /** Cloudflare Monitoring settings. */
+  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  /** Consent management configuration. */
+  consent?: { enabled: boolean; buttonTextTranslations?: unknown; companyEmail?: string; companyName?: string; companyStreetAddress?: string; consentModalIntroHTML?: string; consentModalIntroHTMLWithTranslations?: Record<string, unknown>; cookieName?: string; customCSS?: string; customIntroDisclaimerDismissed?: boolean; defaultLanguage?: string; hideModal?: boolean; purposes?: Record<string, unknown>; purposesWithTranslations?: Record<string, unknown>; tcfCompliant?: boolean };
+  /** Single Page Application support enabled. */
+  historyChange?: boolean;
+}
+
+export const GetConfigResponse = Schema.Struct({
+  dataLayer: Schema.Boolean,
+  debugKey: Schema.String,
+  settings: Schema.Struct({
+  autoInjectScript: Schema.Boolean,
+  contextEnricher: Schema.optional(Schema.Struct({
+    escapedWorkerName: Schema.String,
+    workerTag: Schema.String
+  })),
+  cookieDomain: Schema.optional(Schema.String),
+  ecommerce: Schema.optional(Schema.Boolean),
+  eventsApiPath: Schema.optional(Schema.String),
+  hideExternalReferer: Schema.optional(Schema.Boolean),
+  hideIPAddress: Schema.optional(Schema.Boolean),
+  hideQueryParams: Schema.optional(Schema.Boolean),
+  hideUserAgent: Schema.optional(Schema.Boolean),
+  initPath: Schema.optional(Schema.String),
+  injectIframes: Schema.optional(Schema.Boolean),
+  mcRootPath: Schema.optional(Schema.String),
+  scriptPath: Schema.optional(Schema.String),
+  trackPath: Schema.optional(Schema.String)
+}),
+  tools: Schema.Struct({}),
+  triggers: Schema.Struct({}),
+  variables: Schema.Struct({}),
+  zarazVersion: Schema.Number,
+  analytics: Schema.optional(Schema.Struct({
+  defaultPurpose: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Boolean),
+  sessionExpTime: Schema.optional(Schema.Number)
+})),
+  consent: Schema.optional(Schema.Struct({
+  enabled: Schema.Boolean,
+  buttonTextTranslations: Schema.optional(Schema.Unknown),
+  companyEmail: Schema.optional(Schema.String),
+  companyName: Schema.optional(Schema.String),
+  companyStreetAddress: Schema.optional(Schema.String),
+  consentModalIntroHTML: Schema.optional(Schema.String),
+  consentModalIntroHTMLWithTranslations: Schema.optional(Schema.Struct({})),
+  cookieName: Schema.optional(Schema.String),
+  customCSS: Schema.optional(Schema.String),
+  customIntroDisclaimerDismissed: Schema.optional(Schema.Boolean),
+  defaultLanguage: Schema.optional(Schema.String),
+  hideModal: Schema.optional(Schema.Boolean),
+  purposes: Schema.optional(Schema.Struct({})),
+  purposesWithTranslations: Schema.optional(Schema.Struct({})),
+  tcfCompliant: Schema.optional(Schema.Boolean)
+})),
+  historyChange: Schema.optional(Schema.Boolean)
+}) as unknown as Schema.Schema<GetConfigResponse>;
+
+export type GetConfigError =
+  | DefaultErrors;
+
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
+  GetConfigResponse,
+  GetConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetConfigRequest,
+  output: GetConfigResponse,
+  errors: [],
+}));
+
+export interface PutConfigRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: Data layer compatibility mode enabled. */
+  dataLayer: boolean;
+  /** Body param: The key for Zaraz debug mode. */
+  debugKey: string;
+  /** Body param: General Zaraz settings. */
+  settings: { autoInjectScript: boolean; contextEnricher?: { escapedWorkerName: string; workerTag: string }; cookieDomain?: string; ecommerce?: boolean; eventsApiPath?: string; hideExternalReferer?: boolean; hideIPAddress?: boolean; hideQueryParams?: boolean; hideUserAgent?: boolean; initPath?: string; injectIframes?: boolean; mcRootPath?: string; scriptPath?: string; trackPath?: string };
+  /** Body param: Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. */
+  tools: Record<string, unknown>;
+  /** Body param: Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. */
+  triggers: Record<string, unknown>;
+  /** Body param: Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. */
+  variables: Record<string, unknown>;
+  /** Body param: Zaraz internal version of the config. */
+  zarazVersion: number;
+  /** Body param: Cloudflare Monitoring settings. */
+  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  /** Body param: Consent management configuration. */
+  consent?: { enabled: boolean; buttonTextTranslations?: unknown; companyEmail?: string; companyName?: string; companyStreetAddress?: string; consentModalIntroHTML?: string; consentModalIntroHTMLWithTranslations?: Record<string, unknown>; cookieName?: string; customCSS?: string; customIntroDisclaimerDismissed?: boolean; defaultLanguage?: string; hideModal?: boolean; purposes?: Record<string, unknown>; purposesWithTranslations?: Record<string, unknown>; tcfCompliant?: boolean };
+  /** Body param: Single Page Application support enabled. */
+  historyChange?: boolean;
+}
+
+export const PutConfigRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  dataLayer: Schema.Boolean,
+  debugKey: Schema.String,
+  settings: Schema.Struct({
+  autoInjectScript: Schema.Boolean,
+  contextEnricher: Schema.optional(Schema.Struct({
+    escapedWorkerName: Schema.String,
+    workerTag: Schema.String
+  })),
+  cookieDomain: Schema.optional(Schema.String),
+  ecommerce: Schema.optional(Schema.Boolean),
+  eventsApiPath: Schema.optional(Schema.String),
+  hideExternalReferer: Schema.optional(Schema.Boolean),
+  hideIPAddress: Schema.optional(Schema.Boolean),
+  hideQueryParams: Schema.optional(Schema.Boolean),
+  hideUserAgent: Schema.optional(Schema.Boolean),
+  initPath: Schema.optional(Schema.String),
+  injectIframes: Schema.optional(Schema.Boolean),
+  mcRootPath: Schema.optional(Schema.String),
+  scriptPath: Schema.optional(Schema.String),
+  trackPath: Schema.optional(Schema.String)
+}),
+  tools: Schema.Struct({}),
+  triggers: Schema.Struct({}),
+  variables: Schema.Struct({}),
+  zarazVersion: Schema.Number,
+  analytics: Schema.optional(Schema.Struct({
+  defaultPurpose: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Boolean),
+  sessionExpTime: Schema.optional(Schema.Number)
+})),
+  consent: Schema.optional(Schema.Struct({
+  enabled: Schema.Boolean,
+  buttonTextTranslations: Schema.optional(Schema.Unknown),
+  companyEmail: Schema.optional(Schema.String),
+  companyName: Schema.optional(Schema.String),
+  companyStreetAddress: Schema.optional(Schema.String),
+  consentModalIntroHTML: Schema.optional(Schema.String),
+  consentModalIntroHTMLWithTranslations: Schema.optional(Schema.Struct({})),
+  cookieName: Schema.optional(Schema.String),
+  customCSS: Schema.optional(Schema.String),
+  customIntroDisclaimerDismissed: Schema.optional(Schema.Boolean),
+  defaultLanguage: Schema.optional(Schema.String),
+  hideModal: Schema.optional(Schema.Boolean),
+  purposes: Schema.optional(Schema.Struct({})),
+  purposesWithTranslations: Schema.optional(Schema.Struct({})),
+  tcfCompliant: Schema.optional(Schema.Boolean)
+})),
+  historyChange: Schema.optional(Schema.Boolean)
+})
+  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/settings/zaraz/config" })) as unknown as Schema.Schema<PutConfigRequest>;
+
+export interface PutConfigResponse {
+  /** Data layer compatibility mode enabled. */
+  dataLayer: boolean;
+  /** The key for Zaraz debug mode. */
+  debugKey: string;
+  /** General Zaraz settings. */
+  settings: { autoInjectScript: boolean; contextEnricher?: { escapedWorkerName: string; workerTag: string }; cookieDomain?: string; ecommerce?: boolean; eventsApiPath?: string; hideExternalReferer?: boolean; hideIPAddress?: boolean; hideQueryParams?: boolean; hideUserAgent?: boolean; initPath?: string; injectIframes?: boolean; mcRootPath?: string; scriptPath?: string; trackPath?: string };
+  /** Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. */
+  tools: Record<string, unknown>;
+  /** Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. */
+  triggers: Record<string, unknown>;
+  /** Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. */
+  variables: Record<string, unknown>;
+  /** Zaraz internal version of the config. */
+  zarazVersion: number;
+  /** Cloudflare Monitoring settings. */
+  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  /** Consent management configuration. */
+  consent?: { enabled: boolean; buttonTextTranslations?: unknown; companyEmail?: string; companyName?: string; companyStreetAddress?: string; consentModalIntroHTML?: string; consentModalIntroHTMLWithTranslations?: Record<string, unknown>; cookieName?: string; customCSS?: string; customIntroDisclaimerDismissed?: boolean; defaultLanguage?: string; hideModal?: boolean; purposes?: Record<string, unknown>; purposesWithTranslations?: Record<string, unknown>; tcfCompliant?: boolean };
+  /** Single Page Application support enabled. */
+  historyChange?: boolean;
+}
+
+export const PutConfigResponse = Schema.Struct({
+  dataLayer: Schema.Boolean,
+  debugKey: Schema.String,
+  settings: Schema.Struct({
+  autoInjectScript: Schema.Boolean,
+  contextEnricher: Schema.optional(Schema.Struct({
+    escapedWorkerName: Schema.String,
+    workerTag: Schema.String
+  })),
+  cookieDomain: Schema.optional(Schema.String),
+  ecommerce: Schema.optional(Schema.Boolean),
+  eventsApiPath: Schema.optional(Schema.String),
+  hideExternalReferer: Schema.optional(Schema.Boolean),
+  hideIPAddress: Schema.optional(Schema.Boolean),
+  hideQueryParams: Schema.optional(Schema.Boolean),
+  hideUserAgent: Schema.optional(Schema.Boolean),
+  initPath: Schema.optional(Schema.String),
+  injectIframes: Schema.optional(Schema.Boolean),
+  mcRootPath: Schema.optional(Schema.String),
+  scriptPath: Schema.optional(Schema.String),
+  trackPath: Schema.optional(Schema.String)
+}),
+  tools: Schema.Struct({}),
+  triggers: Schema.Struct({}),
+  variables: Schema.Struct({}),
+  zarazVersion: Schema.Number,
+  analytics: Schema.optional(Schema.Struct({
+  defaultPurpose: Schema.optional(Schema.String),
+  enabled: Schema.optional(Schema.Boolean),
+  sessionExpTime: Schema.optional(Schema.Number)
+})),
+  consent: Schema.optional(Schema.Struct({
+  enabled: Schema.Boolean,
+  buttonTextTranslations: Schema.optional(Schema.Unknown),
+  companyEmail: Schema.optional(Schema.String),
+  companyName: Schema.optional(Schema.String),
+  companyStreetAddress: Schema.optional(Schema.String),
+  consentModalIntroHTML: Schema.optional(Schema.String),
+  consentModalIntroHTMLWithTranslations: Schema.optional(Schema.Struct({})),
+  cookieName: Schema.optional(Schema.String),
+  customCSS: Schema.optional(Schema.String),
+  customIntroDisclaimerDismissed: Schema.optional(Schema.Boolean),
+  defaultLanguage: Schema.optional(Schema.String),
+  hideModal: Schema.optional(Schema.Boolean),
+  purposes: Schema.optional(Schema.Struct({})),
+  purposesWithTranslations: Schema.optional(Schema.Struct({})),
+  tcfCompliant: Schema.optional(Schema.Boolean)
+})),
+  historyChange: Schema.optional(Schema.Boolean)
+}) as unknown as Schema.Schema<PutConfigResponse>;
+
+export type PutConfigError =
+  | DefaultErrors;
+
+export const putConfig: API.OperationMethod<
+  PutConfigRequest,
+  PutConfigResponse,
+  PutConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PutConfigRequest,
+  output: PutConfigResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// Default
+// =============================================================================
+
+export interface GetDefaultRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetDefaultRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/default" })) as unknown as Schema.Schema<GetDefaultRequest>;
+
+export type GetDefaultResponse = unknown;
+
+export const GetDefaultResponse = Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
+
+export type GetDefaultError =
+  | DefaultErrors;
+
+export const getDefault: API.OperationMethod<
+  GetDefaultRequest,
+  GetDefaultResponse,
+  GetDefaultError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetDefaultRequest,
+  output: GetDefaultResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// Export
+// =============================================================================
+
+export interface GetExportRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetExportRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/export" })) as unknown as Schema.Schema<GetExportRequest>;
+
+export type GetExportResponse = unknown;
+
+export const GetExportResponse = Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
+
+export type GetExportError =
+  | DefaultErrors;
+
+export const getExport: API.OperationMethod<
+  GetExportRequest,
+  GetExportResponse,
+  GetExportError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetExportRequest,
+  output: GetExportResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// History
+// =============================================================================
+
+export interface ListHistoriesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Maximum amount of results to list. Default value is 10. */
+  limit?: number;
+  /** Query param: Ordinal number to start listing the results with. Default value is 0. */
+  offset?: number;
+  /** Query param: The field to sort by. Default is updated_at. */
+  sortField?: "id" | "user_id" | "description" | "created_at" | "updated_at";
+  /** Query param: Sorting order. Default is DESC. */
+  sortOrder?: "DESC" | "ASC";
+}
+
+export const ListHistoriesRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+  sortField: Schema.optional(Schema.Literals(["id", "user_id", "description", "created_at", "updated_at"])).pipe(T.HttpQuery("sortField")),
+  sortOrder: Schema.optional(Schema.Literals(["DESC", "ASC"])).pipe(T.HttpQuery("sortOrder"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/history" })) as unknown as Schema.Schema<ListHistoriesRequest>;
+
+export type ListHistoriesResponse = { id: number; createdAt: string; description: string; updatedAt: string; userId: string }[];
+
+export const ListHistoriesResponse = Schema.Array(Schema.Struct({
+  id: Schema.Number,
+  createdAt: Schema.String,
+  description: Schema.String,
+  updatedAt: Schema.String,
+  userId: Schema.String
+})) as unknown as Schema.Schema<ListHistoriesResponse>;
+
+export type ListHistoriesError =
+  | DefaultErrors;
+
+export const listHistories: API.OperationMethod<
+  ListHistoriesRequest,
+  ListHistoriesResponse,
+  ListHistoriesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListHistoriesRequest,
+  output: ListHistoriesResponse,
+  errors: [],
+}));
+
+export interface PutHistoryRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: ID of the Zaraz configuration to restore. */
+  body: number;
+}
+
+export const PutHistoryRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  body: Schema.Number.pipe(T.HttpBody())
+})
+  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/settings/zaraz/history" })) as unknown as Schema.Schema<PutHistoryRequest>;
+
+export type PutHistoryResponse = unknown;
+
+export const PutHistoryResponse = Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
+
+export type PutHistoryError =
+  | DefaultErrors;
+
+export const putHistory: API.OperationMethod<
+  PutHistoryRequest,
+  PutHistoryResponse,
+  PutHistoryError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PutHistoryRequest,
+  output: PutHistoryResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// HistoryConfig
+// =============================================================================
+
+export interface GetHistoryConfigRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Comma separated list of Zaraz configuration IDs */
+  ids: number[];
+}
+
+export const GetHistoryConfigRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  ids: Schema.Array(Schema.Number).pipe(T.HttpQuery("ids"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/history/configs" })) as unknown as Schema.Schema<GetHistoryConfigRequest>;
+
+export type GetHistoryConfigResponse = Record<string, unknown>;
+
+export const GetHistoryConfigResponse = Schema.Struct({}) as unknown as Schema.Schema<GetHistoryConfigResponse>;
+
+export type GetHistoryConfigError =
+  | DefaultErrors;
+
+export const getHistoryConfig: API.OperationMethod<
+  GetHistoryConfigRequest,
+  GetHistoryConfigResponse,
+  GetHistoryConfigError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetHistoryConfigRequest,
+  output: GetHistoryConfigResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// Publish
+// =============================================================================
+
+export interface CreatePublishRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: Zaraz configuration description. */
+  body?: string;
+}
+
+export const CreatePublishRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  body: Schema.optional(Schema.String).pipe(T.HttpBody())
+})
+  .pipe(T.Http({ method: "POST", path: "/zones/{zone_id}/settings/zaraz/publish" })) as unknown as Schema.Schema<CreatePublishRequest>;
+
+export type CreatePublishResponse = string;
+
+export const CreatePublishResponse = Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
+
+export type CreatePublishError =
+  | DefaultErrors;
+
+export const createPublish: API.OperationMethod<
+  CreatePublishRequest,
+  CreatePublishResponse,
+  CreatePublishError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreatePublishRequest,
+  output: CreatePublishResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// Workflow
+// =============================================================================
+
+export interface GetWorkflowRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetWorkflowRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id"))
+})
+  .pipe(T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/workflow" })) as unknown as Schema.Schema<GetWorkflowRequest>;
+
+export type GetWorkflowResponse = "realtime" | "preview";
+
+export const GetWorkflowResponse = Schema.Literals(["realtime", "preview"]) as unknown as Schema.Schema<GetWorkflowResponse>;
+
+export type GetWorkflowError =
+  | DefaultErrors;
+
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
+  GetWorkflowResponse,
+  GetWorkflowError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetWorkflowRequest,
+  output: GetWorkflowResponse,
+  errors: [],
+}));
+
+
+// =============================================================================
+// Zaraz
+// =============================================================================
+
+export interface PutZarazRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: Zaraz workflow */
+  workflow: "realtime" | "preview";
+}
+
+export const PutZarazRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  workflow: Schema.Literals(["realtime", "preview"])
+})
+  .pipe(T.Http({ method: "PUT", path: "/zones/{zone_id}/settings/zaraz/workflow" })) as unknown as Schema.Schema<PutZarazRequest>;
+
+export type PutZarazResponse = unknown;
+
+export const PutZarazResponse = Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
+
+export type PutZarazError =
+  | DefaultErrors;
+
+export const putZaraz: API.OperationMethod<
+  PutZarazRequest,
+  PutZarazResponse,
+  PutZarazError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PutZarazRequest,
+  output: PutZarazResponse,
+  errors: [],
+}));

@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/sdk-core",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "type": "module",
   "exports": {
     "./category": "./src/category.ts",
@@ -12,6 +12,12 @@
     "./errors": "./src/errors.ts",
     "./json-patch": "./src/json-patch.ts",
     "./openapi/generate": "./scripts/generate-openapi.ts"
+  },
+  "scripts": {
+    "typecheck": "tsgo",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint src",
+    "check": "tsgo && oxlint src && oxfmt --check src"
   },
   "dependencies": {
     "effect": "catalog:"
