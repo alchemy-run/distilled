@@ -1,6 +1,0 @@
-{
-  "errors": {
-    "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "OperationNotFound": [{ "code": 10404 }]
-  }
-}

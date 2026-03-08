@@ -1,0 +1,8 @@
+{
+  "name": "@distilled.cloud/neon",
+  "type": "module",
+  "scripts": {
+    "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-neon && git -C specs/distilled-spec-neon checkout -- .",
+    "specs:update": "git -C specs/distilled-spec-neon fetch && git -C specs/distilled-spec-neon checkout main && git -C specs/distilled-spec-neon pull"
+  }
+}

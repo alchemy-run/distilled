@@ -1,5 +1,2 @@
-.distilled
 node_modules
-**/*.tsbuildinfo
-lib/
-distilled-coinbase/.env
+.env

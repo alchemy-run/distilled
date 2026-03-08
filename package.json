@@ -2,58 +2,22 @@
   "name": "distilled",
   "private": true,
   "type": "module",
-  "scripts": {
-    "clean": "git clean -fqdx . -e .env",
-    "download:env": "doppler secrets download --no-file --format env > .env",
-    "clean:install": "bun clean && bun i",
-    "build:clean": "bun clean:install && bun run build",
-    "build": "bun generate && bun tsgo -b",
-    "generate:aws": "bun run --filter distilled-aws generate",
-    "generate:cloudflare": "bun run --filter distilled-cloudflare generate",
-    "generate:gcp": "bun run --filter distilled-gcp generate",
-    "generate:planetscale": "bun run --filter distilled-planetscale generate",
-    "generate": "bun run --filter 'distilled-*' generate",
-    "format": "bun oxfmt ./distilled-* '!node_modules/' '!lib/'"
-  },
+  "scripts": {},
   "workspaces": {
-    "packages": [
-      "distilled-*",
-      "distilled.cloud"
-    ],
+    "packages": [],
     "catalog": {
-      "@effect/cli": "4.0.0-beta.28",
-      "@effect/platform-bun": "4.0.0-beta.28",
-      "@effect/platform-node": "4.0.0-beta.28",
-      "@effect/vitest": "4.0.0-beta.28",
-      "@libsql/client": "^0.15.0",
-      "@opentui/core": "latest",
-      "@opentui/solid": "latest",
-      "@rsbuild/core": "latest",
-      "@types/bun": "latest",
-      "@types/node": "latest",
-      "@typescript/native-preview": "^7.0.0-dev.20251230.1",
-      "diff": "^8.0.2",
-      "effect": "4.0.0-beta.28",
-      "fast-json-patch": "^3.1.1",
-      "fast-xml-parser": "^5.3.2",
-      "jsonc-parser": "^3.3.1",
-      "oxfmt": "0.21.0",
-      "oxlint": "1.36.0",
-      "pathe": "^2.0.3",
-      "typescript": "^5",
-      "vite": "latest",
-      "vitest": "latest",
-      "web-tree-sitter": "0.25.10",
-      "yaml": "^2.8.2"
+      "@types/bun": "^1.3.0",
+      "@types/node": "^25.3.5",
+      "@typescript/native-preview": "^7.0.0-dev.20260124.1",
+      "oxfmt": "^0.36.0",
+      "oxlint": "^1.51.0"
     }
   },
   "devDependencies": {
-    "@types/bun": "^1.3.6",
-    "@types/node": "^25.0.10",
-    "@typescript/native-preview": "^7.0.0-dev.20260124.1",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript/native-preview": "catalog:",
     "oxfmt": "catalog:",
-    "oxlint": "catalog:",
-    "typescript": "^5.9.3",
-    "yaml": "^2.8.2"
+    "oxlint": "catalog:"
   }
 }

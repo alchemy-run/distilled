@@ -1,0 +1,24 @@
+[submodule "gcp-sdk/specs/distilled-spec-gcp"]
+	path = gcp-sdk/specs/distilled-spec-gcp
+	url = https://github.com/alchemy-run/distilled-spec-gcp.git
+[submodule "cloudflare-sdk/specs/cloudflare-typescript"]
+	path = cloudflare-sdk/specs/cloudflare-typescript
+	url = https://github.com/cloudflare/cloudflare-typescript.git
+[submodule "planetscale-sdk/specs/distilled-spec-planetscale"]
+	path = planetscale-sdk/specs/distilled-spec-planetscale
+	url = https://github.com/alchemy-run/distilled-spec-planetscale.git
+[submodule "neon-sdk/specs/distilled-spec-neon"]
+	path = neon-sdk/specs/distilled-spec-neon
+	url = https://github.com/alchemy-run/distilled-spec-neon.git
+[submodule "aws-sdk/specs/api-models-aws"]
+	path = aws-sdk/specs/api-models-aws
+	url = https://github.com/aws/api-models-aws.git
+[submodule "aws-sdk/specs/aws-sdk-js-v3"]
+	path = aws-sdk/specs/aws-sdk-js-v3
+	url = https://github.com/aws/aws-sdk-js-v3.git
+[submodule "aws-sdk/specs/smithy"]
+	path = aws-sdk/specs/smithy
+	url = https://github.com/smithy-lang/smithy.git
+[submodule "aws-sdk/specs/smithy-typescript"]
+	path = aws-sdk/specs/smithy-typescript
+	url = https://github.com/smithy-lang/smithy-typescript.git

@@ -1,0 +1,8 @@
+{
+  "name": "@distilled.cloud/planetscale",
+  "type": "module",
+  "scripts": {
+    "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-planetscale && git -C specs/distilled-spec-planetscale checkout -- .",
+    "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
+  }
+}

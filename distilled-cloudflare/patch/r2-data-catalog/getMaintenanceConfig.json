@@ -1,7 +1,0 @@
-{
-  "errors": {
-    "InvalidRoute": [{ "code": 7003 }],
-    "WarehouseInactive": [{ "code": 40402 }],
-    "WarehouseNotFound": [{ "code": 40401 }]
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "errors": {
-    "InvalidRoutePattern": [{ "code": 10022 }],
-    "InvalidRoute": [{ "code": 7003 }]
-  }
-}

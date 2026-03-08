@@ -1,0 +1,8 @@
+{
+  "name": "@distilled.cloud/gcp",
+  "type": "module",
+  "scripts": {
+    "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
+    "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"
+  }
+}

@@ -1,6 +1,0 @@
-{
-  "errors": {
-    "ImagesAccessNotEnabled": [{ "code": 5403 }],
-    "VariantNameNotAllowed": [{ "code": 5400 }]
-  }
-}

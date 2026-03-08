@@ -1,6 +1,0 @@
-{
-  "errors": {
-    "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "SchemaNotFound": [{ "code": 19400 }]
-  }
-}

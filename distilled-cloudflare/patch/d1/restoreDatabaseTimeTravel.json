@@ -1,8 +1,0 @@
-{
-  "errors": {
-    "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "NoHistoryAvailable": [{ "code": 7500 }],
-    "DatabaseNotFound": [{ "code": 7404 }],
-    "InvalidProperty": [{ "code": 7400 }]
-  }
-}

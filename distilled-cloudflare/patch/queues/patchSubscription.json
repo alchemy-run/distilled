@@ -1,5 +1,0 @@
-{
-  "errors": {
-    "UnrecognizedEventType": [{ "code": 0, "message": { "includes": "Unrecognized event types" } }]
-  }
-}

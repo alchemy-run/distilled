@@ -1,8 +1,0 @@
-{
-  "errors": {},
-  "response": {
-    "properties": {
-      "[].scope": { "type": "unknown" }
-    }
-  }
-}

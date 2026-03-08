@@ -1,7 +1,0 @@
-{
-  "errors": {
-    "NamespaceNotFound": [{ "code": 10066 }],
-    "InvalidIdentifier": [{ "code": 7003 }],
-    "MalformedParameter": [{ "code": 10077 }]
-  }
-}

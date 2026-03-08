@@ -1,6 +1,0 @@
-{
-  "errors": {
-    "NoSuchBucket": [{ "code": 10006 }],
-    "InvalidBucketName": [{ "code": 10005 }]
-  }
-}
