@@ -91,7 +91,7 @@ describe("Credentials", () => {
       Effect.gen(function* () {
         const error = yield* Effect.flip(
           Effect.gen(function* () {
-            yield* Credentials.Credentials;
+            yield* yield* Credentials.Credentials;
           }).pipe(Effect.provide(Credentials.fromEnv())),
         );
 

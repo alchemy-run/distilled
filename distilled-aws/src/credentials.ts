@@ -18,9 +18,11 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
+import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import * as ServiceMap from "effect/ServiceMap";
 import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { HttpClientError } from "effect/unstable/http/HttpClientError";
 import { createHash } from "node:crypto";
 import * as path from "node:path";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
@@ -32,31 +34,61 @@ export interface AwsCredentials {
   readonly sessionToken?: string;
 }
 
+/**
+ * Resolved credential values ready for request signing.
+ */
+export interface ResolvedCredentials {
+  readonly accessKeyId: Redacted.Redacted<string>;
+  readonly secretAccessKey: Redacted.Redacted<string>;
+  readonly sessionToken: Redacted.Redacted<string> | undefined;
+  readonly expiration?: number;
+}
+
+/**
+ * The requirements for resolving credentials (HttpClient for SSO, FileSystem for cache).
+ */
+
+/**
+ * Error types that can occur during credential resolution.
+ */
+export type CredentialsError =
+  | AwsCredentialProviderError
+  | ProfileNotFound
+  | InvalidSSOProfile
+  | InvalidSSOToken
+  | ExpiredSSOToken
+  | ConflictingSSORegion
+  | ConflictingSSOStartUrl
+  | HttpClientError
+  | PlatformError;
+
 export class Credentials extends ServiceMap.Service<
   Credentials,
-  {
-    accessKeyId: Redacted.Redacted<string>;
-    secretAccessKey: Redacted.Redacted<string>;
-    sessionToken: Redacted.Redacted<string> | undefined;
-    expiration?: number;
-  }
+  Effect.Effect<ResolvedCredentials, CredentialsError>
 >()("AWS::Credentials") {}
 
-export const mock = Layer.succeed(Credentials, {
-  accessKeyId: Redacted.make("test"),
-  secretAccessKey: Redacted.make("test"),
-  sessionToken: Redacted.make("test"),
-});
+export const mock = Layer.succeed(
+  Credentials,
+  Effect.succeed({
+    accessKeyId: Redacted.make("test"),
+    secretAccessKey: Redacted.make("test"),
+    sessionToken: Redacted.make("test"),
+  }),
+);
 
-export const fromAwsCredentialIdentity = (identity: AwsCredentialIdentity) =>
-  Credentials.of({
-    accessKeyId: Redacted.make(identity.accessKeyId),
-    secretAccessKey: Redacted.make(identity.secretAccessKey),
-    sessionToken: identity.sessionToken
-      ? Redacted.make(identity.sessionToken)
-      : undefined,
-    expiration: identity.expiration?.getTime(),
-  });
+/**
+ * Create resolved credentials from an AWS credential identity.
+ */
+export const fromAwsCredentialIdentity = (
+  identity: AwsCredentialIdentity,
+): ResolvedCredentials => ({
+  accessKeyId: Redacted.make(identity.accessKeyId),
+  secretAccessKey: Redacted.make(identity.secretAccessKey),
+  sessionToken: identity.sessionToken
+    ? Redacted.make(identity.sessionToken)
+    : undefined,
+  expiration: identity.expiration?.getTime(),
+});
 
 type ProviderName =
   | "env"
@@ -101,48 +133,93 @@ const providerHints = (
 
 export const _providerHints = providerHints;
 
-const createLayer = (
+/**
+ * Time window (5 mins) to refresh credentials before they actually expire.
+ * This prevents using credentials that are about to expire.
+ */
+const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
+
+/**
+ * Create a credentials effect with lazy resolution and expiration-aware caching.
+ * Uses Effect.cachedWithTTL where the TTL is computed from the credentials' expiration.
+ */
+const createCachedCredentialsEffect = <E, R>(
+  resolve: Effect.Effect<ResolvedCredentials, E, R>,
+): Effect.Effect<ResolvedCredentials, E, R> => {
+  let cachedCreds: ResolvedCredentials | undefined;
+  let expiresAt: number | undefined;
+
+  return Effect.suspend(() => {
+    const now = Date.now();
+    if (cachedCreds && expiresAt && now < expiresAt) {
+      return Effect.succeed(cachedCreds);
+    }
+    return Effect.map(resolve, (creds) => {
+      cachedCreds = creds;
+      expiresAt = creds.expiration
+        ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS
+        : undefined;
+      return creds;
+    });
+  });
+};
+
+/**
+ * Create a lazy, cached credentials provider from an AWS SDK credential provider.
+ * Credentials are resolved on first access and cached based on their expiration time.
+ */
+const createLazyProvider = (
   provider: (config: {}) => AwsCredentialIdentityProvider,
   providerName: ProviderName,
-) =>
-  Layer.effect(
+): Layer.Layer<Credentials> => {
+  const resolve = Effect.gen(function* () {
+    const hints = providerHints(providerName);
+    const identity = yield* Effect.tryPromise({
+      try: () => provider({})(),
+      catch: (cause) =>
+        new AwsCredentialProviderError({
+          message: `Failed to resolve credentials from ${providerName}.`,
+          provider: providerName,
+          cause,
+          hints,
+        }),
+    });
+    return fromAwsCredentialIdentity(identity);
+  });
+
+  return Layer.succeed(Credentials, createCachedCredentialsEffect(resolve));
+};
+
+/**
+ * Create a credentials provider from static credentials.
+ * No lazy loading or caching needed since credentials are already available.
+ */
+export const fromCredentials = (
+  credentials: AwsCredentialIdentity,
+): Layer.Layer<Credentials> =>
+  Layer.succeed(
     Credentials,
-    Effect.gen(function* () {
-      const hints = providerHints(providerName);
-      const identity = yield* Effect.tryPromise({
-        try: () => provider({})(),
-        catch: (cause) =>
-          new AwsCredentialProviderError({
-            message: `Failed to resolve credentials from ${providerName}.`,
-            provider: providerName,
-            cause,
-            hints,
-          }),
-      });
-      return fromAwsCredentialIdentity(identity);
-    }),
+    Effect.succeed(fromAwsCredentialIdentity(credentials)),
   );
 
-export const fromCredentials = (credentials: AwsCredentialIdentity) =>
-  Layer.succeed(Credentials, fromAwsCredentialIdentity(credentials));
-
-export const fromEnv = () => createLayer(_fromEnv, "env");
+export const fromEnv = () => createLazyProvider(_fromEnv, "env");
 
 export const fromChain = () =>
-  createLayer(() => _fromNodeProviderChain(), "chain");
+  createLazyProvider(() => _fromNodeProviderChain(), "chain");
 
-// export const fromSSO = () => createLayer(_fromSSO);
+// export const fromSSO = () => createLazyProvider(_fromSSO);
 
-export const fromIni = () => createLayer(_fromIni, "ini");
+export const fromIni = () => createLazyProvider(_fromIni, "ini");
 
 export const fromContainerMetadata = () =>
-  createLayer(_fromContainerMetadata, "container");
+  createLazyProvider(_fromContainerMetadata, "container");
 
-export const fromHttp = () => createLayer(_fromHttp, "http");
+export const fromHttp = () => createLazyProvider(_fromHttp, "http");
 
-export const fromProcess = () => createLayer(_fromProcess, "process");
+export const fromProcess = () => createLazyProvider(_fromProcess, "process");
 
-export const fromTokenFile = () => createLayer(_fromTokenFile, "token-file");
+export const fromTokenFile = () =>
+  createLazyProvider(_fromTokenFile, "token-file");
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
 
@@ -279,16 +356,44 @@ export interface SSOToken {
   startUrl?: string;
 }
 
+/**
+ * Create a lazy, cached SSO credentials provider.
+ * SSO credential resolution is deferred until the Effect is run,
+ * and credentials are cached until they expire.
+ */
 export const fromSSO = (profileName: string = "default") =>
-  Layer.effect(Credentials, loadSSOCredentials(profileName));
+  Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      const fs = yield* FileSystem.FileSystem;
 
+      return createCachedCredentialsEffect(
+        _loadCredentials(profileName, fs, client),
+      );
+    }),
+  );
+
+/**
+ * Load SSO credentials for the given profile.
+ * Returns an Effect that resolves credentials lazily when run.
+ */
 export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
   const client = yield* HttpClient.HttpClient;
   const fs = yield* FileSystem.FileSystem;
+
+  return yield* _loadCredentials(profileName, fs, client);
+});
+
+const _loadCredentials = Effect.fn(function* (
+  profileName: string,
+  fs: FileSystem.FileSystem,
+  client: HttpClient.HttpClient,
+) {
   const awsDir = path.join(ini.getHomeDir(), ".aws");
   const cachePath = path.join(awsDir, "sso", "cache");
 
-  const profile = yield* loadProfile(profileName);
+  const profile = yield* _loadProfile(profileName, fs);
 
   if (profile.sso_session) {
     const hasher = createHash("sha1");
@@ -312,14 +417,14 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
     };
 
     if (cachedCreds && !isExpired(cachedCreds.expiry)) {
-      return Credentials.of({
+      return {
         accessKeyId: Redacted.make(cachedCreds.accessKeyId),
         secretAccessKey: Redacted.make(cachedCreds.secretAccessKey),
         sessionToken: cachedCreds.sessionToken
           ? Redacted.make(cachedCreds.sessionToken)
           : undefined,
         expiration: cachedCreds.expiry,
-      });
+      } satisfies ResolvedCredentials;
     }
 
     const ssoToken = yield* fs.readFileString(ssoTokenFilepath).pipe(
@@ -338,12 +443,10 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
       yield* Console.log(
         `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,
       );
-      yield* Effect.fail(
-        new ExpiredSSOToken({
-          message: `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,
-          profile: profileName,
-        }),
-      );
+      return yield* new ExpiredSSOToken({
+        message: `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,
+        profile: profileName,
+      });
     }
 
     const response = yield* client.get(
@@ -378,12 +481,12 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
       }),
     );
 
-    return Credentials.of({
+    return {
       accessKeyId: Redacted.make(credentials.accessKeyId),
       secretAccessKey: Redacted.make(credentials.secretAccessKey),
       sessionToken: Redacted.make(credentials.sessionToken),
       expiration: credentials.expiration,
-    });
+    } satisfies ResolvedCredentials;
   }
 
   return yield* Effect.fail(
@@ -396,6 +499,12 @@ export const loadSSOCredentials = Effect.fn(function* (profileName: string) {
 
 export const loadProfile = Effect.fn(function* (profileName: string) {
   const fs = yield* FileSystem.FileSystem;
+  return yield* _loadProfile(profileName, fs);
+});
+const _loadProfile = Effect.fn(function* (
+  profileName: string,
+  fs: FileSystem.FileSystem,
+) {
   const profiles: {
     [profileName: string]: AwsProfileConfig;
   } = yield* Effect.promise(() =>
