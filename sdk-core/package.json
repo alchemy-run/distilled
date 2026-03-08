@@ -18,7 +18,7 @@
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
-    "test": "bunx vitest run"
+    "test": "bunx vitest run test"
   },
   "dependencies": {
     "effect": "catalog:"
