@@ -2,6 +2,7 @@ import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const CreatePasswordInput = Schema.Struct({
@@ -29,15 +30,15 @@ export const CreatePasswordOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   role: Schema.Literals(["reader", "writer", "admin", "readwriter"]),
-  cidrs: Schema.Array(Schema.String),
+  cidrs: Schema.NullOr(Schema.Array(Schema.String)),
   created_at: Schema.String,
-  deleted_at: Schema.String,
-  expires_at: Schema.String,
-  last_used_at: Schema.String,
+  deleted_at: Schema.NullOr(Schema.String),
+  expires_at: Schema.NullOr(Schema.String),
+  last_used_at: Schema.NullOr(Schema.String),
   expired: Schema.Boolean,
   direct_vtgate: Schema.Boolean,
   direct_vtgate_addresses: Schema.Array(Schema.String),
-  ttl_seconds: Schema.Number,
+  ttl_seconds: Schema.NullOr(Schema.Number),
   access_host_url: Schema.String,
   access_host_regional_url: Schema.String,
   access_host_regional_urls: Schema.Array(Schema.String),
@@ -57,7 +58,7 @@ export const CreatePasswordOutput = Schema.Struct({
     current_default: Schema.Boolean,
   }),
   username: Schema.String,
-  plain_text: Schema.String,
+  plain_text: SensitiveNullableString,
   replica: Schema.Boolean,
   renewable: Schema.Boolean,
   database_branch: Schema.Struct({

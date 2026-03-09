@@ -9,7 +9,10 @@
     "strict": true,
     "skipLibCheck": true,
     "types": ["bun"],
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

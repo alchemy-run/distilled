@@ -8,6 +8,9 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/sdk-core/client";
 import { HTTP_STATUS_MAP, NeonApiError, NeonParseError } from "./errors.ts";
+
+// Re-export for backwards compatibility (tests import NeonApiError from client)
+export { NeonApiError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema

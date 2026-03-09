@@ -22,9 +22,9 @@ export const GetWebhookOutput = Schema.Struct({
   url: Schema.String,
   secret: Schema.String,
   enabled: Schema.Boolean,
-  last_sent_result: Schema.String,
-  last_sent_success: Schema.Boolean,
-  last_sent_at: Schema.String,
+  last_sent_result: Schema.NullOr(Schema.String),
+  last_sent_success: Schema.NullOr(Schema.Boolean),
+  last_sent_at: Schema.NullOr(Schema.String),
   created_at: Schema.String,
   updated_at: Schema.String,
   events: Schema.Array(

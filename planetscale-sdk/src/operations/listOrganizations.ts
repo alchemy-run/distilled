@@ -13,10 +13,10 @@ export type ListOrganizationsInput = typeof ListOrganizationsInput.Type;
 // Output Schema
 export const ListOrganizationsOutput = Schema.Struct({
   current_page: Schema.Number,
-  next_page: Schema.Number,
-  next_page_url: Schema.String,
-  prev_page: Schema.Number,
-  prev_page_url: Schema.String,
+  next_page: Schema.NullOr(Schema.Number),
+  next_page_url: Schema.NullOr(Schema.String),
+  prev_page: Schema.NullOr(Schema.Number),
+  prev_page_url: Schema.NullOr(Schema.String),
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
@@ -30,9 +30,9 @@ export const ListOrganizationsOutput = Schema.Struct({
       sso_directory: Schema.Boolean,
       single_tenancy: Schema.Boolean,
       managed_tenancy: Schema.Boolean,
-      has_past_due_invoices: Schema.Boolean,
+      has_past_due_invoices: Schema.optional(Schema.Boolean),
       database_count: Schema.Number,
-      sso_portal_url: Schema.String,
+      sso_portal_url: Schema.optional(Schema.String),
       features: Schema.Record(Schema.String, Schema.Unknown),
       idp_managed_roles: Schema.Boolean,
       invoice_budget_amount: Schema.String,

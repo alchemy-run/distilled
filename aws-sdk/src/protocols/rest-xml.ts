@@ -42,6 +42,7 @@ import {
   isArrayAST,
   isBooleanAST,
   isNumberAST,
+  isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
@@ -493,7 +494,9 @@ function serializeObject(
 // =============================================================================
 
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null || value === "") return undefined;
+  if (value == null) return undefined;
+  // Empty strings: preserve for string types, treat as undefined for others
+  if (value === "" && !isStringAST(ast)) return undefined;
 
   // Handle empty objects (from empty XML elements) - treat as undefined
   if (

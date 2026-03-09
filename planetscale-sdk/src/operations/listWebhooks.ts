@@ -20,19 +20,19 @@ export type ListWebhooksInput = typeof ListWebhooksInput.Type;
 // Output Schema
 export const ListWebhooksOutput = Schema.Struct({
   current_page: Schema.Number,
-  next_page: Schema.Number,
-  next_page_url: Schema.String,
-  prev_page: Schema.Number,
-  prev_page_url: Schema.String,
+  next_page: Schema.NullOr(Schema.Number),
+  next_page_url: Schema.NullOr(Schema.String),
+  prev_page: Schema.NullOr(Schema.Number),
+  prev_page_url: Schema.NullOr(Schema.String),
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
       url: Schema.String,
       secret: Schema.String,
       enabled: Schema.Boolean,
-      last_sent_result: Schema.String,
-      last_sent_success: Schema.Boolean,
-      last_sent_at: Schema.String,
+      last_sent_result: Schema.NullOr(Schema.String),
+      last_sent_success: Schema.NullOr(Schema.Boolean),
+      last_sent_at: Schema.NullOr(Schema.String),
       created_at: Schema.String,
       updated_at: Schema.String,
       events: Schema.Array(

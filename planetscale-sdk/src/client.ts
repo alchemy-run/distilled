@@ -12,6 +12,9 @@ import {
   PlanetScaleApiError,
   PlanetScaleParseError,
 } from "./errors.ts";
+
+// Re-export for backwards compatibility (tests import PlanetScaleApiError from client)
+export { PlanetScaleApiError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema

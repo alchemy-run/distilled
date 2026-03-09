@@ -19,6 +19,7 @@
  * );
  * ```
  */
+import * as Schema from "effect/Schema";
 import * as AST from "effect/SchemaAST";
 
 // ============================================================================
@@ -326,9 +327,11 @@ export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
 
 /**
  * Check if a PropertySignature has the pathParam annotation.
+ * Works for both PathParam() (annotation value = true) and HttpPath("wire_name") (annotation value = string).
  */
 export const isPathParam = (prop: AST.PropertySignature): boolean => {
-  return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
+  const value = getAnnotation<string | boolean>(prop.type, pathParamSymbol);
+  return value !== undefined;
 };
 
 /**
@@ -383,6 +386,8 @@ export const getPathParams = (ast: AST.AST): string[] => {
 
 /**
  * Build the request path by substituting path parameters into the template.
+ * Simple version that assumes input keys match template placeholders.
+ * For schema-aware path building (with camelCase → wire_name mapping), use buildPathFromSchema.
  */
 export const buildPath = (
   template: string,
@@ -395,6 +400,214 @@ export const buildPath = (
     }
     return encodeURIComponent(String(value));
   });
+};
+
+/**
+ * Extract AST property signatures from a schema AST, following encoding chain and suspends.
+ */
+export const getStructProps = (ast: AST.AST): AST.PropertySignature[] => {
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getStructProps(ast.encoding[0].to);
+  }
+  if (ast._tag === "Suspend") {
+    return getStructProps(ast.thunk());
+  }
+  if (ast._tag === "Objects") {
+    return [...ast.propertySignatures];
+  }
+  return [];
+};
+
+/**
+ * Get the path parameter wire name from a PropertySignature.
+ * - For HttpPath("wire_name"), returns the wire name string.
+ * - For PathParam(), returns the property name (since annotation is `true`).
+ * - Returns undefined if not a path param.
+ */
+export const getPathParamWireName = (
+  prop: AST.PropertySignature,
+): string | undefined => {
+  const value = getAnnotation<string | boolean>(prop.type, pathParamSymbol);
+  if (value === undefined) return undefined;
+  if (typeof value === "string") return value;
+  // PathParam() stores `true` — use property name as wire name
+  return String(prop.name);
+};
+
+/**
+ * Result of categorizing a schema's input properties by their HTTP binding.
+ */
+export interface RequestParts {
+  /** Resolved path with all parameters substituted */
+  path: string;
+  /** Query parameters: wire_name → string value */
+  query: Record<string, string | string[]>;
+  /** Header parameters: header-name → string value */
+  headers: Record<string, string>;
+  /** Body: remaining non-path/query/header properties, with wire-name keys where applicable */
+  body: Record<string, unknown> | undefined;
+  /** Whether the body should use multipart/form-data */
+  isMultipart: boolean;
+}
+
+/**
+ * Schema-aware request builder. Categorizes input properties into path, query, header,
+ * and body parts using annotations on the schema AST.
+ *
+ * Handles camelCase → wire_name mapping for path params (HttpPath), query params (HttpQuery),
+ * and header params (HttpHeader).
+ *
+ * When `inputSchema` is provided, uses `Schema.encodeSync` to encode the input through the
+ * schema's encoding pipeline (e.g., `encodeKeys` for camelCase → snake_case mapping).
+ * The encoded output is used for body construction, ensuring wire-format key names.
+ */
+export const buildRequestParts = (
+  ast: AST.AST,
+  httpTrait: HttpTrait,
+  input: Record<string, unknown>,
+  // biome-ignore lint: using any for generic schema parameter
+  inputSchema?: any,
+): RequestParts => {
+  let path = httpTrait.path;
+  const query: Record<string, string | string[]> = {};
+  const headers: Record<string, string> = {};
+  let rawBody: unknown = undefined;
+  let hasRawBody = false;
+  const isMultipart = httpTrait.contentType === "multipart";
+
+  // Track which TS property names are path/query/header params (not body)
+  const nonBodyKeys = new Set<string>();
+
+  const props = getStructProps(ast);
+
+  for (const prop of props) {
+    const tsName = String(prop.name);
+    const value = input[tsName];
+
+    if (value === undefined || value === null) {
+      continue;
+    }
+
+    // Path parameter
+    const pathWireName = getPathParamWireName(prop);
+    if (pathWireName !== undefined) {
+      nonBodyKeys.add(tsName);
+      path = path.replace(
+        `{${pathWireName}}`,
+        encodeURIComponent(String(value)),
+      );
+      continue;
+    }
+
+    // Query parameter
+    const queryParam = getQueryParam(prop);
+    if (queryParam !== undefined) {
+      nonBodyKeys.add(tsName);
+      const wireName = typeof queryParam === "string" ? queryParam : tsName;
+      if (Array.isArray(value)) {
+        query[wireName] = value.map(String);
+      } else {
+        query[wireName] = String(value);
+      }
+      continue;
+    }
+
+    // Header parameter
+    const headerParam = getHeaderParam(prop);
+    if (headerParam !== undefined) {
+      nonBodyKeys.add(tsName);
+      headers[headerParam] = String(value);
+      continue;
+    }
+
+    // Body field (HttpBody annotation means this IS the entire body)
+    const isBodyField = getAnnotation<boolean>(prop.type, httpBodySymbol);
+    if (isBodyField) {
+      rawBody = value;
+      hasRawBody = true;
+      nonBodyKeys.add(tsName);
+      continue;
+    }
+  }
+
+  // Build body from remaining (non-path/query/header) properties
+  let finalBody: Record<string, unknown> | undefined;
+
+  if (hasRawBody) {
+    // For HttpBody fields, encode through the schema to get wire-format keys
+    // (e.g., camelCase → snake_case via encodeKeys on nested schemas)
+    if (inputSchema) {
+      const encoded = Schema.encodeSync(inputSchema)(input);
+      const encodedRecord = encoded as Record<string, unknown>;
+      // Find the body field name in the encoded output
+      for (const prop of props) {
+        const tsName = String(prop.name);
+        const isBody = getAnnotation<boolean>(prop.type, httpBodySymbol);
+        if (isBody && encodedRecord[tsName] !== undefined) {
+          finalBody = encodedRecord[tsName] as Record<string, unknown>;
+          break;
+        }
+      }
+      // Fallback to raw body if encoding didn't produce it
+      if (finalBody === undefined) {
+        finalBody = rawBody as Record<string, unknown> | undefined;
+      }
+    } else {
+      finalBody = rawBody as Record<string, unknown> | undefined;
+    }
+  } else {
+    // Encode the input through the schema to get wire-format keys
+    // This handles encodeKeys (camelCase → snake_case) and any other encoding transforms
+    if (inputSchema) {
+      const encoded = Schema.encodeSync(inputSchema)(input);
+      const encodedRecord = encoded as Record<string, unknown>;
+
+      // Build a mapping from tsName → encoded key name
+      // by encoding a minimal test object to discover key mappings
+      const bodyFromEncoded: Record<string, unknown> = {};
+      let hasBodyFields = false;
+
+      for (const [key, value] of Object.entries(encodedRecord)) {
+        // Check if this encoded key corresponds to a non-body TS property
+        // by seeing if any non-body prop encodes to this key
+        let isNonBody = false;
+        for (const nbKey of nonBodyKeys) {
+          // Simple heuristic: if the encoded key matches the non-body key or its encoding
+          if (key === nbKey) {
+            isNonBody = true;
+            break;
+          }
+        }
+        if (!isNonBody && value !== undefined) {
+          bodyFromEncoded[key] = value;
+          hasBodyFields = true;
+        }
+      }
+
+      finalBody = hasBodyFields ? bodyFromEncoded : undefined;
+    } else {
+      // Fallback: no schema encoding, use TS property names as-is (for backwards compat)
+      const body: Record<string, unknown> = {};
+      let hasBody = false;
+      for (const prop of props) {
+        const tsName = String(prop.name);
+        if (nonBodyKeys.has(tsName)) continue;
+        const value = input[tsName];
+        if (value === undefined || value === null) continue;
+        body[tsName] = value;
+        hasBody = true;
+      }
+      finalBody = hasBody ? body : undefined;
+    }
+  }
+
+  return {
+    path,
+    query,
+    headers,
+    body: finalBody,
+    isMultipart,
+  };
 };
 
 /**

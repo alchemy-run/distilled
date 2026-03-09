@@ -18,7 +18,11 @@
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
+    "@effect/vitest": "catalog:",
     "@types/bun": "catalog:",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "dotenv": "^16.5.0",
+    "vite": "^7.3.1",
+    "vitest": "catalog:"
   }
 }

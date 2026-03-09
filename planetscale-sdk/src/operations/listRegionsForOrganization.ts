@@ -17,10 +17,10 @@ export type ListRegionsForOrganizationInput =
 // Output Schema
 export const ListRegionsForOrganizationOutput = Schema.Struct({
   current_page: Schema.Number,
-  next_page: Schema.Number,
-  next_page_url: Schema.String,
-  prev_page: Schema.Number,
-  prev_page_url: Schema.String,
+  next_page: Schema.NullOr(Schema.Number),
+  next_page_url: Schema.NullOr(Schema.String),
+  prev_page: Schema.NullOr(Schema.Number),
+  prev_page_url: Schema.NullOr(Schema.String),
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,

@@ -13,23 +13,25 @@ export type GetCurrentUserInput = typeof GetCurrentUserInput.Type;
 export const GetCurrentUserOutput = Schema.Struct({
   id: Schema.String,
   display_name: Schema.String,
-  name: Schema.String,
+  name: Schema.optional(Schema.NullOr(Schema.String)),
   email: Schema.String,
   avatar_url: Schema.String,
   created_at: Schema.String,
   updated_at: Schema.String,
   two_factor_auth_configured: Schema.Boolean,
-  default_organization: Schema.Struct({
-    id: Schema.String,
-    name: Schema.String,
-    created_at: Schema.String,
-    updated_at: Schema.String,
-    deleted_at: Schema.String,
-  }),
-  sso: Schema.Boolean,
-  managed: Schema.Boolean,
-  directory_managed: Schema.Boolean,
-  email_verified: Schema.Boolean,
+  default_organization: Schema.optional(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      created_at: Schema.String,
+      updated_at: Schema.String,
+      deleted_at: Schema.String,
+    }),
+  ),
+  sso: Schema.optional(Schema.Boolean),
+  managed: Schema.optional(Schema.Boolean),
+  directory_managed: Schema.optional(Schema.Boolean),
+  email_verified: Schema.optional(Schema.Boolean),
 });
 export type GetCurrentUserOutput = typeof GetCurrentUserOutput.Type;
 

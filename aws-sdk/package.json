@@ -38,10 +38,14 @@
   },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
+    "@effect/platform-node": "catalog:",
+    "@effect/vitest": "catalog:",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
+    "archiver": "^7.0.1",
     "dedent": "^1.7.0",
-    "pathe": "catalog:"
+    "pathe": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"

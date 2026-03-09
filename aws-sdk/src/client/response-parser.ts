@@ -126,6 +126,19 @@ export const makeResponseParser = <A>(
 
     // Error path
     const { errorCode, data } = yield* protocol.deserializeError(response);
+
+    // Normalize XML-style Message (capital M) to message (lowercase) for Error.message
+    // AWS XML protocols use <Message> but JS Error expects .message
+    if (
+      data &&
+      typeof (data as Record<string, unknown>).Message === "string" &&
+      (data as Record<string, unknown>).message === undefined
+    ) {
+      (data as Record<string, unknown>).message = (
+        data as Record<string, unknown>
+      ).Message;
+    }
+
     const errorSchema = errorSchemas.get(errorCode);
 
     if (errorSchema) {
@@ -150,6 +163,17 @@ export const makeResponseParser = <A>(
       const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(
         dataWithTag,
       ).pipe(Effect.catch(() => Effect.succeed(dataWithTag)));
+      // Set Error.message from Message (capital M) if the schema uses Message instead of message
+      // AWS XML uses <Message> but JS Error expects .message (lowercase)
+      if (
+        decoded instanceof Error &&
+        !decoded.message &&
+        typeof (decoded as unknown as Record<string, unknown>).Message ===
+          "string"
+      ) {
+        decoded.message = (decoded as unknown as Record<string, unknown>)
+          .Message as string;
+      }
       return yield* Effect.fail(decoded);
     }
 

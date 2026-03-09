@@ -11,7 +11,11 @@ export {
   throttlingOptions,
   transientOptions,
 } from "@distilled.cloud/sdk-core/retry";
-import type { Policy } from "@distilled.cloud/sdk-core/retry";
+import {
+  type Policy,
+  throttlingOptions,
+  transientOptions,
+} from "@distilled.cloud/sdk-core/retry";
 
 export class Retry extends ServiceMap.Service<Retry, Policy>()(
   "CloudflareRetry",
@@ -23,3 +27,9 @@ export const policy = (optionsOrFactory: Policy) =>
 export const none = Effect.provide(
   Layer.succeed(Retry, { while: () => false }),
 );
+
+/** Apply throttling retry policy (retries throttling errors indefinitely) */
+export const throttling = policy(throttlingOptions);
+
+/** Apply transient retry policy (retries all transient errors indefinitely) */
+export const transient = policy(transientOptions);

@@ -158,6 +158,21 @@ export function isArrayAST(ast: AST.AST): boolean {
 }
 
 /**
+ * Check if AST represents a string type (including encoded strings like enums)
+ */
+export function isStringAST(ast: AST.AST): boolean {
+  const unwrapped = unwrapUnion(ast);
+  if (unwrapped !== ast) return isStringAST(unwrapped);
+
+  if (unwrapped._tag === "String" || unwrapped._tag === "Enum") return true;
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isStringAST(unwrapped.encoding[0].to);
+  }
+  return false;
+}
+
+/**
  * Check if AST represents a number type
  */
 export function isNumberAST(ast: AST.AST): boolean {

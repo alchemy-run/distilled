@@ -87,11 +87,22 @@ export interface ClientConfig<Creds> {
   /** Match an error response body to a typed error.
    *  Should return Effect.fail(error) for known errors,
    *  or Effect.fail(fallbackError) for unknown errors.
+   *  The optional `errors` parameter provides per-operation typed error classes.
    */
-  matchError: (status: number, body: unknown) => Effect.Effect<never, unknown>;
+  matchError: (
+    status: number,
+    body: unknown,
+    errors?: readonly ApiErrorClass[],
+  ) => Effect.Effect<never, unknown>;
 
   /** Parse error class for schema decode failures */
   ParseError: new (props: { body: unknown; cause: unknown }) => unknown;
+
+  /**
+   * Optional transform applied to the response body before schema decoding.
+   * For example, Cloudflare wraps responses in `{ result: <data>, ... }`.
+   */
+  transformResponse?: (body: unknown) => unknown;
 }
 
 /**
@@ -132,6 +143,83 @@ export interface PaginatedOperationConfig<
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > extends OperationConfig<I, O, E> {
   pagination?: PaginatedTrait;
+}
+
+// ============================================================================
+// AST Helpers
+// ============================================================================
+
+/**
+ * Check if a schema AST represents an array type.
+ * Follows encoding chains and Suspend wrappers.
+ */
+function isArrayAST(ast: AST.AST): boolean {
+  if (ast._tag === "Arrays") return true;
+  if (ast._tag === "Suspend") return isArrayAST(ast.thunk());
+  if (ast.encoding && ast.encoding.length > 0)
+    return isArrayAST(ast.encoding[0].to);
+  return false;
+}
+
+// ============================================================================
+// Multipart FormData Builder
+// ============================================================================
+
+/**
+ * Check if a value is a File or Blob.
+ */
+function isFileOrBlob(value: unknown): value is File | Blob {
+  return (
+    (typeof File !== "undefined" && value instanceof File) ||
+    (typeof Blob !== "undefined" && value instanceof Blob)
+  );
+}
+
+/**
+ * Build a FormData from a record of body properties.
+ * Handles files/blobs, arrays of files, objects (as JSON blobs), and primitives.
+ *
+ * This is used for multipart operations (e.g., Cloudflare Workers script uploads)
+ * where the body contains a mix of metadata objects and file uploads.
+ */
+function buildFormData(body: Record<string, unknown>): FormData {
+  const formData = new FormData();
+
+  for (const [key, value] of Object.entries(body)) {
+    if (value === undefined || value === null) continue;
+
+    if (isFileOrBlob(value)) {
+      // Single file/blob
+      formData.append(key, value, value instanceof File ? value.name : key);
+    } else if (
+      Array.isArray(value) &&
+      value.length > 0 &&
+      isFileOrBlob(value[0])
+    ) {
+      // Array of files/blobs — append each individually
+      for (const file of value) {
+        if (isFileOrBlob(file)) {
+          formData.append(
+            file instanceof File ? file.name : key,
+            file,
+            file instanceof File ? file.name : undefined,
+          );
+        }
+      }
+    } else if (typeof value === "object" && value !== null) {
+      // Object → append as JSON blob
+      formData.append(
+        key,
+        new Blob([JSON.stringify(value)], { type: "application/json" }),
+        key,
+      );
+    } else {
+      // Primitive → append as string
+      formData.append(key, String(value));
+    }
+  }
+
+  return formData;
 }
 
 // ============================================================================
@@ -178,46 +266,6 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
       }
 
       const method = httpTrait.method;
-      const pathTemplate = httpTrait.path;
-      const pathParams = Traits.getPathParams(inputSchema.ast);
-
-      // Build path function from template
-      const buildPathFn = (input: Input) =>
-        Traits.buildPath(pathTemplate, input as Record<string, unknown>);
-
-      // Helper to extract query params (non-path params) for GET requests
-      const getQueryParams = (
-        input: Input,
-      ): Record<string, string> | undefined => {
-        if (method !== "GET") return undefined;
-        const pathParamSet = new Set(pathParams);
-        const query: Record<string, string> = {};
-        for (const [key, value] of Object.entries(
-          input as Record<string, unknown>,
-        )) {
-          if (!pathParamSet.has(key) && value !== undefined) {
-            query[key] = String(value);
-          }
-        }
-        return Object.keys(query).length > 0 ? query : undefined;
-      };
-
-      // Helper to extract body params (non-path params) for non-GET requests
-      const getBodyParams = (
-        input: Input,
-      ): Record<string, unknown> | undefined => {
-        if (method === "GET") return undefined;
-        const pathParamSet = new Set(pathParams);
-        const body: Record<string, unknown> = {};
-        for (const [key, value] of Object.entries(
-          input as Record<string, unknown>,
-        )) {
-          if (!pathParamSet.has(key) && value !== undefined) {
-            body[key] = value;
-          }
-        }
-        return Object.keys(body).length > 0 ? body : undefined;
-      };
 
       const fn = (input: Input): Effect.Effect<any, any, any> =>
         Effect.gen(function* () {
@@ -227,42 +275,135 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
           const baseUrl = config.getBaseUrl(creds as Creds);
           const authHeaders = config.getAuthHeaders(creds as Creds);
 
-          const queryParams = getQueryParams(input);
-          const requestBody = getBodyParams(input);
+          // Use schema-aware request builder for proper camelCase → wire_name mapping
+          const parts = Traits.buildRequestParts(
+            inputSchema.ast,
+            httpTrait,
+            input as Record<string, unknown>,
+            inputSchema,
+          );
 
           let request = HttpClientRequest.make(method)(
-            baseUrl + buildPathFn(input),
+            baseUrl + parts.path,
           ).pipe(
             HttpClientRequest.setHeaders(authHeaders),
-            HttpClientRequest.setHeader("Content-Type", "application/json"),
+            HttpClientRequest.setHeaders(parts.headers),
             HttpClientRequest.setHeader("Accept", "application/json"),
           );
 
-          if (queryParams) {
-            request = HttpClientRequest.setUrlParams(request, queryParams);
+          // Set Content-Type based on body type (skip for FormData — browser sets boundary)
+          if (!parts.isMultipart) {
+            request = HttpClientRequest.setHeader(
+              "Content-Type",
+              "application/json",
+            )(request);
           }
-          if (requestBody) {
-            request = yield* HttpClientRequest.bodyJson(requestBody)(request);
+
+          if (Object.keys(parts.query).length > 0) {
+            request = HttpClientRequest.setUrlParams(request, parts.query);
+          }
+          if (method !== "GET" && parts.body !== undefined) {
+            if (parts.isMultipart) {
+              // Build FormData from body properties for multipart operations
+              const formData = buildFormData(
+                parts.body as Record<string, unknown>,
+              );
+              request = HttpClientRequest.setBody(HttpBody.formData(formData))(
+                request,
+              );
+            } else {
+              request = yield* HttpClientRequest.bodyJson(parts.body)(request);
+            }
+          } else if (method === "GET" && parts.body !== undefined) {
+            // For GET requests, remaining non-annotated fields go as query params
+            const extraQuery: Record<string, string> = {};
+            for (const [key, value] of Object.entries(
+              parts.body as Record<string, unknown>,
+            )) {
+              if (value !== undefined) {
+                extraQuery[key] = String(value);
+              }
+            }
+            if (Object.keys(extraQuery).length > 0) {
+              request = HttpClientRequest.setUrlParams(request, extraQuery);
+            }
           }
 
           const response = yield* client.execute(request).pipe(Effect.scoped);
 
           if (response.status >= 400) {
-            const errorBody = yield* response.json;
-            return yield* config.matchError(response.status, errorBody);
+            // Try to parse error body as JSON; fall back to text if not JSON
+            const errorBody = yield* response.json.pipe(
+              Effect.catchIf(
+                () => true,
+                () =>
+                  response.text.pipe(
+                    Effect.map(
+                      (text) =>
+                        ({ _nonJsonError: true, body: text }) as unknown,
+                    ),
+                    Effect.catchIf(
+                      () => true,
+                      () =>
+                        Effect.succeed({
+                          _nonJsonError: true,
+                          body: `HTTP ${response.status}`,
+                        } as unknown),
+                    ),
+                  ),
+              ),
+            );
+            return yield* config.matchError(
+              response.status,
+              errorBody,
+              opConfig.errors,
+            );
           }
 
           // For void-returning operations (e.g. DELETE 204 No Content)
-          if (response.status === 204 || AST.isVoid(outputSchema.ast)) {
+          if (AST.isVoid(outputSchema.ast)) {
             return undefined;
           }
 
-          const responseBody = yield* response.json;
+          // For 204 No Content: if schema is not Unknown, return undefined.
+          // If schema IS Unknown, return empty string (so callers get a defined value).
+          if (response.status === 204) {
+            if (outputSchema.ast._tag === "Unknown") {
+              return "";
+            }
+            return undefined;
+          }
+
+          // Try to parse response as JSON; fall back to text for non-JSON responses
+          // (e.g., multipart/form-data worker scripts, raw KV values)
+          const rawBody = yield* response.json.pipe(
+            Effect.catchIf(
+              () => true,
+              () => response.text.pipe(Effect.map((text) => text as unknown)),
+            ),
+          );
+          let responseBody = config.transformResponse
+            ? config.transformResponse(rawBody)
+            : rawBody;
+
+          // Handle Cloudflare-style paginated responses where result is
+          // { items: [...] } but the schema expects an array
+          if (
+            isArrayAST(outputSchema.ast) &&
+            !Array.isArray(responseBody) &&
+            typeof responseBody === "object" &&
+            responseBody !== null &&
+            "items" in responseBody &&
+            Array.isArray((responseBody as Record<string, unknown>).items)
+          ) {
+            responseBody = (responseBody as Record<string, unknown>).items;
+          }
+
           return yield* Schema.decodeUnknownEffect(outputSchema)(
             responseBody,
           ).pipe(
             Effect.catchTag("SchemaError", (cause) =>
-              Effect.fail(new config.ParseError({ body: responseBody, cause })),
+              Effect.fail(new config.ParseError({ body: rawBody, cause })),
             ),
           );
         });

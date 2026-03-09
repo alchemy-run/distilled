@@ -879,6 +879,20 @@ export const generateRuleSetTypeScript = (ruleSet: RuleSetObject): string => {
 // JIT Compilation (for testing)
 // =============================================================================
 
+// Import runtime helpers for JIT mode
+import {
+  isVirtualHostableS3Bucket,
+  parseArn,
+  partition,
+} from "../src/rules-engine/aws-functions.ts";
+import {
+  getAttr,
+  isValidHostLabel,
+  parseURL,
+  substring,
+  uriEncode,
+} from "../src/rules-engine/standard-functions.ts";
+
 /**
  * Recursively resolve template values in nested objects/arrays
  */
@@ -896,35 +910,30 @@ const resolveTemplates = <T>(value: T): T => {
 };
 
 /**
+ * Runtime helpers bundle for JIT-compiled functions
+ */
+const runtimeHelpers: RuntimeHelpers = {
+  partition,
+  parseArn,
+  isVirtualHostableS3Bucket,
+  parseURL,
+  substring,
+  uriEncode,
+  isValidHostLabel,
+  getAttr,
+  resolveTemplates,
+} as any;
+
+/**
  * JIT compile a rule set to an executable function.
  * Used for testing to validate compiled output matches interpreter.
- *
- * NOTE: JIT compilation requires runtime helpers (partition, parseArn, etc.)
- * to be passed in. In the original project these were imported from the
- * rules-engine package. For AOT code generation (generateRuleSetCode),
- * no runtime helpers are needed.
  */
-export const compileRuleSet = (
-  ruleSet: RuleSetObject,
-  helpers?: RuntimeHelpers,
-): CompiledResolver => {
+export const compileRuleSet = (ruleSet: RuleSetObject): CompiledResolver => {
   const code = generateRuleSetCode(ruleSet);
 
   // Create a function from the generated code
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
   const fn = new Function("p", "_", `return (${code})(p, _);`);
-
-  const runtimeHelpers: RuntimeHelpers = helpers ?? ({
-    partition: () => null,
-    parseArn: () => null,
-    isVirtualHostableS3Bucket: () => false,
-    parseURL: () => null,
-    substring: () => null,
-    uriEncode: (v) => (typeof v === "string" ? encodeURIComponent(v) : null),
-    isValidHostLabel: () => false,
-    getAttr: () => null,
-    resolveTemplates,
-  } as RuntimeHelpers);
 
   return (params: EndpointParams): CompiledResult => {
     return fn(params, runtimeHelpers) as CompiledResult;
@@ -938,9 +947,8 @@ export const compileRuleSet = (
 export const resolveEndpointCompiled = (
   ruleSet: RuleSetObject,
   params: EndpointParams,
-  helpers?: RuntimeHelpers,
 ): ResolvedEndpoint => {
-  const resolver = compileRuleSet(ruleSet, helpers);
+  const resolver = compileRuleSet(ruleSet);
   const result = resolver(params);
 
   if (result.type === "error") {

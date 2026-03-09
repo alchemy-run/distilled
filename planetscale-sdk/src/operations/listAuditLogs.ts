@@ -15,8 +15,8 @@ export type ListAuditLogsInput = typeof ListAuditLogsInput.Type;
 export const ListAuditLogsOutput = Schema.Struct({
   has_next: Schema.Boolean,
   has_prev: Schema.Boolean,
-  cursor_start: Schema.String,
-  cursor_end: Schema.String,
+  cursor_start: Schema.NullOr(Schema.String),
+  cursor_end: Schema.NullOr(Schema.String),
   data: Schema.Array(
     Schema.Struct({
       id: Schema.String,
@@ -26,13 +26,13 @@ export const ListAuditLogsOutput = Schema.Struct({
       auditable_type: Schema.String,
       target_id: Schema.String,
       target_type: Schema.String,
-      location: Schema.String,
+      location: Schema.NullOr(Schema.String),
       target_display_name: Schema.String,
       audit_action: Schema.String,
       action: Schema.String,
       actor_display_name: Schema.String,
       auditable_display_name: Schema.String,
-      remote_ip: Schema.String,
+      remote_ip: Schema.NullOr(Schema.String),
       created_at: Schema.String,
       updated_at: Schema.String,
       metadata: Schema.Record(Schema.String, Schema.Unknown),

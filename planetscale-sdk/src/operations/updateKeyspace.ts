@@ -36,14 +36,14 @@ export const UpdateKeyspaceOutput = Schema.Struct({
   metal: Schema.Boolean,
   default: Schema.Boolean,
   imported: Schema.Boolean,
-  vector_pool_allocation: Schema.Number,
+  vector_pool_allocation: Schema.NullOr(Schema.Number),
   node_ttl_strategy: Schema.Literals([
     "node_ttl_follow_maintenance",
     "node_ttl_always",
     "node_ttl_off",
   ]),
   replication_durability_constraints: Schema.Struct({
-    strategy: Schema.Literals(["available", "lag", "always"]),
+    strategy: Schema.optional(Schema.Literals(["available", "lag", "always"])),
   }),
   vreplication_flags: Schema.Struct({
     optimize_inserts: Schema.Boolean,

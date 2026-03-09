@@ -2,6 +2,7 @@ import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const CreateOauthTokenInput = Schema.Struct({
@@ -26,8 +27,8 @@ export const CreateOauthTokenOutput = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   display_name: Schema.String,
-  token: Schema.String,
-  plain_text_refresh_token: Schema.String,
+  token: SensitiveString,
+  plain_text_refresh_token: SensitiveString,
   avatar_url: Schema.String,
   created_at: Schema.String,
   updated_at: Schema.String,

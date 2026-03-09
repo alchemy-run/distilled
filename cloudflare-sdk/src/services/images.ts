@@ -959,7 +959,6 @@ export const CreateV2DirectUploadRequest = Schema.Struct({
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/images/v2/direct_upload",
-    contentType: "multipart",
   }),
 ) as unknown as Schema.Schema<CreateV2DirectUploadRequest>;
 
