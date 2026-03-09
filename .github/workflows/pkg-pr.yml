@@ -22,17 +22,17 @@ jobs:
         with:
           filters: |
             core:
-              - 'sdk-core/**'
+              - 'packages/core/**'
             aws:
-              - 'aws-sdk/**'
+              - 'packages/aws/**'
             cloudflare:
-              - 'cloudflare-sdk/**'
+              - 'packages/cloudflare/**'
             gcp:
-              - 'gcp-sdk/**'
+              - 'packages/gcp/**'
             neon:
-              - 'neon-sdk/**'
+              - 'packages/neon/**'
             planetscale:
-              - 'planetscale-sdk/**'
+              - 'packages/planetscale/**'
 
   pkg-pr-core:
     needs: detect-changes
@@ -45,7 +45,7 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./sdk-core
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
 
   pkg-pr-aws:
     needs: detect-changes
@@ -60,9 +60,9 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run specs:fetch
-        working-directory: aws-sdk
+        working-directory: packages/aws
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./aws-sdk
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/aws
 
   pkg-pr-cloudflare:
     needs: detect-changes
@@ -77,9 +77,9 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run specs:fetch
-        working-directory: cloudflare-sdk
+        working-directory: packages/cloudflare
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./cloudflare-sdk
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
 
   pkg-pr-gcp:
     needs: detect-changes
@@ -94,9 +94,9 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run specs:fetch
-        working-directory: gcp-sdk
+        working-directory: packages/gcp
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./gcp-sdk
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/gcp
 
   pkg-pr-neon:
     needs: detect-changes
@@ -111,9 +111,9 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run specs:fetch
-        working-directory: neon-sdk
+        working-directory: packages/neon
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./neon-sdk
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
 
   pkg-pr-planetscale:
     needs: detect-changes
@@ -128,6 +128,6 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run specs:fetch
-        working-directory: planetscale-sdk
+        working-directory: packages/planetscale
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./planetscale-sdk
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/planetscale
