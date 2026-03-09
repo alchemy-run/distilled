@@ -22,107 +22,38 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface CancelPortabilityArchiveRequest {}
-
-export const CancelPortabilityArchiveRequest: Schema.Schema<CancelPortabilityArchiveRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CancelPortabilityArchiveRequest",
-  }) as any as Schema.Schema<CancelPortabilityArchiveRequest>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
-
-export interface RetryPortabilityArchiveRequest {}
-
-export const RetryPortabilityArchiveRequest: Schema.Schema<RetryPortabilityArchiveRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "RetryPortabilityArchiveRequest",
-  }) as any as Schema.Schema<RetryPortabilityArchiveRequest>;
-
-export interface ResetAuthorizationRequest {}
-
-export const ResetAuthorizationRequest: Schema.Schema<ResetAuthorizationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "ResetAuthorizationRequest",
-  }) as any as Schema.Schema<ResetAuthorizationRequest>;
-
-export interface InitiatePortabilityArchiveResponse {
-  /** The archive job ID that is initiated in the API. This can be used to get the state of the job. */
-  archiveJobId?: string;
-  /** The access type of the Archive job initiated by the API. */
-  accessType?:
-    | "ACCESS_TYPE_UNSPECIFIED"
-    | "ACCESS_TYPE_ONE_TIME"
-    | "ACCESS_TYPE_TIME_BASED"
-    | (string & {});
-}
-
-export const InitiatePortabilityArchiveResponse: Schema.Schema<InitiatePortabilityArchiveResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      archiveJobId: Schema.optional(Schema.String),
-      accessType: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "InitiatePortabilityArchiveResponse",
-  }) as any as Schema.Schema<InitiatePortabilityArchiveResponse>;
-
-export interface CheckAccessTypeRequest {}
-
-export const CheckAccessTypeRequest: Schema.Schema<CheckAccessTypeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CheckAccessTypeRequest",
-  }) as any as Schema.Schema<CheckAccessTypeRequest>;
-
-export interface RetryPortabilityArchiveResponse {
-  /** The archive job ID that is initiated by the retry endpoint. This can be used to get the state of the new job. */
-  archiveJobId?: string;
-}
-
-export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArchiveResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      archiveJobId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "RetryPortabilityArchiveResponse",
-  }) as any as Schema.Schema<RetryPortabilityArchiveResponse>;
-
 export interface InitiatePortabilityArchiveRequest {
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string;
-  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
-  endTime?: string;
   /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
   resources?: Array<string>;
+  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
+  endTime?: string;
 }
 
 export const InitiatePortabilityArchiveRequest: Schema.Schema<InitiatePortabilityArchiveRequest> =
   Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
       resources: Schema.optional(Schema.Array(Schema.String)),
+      endTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "InitiatePortabilityArchiveRequest",
   }) as any as Schema.Schema<InitiatePortabilityArchiveRequest>;
 
 export interface CheckAccessTypeResponse {
-  /** Jobs initiated with this token will be one-time if any requested resources have one-time access. */
-  oneTimeResources?: Array<string>;
   /** Jobs initiated with this token will be time-based if all requested resources have time-based access. */
   timeBasedResources?: Array<string>;
+  /** Jobs initiated with this token will be one-time if any requested resources have one-time access. */
+  oneTimeResources?: Array<string>;
 }
 
 export const CheckAccessTypeResponse: Schema.Schema<CheckAccessTypeResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      oneTimeResources: Schema.optional(Schema.Array(Schema.String)),
       timeBasedResources: Schema.optional(Schema.Array(Schema.String)),
+      oneTimeResources: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "CheckAccessTypeResponse",
@@ -167,9 +98,184 @@ export const CancelPortabilityArchiveResponse: Schema.Schema<CancelPortabilityAr
     identifier: "CancelPortabilityArchiveResponse",
   }) as any as Schema.Schema<CancelPortabilityArchiveResponse>;
 
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+
+export interface RetryPortabilityArchiveRequest {}
+
+export const RetryPortabilityArchiveRequest: Schema.Schema<RetryPortabilityArchiveRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RetryPortabilityArchiveRequest",
+  }) as any as Schema.Schema<RetryPortabilityArchiveRequest>;
+
+export interface CancelPortabilityArchiveRequest {}
+
+export const CancelPortabilityArchiveRequest: Schema.Schema<CancelPortabilityArchiveRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelPortabilityArchiveRequest",
+  }) as any as Schema.Schema<CancelPortabilityArchiveRequest>;
+
+export interface CheckAccessTypeRequest {}
+
+export const CheckAccessTypeRequest: Schema.Schema<CheckAccessTypeRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CheckAccessTypeRequest",
+  }) as any as Schema.Schema<CheckAccessTypeRequest>;
+
+export interface RetryPortabilityArchiveResponse {
+  /** The archive job ID that is initiated by the retry endpoint. This can be used to get the state of the new job. */
+  archiveJobId?: string;
+}
+
+export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArchiveResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      archiveJobId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RetryPortabilityArchiveResponse",
+  }) as any as Schema.Schema<RetryPortabilityArchiveResponse>;
+
+export interface ResetAuthorizationRequest {}
+
+export const ResetAuthorizationRequest: Schema.Schema<ResetAuthorizationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ResetAuthorizationRequest",
+  }) as any as Schema.Schema<ResetAuthorizationRequest>;
+
+export interface InitiatePortabilityArchiveResponse {
+  /** The archive job ID that is initiated in the API. This can be used to get the state of the job. */
+  archiveJobId?: string;
+  /** The access type of the Archive job initiated by the API. */
+  accessType?:
+    | "ACCESS_TYPE_UNSPECIFIED"
+    | "ACCESS_TYPE_ONE_TIME"
+    | "ACCESS_TYPE_TIME_BASED"
+    | (string & {});
+}
+
+export const InitiatePortabilityArchiveResponse: Schema.Schema<InitiatePortabilityArchiveResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      archiveJobId: Schema.optional(Schema.String),
+      accessType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InitiatePortabilityArchiveResponse",
+  }) as any as Schema.Schema<InitiatePortabilityArchiveResponse>;
+
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface CancelArchiveJobsRequest {
+  /** Required. The Archive job ID you're canceling. This is returned by the InitiatePortabilityArchive response. The format is: archiveJobs/{archive_job}. Canceling is only executed if the job is in progress. */
+  name: string;
+  /** Request body */
+  body?: CancelPortabilityArchiveRequest;
+}
+
+export const CancelArchiveJobsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(CancelPortabilityArchiveRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1beta/archiveJobs/{archiveJobsId}:cancel",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<CancelArchiveJobsRequest>;
+
+export type CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
+export const CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
+
+export type CancelArchiveJobsError = DefaultErrors;
+
+/** Cancels a Portability Archive job. */
+export const cancelArchiveJobs: API.OperationMethod<
+  CancelArchiveJobsRequest,
+  CancelArchiveJobsResponse,
+  CancelArchiveJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CancelArchiveJobsRequest,
+  output: CancelArchiveJobsResponse,
+  errors: [],
+}));
+
+export interface GetPortabilityArchiveStateArchiveJobsRequest {
+  /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
+  name: string;
+}
+
+export const GetPortabilityArchiveStateArchiveJobsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1beta/archiveJobs/{archiveJobsId}/portabilityArchiveState",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
+
+export type GetPortabilityArchiveStateArchiveJobsResponse =
+  PortabilityArchiveState;
+export const GetPortabilityArchiveStateArchiveJobsResponse =
+  PortabilityArchiveState;
+
+export type GetPortabilityArchiveStateArchiveJobsError = DefaultErrors;
+
+/** Retrieves the state of an Archive job for the Portability API. */
+export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<
+  GetPortabilityArchiveStateArchiveJobsRequest,
+  GetPortabilityArchiveStateArchiveJobsResponse,
+  GetPortabilityArchiveStateArchiveJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetPortabilityArchiveStateArchiveJobsRequest,
+  output: GetPortabilityArchiveStateArchiveJobsResponse,
+  errors: [],
+}));
+
+export interface RetryArchiveJobsRequest {
+  /** Required. The Archive job ID you're retrying. This is returned by the InitiatePortabilityArchiveResponse. Retrying is only executed if the initial job failed. */
+  name: string;
+  /** Request body */
+  body?: RetryPortabilityArchiveRequest;
+}
+
+export const RetryArchiveJobsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1beta/archiveJobs/{archiveJobsId}:retry",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
+
+export type RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
+export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
+
+export type RetryArchiveJobsError = DefaultErrors;
+
+/** Retries a failed Portability Archive job. */
+export const retryArchiveJobs: API.OperationMethod<
+  RetryArchiveJobsRequest,
+  RetryArchiveJobsResponse,
+  RetryArchiveJobsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: RetryArchiveJobsRequest,
+  output: RetryArchiveJobsResponse,
+  errors: [],
+}));
 
 export interface InitiatePortabilityArchiveRequest_Op {
   /** Request body */
@@ -261,111 +367,5 @@ export const resetAuthorization: API.OperationMethod<
 > = API.make(() => ({
   input: ResetAuthorizationRequest_Op,
   output: ResetAuthorizationResponse,
-  errors: [],
-}));
-
-export interface CancelArchiveJobsRequest {
-  /** Required. The Archive job ID you're canceling. This is returned by the InitiatePortabilityArchive response. The format is: archiveJobs/{archive_job}. Canceling is only executed if the job is in progress. */
-  name: string;
-  /** Request body */
-  body?: CancelPortabilityArchiveRequest;
-}
-
-export const CancelArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelPortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/archiveJobs/{archiveJobsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelArchiveJobsRequest>;
-
-export type CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
-export const CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
-
-export type CancelArchiveJobsError = DefaultErrors;
-
-/** Cancels a Portability Archive job. */
-export const cancelArchiveJobs: API.OperationMethod<
-  CancelArchiveJobsRequest,
-  CancelArchiveJobsResponse,
-  CancelArchiveJobsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: CancelArchiveJobsRequest,
-  output: CancelArchiveJobsResponse,
-  errors: [],
-}));
-
-export interface RetryArchiveJobsRequest {
-  /** Required. The Archive job ID you're retrying. This is returned by the InitiatePortabilityArchiveResponse. Retrying is only executed if the initial job failed. */
-  name: string;
-  /** Request body */
-  body?: RetryPortabilityArchiveRequest;
-}
-
-export const RetryArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/archiveJobs/{archiveJobsId}:retry",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
-
-export type RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
-export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
-
-export type RetryArchiveJobsError = DefaultErrors;
-
-/** Retries a failed Portability Archive job. */
-export const retryArchiveJobs: API.OperationMethod<
-  RetryArchiveJobsRequest,
-  RetryArchiveJobsResponse,
-  RetryArchiveJobsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: RetryArchiveJobsRequest,
-  output: RetryArchiveJobsResponse,
-  errors: [],
-}));
-
-export interface GetPortabilityArchiveStateArchiveJobsRequest {
-  /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
-  name: string;
-}
-
-export const GetPortabilityArchiveStateArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/archiveJobs/{archiveJobsId}/portabilityArchiveState",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
-
-export type GetPortabilityArchiveStateArchiveJobsResponse =
-  PortabilityArchiveState;
-export const GetPortabilityArchiveStateArchiveJobsResponse =
-  PortabilityArchiveState;
-
-export type GetPortabilityArchiveStateArchiveJobsError = DefaultErrors;
-
-/** Retrieves the state of an Archive job for the Portability API. */
-export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<
-  GetPortabilityArchiveStateArchiveJobsRequest,
-  GetPortabilityArchiveStateArchiveJobsResponse,
-  GetPortabilityArchiveStateArchiveJobsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetPortabilityArchiveStateArchiveJobsRequest,
-  output: GetPortabilityArchiveStateArchiveJobsResponse,
   errors: [],
 }));

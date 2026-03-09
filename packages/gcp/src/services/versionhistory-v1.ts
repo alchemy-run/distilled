@@ -22,7 +22,57 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface Platform {
+  /** Platform name. Format is "{product}/platforms/{platform}" */
+  name?: string;
+  /** Type of platform. */
+  platformType?:
+    | "PLATFORM_TYPE_UNSPECIFIED"
+    | "WIN"
+    | "WIN64"
+    | "MAC"
+    | "LINUX"
+    | "ANDROID"
+    | "WEBVIEW"
+    | "IOS"
+    | "ALL"
+    | "MAC_ARM64"
+    | "LACROS"
+    | "LACROS_ARM32"
+    | "CHROMEOS"
+    | "LACROS_ARM64"
+    | "FUCHSIA"
+    | "WIN_ARM64"
+    | (string & {});
+}
+
+export const Platform: Schema.Schema<Platform> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    platformType: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
+
+export interface ListPlatformsResponse {
+  /** The list of platforms. */
+  platforms?: Array<Platform>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      platforms: Schema.optional(Schema.Array(Platform)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListPlatformsResponse",
+  }) as any as Schema.Schema<ListPlatformsResponse>;
+
 export interface Channel {
+  /** Channel name. Format is "{product}/platforms/{platform}/channels/{channel}" */
+  name?: string;
   /** Type of channel. */
   channelType?:
     | "CHANNEL_TYPE_UNSPECIFIED"
@@ -36,29 +86,27 @@ export interface Channel {
     | "LTS"
     | "LTC"
     | (string & {});
-  /** Channel name. Format is "{product}/platforms/{platform}/channels/{channel}" */
-  name?: string;
 }
 
 export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
   Schema.Struct({
-    channelType: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
+    channelType: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface ListChannelsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The list of channels. */
   channels?: Array<Channel>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 
 export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
       channels: Schema.optional(Schema.Array(Channel)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ListChannelsResponse",
@@ -108,54 +156,6 @@ export const RolloutData: Schema.Schema<RolloutData> = Schema.suspend(() =>
     rolloutName: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "RolloutData" }) as any as Schema.Schema<RolloutData>;
-
-export interface Platform {
-  /** Platform name. Format is "{product}/platforms/{platform}" */
-  name?: string;
-  /** Type of platform. */
-  platformType?:
-    | "PLATFORM_TYPE_UNSPECIFIED"
-    | "WIN"
-    | "WIN64"
-    | "MAC"
-    | "LINUX"
-    | "ANDROID"
-    | "WEBVIEW"
-    | "IOS"
-    | "ALL"
-    | "MAC_ARM64"
-    | "LACROS"
-    | "LACROS_ARM32"
-    | "CHROMEOS"
-    | "LACROS_ARM64"
-    | "FUCHSIA"
-    | "WIN_ARM64"
-    | (string & {});
-}
-
-export const Platform: Schema.Schema<Platform> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    platformType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Platform" }) as any as Schema.Schema<Platform>;
-
-export interface ListPlatformsResponse {
-  /** The list of platforms. */
-  platforms?: Array<Platform>;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-
-export const ListPlatformsResponse: Schema.Schema<ListPlatformsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      platforms: Schema.optional(Schema.Array(Platform)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListPlatformsResponse",
-  }) as any as Schema.Schema<ListPlatformsResponse>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -261,18 +261,18 @@ export const listPlatforms: API.PaginatedOperationMethod<
 }));
 
 export interface ListPlatformsChannelsRequest {
-  /** Optional. A page token, received from a previous `ListChannels` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Required. The platform, which owns this collection of channels. Format: {product}/platforms/{platform} */
   parent: string;
   /** Optional. Optional limit on the number of channels to include in the response. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Optional. A page token, received from a previous `ListChannels` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 
 export const ListPlatformsChannelsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/{v1Id}/platforms/{platformsId}/channels" }),
   svc,
@@ -300,24 +300,24 @@ export const listPlatformsChannels: API.PaginatedOperationMethod<
 }));
 
 export interface ListPlatformsChannelsVersionsRequest {
-  /** Optional. Optional limit on the number of versions to include in the response. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListVersions` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  /** Optional. Ordering string. Valid order_by strings are "version", "name", "platform", and "channel". Optionally, you can append " desc" or " asc" to specify the sorting order. Multiple order_by strings can be used in a comma separated list. Ordering by channel will sort by distance from the stable channel (not alphabetically). A list of channels sorted in this order is: stable, beta, dev, canary, and canary_asan. Sorting by name may cause unexpected behaviour as it is a naive string sort. For example, 1.0.0.8 will be before 1.0.0.10 in descending order. If order_by is not specified the response will be sorted by version in descending order. Ex) "...?order_by=version asc" Ex) "...?order_by=platform desc, channel, version" */
+  orderBy?: string;
   /** Required. The channel, which owns this collection of versions. Format: {product}/platforms/{platform}/channels/{channel} */
   parent: string;
   /** Optional. Filter string. Format is a comma separated list of All comma separated filter clauses are conjoined with a logical "and". Valid field_names are "version", "name", "platform", and "channel". Valid operators are "<", "<=", "=", ">=", and ">". Channel comparison is done by distance from stable. Ex) stable < beta, beta < dev, canary < canary_asan. Version comparison is done numerically. If version is not entirely written, the version will be appended with 0 in missing fields. Ex) version > 80 becoms version > 80.0.0.0 Name and platform are filtered by string comparison. Ex) "...?filter=channel<=beta, version >= 80 Ex) "...?filter=version > 80, version < 81 */
   filter?: string;
-  /** Optional. Ordering string. Valid order_by strings are "version", "name", "platform", and "channel". Optionally, you can append " desc" or " asc" to specify the sorting order. Multiple order_by strings can be used in a comma separated list. Ordering by channel will sort by distance from the stable channel (not alphabetically). A list of channels sorted in this order is: stable, beta, dev, canary, and canary_asan. Sorting by name may cause unexpected behaviour as it is a naive string sort. For example, 1.0.0.8 will be before 1.0.0.10 in descending order. If order_by is not specified the response will be sorted by version in descending order. Ex) "...?order_by=version asc" Ex) "...?order_by=platform desc, channel, version" */
-  orderBy?: string;
+  /** Optional. Optional limit on the number of versions to include in the response. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListVersions` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
 }
 
 export const ListPlatformsChannelsVersionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -348,24 +348,24 @@ export const listPlatformsChannelsVersions: API.PaginatedOperationMethod<
 }));
 
 export interface ListPlatformsChannelsVersionsReleasesRequest {
-  /** Optional. Ordering string. Valid order_by strings are "version", "name", "starttime", "endtime", "platform", "channel", and "fraction". Optionally, you can append "desc" or "asc" to specify the sorting order. Multiple order_by strings can be used in a comma separated list. Ordering by channel will sort by distance from the stable channel (not alphabetically). A list of channels sorted in this order is: stable, beta, dev, canary, and canary_asan. Sorting by name may cause unexpected behaviour as it is a naive string sort. For example, 1.0.0.8 will be before 1.0.0.10 in descending order. If order_by is not specified the response will be sorted by starttime in descending order. Ex) "...?order_by=starttime asc" Ex) "...?order_by=platform desc, channel, startime desc" */
-  orderBy?: string;
-  /** Required. The version, which owns this collection of releases. Format: {product}/platforms/{platform}/channels/{channel}/versions/{version} */
-  parent: string;
-  /** Optional. Filter string. Format is a comma separated list of All comma separated filter clauses are conjoined with a logical "and". Valid field_names are "version", "name", "platform", "channel", "fraction" "starttime", and "endtime". Valid operators are "<", "<=", "=", ">=", and ">". Channel comparison is done by distance from stable. must be a valid channel when filtering by channel. Ex) stable < beta, beta < dev, canary < canary_asan. Version comparison is done numerically. Ex) 1.0.0.8 < 1.0.0.10. If version is not entirely written, the version will be appended with 0 for the missing fields. Ex) version > 80 becoms version > 80.0.0.0 When filtering by starttime or endtime, string must be in RFC 3339 date string format. Name and platform are filtered by string comparison. Ex) "...?filter=channel<=beta, version >= 80 Ex) "...?filter=version > 80, version < 81 Ex) "...?filter=starttime>2020-01-01T00:00:00Z */
-  filter?: string;
   /** Optional. A page token, received from a previous `ListReleases` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
   /** Optional. Optional limit on the number of releases to include in the response. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
+  /** Required. The version, which owns this collection of releases. Format: {product}/platforms/{platform}/channels/{channel}/versions/{version} */
+  parent: string;
+  /** Optional. Filter string. Format is a comma separated list of All comma separated filter clauses are conjoined with a logical "and". Valid field_names are "version", "name", "platform", "channel", "fraction" "starttime", and "endtime". Valid operators are "<", "<=", "=", ">=", and ">". Channel comparison is done by distance from stable. must be a valid channel when filtering by channel. Ex) stable < beta, beta < dev, canary < canary_asan. Version comparison is done numerically. Ex) 1.0.0.8 < 1.0.0.10. If version is not entirely written, the version will be appended with 0 for the missing fields. Ex) version > 80 becoms version > 80.0.0.0 When filtering by starttime or endtime, string must be in RFC 3339 date string format. Name and platform are filtered by string comparison. Ex) "...?filter=channel<=beta, version >= 80 Ex) "...?filter=version > 80, version < 81 Ex) "...?filter=starttime>2020-01-01T00:00:00Z */
+  filter?: string;
+  /** Optional. Ordering string. Valid order_by strings are "version", "name", "starttime", "endtime", "platform", "channel", and "fraction". Optionally, you can append "desc" or "asc" to specify the sorting order. Multiple order_by strings can be used in a comma separated list. Ordering by channel will sort by distance from the stable channel (not alphabetically). A list of channels sorted in this order is: stable, beta, dev, canary, and canary_asan. Sorting by name may cause unexpected behaviour as it is a naive string sort. For example, 1.0.0.8 will be before 1.0.0.10 in descending order. If order_by is not specified the response will be sorted by starttime in descending order. Ex) "...?order_by=starttime asc" Ex) "...?order_by=platform desc, channel, startime desc" */
+  orderBy?: string;
 }
 
 export const ListPlatformsChannelsVersionsReleasesRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
   T.Http({
     method: "GET",

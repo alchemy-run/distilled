@@ -10,9 +10,7 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits";
 import type { Credentials } from "../credentials";
-import {
-  type DefaultErrors,
-} from "../errors";
+import { type DefaultErrors } from "../errors";
 import { UploadableSchema } from "../schemas";
 
 // =============================================================================
@@ -23,43 +21,43 @@ export class ImageAlreadyExists extends Schema.TaggedErrorClass<ImageAlreadyExis
   "ImageAlreadyExists",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(ImageAlreadyExists, [{"code":5409}]);
+T.applyErrorMatchers(ImageAlreadyExists, [{ code: 5409 }]);
 
 export class ImageNotFound extends Schema.TaggedErrorClass<ImageNotFound>()(
   "ImageNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(ImageNotFound, [{"code":5404}]);
+T.applyErrorMatchers(ImageNotFound, [{ code: 5404 }]);
 
 export class ImagesAccessNotEnabled extends Schema.TaggedErrorClass<ImagesAccessNotEnabled>()(
   "ImagesAccessNotEnabled",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(ImagesAccessNotEnabled, [{"code":5403}]);
+T.applyErrorMatchers(ImagesAccessNotEnabled, [{ code: 5403 }]);
 
 export class InvalidUploadFormat extends Schema.TaggedErrorClass<InvalidUploadFormat>()(
   "InvalidUploadFormat",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidUploadFormat, [{"code":5415}]);
+T.applyErrorMatchers(InvalidUploadFormat, [{ code: 5415 }]);
 
 export class KeyNotFound extends Schema.TaggedErrorClass<KeyNotFound>()(
   "KeyNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(KeyNotFound, [{"code":5404}]);
+T.applyErrorMatchers(KeyNotFound, [{ code: 5404 }]);
 
 export class VariantNameNotAllowed extends Schema.TaggedErrorClass<VariantNameNotAllowed>()(
   "VariantNameNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(VariantNameNotAllowed, [{"code":5400}]);
+T.applyErrorMatchers(VariantNameNotAllowed, [{ code: 5400 }]);
 
 export class VariantNotFound extends Schema.TaggedErrorClass<VariantNotFound>()(
   "VariantNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(VariantNotFound, [{"code":5401}]);
+T.applyErrorMatchers(VariantNotFound, [{ code: 5401 }]);
 
 // =============================================================================
 // V1
@@ -73,9 +71,10 @@ export interface GetV1Request {
 
 export const GetV1Request = Schema.Struct({
   imageId: Schema.String.pipe(T.HttpPath("imageId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/{imageId}" })) as unknown as Schema.Schema<GetV1Request>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/{imageId}" }),
+) as unknown as Schema.Schema<GetV1Request>;
 
 export interface GetV1Response {
   /** Image unique identifier. */
@@ -101,13 +100,10 @@ export const GetV1Response = Schema.Struct({
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String))
+  variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetV1Response>;
 
-export type GetV1Error =
-  | DefaultErrors
-  | ImagesAccessNotEnabled
-  | ImageNotFound;
+export type GetV1Error = DefaultErrors | ImagesAccessNotEnabled | ImageNotFound;
 
 export const getV1: API.OperationMethod<
   GetV1Request,
@@ -129,27 +125,44 @@ export interface ListV1sRequest {
 
 export const ListV1sRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(T.HttpQuery("creator"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1" })) as unknown as Schema.Schema<ListV1sRequest>;
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.HttpQuery("creator"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1" }),
+) as unknown as Schema.Schema<ListV1sRequest>;
 
-export type ListV1sResponse = ({ images?: ({ id?: string; creator?: string | null; filename?: string; meta?: unknown; requireSignedURLs?: boolean; uploaded?: string; variants?: string[] })[] })[];
+export type ListV1sResponse = {
+  images?: {
+    id?: string;
+    creator?: string | null;
+    filename?: string;
+    meta?: unknown;
+    requireSignedURLs?: boolean;
+    uploaded?: string;
+    variants?: string[];
+  }[];
+}[];
 
-export const ListV1sResponse = Schema.Array(Schema.Struct({
-  images: Schema.optional(Schema.Array(Schema.Struct({
-    id: Schema.optional(Schema.String),
-    creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filename: Schema.optional(Schema.String),
-    meta: Schema.optional(Schema.Unknown),
-    requireSignedURLs: Schema.optional(Schema.Boolean),
-    uploaded: Schema.optional(Schema.String),
-    variants: Schema.optional(Schema.Array(Schema.String))
-  })))
-})) as unknown as Schema.Schema<ListV1sResponse>;
+export const ListV1sResponse = Schema.Array(
+  Schema.Struct({
+    images: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          filename: Schema.optional(Schema.String),
+          meta: Schema.optional(Schema.Unknown),
+          requireSignedURLs: Schema.optional(Schema.Boolean),
+          uploaded: Schema.optional(Schema.String),
+          variants: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+    ),
+  }),
+) as unknown as Schema.Schema<ListV1sResponse>;
 
-export type ListV1sError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type ListV1sError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const listV1s: API.OperationMethod<
   ListV1sRequest,
@@ -186,9 +199,14 @@ export const CreateV1Request = Schema.Struct({
   file: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
   metadata: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
-  url: Schema.optional(Schema.String)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/images/v1", contentType: "multipart" })) as unknown as Schema.Schema<CreateV1Request>;
+  url: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/images/v1",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateV1Request>;
 
 export interface CreateV1Response {
   /** Image unique identifier. */
@@ -214,12 +232,10 @@ export const CreateV1Response = Schema.Struct({
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String))
+  variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<CreateV1Response>;
 
-export type CreateV1Error =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type CreateV1Error = DefaultErrors | ImagesAccessNotEnabled;
 
 export const createV1: API.OperationMethod<
   CreateV1Request,
@@ -249,9 +265,13 @@ export const PatchV1Request = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   creator: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
-  requireSignedURLs: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/images/v1/{imageId}" })) as unknown as Schema.Schema<PatchV1Request>;
+  requireSignedURLs: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/images/v1/{imageId}",
+  }),
+) as unknown as Schema.Schema<PatchV1Request>;
 
 export interface PatchV1Response {
   /** Image unique identifier. */
@@ -277,7 +297,7 @@ export const PatchV1Response = Schema.Struct({
   meta: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
   uploaded: Schema.optional(Schema.String),
-  variants: Schema.optional(Schema.Array(Schema.String))
+  variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PatchV1Response>;
 
 export type PatchV1Error =
@@ -304,13 +324,18 @@ export interface DeleteV1Request {
 
 export const DeleteV1Request = Schema.Struct({
   imageId: Schema.String.pipe(T.HttpPath("imageId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/{imageId}" })) as unknown as Schema.Schema<DeleteV1Request>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/{imageId}",
+  }),
+) as unknown as Schema.Schema<DeleteV1Request>;
 
 export type DeleteV1Response = string;
 
-export const DeleteV1Response = Schema.String as unknown as Schema.Schema<DeleteV1Response>;
+export const DeleteV1Response =
+  Schema.String as unknown as Schema.Schema<DeleteV1Response>;
 
 export type DeleteV1Error =
   | DefaultErrors
@@ -328,7 +353,6 @@ export const deleteV1: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
-
 // =============================================================================
 // V1Blob
 // =============================================================================
@@ -341,13 +365,18 @@ export interface GetV1BlobRequest {
 
 export const GetV1BlobRequest = Schema.Struct({
   imageId: Schema.String.pipe(T.HttpPath("imageId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/{imageId}/blob" })) as unknown as Schema.Schema<GetV1BlobRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/images/v1/{imageId}/blob",
+  }),
+) as unknown as Schema.Schema<GetV1BlobRequest>;
 
 export type GetV1BlobResponse = unknown;
 
-export const GetV1BlobResponse = Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
+export const GetV1BlobResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
 
 export type GetV1BlobError =
   | DefaultErrors
@@ -365,7 +394,6 @@ export const getV1Blob: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
-
 // =============================================================================
 // V1Key
 // =============================================================================
@@ -376,24 +404,27 @@ export interface ListV1KeysRequest {
 }
 
 export const ListV1KeysRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/keys" })) as unknown as Schema.Schema<ListV1KeysRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/keys" }),
+) as unknown as Schema.Schema<ListV1KeysRequest>;
 
 export interface ListV1KeysResponse {
   keys?: { name?: string; value?: string }[];
 }
 
 export const ListV1KeysResponse = Schema.Struct({
-  keys: Schema.optional(Schema.Array(Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
-})))
+  keys: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
 }) as unknown as Schema.Schema<ListV1KeysResponse>;
 
-export type ListV1KeysError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type ListV1KeysError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const listV1Keys: API.OperationMethod<
   ListV1KeysRequest,
@@ -414,24 +445,30 @@ export interface PutV1KeyRequest {
 
 export const PutV1KeyRequest = Schema.Struct({
   signingKeyName: Schema.String.pipe(T.HttpPath("signingKeyName")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "PUT", path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}" })) as unknown as Schema.Schema<PutV1KeyRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}",
+  }),
+) as unknown as Schema.Schema<PutV1KeyRequest>;
 
 export interface PutV1KeyResponse {
   keys?: { name?: string; value?: string }[];
 }
 
 export const PutV1KeyResponse = Schema.Struct({
-  keys: Schema.optional(Schema.Array(Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
-})))
+  keys: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
 }) as unknown as Schema.Schema<PutV1KeyResponse>;
 
-export type PutV1KeyError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type PutV1KeyError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const putV1Key: API.OperationMethod<
   PutV1KeyRequest,
@@ -452,19 +489,27 @@ export interface DeleteV1KeyRequest {
 
 export const DeleteV1KeyRequest = Schema.Struct({
   signingKeyName: Schema.String.pipe(T.HttpPath("signingKeyName")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}" })) as unknown as Schema.Schema<DeleteV1KeyRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}",
+  }),
+) as unknown as Schema.Schema<DeleteV1KeyRequest>;
 
 export interface DeleteV1KeyResponse {
   keys?: { name?: string; value?: string }[];
 }
 
 export const DeleteV1KeyResponse = Schema.Struct({
-  keys: Schema.optional(Schema.Array(Schema.Struct({
-  name: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String)
-})))
+  keys: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        value: Schema.optional(Schema.String),
+      }),
+    ),
+  ),
 }) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
 export type DeleteV1KeyError =
@@ -483,7 +528,6 @@ export const deleteV1Key: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, KeyNotFound],
 }));
 
-
 // =============================================================================
 // V1Stat
 // =============================================================================
@@ -494,24 +538,25 @@ export interface GetV1StatRequest {
 }
 
 export const GetV1StatRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/stats" })) as unknown as Schema.Schema<GetV1StatRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/stats" }),
+) as unknown as Schema.Schema<GetV1StatRequest>;
 
 export interface GetV1StatResponse {
   count?: { allowed?: number; current?: number };
 }
 
 export const GetV1StatResponse = Schema.Struct({
-  count: Schema.optional(Schema.Struct({
-  allowed: Schema.optional(Schema.Number),
-  current: Schema.optional(Schema.Number)
-}))
+  count: Schema.optional(
+    Schema.Struct({
+      allowed: Schema.optional(Schema.Number),
+      current: Schema.optional(Schema.Number),
+    }),
+  ),
 }) as unknown as Schema.Schema<GetV1StatResponse>;
 
-export type GetV1StatError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type GetV1StatError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const getV1Stat: API.OperationMethod<
   GetV1StatRequest,
@@ -523,7 +568,6 @@ export const getV1Stat: API.OperationMethod<
   output: GetV1StatResponse,
   errors: [ImagesAccessNotEnabled],
 }));
-
 
 // =============================================================================
 // V1Variant
@@ -537,25 +581,40 @@ export interface GetV1VariantRequest {
 
 export const GetV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/variants/{variantId}" })) as unknown as Schema.Schema<GetV1VariantRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
+) as unknown as Schema.Schema<GetV1VariantRequest>;
 
 export interface GetV1VariantResponse {
-  variant?: { id: string; options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number }; neverRequireSignedURLs?: boolean };
+  variant?: {
+    id: string;
+    options: {
+      fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+      height: number;
+      metadata: "keep" | "copyright" | "none";
+      width: number;
+    };
+    neverRequireSignedURLs?: boolean;
+  };
 }
 
 export const GetV1VariantResponse = Schema.Struct({
-  variant: Schema.optional(Schema.Struct({
-  id: Schema.String,
-  options: Schema.Struct({
-    fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-    height: Schema.Number,
-    metadata: Schema.Literals(["keep", "copyright", "none"]),
-    width: Schema.Number
-  }),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
-}))
+  variant: Schema.optional(
+    Schema.Struct({
+      id: Schema.String,
+      options: Schema.Struct({
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
+        height: Schema.Number,
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
+        width: Schema.Number,
+      }),
+      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+    }),
+  ),
 }) as unknown as Schema.Schema<GetV1VariantResponse>;
 
 export type GetV1VariantError =
@@ -581,14 +640,20 @@ export interface ListV1VariantsRequest {
 }
 
 export const ListV1VariantsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/variants" })) as unknown as Schema.Schema<ListV1VariantsRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/variants" }),
+) as unknown as Schema.Schema<ListV1VariantsRequest>;
 
 export interface ListV1VariantsResponse {
   id: string;
   /** Allows you to define image resizing sizes for different use cases. */
-  options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number };
+  options: {
+    fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+    height: number;
+    metadata: "keep" | "copyright" | "none";
+    width: number;
+  };
   /** Indicates whether the variant can access an image without a signature, regardless of image access control. */
   neverRequireSignedURLs?: boolean;
 }
@@ -596,17 +661,15 @@ export interface ListV1VariantsResponse {
 export const ListV1VariantsResponse = Schema.Struct({
   id: Schema.String,
   options: Schema.Struct({
-  fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-  height: Schema.Number,
-  metadata: Schema.Literals(["keep", "copyright", "none"]),
-  width: Schema.Number
-}),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
+    fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
+    height: Schema.Number,
+    metadata: Schema.Literals(["keep", "copyright", "none"]),
+    width: Schema.Number,
+  }),
+  neverRequireSignedURLs: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
-export type ListV1VariantsError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type ListV1VariantsError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const listV1Variants: API.OperationMethod<
   ListV1VariantsRequest,
@@ -625,7 +688,12 @@ export interface CreateV1VariantRequest {
   /** Body param: */
   id: string;
   /** Body param: Allows you to define image resizing sizes for different use cases. */
-  options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number };
+  options: {
+    fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+    height: number;
+    metadata: "keep" | "copyright" | "none";
+    width: number;
+  };
   /** Body param: Indicates whether the variant can access an image without a signature, regardless of image access control. */
   neverRequireSignedURLs?: boolean;
 }
@@ -634,30 +702,42 @@ export const CreateV1VariantRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   options: Schema.Struct({
-  fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-  height: Schema.Number,
-  metadata: Schema.Literals(["keep", "copyright", "none"]),
-  width: Schema.Number
-}),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/images/v1/variants" })) as unknown as Schema.Schema<CreateV1VariantRequest>;
-
-export interface CreateV1VariantResponse {
-  variant?: { id: string; options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number }; neverRequireSignedURLs?: boolean };
-}
-
-export const CreateV1VariantResponse = Schema.Struct({
-  variant: Schema.optional(Schema.Struct({
-  id: Schema.String,
-  options: Schema.Struct({
     fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
     height: Schema.Number,
     metadata: Schema.Literals(["keep", "copyright", "none"]),
-    width: Schema.Number
+    width: Schema.Number,
   }),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
-}))
+  neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/images/v1/variants" }),
+) as unknown as Schema.Schema<CreateV1VariantRequest>;
+
+export interface CreateV1VariantResponse {
+  variant?: {
+    id: string;
+    options: {
+      fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+      height: number;
+      metadata: "keep" | "copyright" | "none";
+      width: number;
+    };
+    neverRequireSignedURLs?: boolean;
+  };
+}
+
+export const CreateV1VariantResponse = Schema.Struct({
+  variant: Schema.optional(
+    Schema.Struct({
+      id: Schema.String,
+      options: Schema.Struct({
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
+        height: Schema.Number,
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
+        width: Schema.Number,
+      }),
+      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+    }),
+  ),
 }) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
 export type CreateV1VariantError =
@@ -681,7 +761,12 @@ export interface PatchV1VariantRequest {
   /** Path param: Account identifier tag. */
   accountId: string;
   /** Body param: Allows you to define image resizing sizes for different use cases. */
-  options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number };
+  options: {
+    fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+    height: number;
+    metadata: "keep" | "copyright" | "none";
+    width: number;
+  };
   /** Body param: Indicates whether the variant can access an image without a signature, regardless of image access control. */
   neverRequireSignedURLs?: boolean;
 }
@@ -690,30 +775,45 @@ export const PatchV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   options: Schema.Struct({
-  fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
-  height: Schema.Number,
-  metadata: Schema.Literals(["keep", "copyright", "none"]),
-  width: Schema.Number
-}),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "PATCH", path: "/accounts/{account_id}/images/v1/variants/{variantId}" })) as unknown as Schema.Schema<PatchV1VariantRequest>;
-
-export interface PatchV1VariantResponse {
-  variant?: { id: string; options: { fit: "scale-down" | "contain" | "cover" | "crop" | "pad"; height: number; metadata: "keep" | "copyright" | "none"; width: number }; neverRequireSignedURLs?: boolean };
-}
-
-export const PatchV1VariantResponse = Schema.Struct({
-  variant: Schema.optional(Schema.Struct({
-  id: Schema.String,
-  options: Schema.Struct({
     fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
     height: Schema.Number,
     metadata: Schema.Literals(["keep", "copyright", "none"]),
-    width: Schema.Number
+    width: Schema.Number,
   }),
-  neverRequireSignedURLs: Schema.optional(Schema.Boolean)
-}))
+  neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
+) as unknown as Schema.Schema<PatchV1VariantRequest>;
+
+export interface PatchV1VariantResponse {
+  variant?: {
+    id: string;
+    options: {
+      fit: "scale-down" | "contain" | "cover" | "crop" | "pad";
+      height: number;
+      metadata: "keep" | "copyright" | "none";
+      width: number;
+    };
+    neverRequireSignedURLs?: boolean;
+  };
+}
+
+export const PatchV1VariantResponse = Schema.Struct({
+  variant: Schema.optional(
+    Schema.Struct({
+      id: Schema.String,
+      options: Schema.Struct({
+        fit: Schema.Literals(["scale-down", "contain", "cover", "crop", "pad"]),
+        height: Schema.Number,
+        metadata: Schema.Literals(["keep", "copyright", "none"]),
+        width: Schema.Number,
+      }),
+      neverRequireSignedURLs: Schema.optional(Schema.Boolean),
+    }),
+  ),
 }) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
 export type PatchV1VariantError =
@@ -741,13 +841,18 @@ export interface DeleteV1VariantRequest {
 
 export const DeleteV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id"))
-})
-  .pipe(T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/variants/{variantId}" })) as unknown as Schema.Schema<DeleteV1VariantRequest>;
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
+) as unknown as Schema.Schema<DeleteV1VariantRequest>;
 
 export type DeleteV1VariantResponse = string;
 
-export const DeleteV1VariantResponse = Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
+export const DeleteV1VariantResponse =
+  Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
 
 export type DeleteV1VariantError =
   | DefaultErrors
@@ -765,7 +870,6 @@ export const deleteV1Variant: API.OperationMethod<
   output: DeleteV1VariantResponse,
   errors: [ImagesAccessNotEnabled, VariantNameNotAllowed, VariantNotFound],
 }));
-
 
 // =============================================================================
 // V2
@@ -786,12 +890,19 @@ export interface ListV2sRequest {
 
 export const ListV2sRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  continuationToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(T.HttpQuery("continuation_token")),
-  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(T.HttpQuery("creator")),
+  continuationToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ).pipe(T.HttpQuery("continuation_token")),
+  creator: Schema.optional(Schema.Union([Schema.String, Schema.Null])).pipe(
+    T.HttpQuery("creator"),
+  ),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(T.HttpQuery("sort_order"))
-})
-  .pipe(T.Http({ method: "GET", path: "/accounts/{account_id}/images/v2" })) as unknown as Schema.Schema<ListV2sRequest>;
+  sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+    T.HttpQuery("sort_order"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v2" }),
+) as unknown as Schema.Schema<ListV2sRequest>;
 
 export interface ListV2sResponse {
   /** Continuation token to fetch next page. Passed as a query param when requesting List V2 api endpoint. */
@@ -800,13 +911,18 @@ export interface ListV2sResponse {
 }
 
 export const ListV2sResponse = Schema.Struct({
-  continuationToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  images: Schema.optional(Schema.Array(Schema.Unknown))
-}).pipe(Schema.encodeKeys({ continuationToken: "continuation_token", images: "images" })) as unknown as Schema.Schema<ListV2sResponse>;
+  continuationToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  images: Schema.optional(Schema.Array(Schema.Unknown)),
+}).pipe(
+  Schema.encodeKeys({
+    continuationToken: "continuation_token",
+    images: "images",
+  }),
+) as unknown as Schema.Schema<ListV2sResponse>;
 
-export type ListV2sError =
-  | DefaultErrors
-  | ImagesAccessNotEnabled;
+export type ListV2sError = DefaultErrors | ImagesAccessNotEnabled;
 
 export const listV2s: API.OperationMethod<
   ListV2sRequest,
@@ -818,7 +934,6 @@ export const listV2s: API.OperationMethod<
   output: ListV2sResponse,
   errors: [ImagesAccessNotEnabled],
 }));
-
 
 // =============================================================================
 // V2DirectUpload
@@ -845,9 +960,14 @@ export const CreateV2DirectUploadRequest = Schema.Struct({
   creator: Schema.optional(Schema.String),
   expiry: Schema.optional(Schema.String),
   metadata: Schema.optional(Schema.Unknown),
-  requireSignedURLs: Schema.optional(Schema.Boolean)
-})
-  .pipe(T.Http({ method: "POST", path: "/accounts/{account_id}/images/v2/direct_upload", contentType: "multipart" })) as unknown as Schema.Schema<CreateV2DirectUploadRequest>;
+  requireSignedURLs: Schema.optional(Schema.Boolean),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/images/v2/direct_upload",
+    contentType: "multipart",
+  }),
+) as unknown as Schema.Schema<CreateV2DirectUploadRequest>;
 
 export interface CreateV2DirectUploadResponse {
   /** Image unique identifier. */
@@ -858,7 +978,7 @@ export interface CreateV2DirectUploadResponse {
 
 export const CreateV2DirectUploadResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  uploadURL: Schema.optional(Schema.String)
+  uploadURL: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
 export type CreateV2DirectUploadError =

@@ -22,19 +22,52 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface Admob_Date {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+
+export const Admob_Date: Schema.Schema<Admob_Date> = Schema.suspend(() =>
+  Schema.Struct({
+    day: Schema.optional(Schema.Number),
+    month: Schema.optional(Schema.Number),
+    year: Schema.optional(Schema.Number),
+  }),
+).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
+
+export interface AdUnit {
+  /** AdFormat of the ad unit. Possible values are as follows: "APP_OPEN" - App Open ad format. "BANNER" - Banner ad format. "BANNER_INTERSTITIAL" - Legacy format that can be used as either banner or interstitial. This format can no longer be created but can be targeted by mediation groups. "INTERSTITIAL" - A full screen ad. Supported ad types are "RICH_MEDIA" and "VIDEO". "NATIVE" - Native ad format. "REWARDED" - An ad that, once viewed, gets a callback verifying the view so that a reward can be given to the user. Supported ad types are "RICH_MEDIA" (interactive) and video where video can not be excluded. "REWARDED_INTERSTITIAL" - Rewarded Interstitial ad format. Only supports video ad type. See https://support.google.com/admob/answer/9884467. */
+  adFormat?: string;
+  /** The externally visible ID of the ad unit which can be used to integrate with the AdMob SDK. This is a read only property. Example: ca-app-pub-9876543210987654/0123456789 */
+  adUnitId?: string;
+  /** Ad media type supported by this ad unit. Possible values as follows: "RICH_MEDIA" - Text, image, and other non-video media. "VIDEO" - Video media. */
+  adTypes?: Array<string>;
+  /** The display name of the ad unit as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
+  displayName?: string;
+  /** Resource name for this ad unit. Format is accounts/{publisher_id}/adUnits/{ad_unit_id_fragment} Example: accounts/pub-9876543210987654/adUnits/0123456789 */
+  name?: string;
+  /** The externally visible ID of the app this ad unit is associated with. Example: ca-app-pub-9876543210987654~0123456789 */
+  appId?: string;
+}
+
+export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
+  Schema.Struct({
+    adFormat: Schema.optional(Schema.String),
+    adUnitId: Schema.optional(Schema.String),
+    adTypes: Schema.optional(Schema.Array(Schema.String)),
+    displayName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
+
 export interface MediationReportSpecSortCondition {
-  /** Sort by the specified metric. */
-  metric?:
-    | "METRIC_UNSPECIFIED"
-    | "AD_REQUESTS"
-    | "CLICKS"
-    | "ESTIMATED_EARNINGS"
-    | "IMPRESSIONS"
-    | "IMPRESSION_CTR"
-    | "MATCHED_REQUESTS"
-    | "MATCH_RATE"
-    | "OBSERVED_ECPM"
-    | (string & {});
+  /** Sorting order of the dimension or metric. */
+  order?: "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING" | (string & {});
   /** Sort by the specified dimension. */
   dimension?:
     | "DIMENSION_UNSPECIFIED"
@@ -54,51 +87,53 @@ export interface MediationReportSpecSortCondition {
     | "APP_VERSION_NAME"
     | "SERVING_RESTRICTION"
     | (string & {});
-  /** Sorting order of the dimension or metric. */
-  order?: "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING" | (string & {});
+  /** Sort by the specified metric. */
+  metric?:
+    | "METRIC_UNSPECIFIED"
+    | "AD_REQUESTS"
+    | "CLICKS"
+    | "ESTIMATED_EARNINGS"
+    | "IMPRESSIONS"
+    | "IMPRESSION_CTR"
+    | "MATCHED_REQUESTS"
+    | "MATCH_RATE"
+    | "OBSERVED_ECPM"
+    | (string & {});
 }
 
 export const MediationReportSpecSortCondition: Schema.Schema<MediationReportSpecSortCondition> =
   Schema.suspend(() =>
     Schema.Struct({
-      metric: Schema.optional(Schema.String),
-      dimension: Schema.optional(Schema.String),
       order: Schema.optional(Schema.String),
+      dimension: Schema.optional(Schema.String),
+      metric: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "MediationReportSpecSortCondition",
   }) as any as Schema.Schema<MediationReportSpecSortCondition>;
 
-export interface Admob_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+export interface PublisherAccount {
+  /** Currency code of the earning-related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. */
+  currencyCode?: string;
+  /** The time zone that is used in reports that are generated for this account. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
+  reportingTimeZone?: string;
+  /** Resource name of this account. Format is accounts/{publisher_id}. */
+  name?: string;
+  /** The unique ID by which this publisher account can be identified in the API requests (for example, pub-1234567890). */
+  publisherId?: string;
 }
 
-export const Admob_Date: Schema.Schema<Admob_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    year: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
-
-export interface DateRange {
-  /** Start date of the date range, inclusive. Must be less than or equal to the end date. */
-  startDate?: Admob_Date;
-  /** End date of the date range, inclusive. Must be greater than or equal to the start date. */
-  endDate?: Admob_Date;
-}
-
-export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startDate: Schema.optional(Admob_Date),
-    endDate: Schema.optional(Admob_Date),
-  }),
-).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+export const PublisherAccount: Schema.Schema<PublisherAccount> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      reportingTimeZone: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      publisherId: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "PublisherAccount",
+}) as any as Schema.Schema<PublisherAccount>;
 
 export interface NetworkReportSpecSortCondition {
   /** Sort by the specified dimension. */
@@ -118,8 +153,6 @@ export interface NetworkReportSpecSortCondition {
     | "APP_VERSION_NAME"
     | "SERVING_RESTRICTION"
     | (string & {});
-  /** Sorting order of the dimension or metric. */
-  order?: "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING" | (string & {});
   /** Sort by the specified metric. */
   metric?:
     | "METRIC_UNSPECIFIED"
@@ -133,35 +166,89 @@ export interface NetworkReportSpecSortCondition {
     | "MATCH_RATE"
     | "SHOW_RATE"
     | (string & {});
+  /** Sorting order of the dimension or metric. */
+  order?: "SORT_ORDER_UNSPECIFIED" | "ASCENDING" | "DESCENDING" | (string & {});
 }
 
 export const NetworkReportSpecSortCondition: Schema.Schema<NetworkReportSpecSortCondition> =
   Schema.suspend(() =>
     Schema.Struct({
       dimension: Schema.optional(Schema.String),
-      order: Schema.optional(Schema.String),
       metric: Schema.optional(Schema.String),
+      order: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "NetworkReportSpecSortCondition",
   }) as any as Schema.Schema<NetworkReportSpecSortCondition>;
 
-export interface LocalizationSettings {
-  /** Language used for any localized text, such as some dimension value display labels. The language tag defined in the IETF BCP47. Defaults to 'en-US' if unspecified. */
-  languageCode?: string;
-  /** Currency code of the earning related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. Defaults to the account currency code if unspecified. */
-  currencyCode?: string;
+export interface ReportWarning {
+  /** Describes the details of the warning message, in English. */
+  description?: string;
+  /** Type of the warning. */
+  type?:
+    | "TYPE_UNSPECIFIED"
+    | "DATA_BEFORE_ACCOUNT_TIMEZONE_CHANGE"
+    | "DATA_DELAYED"
+    | "OTHER"
+    | "REPORT_CURRENCY_NOT_ACCOUNT_CURRENCY"
+    | (string & {});
 }
 
-export const LocalizationSettings: Schema.Schema<LocalizationSettings> =
+export const ReportWarning: Schema.Schema<ReportWarning> = Schema.suspend(() =>
+  Schema.Struct({
+    description: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ReportWarning",
+}) as any as Schema.Schema<ReportWarning>;
+
+export interface ReportFooter {
+  /** Warnings associated with generation of the report. */
+  warnings?: Array<ReportWarning>;
+  /** Total number of rows that matched the request. Warning: This count does NOT always match the number of rows in the response. Do not make that assumption when processing the response. */
+  matchingRowCount?: string;
+}
+
+export const ReportFooter: Schema.Schema<ReportFooter> = Schema.suspend(() =>
+  Schema.Struct({
+    warnings: Schema.optional(Schema.Array(ReportWarning)),
+    matchingRowCount: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "ReportFooter",
+}) as any as Schema.Schema<ReportFooter>;
+
+export interface ReportRowDimensionValue {
+  /** Dimension value in the format specified in the report's spec Dimension enum. */
+  value?: string;
+  /** The localized string representation of the value. If unspecified, the display label should be derived from the value. */
+  displayLabel?: string;
+}
+
+export const ReportRowDimensionValue: Schema.Schema<ReportRowDimensionValue> =
   Schema.suspend(() =>
     Schema.Struct({
-      languageCode: Schema.optional(Schema.String),
-      currencyCode: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      displayLabel: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "LocalizationSettings",
-  }) as any as Schema.Schema<LocalizationSettings>;
+    identifier: "ReportRowDimensionValue",
+  }) as any as Schema.Schema<ReportRowDimensionValue>;
+
+export interface AppManualAppInfo {
+  /** The display name of the app as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
+  displayName?: string;
+}
+
+export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AppManualAppInfo",
+}) as any as Schema.Schema<AppManualAppInfo>;
 
 export interface StringList {
   /** The string values. */
@@ -173,6 +260,153 @@ export const StringList: Schema.Schema<StringList> = Schema.suspend(() =>
     values: Schema.optional(Schema.Array(Schema.String)),
   }),
 ).annotate({ identifier: "StringList" }) as any as Schema.Schema<StringList>;
+
+export interface MediationReportSpecDimensionFilter {
+  /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
+  matchesAny?: StringList;
+  /** Applies the filter criterion to the specified dimension. */
+  dimension?:
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "MONTH"
+    | "WEEK"
+    | "AD_SOURCE"
+    | "AD_SOURCE_INSTANCE"
+    | "AD_UNIT"
+    | "APP"
+    | "MEDIATION_GROUP"
+    | "COUNTRY"
+    | "FORMAT"
+    | "PLATFORM"
+    | "MOBILE_OS_VERSION"
+    | "GMA_SDK_VERSION"
+    | "APP_VERSION_NAME"
+    | "SERVING_RESTRICTION"
+    | (string & {});
+}
+
+export const MediationReportSpecDimensionFilter: Schema.Schema<MediationReportSpecDimensionFilter> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      matchesAny: Schema.optional(StringList),
+      dimension: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MediationReportSpecDimensionFilter",
+  }) as any as Schema.Schema<MediationReportSpecDimensionFilter>;
+
+export interface DateRange {
+  /** Start date of the date range, inclusive. Must be less than or equal to the end date. */
+  startDate?: Admob_Date;
+  /** End date of the date range, inclusive. Must be greater than or equal to the start date. */
+  endDate?: Admob_Date;
+}
+
+export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
+  Schema.Struct({
+    startDate: Schema.optional(Admob_Date),
+    endDate: Schema.optional(Admob_Date),
+  }),
+).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+
+export interface LocalizationSettings {
+  /** Currency code of the earning related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. Defaults to the account currency code if unspecified. */
+  currencyCode?: string;
+  /** Language used for any localized text, such as some dimension value display labels. The language tag defined in the IETF BCP47. Defaults to 'en-US' if unspecified. */
+  languageCode?: string;
+}
+
+export const LocalizationSettings: Schema.Schema<LocalizationSettings> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LocalizationSettings",
+  }) as any as Schema.Schema<LocalizationSettings>;
+
+export interface MediationReportSpec {
+  /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
+  dimensions?: Array<
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "MONTH"
+    | "WEEK"
+    | "AD_SOURCE"
+    | "AD_SOURCE_INSTANCE"
+    | "AD_UNIT"
+    | "APP"
+    | "MEDIATION_GROUP"
+    | "COUNTRY"
+    | "FORMAT"
+    | "PLATFORM"
+    | "MOBILE_OS_VERSION"
+    | "GMA_SDK_VERSION"
+    | "APP_VERSION_NAME"
+    | "SERVING_RESTRICTION"
+    | (string & {})
+  >;
+  /** List of metrics of the report. A report must specify at least one metric. */
+  metrics?: Array<
+    | "METRIC_UNSPECIFIED"
+    | "AD_REQUESTS"
+    | "CLICKS"
+    | "ESTIMATED_EARNINGS"
+    | "IMPRESSIONS"
+    | "IMPRESSION_CTR"
+    | "MATCHED_REQUESTS"
+    | "MATCH_RATE"
+    | "OBSERVED_ECPM"
+    | (string & {})
+  >;
+  /** Describes which report rows to match based on their dimension values. */
+  dimensionFilters?: Array<MediationReportSpecDimensionFilter>;
+  /** The date range for which the report is generated. */
+  dateRange?: DateRange;
+  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
+  sortConditions?: Array<MediationReportSpecSortCondition>;
+  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
+  maxReportRows?: number;
+  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
+  timeZone?: string;
+  /** Localization settings of the report. */
+  localizationSettings?: LocalizationSettings;
+}
+
+export const MediationReportSpec: Schema.Schema<MediationReportSpec> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dimensions: Schema.optional(Schema.Array(Schema.String)),
+      metrics: Schema.optional(Schema.Array(Schema.String)),
+      dimensionFilters: Schema.optional(
+        Schema.Array(MediationReportSpecDimensionFilter),
+      ),
+      dateRange: Schema.optional(DateRange),
+      sortConditions: Schema.optional(
+        Schema.Array(MediationReportSpecSortCondition),
+      ),
+      maxReportRows: Schema.optional(Schema.Number),
+      timeZone: Schema.optional(Schema.String),
+      localizationSettings: Schema.optional(LocalizationSettings),
+    }),
+  ).annotate({
+    identifier: "MediationReportSpec",
+  }) as any as Schema.Schema<MediationReportSpec>;
+
+export interface GenerateMediationReportRequest {
+  /** Network report specification. */
+  reportSpec?: MediationReportSpec;
+}
+
+export const GenerateMediationReportRequest: Schema.Schema<GenerateMediationReportRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      reportSpec: Schema.optional(MediationReportSpec),
+    }),
+  ).annotate({
+    identifier: "GenerateMediationReportRequest",
+  }) as any as Schema.Schema<GenerateMediationReportRequest>;
 
 export interface NetworkReportSpecDimensionFilter {
   /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
@@ -206,6 +440,42 @@ export const NetworkReportSpecDimensionFilter: Schema.Schema<NetworkReportSpecDi
     identifier: "NetworkReportSpecDimensionFilter",
   }) as any as Schema.Schema<NetworkReportSpecDimensionFilter>;
 
+export interface AppLinkedAppInfo {
+  /** The app store ID of the app; present if and only if the app is linked to an app store. If the app is added to the Google Play store, it will be the application ID of the app. For example: "com.example.myapp". See https://developer.android.com/studio/build/application-id. If the app is added to the Apple App Store, it will be app store ID. For example "105169111". Note that setting the app store id is considered an irreversible action. Once an app is linked, it cannot be unlinked. */
+  appStoreId?: string;
+  /** Output only. Display name of the app as it appears in the app store. This is an output-only field, and may be empty if the app cannot be found in the store. */
+  displayName?: string;
+}
+
+export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      appStoreId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AppLinkedAppInfo",
+}) as any as Schema.Schema<AppLinkedAppInfo>;
+
+export interface ReportHeader {
+  /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
+  reportingTimeZone?: string;
+  /** The date range for which the report is generated. This is identical to the range specified in the report request. */
+  dateRange?: DateRange;
+  /** Localization settings of the report. This is identical to the settings in the report request. */
+  localizationSettings?: LocalizationSettings;
+}
+
+export const ReportHeader: Schema.Schema<ReportHeader> = Schema.suspend(() =>
+  Schema.Struct({
+    reportingTimeZone: Schema.optional(Schema.String),
+    dateRange: Schema.optional(DateRange),
+    localizationSettings: Schema.optional(LocalizationSettings),
+  }),
+).annotate({
+  identifier: "ReportHeader",
+}) as any as Schema.Schema<ReportHeader>;
+
 export interface NetworkReportSpec {
   /** The date range for which the report is generated. */
   dateRange?: DateRange;
@@ -227,16 +497,6 @@ export interface NetworkReportSpec {
     | "SERVING_RESTRICTION"
     | (string & {})
   >;
-  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
-  sortConditions?: Array<NetworkReportSpecSortCondition>;
-  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
-  maxReportRows?: number;
-  /** Localization settings of the report. */
-  localizationSettings?: LocalizationSettings;
-  /** Describes which report rows to match based on their dimension values. */
-  dimensionFilters?: Array<NetworkReportSpecDimensionFilter>;
-  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
-  timeZone?: string;
   /** List of metrics of the report. A report must specify at least one metric. */
   metrics?: Array<
     | "METRIC_UNSPECIFIED"
@@ -251,6 +511,16 @@ export interface NetworkReportSpec {
     | "SHOW_RATE"
     | (string & {})
   >;
+  /** Describes which report rows to match based on their dimension values. */
+  dimensionFilters?: Array<NetworkReportSpecDimensionFilter>;
+  /** Localization settings of the report. */
+  localizationSettings?: LocalizationSettings;
+  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
+  sortConditions?: Array<NetworkReportSpecSortCondition>;
+  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
+  maxReportRows?: number;
+  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
+  timeZone?: string;
 }
 
 export const NetworkReportSpec: Schema.Schema<NetworkReportSpec> =
@@ -258,20 +528,85 @@ export const NetworkReportSpec: Schema.Schema<NetworkReportSpec> =
     Schema.Struct({
       dateRange: Schema.optional(DateRange),
       dimensions: Schema.optional(Schema.Array(Schema.String)),
+      metrics: Schema.optional(Schema.Array(Schema.String)),
+      dimensionFilters: Schema.optional(
+        Schema.Array(NetworkReportSpecDimensionFilter),
+      ),
+      localizationSettings: Schema.optional(LocalizationSettings),
       sortConditions: Schema.optional(
         Schema.Array(NetworkReportSpecSortCondition),
       ),
       maxReportRows: Schema.optional(Schema.Number),
-      localizationSettings: Schema.optional(LocalizationSettings),
-      dimensionFilters: Schema.optional(
-        Schema.Array(NetworkReportSpecDimensionFilter),
-      ),
       timeZone: Schema.optional(Schema.String),
-      metrics: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "NetworkReportSpec",
   }) as any as Schema.Schema<NetworkReportSpec>;
+
+export interface ListAdUnitsResponse {
+  /** The resulting ad units for the requested account. */
+  adUnits?: Array<AdUnit>;
+  /** If not empty, indicates that there may be more ad units for the request; this value should be passed in a new `ListAdUnitsRequest`. */
+  nextPageToken?: string;
+}
+
+export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adUnits: Schema.optional(Schema.Array(AdUnit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdUnitsResponse",
+  }) as any as Schema.Schema<ListAdUnitsResponse>;
+
+export interface App {
+  /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
+  name?: string;
+  /** The externally visible ID of the app which can be used to integrate with the AdMob SDK. This is a read only property. Example: ca-app-pub-9876543210987654~0123456789 */
+  appId?: string;
+  /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
+  linkedAppInfo?: AppLinkedAppInfo;
+  /** Output only. The approval state for the app. The field is read-only. */
+  appApprovalState?:
+    | "APP_APPROVAL_STATE_UNSPECIFIED"
+    | "ACTION_REQUIRED"
+    | "IN_REVIEW"
+    | "APPROVED"
+    | (string & {});
+  /** Describes the platform of the app. Limited to "IOS" and "ANDROID". */
+  platform?: string;
+  /** The information for an app that is not linked to any app store. After an app is linked, this information is still retrivable. If no name is provided for the app upon creation, a placeholder name will be used. */
+  manualAppInfo?: AppManualAppInfo;
+}
+
+export const App: Schema.Schema<App> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    appId: Schema.optional(Schema.String),
+    linkedAppInfo: Schema.optional(AppLinkedAppInfo),
+    appApprovalState: Schema.optional(Schema.String),
+    platform: Schema.optional(Schema.String),
+    manualAppInfo: Schema.optional(AppManualAppInfo),
+  }),
+).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
+
+export interface ListAppsResponse {
+  /** The resulting apps for the requested account. */
+  apps?: Array<App>;
+  /** If not empty, indicates that there may be more apps for the request; this value should be passed in a new `ListAppsRequest`. */
+  nextPageToken?: string;
+}
+
+export const ListAppsResponse: Schema.Schema<ListAppsResponse> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      apps: Schema.optional(Schema.Array(App)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "ListAppsResponse",
+}) as any as Schema.Schema<ListAppsResponse>;
 
 export interface GenerateNetworkReportRequest {
   /** Network report specification. */
@@ -287,42 +622,42 @@ export const GenerateNetworkReportRequest: Schema.Schema<GenerateNetworkReportRe
     identifier: "GenerateNetworkReportRequest",
   }) as any as Schema.Schema<GenerateNetworkReportRequest>;
 
-export interface ReportRowDimensionValue {
-  /** Dimension value in the format specified in the report's spec Dimension enum. */
-  value?: string;
-  /** The localized string representation of the value. If unspecified, the display label should be derived from the value. */
-  displayLabel?: string;
-}
-
-export const ReportRowDimensionValue: Schema.Schema<ReportRowDimensionValue> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      value: Schema.optional(Schema.String),
-      displayLabel: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ReportRowDimensionValue",
-  }) as any as Schema.Schema<ReportRowDimensionValue>;
-
 export interface ReportRowMetricValue {
-  /** Metric integer value. */
-  integerValue?: string;
   /** Double precision (approximate) decimal values. Rates are from 0 to 1. */
   doubleValue?: number;
   /** Amount in micros. One million is equivalent to one unit. Currency value is in the unit (USD, EUR or other) specified by the request. For example, $6.50 whould be represented as 6500000 micros. */
   microsValue?: string;
+  /** Metric integer value. */
+  integerValue?: string;
 }
 
 export const ReportRowMetricValue: Schema.Schema<ReportRowMetricValue> =
   Schema.suspend(() =>
     Schema.Struct({
-      integerValue: Schema.optional(Schema.String),
       doubleValue: Schema.optional(Schema.Number),
       microsValue: Schema.optional(Schema.String),
+      integerValue: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ReportRowMetricValue",
   }) as any as Schema.Schema<ReportRowMetricValue>;
+
+export interface ListPublisherAccountsResponse {
+  /** If not empty, indicates that there might be more accounts for the request; you must pass this value in a new `ListPublisherAccountsRequest`. */
+  nextPageToken?: string;
+  /** Publisher that the client credentials can access. */
+  account?: Array<PublisherAccount>;
+}
+
+export const ListPublisherAccountsResponse: Schema.Schema<ListPublisherAccountsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.Array(PublisherAccount)),
+    }),
+  ).annotate({
+    identifier: "ListPublisherAccountsResponse",
+  }) as any as Schema.Schema<ListPublisherAccountsResponse>;
 
 export interface ReportRow {
   /** Map of dimension values in a row, with keys as enum name of the dimensions. */
@@ -342,356 +677,21 @@ export const ReportRow: Schema.Schema<ReportRow> = Schema.suspend(() =>
   }),
 ).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
 
-export interface MediationReportSpecDimensionFilter {
-  /** Applies the filter criterion to the specified dimension. */
-  dimension?:
-    | "DIMENSION_UNSPECIFIED"
-    | "DATE"
-    | "MONTH"
-    | "WEEK"
-    | "AD_SOURCE"
-    | "AD_SOURCE_INSTANCE"
-    | "AD_UNIT"
-    | "APP"
-    | "MEDIATION_GROUP"
-    | "COUNTRY"
-    | "FORMAT"
-    | "PLATFORM"
-    | "MOBILE_OS_VERSION"
-    | "GMA_SDK_VERSION"
-    | "APP_VERSION_NAME"
-    | "SERVING_RESTRICTION"
-    | (string & {});
-  /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
-  matchesAny?: StringList;
-}
-
-export const MediationReportSpecDimensionFilter: Schema.Schema<MediationReportSpecDimensionFilter> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      dimension: Schema.optional(Schema.String),
-      matchesAny: Schema.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "MediationReportSpecDimensionFilter",
-  }) as any as Schema.Schema<MediationReportSpecDimensionFilter>;
-
-export interface ReportWarning {
-  /** Type of the warning. */
-  type?:
-    | "TYPE_UNSPECIFIED"
-    | "DATA_BEFORE_ACCOUNT_TIMEZONE_CHANGE"
-    | "DATA_DELAYED"
-    | "OTHER"
-    | "REPORT_CURRENCY_NOT_ACCOUNT_CURRENCY"
-    | (string & {});
-  /** Describes the details of the warning message, in English. */
-  description?: string;
-}
-
-export const ReportWarning: Schema.Schema<ReportWarning> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportWarning",
-}) as any as Schema.Schema<ReportWarning>;
-
-export interface ReportFooter {
-  /** Warnings associated with generation of the report. */
-  warnings?: Array<ReportWarning>;
-  /** Total number of rows that matched the request. Warning: This count does NOT always match the number of rows in the response. Do not make that assumption when processing the response. */
-  matchingRowCount?: string;
-}
-
-export const ReportFooter: Schema.Schema<ReportFooter> = Schema.suspend(() =>
-  Schema.Struct({
-    warnings: Schema.optional(Schema.Array(ReportWarning)),
-    matchingRowCount: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportFooter",
-}) as any as Schema.Schema<ReportFooter>;
-
-export interface ReportHeader {
-  /** Localization settings of the report. This is identical to the settings in the report request. */
-  localizationSettings?: LocalizationSettings;
-  /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
-  reportingTimeZone?: string;
-  /** The date range for which the report is generated. This is identical to the range specified in the report request. */
-  dateRange?: DateRange;
-}
-
-export const ReportHeader: Schema.Schema<ReportHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    localizationSettings: Schema.optional(LocalizationSettings),
-    reportingTimeZone: Schema.optional(Schema.String),
-    dateRange: Schema.optional(DateRange),
-  }),
-).annotate({
-  identifier: "ReportHeader",
-}) as any as Schema.Schema<ReportHeader>;
-
-export interface AdUnit {
-  /** Resource name for this ad unit. Format is accounts/{publisher_id}/adUnits/{ad_unit_id_fragment} Example: accounts/pub-9876543210987654/adUnits/0123456789 */
-  name?: string;
-  /** The externally visible ID of the app this ad unit is associated with. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string;
-  /** The display name of the ad unit as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
-  displayName?: string;
-  /** AdFormat of the ad unit. Possible values are as follows: "APP_OPEN" - App Open ad format. "BANNER" - Banner ad format. "BANNER_INTERSTITIAL" - Legacy format that can be used as either banner or interstitial. This format can no longer be created but can be targeted by mediation groups. "INTERSTITIAL" - A full screen ad. Supported ad types are "RICH_MEDIA" and "VIDEO". "NATIVE" - Native ad format. "REWARDED" - An ad that, once viewed, gets a callback verifying the view so that a reward can be given to the user. Supported ad types are "RICH_MEDIA" (interactive) and video where video can not be excluded. "REWARDED_INTERSTITIAL" - Rewarded Interstitial ad format. Only supports video ad type. See https://support.google.com/admob/answer/9884467. */
-  adFormat?: string;
-  /** Ad media type supported by this ad unit. Possible values as follows: "RICH_MEDIA" - Text, image, and other non-video media. "VIDEO" - Video media. */
-  adTypes?: Array<string>;
-  /** The externally visible ID of the ad unit which can be used to integrate with the AdMob SDK. This is a read only property. Example: ca-app-pub-9876543210987654/0123456789 */
-  adUnitId?: string;
-}
-
-export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    adFormat: Schema.optional(Schema.String),
-    adTypes: Schema.optional(Schema.Array(Schema.String)),
-    adUnitId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
-
-export interface ListAdUnitsResponse {
-  /** The resulting ad units for the requested account. */
-  adUnits?: Array<AdUnit>;
-  /** If not empty, indicates that there may be more ad units for the request; this value should be passed in a new `ListAdUnitsRequest`. */
-  nextPageToken?: string;
-}
-
-export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      adUnits: Schema.optional(Schema.Array(AdUnit)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListAdUnitsResponse",
-  }) as any as Schema.Schema<ListAdUnitsResponse>;
-
-export interface MediationReportSpec {
-  /** List of metrics of the report. A report must specify at least one metric. */
-  metrics?: Array<
-    | "METRIC_UNSPECIFIED"
-    | "AD_REQUESTS"
-    | "CLICKS"
-    | "ESTIMATED_EARNINGS"
-    | "IMPRESSIONS"
-    | "IMPRESSION_CTR"
-    | "MATCHED_REQUESTS"
-    | "MATCH_RATE"
-    | "OBSERVED_ECPM"
-    | (string & {})
-  >;
-  /** Describes which report rows to match based on their dimension values. */
-  dimensionFilters?: Array<MediationReportSpecDimensionFilter>;
-  /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
-  timeZone?: string;
-  /** Localization settings of the report. */
-  localizationSettings?: LocalizationSettings;
-  /** The date range for which the report is generated. */
-  dateRange?: DateRange;
-  /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
-  dimensions?: Array<
-    | "DIMENSION_UNSPECIFIED"
-    | "DATE"
-    | "MONTH"
-    | "WEEK"
-    | "AD_SOURCE"
-    | "AD_SOURCE_INSTANCE"
-    | "AD_UNIT"
-    | "APP"
-    | "MEDIATION_GROUP"
-    | "COUNTRY"
-    | "FORMAT"
-    | "PLATFORM"
-    | "MOBILE_OS_VERSION"
-    | "GMA_SDK_VERSION"
-    | "APP_VERSION_NAME"
-    | "SERVING_RESTRICTION"
-    | (string & {})
-  >;
-  /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
-  sortConditions?: Array<MediationReportSpecSortCondition>;
-  /** Maximum number of report data rows to return. If the value is not set, the API returns as many rows as possible, up to 100000. Acceptable values are 1-100000, inclusive. Values larger than 100000 return an error. */
-  maxReportRows?: number;
-}
-
-export const MediationReportSpec: Schema.Schema<MediationReportSpec> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      metrics: Schema.optional(Schema.Array(Schema.String)),
-      dimensionFilters: Schema.optional(
-        Schema.Array(MediationReportSpecDimensionFilter),
-      ),
-      timeZone: Schema.optional(Schema.String),
-      localizationSettings: Schema.optional(LocalizationSettings),
-      dateRange: Schema.optional(DateRange),
-      dimensions: Schema.optional(Schema.Array(Schema.String)),
-      sortConditions: Schema.optional(
-        Schema.Array(MediationReportSpecSortCondition),
-      ),
-      maxReportRows: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "MediationReportSpec",
-  }) as any as Schema.Schema<MediationReportSpec>;
-
-export interface GenerateMediationReportRequest {
-  /** Network report specification. */
-  reportSpec?: MediationReportSpec;
-}
-
-export const GenerateMediationReportRequest: Schema.Schema<GenerateMediationReportRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      reportSpec: Schema.optional(MediationReportSpec),
-    }),
-  ).annotate({
-    identifier: "GenerateMediationReportRequest",
-  }) as any as Schema.Schema<GenerateMediationReportRequest>;
-
-export interface AppManualAppInfo {
-  /** The display name of the app as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
-  displayName?: string;
-}
-
-export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      displayName: Schema.optional(Schema.String),
-    }),
-).annotate({
-  identifier: "AppManualAppInfo",
-}) as any as Schema.Schema<AppManualAppInfo>;
-
-export interface AppLinkedAppInfo {
-  /** Output only. Display name of the app as it appears in the app store. This is an output-only field, and may be empty if the app cannot be found in the store. */
-  displayName?: string;
-  /** The app store ID of the app; present if and only if the app is linked to an app store. If the app is added to the Google Play store, it will be the application ID of the app. For example: "com.example.myapp". See https://developer.android.com/studio/build/application-id. If the app is added to the Apple App Store, it will be app store ID. For example "105169111". Note that setting the app store id is considered an irreversible action. Once an app is linked, it cannot be unlinked. */
-  appStoreId?: string;
-}
-
-export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      displayName: Schema.optional(Schema.String),
-      appStoreId: Schema.optional(Schema.String),
-    }),
-).annotate({
-  identifier: "AppLinkedAppInfo",
-}) as any as Schema.Schema<AppLinkedAppInfo>;
-
-export interface App {
-  /** Describes the platform of the app. Limited to "IOS" and "ANDROID". */
-  platform?: string;
-  /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
-  name?: string;
-  /** The externally visible ID of the app which can be used to integrate with the AdMob SDK. This is a read only property. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string;
-  /** Output only. The approval state for the app. The field is read-only. */
-  appApprovalState?:
-    | "APP_APPROVAL_STATE_UNSPECIFIED"
-    | "ACTION_REQUIRED"
-    | "IN_REVIEW"
-    | "APPROVED"
-    | (string & {});
-  /** The information for an app that is not linked to any app store. After an app is linked, this information is still retrivable. If no name is provided for the app upon creation, a placeholder name will be used. */
-  manualAppInfo?: AppManualAppInfo;
-  /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
-  linkedAppInfo?: AppLinkedAppInfo;
-}
-
-export const App: Schema.Schema<App> = Schema.suspend(() =>
-  Schema.Struct({
-    platform: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-    appApprovalState: Schema.optional(Schema.String),
-    manualAppInfo: Schema.optional(AppManualAppInfo),
-    linkedAppInfo: Schema.optional(AppLinkedAppInfo),
-  }),
-).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
-
-export interface ListAppsResponse {
-  /** If not empty, indicates that there may be more apps for the request; this value should be passed in a new `ListAppsRequest`. */
-  nextPageToken?: string;
-  /** The resulting apps for the requested account. */
-  apps?: Array<App>;
-}
-
-export const ListAppsResponse: Schema.Schema<ListAppsResponse> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      apps: Schema.optional(Schema.Array(App)),
-    }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as Schema.Schema<ListAppsResponse>;
-
-export interface PublisherAccount {
-  /** The unique ID by which this publisher account can be identified in the API requests (for example, pub-1234567890). */
-  publisherId?: string;
-  /** Resource name of this account. Format is accounts/{publisher_id}. */
-  name?: string;
-  /** Currency code of the earning-related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. */
-  currencyCode?: string;
-  /** The time zone that is used in reports that are generated for this account. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
-  reportingTimeZone?: string;
-}
-
-export const PublisherAccount: Schema.Schema<PublisherAccount> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      publisherId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      currencyCode: Schema.optional(Schema.String),
-      reportingTimeZone: Schema.optional(Schema.String),
-    }),
-).annotate({
-  identifier: "PublisherAccount",
-}) as any as Schema.Schema<PublisherAccount>;
-
-export interface ListPublisherAccountsResponse {
-  /** If not empty, indicates that there might be more accounts for the request; you must pass this value in a new `ListPublisherAccountsRequest`. */
-  nextPageToken?: string;
-  /** Publisher that the client credentials can access. */
-  account?: Array<PublisherAccount>;
-}
-
-export const ListPublisherAccountsResponse: Schema.Schema<ListPublisherAccountsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      account: Schema.optional(Schema.Array(PublisherAccount)),
-    }),
-  ).annotate({
-    identifier: "ListPublisherAccountsResponse",
-  }) as any as Schema.Schema<ListPublisherAccountsResponse>;
-
 export interface GenerateNetworkReportResponse {
-  /** Actual report data. */
-  row?: ReportRow;
   /** Additional information about the generated report, such as warnings about the data. */
   footer?: ReportFooter;
   /** Report generation settings that describes the report contents, such as the report date range and localization settings. */
   header?: ReportHeader;
+  /** Actual report data. */
+  row?: ReportRow;
 }
 
 export const GenerateNetworkReportResponse: Schema.Schema<GenerateNetworkReportResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      row: Schema.optional(ReportRow),
       footer: Schema.optional(ReportFooter),
       header: Schema.optional(ReportHeader),
+      row: Schema.optional(ReportRow),
     }),
   ).annotate({
     identifier: "GenerateNetworkReportResponse",
@@ -824,45 +824,6 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListAccountsAppsRequest {
-  /** Required. Resource name of the account to list apps for. Example: accounts/pub-9876543210987654 */
-  parent: string;
-  /** The maximum number of apps to return. If unspecified or 0, at most 10,000 apps will be returned. The maximum value is 20,000; values above 20,000 will be coerced to 20,000. */
-  pageSize?: number;
-  /** The value returned by the last `ListAppsResponse`; indicates that this is a continuation of a prior `ListApps` call, and that the system should return the next page of data. */
-  pageToken?: string;
-}
-
-export const ListAccountsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/apps" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsRequest>;
-
-export type ListAccountsAppsResponse = ListAppsResponse;
-export const ListAccountsAppsResponse = ListAppsResponse;
-
-export type ListAccountsAppsError = DefaultErrors;
-
-/** List the apps under the specified AdMob account. */
-export const listAccountsApps: API.PaginatedOperationMethod<
-  ListAccountsAppsRequest,
-  ListAccountsAppsResponse,
-  ListAccountsAppsError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListAccountsAppsRequest,
-  output: ListAccountsAppsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
 export interface GenerateAccountsMediationReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
@@ -901,18 +862,57 @@ export const generateAccountsMediationReport: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListAccountsAdUnitsRequest {
-  /** Required. Resource name of the account to list ad units for. Example: accounts/pub-9876543210987654 */
+export interface ListAccountsAppsRequest {
+  /** Required. Resource name of the account to list apps for. Example: accounts/pub-9876543210987654 */
   parent: string;
+  /** The value returned by the last `ListAppsResponse`; indicates that this is a continuation of a prior `ListApps` call, and that the system should return the next page of data. */
+  pageToken?: string;
+  /** The maximum number of apps to return. If unspecified or 0, at most 10,000 apps will be returned. The maximum value is 20,000; values above 20,000 will be coerced to 20,000. */
+  pageSize?: number;
+}
+
+export const ListAccountsAppsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/apps" }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsAppsRequest>;
+
+export type ListAccountsAppsResponse = ListAppsResponse;
+export const ListAccountsAppsResponse = ListAppsResponse;
+
+export type ListAccountsAppsError = DefaultErrors;
+
+/** List the apps under the specified AdMob account. */
+export const listAccountsApps: API.PaginatedOperationMethod<
+  ListAccountsAppsRequest,
+  ListAccountsAppsResponse,
+  ListAccountsAppsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListAccountsAppsRequest,
+  output: ListAccountsAppsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface ListAccountsAdUnitsRequest {
   /** The maximum number of ad units to return. If unspecified or 0, at most 10,000 ad units will be returned. The maximum value is 20,000; values above 20,000 will be coerced to 20,000. */
   pageSize?: number;
+  /** Required. Resource name of the account to list ad units for. Example: accounts/pub-9876543210987654 */
+  parent: string;
   /** The value returned by the last `ListAdUnitsResponse`; indicates that this is a continuation of a prior `ListAdUnits` call, and that the system should return the next page of data. */
   pageToken?: string;
 }
 
 export const ListAccountsAdUnitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/accounts/{accountsId}/adUnits" }),

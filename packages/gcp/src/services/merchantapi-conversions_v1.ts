@@ -40,10 +40,6 @@ export const ConversionType: Schema.Schema<ConversionType> = Schema.suspend(
 }) as any as Schema.Schema<ConversionType>;
 
 export interface AttributionSettings {
-  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
-  conversionType?: Array<ConversionType>;
-  /** Required. Lookback window (in days) used for attribution in this source. Supported values are `7`, `30` & `40`. */
-  attributionLookbackWindowDays?: number;
   /** Required. Attribution model. */
   attributionModel?:
     | "ATTRIBUTION_MODEL_UNSPECIFIED"
@@ -55,71 +51,69 @@ export interface AttributionSettings {
     | "CROSS_CHANNEL_POSITION_BASED"
     | "CROSS_CHANNEL_TIME_DECAY"
     | (string & {});
+  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
+  conversionType?: Array<ConversionType>;
+  /** Required. Lookback window (in days) used for attribution in this source. Supported values are `7`, `30` & `40`. */
+  attributionLookbackWindowDays?: number;
 }
 
 export const AttributionSettings: Schema.Schema<AttributionSettings> =
   Schema.suspend(() =>
     Schema.Struct({
+      attributionModel: Schema.optional(Schema.String),
       conversionType: Schema.optional(Schema.Array(ConversionType)),
       attributionLookbackWindowDays: Schema.optional(Schema.Number),
-      attributionModel: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "AttributionSettings",
   }) as any as Schema.Schema<AttributionSettings>;
 
+export interface GoogleAnalyticsLink {
+  /** Output only. Attribution settings for the linked Google Analytics property. */
+  attributionSettings?: AttributionSettings;
+  /** Output only. Name of the Google Analytics property the merchant is linked to. */
+  property?: string;
+  /** Required. Immutable. ID of the Google Analytics property the merchant is linked to. */
+  propertyId?: string;
+}
+
+export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      attributionSettings: Schema.optional(AttributionSettings),
+      property: Schema.optional(Schema.String),
+      propertyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAnalyticsLink",
+  }) as any as Schema.Schema<GoogleAnalyticsLink>;
+
 export interface MerchantCenterDestination {
   /** Output only. Merchant Center Destination ID. */
   destination?: string;
+  /** Required. Three-letter currency code (ISO 4217). The currency code defines in which currency the conversions sent to this destination will be reported in Merchant Center. */
+  currencyCode?: string;
   /** Required. Merchant-specified display name for the destination. This is the name that identifies the conversion source within the Merchant Center UI. The maximum length is 64 characters. */
   displayName?: string;
   /** Required. Attribution settings used for the Merchant Center Destination. */
   attributionSettings?: AttributionSettings;
-  /** Required. Three-letter currency code (ISO 4217). The currency code defines in which currency the conversions sent to this destination will be reported in Merchant Center. */
-  currencyCode?: string;
 }
 
 export const MerchantCenterDestination: Schema.Schema<MerchantCenterDestination> =
   Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
       attributionSettings: Schema.optional(AttributionSettings),
-      currencyCode: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "MerchantCenterDestination",
   }) as any as Schema.Schema<MerchantCenterDestination>;
 
-export interface GoogleAnalyticsLink {
-  /** Required. Immutable. ID of the Google Analytics property the merchant is linked to. */
-  propertyId?: string;
-  /** Output only. Attribution settings for the linked Google Analytics property. */
-  attributionSettings?: AttributionSettings;
-  /** Output only. Name of the Google Analytics property the merchant is linked to. */
-  property?: string;
-}
-
-export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      propertyId: Schema.optional(Schema.String),
-      attributionSettings: Schema.optional(AttributionSettings),
-      property: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleAnalyticsLink",
-  }) as any as Schema.Schema<GoogleAnalyticsLink>;
-
 export interface ConversionSource {
-  /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
-  expireTime?: string;
   /** Immutable. Conversion Source of type "Link to Google Analytics Property". */
   googleAnalyticsLink?: GoogleAnalyticsLink;
-  /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
-  name?: string;
-  /** Conversion Source of type "Merchant Center Tag Destination". */
-  merchantCenterDestination?: MerchantCenterDestination;
   /** Output only. Current state of this conversion source. Can't be edited through the API. */
   state?:
     | "STATE_UNSPECIFIED"
@@ -133,17 +127,23 @@ export interface ConversionSource {
     | "MERCHANT"
     | "YOUTUBE_AFFILIATES"
     | (string & {});
+  /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
+  expireTime?: string;
+  /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
+  name?: string;
+  /** Conversion Source of type "Merchant Center Tag Destination". */
+  merchantCenterDestination?: MerchantCenterDestination;
 }
 
 export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
   () =>
     Schema.Struct({
-      expireTime: Schema.optional(Schema.String),
       googleAnalyticsLink: Schema.optional(GoogleAnalyticsLink),
-      name: Schema.optional(Schema.String),
-      merchantCenterDestination: Schema.optional(MerchantCenterDestination),
       state: Schema.optional(Schema.String),
       controller: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      merchantCenterDestination: Schema.optional(MerchantCenterDestination),
     }),
 ).annotate({
   identifier: "ConversionSource",
@@ -167,10 +167,12 @@ export const ListConversionSourcesResponse: Schema.Schema<ListConversionSourcesR
   }) as any as Schema.Schema<ListConversionSourcesResponse>;
 
 export interface ProductChange {
-  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
-  regionCode?: string;
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   oldValue?: string;
+  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
+  newValue?: string;
+  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
+  regionCode?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
   reportingContext?:
     | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
@@ -194,36 +196,34 @@ export interface ProductChange {
     | "MERCHANT_REVIEWS"
     | "YOUTUBE_CHECKOUT"
     | (string & {});
-  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
-  newValue?: string;
 }
 
 export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
   Schema.Struct({
-    regionCode: Schema.optional(Schema.String),
     oldValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
     newValue: Schema.optional(Schema.String),
+    regionCode: Schema.optional(Schema.String),
+    reportingContext: Schema.optional(Schema.String),
   }),
 ).annotate({
   identifier: "ProductChange",
 }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
-  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
-  managingAccount?: string;
-  /** The product id. */
-  resourceId?: string;
-  /** The attribute in the resource that changed, in this case it will be always `Status`. */
-  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
-  /** The resource that changed, in this case it will always be `Product`. */
-  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
-  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
-  expirationTime?: string;
   /** A message to describe the change that happened to the product */
   changes?: Array<ProductChange>;
+  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
+  managingAccount?: string;
   /** The product name. Format: `accounts/{account}/products/{product}` */
   resource?: string;
+  /** The resource that changed, in this case it will always be `Product`. */
+  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
+  /** The product id. */
+  resourceId?: string;
+  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
+  expirationTime?: string;
+  /** The attribute in the resource that changed, in this case it will be always `Status`. */
+  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
   /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
   account?: string;
   /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
@@ -233,13 +233,13 @@ export interface ProductStatusChangeMessage {
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
   Schema.suspend(() =>
     Schema.Struct({
-      managingAccount: Schema.optional(Schema.String),
-      resourceId: Schema.optional(Schema.String),
-      attribute: Schema.optional(Schema.String),
-      resourceType: Schema.optional(Schema.String),
-      expirationTime: Schema.optional(Schema.String),
       changes: Schema.optional(Schema.Array(ProductChange)),
+      managingAccount: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
       account: Schema.optional(Schema.String),
       eventTime: Schema.optional(Schema.String),
     }),
@@ -265,21 +265,21 @@ export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
 // ==========================================================================
 
 export interface ListAccountsConversionSourcesRequest {
-  /** Required. The merchant account who owns the collection of conversion sources. Format: `accounts/{account}` */
-  parent: string;
   /** Optional. The maximum number of conversion sources to return in a page. If no `page_size` is specified, `100` is used as the default value. The maximum value is `200`. Values above `200` will be coerced to `200`. Regardless of pagination, at most `200` conversion sources are returned in total. */
   pageSize?: number;
   /** Optional. Page token. */
   pageToken?: string;
   /** Optional. Show deleted (archived) conversion sources. By default, deleted conversion sources are not returned. */
   showDeleted?: boolean;
+  /** Required. The merchant account who owns the collection of conversion sources. Format: `accounts/{account}` */
+  parent: string;
 }
 
 export const ListAccountsConversionSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -309,38 +309,6 @@ export const listAccountsConversionSources: API.PaginatedOperationMethod<
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
-}));
-
-export interface GetAccountsConversionSourcesRequest {
-  /** Required. The name of the conversion source to be fetched. Format: `accounts/{account}/conversionSources/{conversion_source}` */
-  name: string;
-}
-
-export const GetAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "conversions/v1/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
-
-export type GetAccountsConversionSourcesResponse = ConversionSource;
-export const GetAccountsConversionSourcesResponse = ConversionSource;
-
-export type GetAccountsConversionSourcesError = DefaultErrors;
-
-/** Fetches a conversion source. */
-export const getAccountsConversionSources: API.OperationMethod<
-  GetAccountsConversionSourcesRequest,
-  GetAccountsConversionSourcesResponse,
-  GetAccountsConversionSourcesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetAccountsConversionSourcesRequest,
-  output: GetAccountsConversionSourcesResponse,
-  errors: [],
 }));
 
 export interface UndeleteAccountsConversionSourcesRequest {
@@ -376,6 +344,38 @@ export const undeleteAccountsConversionSources: API.OperationMethod<
 > = API.make(() => ({
   input: UndeleteAccountsConversionSourcesRequest,
   output: UndeleteAccountsConversionSourcesResponse,
+  errors: [],
+}));
+
+export interface GetAccountsConversionSourcesRequest {
+  /** Required. The name of the conversion source to be fetched. Format: `accounts/{account}/conversionSources/{conversion_source}` */
+  name: string;
+}
+
+export const GetAccountsConversionSourcesRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "conversions/v1/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
+
+export type GetAccountsConversionSourcesResponse = ConversionSource;
+export const GetAccountsConversionSourcesResponse = ConversionSource;
+
+export type GetAccountsConversionSourcesError = DefaultErrors;
+
+/** Fetches a conversion source. */
+export const getAccountsConversionSources: API.OperationMethod<
+  GetAccountsConversionSourcesRequest,
+  GetAccountsConversionSourcesResponse,
+  GetAccountsConversionSourcesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAccountsConversionSourcesRequest,
+  output: GetAccountsConversionSourcesResponse,
   errors: [],
 }));
 
@@ -416,17 +416,17 @@ export const createAccountsConversionSources: API.OperationMethod<
 }));
 
 export interface PatchAccountsConversionSourcesRequest {
-  /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
-  name: string;
   /** Optional. List of fields being updated. */
   updateMask?: string;
+  /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
+  name: string;
   /** Request body */
   body?: ConversionSource;
 }
 
 export const PatchAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+  name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
 }).pipe(
   T.Http({

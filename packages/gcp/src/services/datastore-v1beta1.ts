@@ -22,42 +22,22 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface GoogleDatastoreAdminV1beta1EntityFilter {
-  /** If empty, then this represents all kinds. */
-  kinds?: Array<string>;
-  /** An empty list represents all namespaces. This is the preferred usage for projects that don't use namespaces. An empty string element represents the default namespace. This should be used if the project has data in non-default namespaces, but doesn't want to include them. Each namespace in this list must be unique. */
-  namespaceIds?: Array<string>;
+export interface GoogleDatastoreAdminV1Progress {
+  /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
+  workCompleted?: string;
+  /** An estimate of how much work needs to be performed. May be zero if the work estimate is unavailable. */
+  workEstimated?: string;
 }
 
-export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> =
+export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> =
   Schema.suspend(() =>
     Schema.Struct({
-      kinds: Schema.optional(Schema.Array(Schema.String)),
-      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1EntityFilter",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
-
-export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
-  /** Client-assigned labels. */
-  labels?: Record<string, string>;
-  /** Description of what data from the project is included in the export. */
-  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
-  /** Location for the export metadata and data files. The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So output_url_prefix should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace). For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). The resulting files will be nested deeper than the specified URL prefix. The final output URL will be provided in the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. That value should be used for subsequent ImportEntities operations. By nesting the data files deeper, the same Cloud Storage bucket can be used in multiple ExportEntities operations without conflict. */
-  outputUrlPrefix?: string;
-}
-
-export const GoogleDatastoreAdminV1beta1ExportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-      outputUrlPrefix: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest>;
+    identifier: "GoogleDatastoreAdminV1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -78,53 +58,9 @@ export const Status: Schema.Schema<Status> = Schema.suspend(() =>
   }),
 ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
-export interface GoogleLongrunningOperation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: Record<string, unknown>;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: Record<string, unknown>;
-}
-
-export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      done: Schema.optional(Schema.Boolean),
-      error: Schema.optional(Status),
-      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    }),
-  ).annotate({
-    identifier: "GoogleLongrunningOperation",
-  }) as any as Schema.Schema<GoogleLongrunningOperation>;
-
-export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
-  /** Client-assigned labels. */
-  labels?: Record<string, string>;
-  /** The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So input_url should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace), and `OVERALL_EXPORT_METADATA_FILE` is the metadata file written by the ExportEntities operation. For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). For more information, see google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
-  inputUrl?: string;
-  /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
-  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
-}
-
-export const GoogleDatastoreAdminV1beta1ImportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      inputUrl: Schema.optional(Schema.String),
-      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest>;
-
 export interface GoogleDatastoreAdminV1beta1CommonMetadata {
+  /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
+  labels?: Record<string, string>;
   /** The time that work began on the operation. */
   startTime?: string;
   /** The time the operation ended, either successfully or otherwise. */
@@ -135,8 +71,6 @@ export interface GoogleDatastoreAdminV1beta1CommonMetadata {
     | "EXPORT_ENTITIES"
     | "IMPORT_ENTITIES"
     | (string & {});
-  /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
-  labels?: Record<string, string>;
   /** The current state of the Operation. */
   state?:
     | "STATE_UNSPECIFIED"
@@ -153,156 +87,71 @@ export interface GoogleDatastoreAdminV1beta1CommonMetadata {
 export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
       operationType: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       state: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleDatastoreAdminV1beta1CommonMetadata",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata>;
 
-export interface GoogleDatastoreAdminV1beta1Progress {
-  /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
-  workCompleted?: string;
-  /** An estimate of how much work needs to be performed. May be zero if the work estimate is unavailable. */
-  workEstimated?: string;
+export interface GoogleDatastoreAdminV1beta1EntityFilter {
+  /** If empty, then this represents all kinds. */
+  kinds?: Array<string>;
+  /** An empty list represents all namespaces. This is the preferred usage for projects that don't use namespaces. An empty string element represents the default namespace. This should be used if the project has data in non-default namespaces, but doesn't want to include them. Each namespace in this list must be unique. */
+  namespaceIds?: Array<string>;
 }
 
-export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> =
+export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> =
   Schema.suspend(() =>
     Schema.Struct({
-      workCompleted: Schema.optional(Schema.String),
-      workEstimated: Schema.optional(Schema.String),
+      kinds: Schema.optional(Schema.Array(Schema.String)),
+      namespaceIds: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1Progress",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
+    identifier: "GoogleDatastoreAdminV1beta1EntityFilter",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter>;
 
-export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
-  /** Metadata common to all Datastore Admin operations. */
-  common?: GoogleDatastoreAdminV1beta1CommonMetadata;
-  /** An estimate of the number of entities processed. */
-  progressEntities?: GoogleDatastoreAdminV1beta1Progress;
-  /** An estimate of the number of bytes processed. */
-  progressBytes?: GoogleDatastoreAdminV1beta1Progress;
-  /** Description of which entities are being exported. */
-  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
-  /** Location for the export metadata and data files. This will be the same value as the google.datastore.admin.v1beta1.ExportEntitiesRequest.output_url_prefix field. The final output location is provided in google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
+export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
+  /** Location for the export metadata and data files. The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So output_url_prefix should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace). For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). The resulting files will be nested deeper than the specified URL prefix. The final output URL will be provided in the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. That value should be used for subsequent ImportEntities operations. By nesting the data files deeper, the same Cloud Storage bucket can be used in multiple ExportEntities operations without conflict. */
   outputUrlPrefix?: string;
-}
-
-export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-      outputUrlPrefix: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
-
-export interface GoogleDatastoreAdminV1beta1ExportEntitiesResponse {
-  /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1beta1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
-  outputUrl?: string;
-}
-
-export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      outputUrl: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
-
-export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
-  /** Metadata common to all Datastore Admin operations. */
-  common?: GoogleDatastoreAdminV1beta1CommonMetadata;
-  /** An estimate of the number of entities processed. */
-  progressEntities?: GoogleDatastoreAdminV1beta1Progress;
-  /** An estimate of the number of bytes processed. */
-  progressBytes?: GoogleDatastoreAdminV1beta1Progress;
-  /** Description of which entities are being imported. */
-  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
-  /** The location of the import metadata file. This will be the same value as the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. */
-  inputUrl?: string;
-}
-
-export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
-      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
-      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
-      inputUrl: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
-
-export interface GoogleDatastoreAdminV1CommonMetadata {
-  /** The time that work began on the operation. */
-  startTime?: string;
-  /** The time the operation ended, either successfully or otherwise. */
-  endTime?: string;
-  /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
-  operationType?:
-    | "OPERATION_TYPE_UNSPECIFIED"
-    | "EXPORT_ENTITIES"
-    | "IMPORT_ENTITIES"
-    | "CREATE_INDEX"
-    | "DELETE_INDEX"
-    | (string & {});
-  /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
+  /** Client-assigned labels. */
   labels?: Record<string, string>;
-  /** The current state of the Operation. */
+  /** Description of what data from the project is included in the export. */
+  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
+}
+
+export const GoogleDatastoreAdminV1beta1ExportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrlPrefix: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesRequest>;
+
+export interface GoogleDatastoreAdminV1MigrationStateEvent {
+  /** The new state of the migration. */
   state?:
-    | "STATE_UNSPECIFIED"
-    | "INITIALIZING"
-    | "PROCESSING"
-    | "CANCELLING"
-    | "FINALIZING"
-    | "SUCCESSFUL"
-    | "FAILED"
-    | "CANCELLED"
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
     | (string & {});
 }
 
-export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> =
+export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> =
   Schema.suspend(() =>
     Schema.Struct({
-      startTime: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
-      operationType: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       state: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "GoogleDatastoreAdminV1CommonMetadata",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
-
-export interface GoogleDatastoreAdminV1Progress {
-  /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
-  workCompleted?: string;
-  /** An estimate of how much work needs to be performed. May be zero if the work estimate is unavailable. */
-  workEstimated?: string;
-}
-
-export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      workCompleted: Schema.optional(Schema.String),
-      workEstimated: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1Progress",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1Progress>;
+    identifier: "GoogleDatastoreAdminV1MigrationStateEvent",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
 
 export interface GoogleDatastoreAdminV1EntityFilter {
   /** If empty, then this represents all kinds. */
@@ -321,55 +170,56 @@ export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAd
     identifier: "GoogleDatastoreAdminV1EntityFilter",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1EntityFilter>;
 
-export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
-  /** Metadata common to all Datastore Admin operations. */
-  common?: GoogleDatastoreAdminV1CommonMetadata;
-  /** An estimate of the number of entities processed. */
-  progressEntities?: GoogleDatastoreAdminV1Progress;
-  /** An estimate of the number of bytes processed. */
-  progressBytes?: GoogleDatastoreAdminV1Progress;
-  /** Description of which entities are being exported. */
-  entityFilter?: GoogleDatastoreAdminV1EntityFilter;
-  /** Location for the export metadata and data files. This will be the same value as the google.datastore.admin.v1.ExportEntitiesRequest.output_url_prefix field. The final output location is provided in google.datastore.admin.v1.ExportEntitiesResponse.output_url. */
-  outputUrlPrefix?: string;
+export interface GoogleDatastoreAdminV1CommonMetadata {
+  /** The current state of the Operation. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "INITIALIZING"
+    | "PROCESSING"
+    | "CANCELLING"
+    | "FINALIZING"
+    | "SUCCESSFUL"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {});
+  /** The type of the operation. Can be used as a filter in ListOperationsRequest. */
+  operationType?:
+    | "OPERATION_TYPE_UNSPECIFIED"
+    | "EXPORT_ENTITIES"
+    | "IMPORT_ENTITIES"
+    | "CREATE_INDEX"
+    | "DELETE_INDEX"
+    | (string & {});
+  /** The time the operation ended, either successfully or otherwise. */
+  endTime?: string;
+  /** The time that work began on the operation. */
+  startTime?: string;
+  /** The client-assigned labels which were provided when the operation was created. May also include additional labels. */
+  labels?: Record<string, string>;
 }
 
-export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> =
+export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
-      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
-      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
-      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
-      outputUrlPrefix: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      operationType: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
   ).annotate({
-    identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
-
-export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
-  /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
-  outputUrl?: string;
-}
-
-export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      outputUrl: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
+    identifier: "GoogleDatastoreAdminV1CommonMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1CommonMetadata>;
 
 export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
-  /** Metadata common to all Datastore Admin operations. */
-  common?: GoogleDatastoreAdminV1CommonMetadata;
   /** An estimate of the number of entities processed. */
   progressEntities?: GoogleDatastoreAdminV1Progress;
-  /** An estimate of the number of bytes processed. */
-  progressBytes?: GoogleDatastoreAdminV1Progress;
   /** Description of which entities are being imported. */
   entityFilter?: GoogleDatastoreAdminV1EntityFilter;
+  /** Metadata common to all Datastore Admin operations. */
+  common?: GoogleDatastoreAdminV1CommonMetadata;
+  /** An estimate of the number of bytes processed. */
+  progressBytes?: GoogleDatastoreAdminV1Progress;
   /** The location of the import metadata file. This will be the same value as the google.datastore.admin.v1.ExportEntitiesResponse.output_url field. */
   inputUrl?: string;
 }
@@ -377,15 +227,32 @@ export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
 export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
-      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
       progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
-      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
       entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
       inputUrl: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleDatastoreAdminV1ImportEntitiesMetadata",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata>;
+
+export interface GoogleDatastoreAdminV1beta1Progress {
+  /** The amount of work that has been completed. Note that this may be greater than work_estimated. */
+  workCompleted?: string;
+  /** An estimate of how much work needs to be performed. May be zero if the work estimate is unavailable. */
+  workEstimated?: string;
+}
+
+export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      workCompleted: Schema.optional(Schema.String),
+      workEstimated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1Progress",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1Progress>;
 
 export interface GoogleDatastoreAdminV1IndexOperationMetadata {
   /** Metadata common to all Datastore Admin operations. */
@@ -407,14 +274,79 @@ export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleD
     identifier: "GoogleDatastoreAdminV1IndexOperationMetadata",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata>;
 
+export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
+  /** The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So input_url should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace), and `OVERALL_EXPORT_METADATA_FILE` is the metadata file written by the ExportEntities operation. For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). For more information, see google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
+  inputUrl?: string;
+  /** Client-assigned labels. */
+  labels?: Record<string, string>;
+  /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
+  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
+}
+
+export const GoogleDatastoreAdminV1beta1ImportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      inputUrl: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesRequest>;
+
+export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
+  /** Metadata common to all Datastore Admin operations. */
+  common?: GoogleDatastoreAdminV1beta1CommonMetadata;
+  /** An estimate of the number of bytes processed. */
+  progressBytes?: GoogleDatastoreAdminV1beta1Progress;
+  /** Location for the export metadata and data files. This will be the same value as the google.datastore.admin.v1beta1.ExportEntitiesRequest.output_url_prefix field. The final output location is provided in google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
+  outputUrlPrefix?: string;
+  /** Description of which entities are being exported. */
+  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
+  /** An estimate of the number of entities processed. */
+  progressEntities?: GoogleDatastoreAdminV1beta1Progress;
+}
+
+export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      outputUrlPrefix: Schema.optional(Schema.String),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata>;
+
+export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
+  /** Description of which entities are being imported. */
+  entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter;
+  /** An estimate of the number of entities processed. */
+  progressEntities?: GoogleDatastoreAdminV1beta1Progress;
+  /** Metadata common to all Datastore Admin operations. */
+  common?: GoogleDatastoreAdminV1beta1CommonMetadata;
+  /** An estimate of the number of bytes processed. */
+  progressBytes?: GoogleDatastoreAdminV1beta1Progress;
+  /** The location of the import metadata file. This will be the same value as the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. */
+  inputUrl?: string;
+}
+
+export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      common: Schema.optional(GoogleDatastoreAdminV1beta1CommonMetadata),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
+      inputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata>;
+
 export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
-  /** The current state of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
-  migrationState?:
-    | "MIGRATION_STATE_UNSPECIFIED"
-    | "RUNNING"
-    | "PAUSED"
-    | "COMPLETE"
-    | (string & {});
   /** The current step of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
   migrationStep?:
     | "MIGRATION_STEP_UNSPECIFIED"
@@ -426,17 +358,64 @@ export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
     | "REDIRECT_STRONGLY_CONSISTENT_READS"
     | "REDIRECT_WRITES"
     | (string & {});
+  /** The current state of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
+  migrationState?:
+    | "MIGRATION_STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "PAUSED"
+    | "COMPLETE"
+    | (string & {});
 }
 
 export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
-      migrationState: Schema.optional(Schema.String),
       migrationStep: Schema.optional(Schema.String),
+      migrationState: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata>;
+
+export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
+  /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
+  outputUrl?: string;
+}
+
+export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse>;
+
+export interface GoogleLongrunningOperation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: Record<string, unknown>;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
+}
+
+export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "GoogleLongrunningOperation",
+  }) as any as Schema.Schema<GoogleLongrunningOperation>;
 
 export interface GoogleDatastoreAdminV1PrepareStepDetails {
   /** The concurrency mode this database will use when it reaches the `REDIRECT_WRITES` step. */
@@ -477,6 +456,8 @@ export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<Goog
   }) as any as Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails>;
 
 export interface GoogleDatastoreAdminV1MigrationProgressEvent {
+  /** Details for the `PREPARE` step. */
+  prepareStepDetails?: GoogleDatastoreAdminV1PrepareStepDetails;
   /** The step that is starting. An event with step set to `START` indicates that the migration has been reverted back to the initial pre-migration state. */
   step?:
     | "MIGRATION_STEP_UNSPECIFIED"
@@ -488,8 +469,6 @@ export interface GoogleDatastoreAdminV1MigrationProgressEvent {
     | "REDIRECT_STRONGLY_CONSISTENT_READS"
     | "REDIRECT_WRITES"
     | (string & {});
-  /** Details for the `PREPARE` step. */
-  prepareStepDetails?: GoogleDatastoreAdminV1PrepareStepDetails;
   /** Details for the `REDIRECT_WRITES` step. */
   redirectWritesStepDetails?: GoogleDatastoreAdminV1RedirectWritesStepDetails;
 }
@@ -497,10 +476,10 @@ export interface GoogleDatastoreAdminV1MigrationProgressEvent {
 export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> =
   Schema.suspend(() =>
     Schema.Struct({
-      step: Schema.optional(Schema.String),
       prepareStepDetails: Schema.optional(
         GoogleDatastoreAdminV1PrepareStepDetails,
       ),
+      step: Schema.optional(Schema.String),
       redirectWritesStepDetails: Schema.optional(
         GoogleDatastoreAdminV1RedirectWritesStepDetails,
       ),
@@ -509,24 +488,45 @@ export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleD
     identifier: "GoogleDatastoreAdminV1MigrationProgressEvent",
   }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent>;
 
-export interface GoogleDatastoreAdminV1MigrationStateEvent {
-  /** The new state of the migration. */
-  state?:
-    | "MIGRATION_STATE_UNSPECIFIED"
-    | "RUNNING"
-    | "PAUSED"
-    | "COMPLETE"
-    | (string & {});
+export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
+  /** An estimate of the number of entities processed. */
+  progressEntities?: GoogleDatastoreAdminV1Progress;
+  /** Description of which entities are being exported. */
+  entityFilter?: GoogleDatastoreAdminV1EntityFilter;
+  /** Metadata common to all Datastore Admin operations. */
+  common?: GoogleDatastoreAdminV1CommonMetadata;
+  /** An estimate of the number of bytes processed. */
+  progressBytes?: GoogleDatastoreAdminV1Progress;
+  /** Location for the export metadata and data files. This will be the same value as the google.datastore.admin.v1.ExportEntitiesRequest.output_url_prefix field. The final output location is provided in google.datastore.admin.v1.ExportEntitiesResponse.output_url. */
+  outputUrlPrefix?: string;
 }
 
-export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> =
+export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
-      state: Schema.optional(Schema.String),
+      progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
+      entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
+      common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
+      progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
+      outputUrlPrefix: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "GoogleDatastoreAdminV1MigrationStateEvent",
-  }) as any as Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent>;
+    identifier: "GoogleDatastoreAdminV1ExportEntitiesMetadata",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata>;
+
+export interface GoogleDatastoreAdminV1beta1ExportEntitiesResponse {
+  /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1beta1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
+  outputUrl?: string;
+}
+
+export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      outputUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesResponse",
+  }) as any as Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse>;
 
 // ==========================================================================
 // Operations

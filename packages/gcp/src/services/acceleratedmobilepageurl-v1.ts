@@ -22,6 +22,30 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface AmpUrlError {
+  /** The error code of an API call. */
+  errorCode?:
+    | "ERROR_CODE_UNSPECIFIED"
+    | "INPUT_URL_NOT_FOUND"
+    | "NO_AMP_URL"
+    | "APPLICATION_ERROR"
+    | "URL_IS_VALID_AMP"
+    | "URL_IS_INVALID_AMP"
+    | (string & {});
+  /** An optional descriptive error message. */
+  errorMessage?: string;
+  /** The original non-AMP URL. */
+  originalUrl?: string;
+}
+
+export const AmpUrlError: Schema.Schema<AmpUrlError> = Schema.suspend(() =>
+  Schema.Struct({
+    errorCode: Schema.optional(Schema.String),
+    errorMessage: Schema.optional(Schema.String),
+    originalUrl: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "AmpUrlError" }) as any as Schema.Schema<AmpUrlError>;
+
 export interface BatchGetAmpUrlsRequest {
   /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
   urls?: Array<string>;
@@ -55,30 +79,6 @@ export const AmpUrl: Schema.Schema<AmpUrl> = Schema.suspend(() =>
     ampUrl: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "AmpUrl" }) as any as Schema.Schema<AmpUrl>;
-
-export interface AmpUrlError {
-  /** The error code of an API call. */
-  errorCode?:
-    | "ERROR_CODE_UNSPECIFIED"
-    | "INPUT_URL_NOT_FOUND"
-    | "NO_AMP_URL"
-    | "APPLICATION_ERROR"
-    | "URL_IS_VALID_AMP"
-    | "URL_IS_INVALID_AMP"
-    | (string & {});
-  /** An optional descriptive error message. */
-  errorMessage?: string;
-  /** The original non-AMP URL. */
-  originalUrl?: string;
-}
-
-export const AmpUrlError: Schema.Schema<AmpUrlError> = Schema.suspend(() =>
-  Schema.Struct({
-    errorCode: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-    originalUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AmpUrlError" }) as any as Schema.Schema<AmpUrlError>;
 
 export interface BatchGetAmpUrlsResponse {
   /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */

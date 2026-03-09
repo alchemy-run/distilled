@@ -41,6 +41,37 @@ export const Adsense_Date: Schema.Schema<Adsense_Date> = Schema.suspend(() =>
   identifier: "Adsense_Date",
 }) as any as Schema.Schema<Adsense_Date>;
 
+export interface SavedReport {
+  /** Report title as specified by publisher. */
+  title?: string;
+  /** Output only. Resource name of the report. Format: accounts/{account}/reports/{report} */
+  name?: string;
+}
+
+export const SavedReport: Schema.Schema<SavedReport> = Schema.suspend(() =>
+  Schema.Struct({
+    title: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "SavedReport" }) as any as Schema.Schema<SavedReport>;
+
+export interface ListSavedReportsResponse {
+  /** Continuation token used to page through reports. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+  /** The reports returned in this list response. */
+  savedReports?: Array<SavedReport>;
+}
+
+export const ListSavedReportsResponse: Schema.Schema<ListSavedReportsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      savedReports: Schema.optional(Schema.Array(SavedReport)),
+    }),
+  ).annotate({
+    identifier: "ListSavedReportsResponse",
+  }) as any as Schema.Schema<ListSavedReportsResponse>;
+
 export interface PolicyTopic {
   /** Required. The policy topic. For example, "sexual-content" or "ads-obscuring-content"." */
   topic?: string;
@@ -64,27 +95,10 @@ export const PolicyTopic: Schema.Schema<PolicyTopic> = Schema.suspend(() =>
 ).annotate({ identifier: "PolicyTopic" }) as any as Schema.Schema<PolicyTopic>;
 
 export interface PolicyIssue {
-  /** Optional. URI of the page having policy violations (for example "foo.com/bar" or "www.foo.com/bar"). This will be present if the `entity_type` is `PAGE` and will be absent for other entity types. */
-  uri?: string;
-  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were last detected on the entity. */
-  lastDetectedDate?: Adsense_Date;
-  /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
-  site?: string;
-  /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
-  entityType?:
-    | "ENTITY_TYPE_UNSPECIFIED"
-    | "SITE"
-    | "SITE_SECTION"
-    | "PAGE"
-    | (string & {});
-  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
-  firstDetectedDate?: Adsense_Date;
-  /** Required. Total number of ad requests affected by the policy violations over the past seven days. */
-  adRequestCount?: string;
-  /** Required. Resource name of the entity with policy issues. Format: accounts/{account}/policyIssues/{policy_issue} */
-  name?: string;
-  /** Required. Unordered list. The policy topics that this entity was found to violate over the past seven days. */
-  policyTopics?: Array<PolicyTopic>;
+  /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
+  adClients?: Array<string>;
+  /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
+  warningEscalationDate?: Adsense_Date;
   /** Optional. Prefix of the site-section having policy issues (For example "foo.com/bar-section"). This will be present if the `entity_type` is `SITE_SECTION` and will be absent for other entity types. */
   siteSection?: string;
   /** Required. The most severe action taken on the entity over the past seven days. */
@@ -96,26 +110,43 @@ export interface PolicyIssue {
     | "AD_SERVED_WITH_CLICK_CONFIRMATION"
     | "AD_PERSONALIZATION_RESTRICTED"
     | (string & {});
-  /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
-  warningEscalationDate?: Adsense_Date;
-  /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
-  adClients?: Array<string>;
+  /** Required. Resource name of the entity with policy issues. Format: accounts/{account}/policyIssues/{policy_issue} */
+  name?: string;
+  /** Required. Unordered list. The policy topics that this entity was found to violate over the past seven days. */
+  policyTopics?: Array<PolicyTopic>;
+  /** Required. Total number of ad requests affected by the policy violations over the past seven days. */
+  adRequestCount?: string;
+  /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
+  entityType?:
+    | "ENTITY_TYPE_UNSPECIFIED"
+    | "SITE"
+    | "SITE_SECTION"
+    | "PAGE"
+    | (string & {});
+  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
+  firstDetectedDate?: Adsense_Date;
+  /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
+  site?: string;
+  /** Optional. URI of the page having policy violations (for example "foo.com/bar" or "www.foo.com/bar"). This will be present if the `entity_type` is `PAGE` and will be absent for other entity types. */
+  uri?: string;
+  /** Required. The date (in the America/Los_Angeles timezone) when policy violations were last detected on the entity. */
+  lastDetectedDate?: Adsense_Date;
 }
 
 export const PolicyIssue: Schema.Schema<PolicyIssue> = Schema.suspend(() =>
   Schema.Struct({
-    uri: Schema.optional(Schema.String),
-    lastDetectedDate: Schema.optional(Adsense_Date),
-    site: Schema.optional(Schema.String),
-    entityType: Schema.optional(Schema.String),
-    firstDetectedDate: Schema.optional(Adsense_Date),
-    adRequestCount: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
+    adClients: Schema.optional(Schema.Array(Schema.String)),
+    warningEscalationDate: Schema.optional(Adsense_Date),
     siteSection: Schema.optional(Schema.String),
     action: Schema.optional(Schema.String),
-    warningEscalationDate: Schema.optional(Adsense_Date),
-    adClients: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+    policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
+    adRequestCount: Schema.optional(Schema.String),
+    entityType: Schema.optional(Schema.String),
+    firstDetectedDate: Schema.optional(Adsense_Date),
+    site: Schema.optional(Schema.String),
+    uri: Schema.optional(Schema.String),
+    lastDetectedDate: Schema.optional(Adsense_Date),
   }),
 ).annotate({ identifier: "PolicyIssue" }) as any as Schema.Schema<PolicyIssue>;
 
@@ -153,84 +184,6 @@ export const AdBlockingRecoveryTag: Schema.Schema<AdBlockingRecoveryTag> =
     identifier: "AdBlockingRecoveryTag",
   }) as any as Schema.Schema<AdBlockingRecoveryTag>;
 
-export interface SavedReport {
-  /** Report title as specified by publisher. */
-  title?: string;
-  /** Output only. Resource name of the report. Format: accounts/{account}/reports/{report} */
-  name?: string;
-}
-
-export const SavedReport: Schema.Schema<SavedReport> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SavedReport" }) as any as Schema.Schema<SavedReport>;
-
-export interface ListSavedReportsResponse {
-  /** The reports returned in this list response. */
-  savedReports?: Array<SavedReport>;
-  /** Continuation token used to page through reports. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-}
-
-export const ListSavedReportsResponse: Schema.Schema<ListSavedReportsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      savedReports: Schema.optional(Schema.Array(SavedReport)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListSavedReportsResponse",
-  }) as any as Schema.Schema<ListSavedReportsResponse>;
-
-export interface AdUnitAdCode {
-  /** Output only. The code snippet to add to the body of an HTML page. */
-  adCode?: string;
-}
-
-export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> = Schema.suspend(() =>
-  Schema.Struct({
-    adCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AdUnitAdCode",
-}) as any as Schema.Schema<AdUnitAdCode>;
-
-export interface TimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-}
-
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
-
-export interface AdClientAdCode {
-  /** Output only. The AdSense code snippet to add to the head of an AMP page. */
-  ampHead?: string;
-  /** Output only. The AdSense code snippet to add to the head of an HTML page. */
-  adCode?: string;
-  /** Output only. The AdSense code snippet to add to the body of an AMP page. */
-  ampBody?: string;
-}
-
-export const AdClientAdCode: Schema.Schema<AdClientAdCode> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      ampHead: Schema.optional(Schema.String),
-      adCode: Schema.optional(Schema.String),
-      ampBody: Schema.optional(Schema.String),
-    }),
-).annotate({
-  identifier: "AdClientAdCode",
-}) as any as Schema.Schema<AdClientAdCode>;
-
 export interface ContentAdsSettings {
   /** Required. Size of the ad unit. e.g. "728x90", "1x3" (for responsive ad units). */
   size?: string;
@@ -262,10 +215,10 @@ export interface AdUnit {
   state?: "STATE_UNSPECIFIED" | "ACTIVE" | "ARCHIVED" | (string & {});
   /** Required. Display name of the ad unit, as provided when the ad unit was created. */
   displayName?: string;
-  /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
-  name?: string;
   /** Output only. Unique ID of the ad unit as used in the `AD_UNIT_ID` reporting dimension. */
   reportingDimensionId?: string;
+  /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
+  name?: string;
 }
 
 export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
@@ -273,138 +226,10 @@ export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
     contentAdsSettings: Schema.optional(ContentAdsSettings),
     state: Schema.optional(Schema.String),
     displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
     reportingDimensionId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
-
-export interface ListLinkedAdUnitsResponse {
-  /** The ad units returned in the list response. */
-  adUnits?: Array<AdUnit>;
-  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-}
-
-export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      adUnits: Schema.optional(Schema.Array(AdUnit)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListLinkedAdUnitsResponse",
-  }) as any as Schema.Schema<ListLinkedAdUnitsResponse>;
-
-export interface Alert {
-  /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
-  message?: string;
-  /** Output only. Resource name of the alert. Format: accounts/{account}/alerts/{alert} */
-  name?: string;
-  /** Output only. Severity of this alert. */
-  severity?:
-    | "SEVERITY_UNSPECIFIED"
-    | "INFO"
-    | "WARNING"
-    | "SEVERE"
-    | (string & {});
-  /** Output only. Type of alert. This identifies the broad type of this alert, and provides a stable machine-readable identifier that will not be translated. For example, "payment-hold". */
-  type?: string;
-}
-
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
-
-export interface AdClient {
-  /** Output only. Unique ID of the ad client as used in the `AD_CLIENT_ID` reporting dimension. Present only if the ad client supports reporting. */
-  reportingDimensionId?: string;
-  /** Output only. State of the ad client. */
-  state?:
-    | "STATE_UNSPECIFIED"
-    | "READY"
-    | "GETTING_READY"
-    | "REQUIRES_REVIEW"
-    | (string & {});
-  /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
-  name?: string;
-  /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
-  productCode?: string;
-}
-
-export const AdClient: Schema.Schema<AdClient> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingDimensionId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    productCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
-
-export interface ListAdClientsResponse {
-  /** The ad clients returned in this list response. */
-  adClients?: Array<AdClient>;
-  /** Continuation token used to page through ad clients. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-}
-
-export const ListAdClientsResponse: Schema.Schema<ListAdClientsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      adClients: Schema.optional(Schema.Array(AdClient)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListAdClientsResponse",
-  }) as any as Schema.Schema<ListAdClientsResponse>;
-
-export interface CustomChannel {
-  /** Output only. Unique ID of the custom channel as used in the `CUSTOM_CHANNEL_ID` reporting dimension. */
-  reportingDimensionId?: string;
-  /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  name?: string;
-  /** Whether the custom channel is active and collecting data. See https://support.google.com/adsense/answer/10077192. */
-  active?: boolean;
-  /** Required. Display name of the custom channel. */
-  displayName?: string;
-}
-
-export const CustomChannel: Schema.Schema<CustomChannel> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingDimensionId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    active: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CustomChannel",
-}) as any as Schema.Schema<CustomChannel>;
-
-export interface Cell {
-  /** Value in the cell. The dimension cells contain strings, and the metric cells contain numbers. */
-  value?: string;
-}
-
-export const Cell: Schema.Schema<Cell> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
-
-export interface Row {
-  /** Cells in the row. */
-  cells?: Array<Cell>;
-}
-
-export const Row: Schema.Schema<Row> = Schema.suspend(() =>
-  Schema.Struct({
-    cells: Schema.optional(Schema.Array(Cell)),
-  }),
-).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface Header {
   /** Required. Name of the header. */
@@ -431,102 +256,220 @@ export const Header: Schema.Schema<Header> = Schema.suspend(() =>
   }),
 ).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
 
+export interface Cell {
+  /** Value in the cell. The dimension cells contain strings, and the metric cells contain numbers. */
+  value?: string;
+}
+
+export const Cell: Schema.Schema<Cell> = Schema.suspend(() =>
+  Schema.Struct({
+    value: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
+
+export interface Row {
+  /** Cells in the row. */
+  cells?: Array<Cell>;
+}
+
+export const Row: Schema.Schema<Row> = Schema.suspend(() =>
+  Schema.Struct({
+    cells: Schema.optional(Schema.Array(Cell)),
+  }),
+).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+
 export interface ReportResult {
-  /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
-  totals?: Row;
-  /** The averages of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
-  averages?: Row;
-  /** Required. Start date of the range (inclusive). */
-  startDate?: Adsense_Date;
   /** The total number of rows matched by the report request. */
   totalMatchedRows?: string;
   /** The header information; one for each dimension in the request, followed by one for each metric in the request. */
   headers?: Array<Header>;
   /** Required. End date of the range (inclusive). */
   endDate?: Adsense_Date;
-  /** Any warnings associated with generation of the report. These warnings are always returned in English. */
-  warnings?: Array<string>;
+  /** Required. Start date of the range (inclusive). */
+  startDate?: Adsense_Date;
   /** The output rows of the report. Each row is a list of cells; one for each dimension in the request, followed by one for each metric in the request. */
   rows?: Array<Row>;
+  /** Any warnings associated with generation of the report. These warnings are always returned in English. */
+  warnings?: Array<string>;
+  /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
+  totals?: Row;
+  /** The averages of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
+  averages?: Row;
 }
 
 export const ReportResult: Schema.Schema<ReportResult> = Schema.suspend(() =>
   Schema.Struct({
-    totals: Schema.optional(Row),
-    averages: Schema.optional(Row),
-    startDate: Schema.optional(Adsense_Date),
     totalMatchedRows: Schema.optional(Schema.String),
     headers: Schema.optional(Schema.Array(Header)),
     endDate: Schema.optional(Adsense_Date),
-    warnings: Schema.optional(Schema.Array(Schema.String)),
+    startDate: Schema.optional(Adsense_Date),
     rows: Schema.optional(Schema.Array(Row)),
+    warnings: Schema.optional(Schema.Array(Schema.String)),
+    totals: Schema.optional(Row),
+    averages: Schema.optional(Row),
   }),
 ).annotate({
   identifier: "ReportResult",
 }) as any as Schema.Schema<ReportResult>;
 
-export interface ListLinkedCustomChannelsResponse {
-  /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-  /** The custom channels returned in this list response. */
-  customChannels?: Array<CustomChannel>;
+export interface CustomChannel {
+  /** Required. Display name of the custom channel. */
+  displayName?: string;
+  /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  name?: string;
+  /** Whether the custom channel is active and collecting data. See https://support.google.com/adsense/answer/10077192. */
+  active?: boolean;
+  /** Output only. Unique ID of the custom channel as used in the `CUSTOM_CHANNEL_ID` reporting dimension. */
+  reportingDimensionId?: string;
 }
 
-export const ListLinkedCustomChannelsResponse: Schema.Schema<ListLinkedCustomChannelsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      customChannels: Schema.optional(Schema.Array(CustomChannel)),
-    }),
-  ).annotate({
-    identifier: "ListLinkedCustomChannelsResponse",
-  }) as any as Schema.Schema<ListLinkedCustomChannelsResponse>;
+export const CustomChannel: Schema.Schema<CustomChannel> = Schema.suspend(() =>
+  Schema.Struct({
+    displayName: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+    active: Schema.optional(Schema.Boolean),
+    reportingDimensionId: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "CustomChannel",
+}) as any as Schema.Schema<CustomChannel>;
 
-export interface Site {
-  /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
-  domain?: string;
-  /** Output only. State of a site. */
+export interface AdClient {
+  /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
+  name?: string;
+  /** Output only. Unique ID of the ad client as used in the `AD_CLIENT_ID` reporting dimension. Present only if the ad client supports reporting. */
+  reportingDimensionId?: string;
+  /** Output only. State of the ad client. */
   state?:
     | "STATE_UNSPECIFIED"
-    | "REQUIRES_REVIEW"
-    | "GETTING_READY"
     | "READY"
-    | "NEEDS_ATTENTION"
+    | "GETTING_READY"
+    | "REQUIRES_REVIEW"
     | (string & {});
-  /** Output only. Resource name of a site. Format: accounts/{account}/sites/{site} */
-  name?: string;
-  /** Output only. Unique ID of the site as used in the `OWNED_SITE_ID` reporting dimension. */
-  reportingDimensionId?: string;
-  /** Whether auto ads is turned on for the site. */
-  autoAdsEnabled?: boolean;
+  /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
+  productCode?: string;
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() =>
+export const AdClient: Schema.Schema<AdClient> = Schema.suspend(() =>
   Schema.Struct({
-    domain: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
     reportingDimensionId: Schema.optional(Schema.String),
-    autoAdsEnabled: Schema.optional(Schema.Boolean),
+    state: Schema.optional(Schema.String),
+    productCode: Schema.optional(Schema.String),
   }),
-).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
 
-export interface ListSitesResponse {
-  /** The sites returned in this list response. */
-  sites?: Array<Site>;
-  /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+export interface ListAdClientsResponse {
+  /** The ad clients returned in this list response. */
+  adClients?: Array<AdClient>;
+  /** Continuation token used to page through ad clients. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
 }
 
-export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
+export const ListAdClientsResponse: Schema.Schema<ListAdClientsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      sites: Schema.optional(Schema.Array(Site)),
+      adClients: Schema.optional(Schema.Array(AdClient)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListSitesResponse",
-  }) as any as Schema.Schema<ListSitesResponse>;
+    identifier: "ListAdClientsResponse",
+  }) as any as Schema.Schema<ListAdClientsResponse>;
+
+export interface Alert {
+  /** Output only. Resource name of the alert. Format: accounts/{account}/alerts/{alert} */
+  name?: string;
+  /** Output only. Severity of this alert. */
+  severity?:
+    | "SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "SEVERE"
+    | (string & {});
+  /** Output only. Type of alert. This identifies the broad type of this alert, and provides a stable machine-readable identifier that will not be translated. For example, "payment-hold". */
+  type?: string;
+  /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
+  message?: string;
+}
+
+export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    severity: Schema.optional(Schema.String),
+    type: Schema.optional(Schema.String),
+    message: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+
+export interface AdUnitAdCode {
+  /** Output only. The code snippet to add to the body of an HTML page. */
+  adCode?: string;
+}
+
+export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> = Schema.suspend(() =>
+  Schema.Struct({
+    adCode: Schema.optional(Schema.String),
+  }),
+).annotate({
+  identifier: "AdUnitAdCode",
+}) as any as Schema.Schema<AdUnitAdCode>;
+
+export interface TimeZone {
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
+}
+
+export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    version: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+
+export interface AdClientAdCode {
+  /** Output only. The AdSense code snippet to add to the head of an HTML page. */
+  adCode?: string;
+  /** Output only. The AdSense code snippet to add to the head of an AMP page. */
+  ampHead?: string;
+  /** Output only. The AdSense code snippet to add to the body of an AMP page. */
+  ampBody?: string;
+}
+
+export const AdClientAdCode: Schema.Schema<AdClientAdCode> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      adCode: Schema.optional(Schema.String),
+      ampHead: Schema.optional(Schema.String),
+      ampBody: Schema.optional(Schema.String),
+    }),
+).annotate({
+  identifier: "AdClientAdCode",
+}) as any as Schema.Schema<AdClientAdCode>;
+
+export interface ListLinkedAdUnitsResponse {
+  /** The ad units returned in the list response. */
+  adUnits?: Array<AdUnit>;
+  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+}
+
+export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adUnits: Schema.optional(Schema.Array(AdUnit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLinkedAdUnitsResponse",
+  }) as any as Schema.Schema<ListLinkedAdUnitsResponse>;
+
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface UrlChannel {
   /** Output only. Unique ID of the custom channel as used in the `URL_CHANNEL_ID` reporting dimension. */
@@ -545,73 +488,116 @@ export const UrlChannel: Schema.Schema<UrlChannel> = Schema.suspend(() =>
   }),
 ).annotate({ identifier: "UrlChannel" }) as any as Schema.Schema<UrlChannel>;
 
-export interface ListUrlChannelsResponse {
-  /** Continuation token used to page through url channels. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+export interface Site {
+  /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
+  domain?: string;
+  /** Output only. State of a site. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "REQUIRES_REVIEW"
+    | "GETTING_READY"
+    | "READY"
+    | "NEEDS_ATTENTION"
+    | (string & {});
+  /** Output only. Unique ID of the site as used in the `OWNED_SITE_ID` reporting dimension. */
+  reportingDimensionId?: string;
+  /** Whether auto ads is turned on for the site. */
+  autoAdsEnabled?: boolean;
+  /** Output only. Resource name of a site. Format: accounts/{account}/sites/{site} */
+  name?: string;
+}
+
+export const Site: Schema.Schema<Site> = Schema.suspend(() =>
+  Schema.Struct({
+    domain: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    reportingDimensionId: Schema.optional(Schema.String),
+    autoAdsEnabled: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+
+export interface ListCustomChannelsResponse {
+  /** The custom channels returned in this list response. */
+  customChannels?: Array<CustomChannel>;
+  /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
+}
+
+export const ListCustomChannelsResponse: Schema.Schema<ListCustomChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customChannels: Schema.optional(Schema.Array(CustomChannel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomChannelsResponse",
+  }) as any as Schema.Schema<ListCustomChannelsResponse>;
+
+export interface ListAlertsResponse {
+  /** The alerts returned in this list response. */
+  alerts?: Array<Alert>;
+}
+
+export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      alerts: Schema.optional(Schema.Array(Alert)),
+    }),
+  ).annotate({
+    identifier: "ListAlertsResponse",
+  }) as any as Schema.Schema<ListAlertsResponse>;
+
+export interface ListLinkedCustomChannelsResponse {
+  /** The custom channels returned in this list response. */
+  customChannels?: Array<CustomChannel>;
+  /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+}
+
+export const ListLinkedCustomChannelsResponse: Schema.Schema<ListLinkedCustomChannelsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customChannels: Schema.optional(Schema.Array(CustomChannel)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLinkedCustomChannelsResponse",
+  }) as any as Schema.Schema<ListLinkedCustomChannelsResponse>;
+
+export interface ListSitesResponse {
+  /** The sites returned in this list response. */
+  sites?: Array<Site>;
+  /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+}
+
+export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      sites: Schema.optional(Schema.Array(Site)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListSitesResponse",
+  }) as any as Schema.Schema<ListSitesResponse>;
+
+export interface ListUrlChannelsResponse {
   /** The url channels returned in this list response. */
   urlChannels?: Array<UrlChannel>;
+  /** Continuation token used to page through url channels. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
 }
 
 export const ListUrlChannelsResponse: Schema.Schema<ListUrlChannelsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
       urlChannels: Schema.optional(Schema.Array(UrlChannel)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ListUrlChannelsResponse",
   }) as any as Schema.Schema<ListUrlChannelsResponse>;
-
-export interface Account {
-  /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  timeZone?: TimeZone;
-  /** Output only. Display name of this account. */
-  displayName?: string;
-  /** Output only. Resource name of the account. Format: accounts/pub-[0-9]+ */
-  name?: string;
-  /** Output only. Outstanding tasks that need to be completed as part of the sign-up process for a new account. e.g. "billing-profile-creation", "phone-pin-verification". */
-  pendingTasks?: Array<string>;
-  /** Output only. Whether this account is premium. Premium accounts have access to additional spam-related metrics. */
-  premium?: boolean;
-  /** Output only. Creation time of the account. */
-  createTime?: string;
-  /** Output only. State of the account. */
-  state?:
-    | "STATE_UNSPECIFIED"
-    | "READY"
-    | "NEEDS_ATTENTION"
-    | "CLOSED"
-    | (string & {});
-}
-
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    timeZone: Schema.optional(TimeZone),
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    pendingTasks: Schema.optional(Schema.Array(Schema.String)),
-    premium: Schema.optional(Schema.Boolean),
-    createTime: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
-
-export interface ListChildAccountsResponse {
-  /** The accounts returned in this list response. */
-  accounts?: Array<Account>;
-  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-}
-
-export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      accounts: Schema.optional(Schema.Array(Account)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListChildAccountsResponse",
-  }) as any as Schema.Schema<ListChildAccountsResponse>;
 
 export interface Payment {
   /** Output only. Resource name of the payment. Format: - accounts/{account}/payments/unpaid for unpaid (current) AdSense earnings. - accounts/{account}/payments/youtube-unpaid for unpaid (current) YouTube earnings. - accounts/{account}/payments/yyyy-MM-dd for paid AdSense earnings. - accounts/{account}/payments/youtube-yyyy-MM-dd for paid YouTube earnings. */
@@ -644,42 +630,90 @@ export const ListPaymentsResponse: Schema.Schema<ListPaymentsResponse> =
     identifier: "ListPaymentsResponse",
   }) as any as Schema.Schema<ListPaymentsResponse>;
 
-export interface ListAlertsResponse {
-  /** The alerts returned in this list response. */
-  alerts?: Array<Alert>;
+export interface Account {
+  /** Output only. Outstanding tasks that need to be completed as part of the sign-up process for a new account. e.g. "billing-profile-creation", "phone-pin-verification". */
+  pendingTasks?: Array<string>;
+  /** Output only. Resource name of the account. Format: accounts/pub-[0-9]+ */
+  name?: string;
+  /** Output only. Display name of this account. */
+  displayName?: string;
+  /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  timeZone?: TimeZone;
+  /** Output only. State of the account. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "READY"
+    | "NEEDS_ATTENTION"
+    | "CLOSED"
+    | (string & {});
+  /** Output only. Whether this account is premium. Premium accounts have access to additional spam-related metrics. */
+  premium?: boolean;
+  /** Output only. Creation time of the account. */
+  createTime?: string;
 }
 
-export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
+export const Account: Schema.Schema<Account> = Schema.suspend(() =>
+  Schema.Struct({
+    pendingTasks: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    timeZone: Schema.optional(TimeZone),
+    state: Schema.optional(Schema.String),
+    premium: Schema.optional(Schema.Boolean),
+    createTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+
+export interface ListChildAccountsResponse {
+  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+  /** The accounts returned in this list response. */
+  accounts?: Array<Account>;
+}
+
+export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      alerts: Schema.optional(Schema.Array(Alert)),
+      nextPageToken: Schema.optional(Schema.String),
+      accounts: Schema.optional(Schema.Array(Account)),
     }),
   ).annotate({
-    identifier: "ListAlertsResponse",
-  }) as any as Schema.Schema<ListAlertsResponse>;
+    identifier: "ListChildAccountsResponse",
+  }) as any as Schema.Schema<ListChildAccountsResponse>;
 
-export interface ListCustomChannelsResponse {
-  /** The custom channels returned in this list response. */
-  customChannels?: Array<CustomChannel>;
-  /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+export interface ListAccountsResponse {
+  /** The accounts returned in this list response. */
+  accounts?: Array<Account>;
+  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string;
 }
 
-export const ListCustomChannelsResponse: Schema.Schema<ListCustomChannelsResponse> =
+export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      customChannels: Schema.optional(Schema.Array(CustomChannel)),
+      accounts: Schema.optional(Schema.Array(Account)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListCustomChannelsResponse",
-  }) as any as Schema.Schema<ListCustomChannelsResponse>;
+    identifier: "ListAccountsResponse",
+  }) as any as Schema.Schema<ListAccountsResponse>;
 
-export interface Empty {}
+export interface ListAdUnitsResponse {
+  /** The ad units returned in the list response. */
+  adUnits?: Array<AdUnit>;
+  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
+  nextPageToken?: string;
+}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      adUnits: Schema.optional(Schema.Array(AdUnit)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListAdUnitsResponse",
+  }) as any as Schema.Schema<ListAdUnitsResponse>;
 
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
@@ -699,40 +733,6 @@ export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() =>
     ),
   }),
 ).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
-
-export interface ListAdUnitsResponse {
-  /** The ad units returned in the list response. */
-  adUnits?: Array<AdUnit>;
-  /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-}
-
-export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      adUnits: Schema.optional(Schema.Array(AdUnit)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListAdUnitsResponse",
-  }) as any as Schema.Schema<ListAdUnitsResponse>;
-
-export interface ListAccountsResponse {
-  /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
-  /** The accounts returned in this list response. */
-  accounts?: Array<Account>;
-}
-
-export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      accounts: Schema.optional(Schema.Array(Account)),
-    }),
-  ).annotate({
-    identifier: "ListAccountsResponse",
-  }) as any as Schema.Schema<ListAccountsResponse>;
 
 // ==========================================================================
 // Operations
@@ -800,17 +800,17 @@ export const getAccounts: API.OperationMethod<
 }));
 
 export interface ListChildAccountsAccountsRequest {
-  /** A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent account, which owns the child accounts. Format: accounts/{account} */
   parent: string;
+  /** A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
+  pageToken?: string;
   /** The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
 }
 
 export const ListChildAccountsAccountsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}:listChildAccounts" }),
@@ -874,6 +874,35 @@ export const listAccounts: API.PaginatedOperationMethod<
   },
 }));
 
+export interface ListAccountsPaymentsRequest {
+  /** Required. The account which owns the collection of payments. Format: accounts/{account} */
+  parent: string;
+}
+
+export const ListAccountsPaymentsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/payments" }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsPaymentsRequest>;
+
+export type ListAccountsPaymentsResponse = ListPaymentsResponse;
+export const ListAccountsPaymentsResponse = ListPaymentsResponse;
+
+export type ListAccountsPaymentsError = DefaultErrors;
+
+/** Lists all the payments available for an account. */
+export const listAccountsPayments: API.OperationMethod<
+  ListAccountsPaymentsRequest,
+  ListAccountsPaymentsResponse,
+  ListAccountsPaymentsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListAccountsPaymentsRequest,
+  output: ListAccountsPaymentsResponse,
+  errors: [],
+}));
+
 export interface GetAccountsSitesRequest {
   /** Required. Name of the site. Format: accounts/{account}/sites/{site} */
   name: string;
@@ -904,18 +933,18 @@ export const getAccountsSites: API.OperationMethod<
 }));
 
 export interface ListAccountsSitesRequest {
-  /** A page token, received from a previous `ListSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSites` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The account which owns the collection of sites. Format: accounts/{account} */
-  parent: string;
   /** The maximum number of sites to include in the response, used for paging. If unspecified, at most 10000 sites will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
+  /** Required. The account which owns the collection of sites. Format: accounts/{account} */
+  parent: string;
+  /** A page token, received from a previous `ListSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSites` must match the call that provided the page token. */
+  pageToken?: string;
 }
 
 export const ListAccountsSitesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}/sites" }),
   svc,
@@ -942,64 +971,786 @@ export const listAccountsSites: API.PaginatedOperationMethod<
   },
 }));
 
-export interface ListAccountsPaymentsRequest {
-  /** Required. The account which owns the collection of payments. Format: accounts/{account} */
+export interface ListAccountsAlertsRequest {
+  /** Required. The account which owns the collection of alerts. Format: accounts/{account} */
   parent: string;
+  /** The language to use for translating alert messages. If unspecified, this defaults to the user's display language. If the given language is not supported, alerts will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
 }
 
-export const ListAccountsPaymentsRequest = Schema.Struct({
+export const ListAccountsAlertsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/payments" }),
+  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/alerts" }),
   svc,
-) as unknown as Schema.Schema<ListAccountsPaymentsRequest>;
+) as unknown as Schema.Schema<ListAccountsAlertsRequest>;
 
-export type ListAccountsPaymentsResponse = ListPaymentsResponse;
-export const ListAccountsPaymentsResponse = ListPaymentsResponse;
+export type ListAccountsAlertsResponse = ListAlertsResponse;
+export const ListAccountsAlertsResponse = ListAlertsResponse;
 
-export type ListAccountsPaymentsError = DefaultErrors;
+export type ListAccountsAlertsError = DefaultErrors;
 
-/** Lists all the payments available for an account. */
-export const listAccountsPayments: API.OperationMethod<
-  ListAccountsPaymentsRequest,
-  ListAccountsPaymentsResponse,
-  ListAccountsPaymentsError,
+/** Lists all the alerts available in an account. */
+export const listAccountsAlerts: API.OperationMethod<
+  ListAccountsAlertsRequest,
+  ListAccountsAlertsResponse,
+  ListAccountsAlertsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: ListAccountsPaymentsRequest,
-  output: ListAccountsPaymentsResponse,
+  input: ListAccountsAlertsRequest,
+  output: ListAccountsAlertsResponse,
   errors: [],
 }));
 
-export interface GetAdcodeAccountsAdclientsRequest {
-  /** Required. Name of the ad client for which to get the adcode. Format: accounts/{account}/adclients/{adclient} */
+export interface ListAccountsPolicyIssuesRequest {
+  /** The maximum number of policy issues to include in the response, used for paging. If unspecified, at most 10000 policy issues will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
+  /** Required. The account for which policy issues are being retrieved. Format: accounts/{account} */
+  parent: string;
+  /** A page token, received from a previous `ListPolicyIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPolicyIssues` must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListAccountsPolicyIssuesRequest = Schema.Struct({
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/policyIssues" }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsPolicyIssuesRequest>;
+
+export type ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
+export const ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
+
+export type ListAccountsPolicyIssuesError = DefaultErrors;
+
+/** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
+export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
+  ListAccountsPolicyIssuesRequest,
+  ListAccountsPolicyIssuesResponse,
+  ListAccountsPolicyIssuesError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListAccountsPolicyIssuesRequest,
+  output: ListAccountsPolicyIssuesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetAccountsPolicyIssuesRequest {
+  /** Required. Name of the policy issue. Format: accounts/{account}/policyIssues/{policy_issue} */
   name: string;
 }
 
-export const GetAdcodeAccountsAdclientsRequest = Schema.Struct({
+export const GetAccountsPolicyIssuesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({
     method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode",
+    path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}",
   }),
   svc,
-) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsRequest>;
+) as unknown as Schema.Schema<GetAccountsPolicyIssuesRequest>;
 
-export type GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
-export const GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
+export type GetAccountsPolicyIssuesResponse = PolicyIssue;
+export const GetAccountsPolicyIssuesResponse = PolicyIssue;
 
-export type GetAdcodeAccountsAdclientsError = DefaultErrors;
+export type GetAccountsPolicyIssuesError = DefaultErrors;
 
-/** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
-export const getAdcodeAccountsAdclients: API.OperationMethod<
-  GetAdcodeAccountsAdclientsRequest,
-  GetAdcodeAccountsAdclientsResponse,
-  GetAdcodeAccountsAdclientsError,
+/** Gets information about the selected policy issue. */
+export const getAccountsPolicyIssues: API.OperationMethod<
+  GetAccountsPolicyIssuesRequest,
+  GetAccountsPolicyIssuesResponse,
+  GetAccountsPolicyIssuesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: GetAdcodeAccountsAdclientsRequest,
-  output: GetAdcodeAccountsAdclientsResponse,
+  input: GetAccountsPolicyIssuesRequest,
+  output: GetAccountsPolicyIssuesResponse,
+  errors: [],
+}));
+
+export interface GenerateAccountsReportsRequest {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Dimensions to base the report on. */
+  dimensions?:
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "WEEK"
+    | "MONTH"
+    | "ACCOUNT_NAME"
+    | "AD_CLIENT_ID"
+    | "HOSTED_AD_CLIENT_ID"
+    | "PRODUCT_NAME"
+    | "PRODUCT_CODE"
+    | "AD_UNIT_NAME"
+    | "AD_UNIT_ID"
+    | "AD_UNIT_SIZE_NAME"
+    | "AD_UNIT_SIZE_CODE"
+    | "CUSTOM_CHANNEL_NAME"
+    | "CUSTOM_CHANNEL_ID"
+    | "HOSTED_CUSTOM_CHANNEL_ID"
+    | "OWNED_SITE_DOMAIN_NAME"
+    | "OWNED_SITE_ID"
+    | "PAGE_URL"
+    | "URL_CHANNEL_NAME"
+    | "URL_CHANNEL_ID"
+    | "BUYER_NETWORK_NAME"
+    | "BUYER_NETWORK_ID"
+    | "BID_TYPE_NAME"
+    | "BID_TYPE_CODE"
+    | "CREATIVE_SIZE_NAME"
+    | "CREATIVE_SIZE_CODE"
+    | "DOMAIN_NAME"
+    | "DOMAIN_CODE"
+    | "COUNTRY_NAME"
+    | "COUNTRY_CODE"
+    | "PLATFORM_TYPE_NAME"
+    | "PLATFORM_TYPE_CODE"
+    | "TARGETING_TYPE_NAME"
+    | "TARGETING_TYPE_CODE"
+    | "TRAFFIC_SOURCE_NAME"
+    | "TRAFFIC_SOURCE_CODE"
+    | "CONTENT_PLATFORM_NAME"
+    | "CONTENT_PLATFORM_CODE"
+    | "AD_PLACEMENT_NAME"
+    | "AD_PLACEMENT_CODE"
+    | "REQUESTED_AD_TYPE_NAME"
+    | "REQUESTED_AD_TYPE_CODE"
+    | "SERVED_AD_TYPE_NAME"
+    | "SERVED_AD_TYPE_CODE"
+    | "AD_FORMAT_NAME"
+    | "AD_FORMAT_CODE"
+    | "CUSTOM_SEARCH_STYLE_NAME"
+    | "CUSTOM_SEARCH_STYLE_ID"
+    | "DOMAIN_REGISTRANT"
+    | "WEBSEARCH_QUERY_STRING"
+    | "OS_TYPE_NAME"
+    | "OS_TYPE_CODE"
+    | "BROWSER_TYPE_NAME"
+    | "BROWSER_TYPE_CODE"
+    | "WEBVIEW_TYPE_NAME"
+    | "WEBVIEW_TYPE_CODE"
+    | (string & {})[];
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
+  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
+  limit?: number;
+  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
+  account: string;
+  /** Required. Reporting metrics. */
+  metrics?:
+    | "METRIC_UNSPECIFIED"
+    | "PAGE_VIEWS"
+    | "AD_REQUESTS"
+    | "MATCHED_AD_REQUESTS"
+    | "TOTAL_IMPRESSIONS"
+    | "IMPRESSIONS"
+    | "INDIVIDUAL_AD_IMPRESSIONS"
+    | "CLICKS"
+    | "PAGE_VIEWS_SPAM_RATIO"
+    | "AD_REQUESTS_SPAM_RATIO"
+    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
+    | "IMPRESSIONS_SPAM_RATIO"
+    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
+    | "CLICKS_SPAM_RATIO"
+    | "AD_REQUESTS_COVERAGE"
+    | "PAGE_VIEWS_CTR"
+    | "AD_REQUESTS_CTR"
+    | "MATCHED_AD_REQUESTS_CTR"
+    | "IMPRESSIONS_CTR"
+    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
+    | "ACTIVE_VIEW_MEASURABILITY"
+    | "ACTIVE_VIEW_VIEWABILITY"
+    | "ACTIVE_VIEW_TIME"
+    | "ESTIMATED_EARNINGS"
+    | "PAGE_VIEWS_RPM"
+    | "AD_REQUESTS_RPM"
+    | "MATCHED_AD_REQUESTS_RPM"
+    | "IMPRESSIONS_RPM"
+    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
+    | "COST_PER_CLICK"
+    | "ADS_PER_IMPRESSION"
+    | "TOTAL_EARNINGS"
+    | "WEBSEARCH_RESULT_PAGES"
+    | "FUNNEL_REQUESTS"
+    | "FUNNEL_IMPRESSIONS"
+    | "FUNNEL_CLICKS"
+    | "FUNNEL_RPM"
+    | (string & {})[];
+  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
+  orderBy?: string[];
+  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
+  filters?: string[];
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
+}
+
+export const GenerateAccountsReportsRequest = Schema.Struct({
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dimensions"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  account: Schema.String.pipe(T.HttpPath("account")),
+  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metrics"),
+  ),
+  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("orderBy"),
+  ),
+  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("filters"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports:generate" }),
+  svc,
+) as unknown as Schema.Schema<GenerateAccountsReportsRequest>;
+
+export type GenerateAccountsReportsResponse = ReportResult;
+export const GenerateAccountsReportsResponse = ReportResult;
+
+export type GenerateAccountsReportsError = DefaultErrors;
+
+/** Generates an ad hoc report. */
+export const generateAccountsReports: API.OperationMethod<
+  GenerateAccountsReportsRequest,
+  GenerateAccountsReportsResponse,
+  GenerateAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GenerateAccountsReportsRequest,
+  output: GenerateAccountsReportsResponse,
+  errors: [],
+}));
+
+export interface GenerateCsvAccountsReportsRequest {
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Dimensions to base the report on. */
+  dimensions?:
+    | "DIMENSION_UNSPECIFIED"
+    | "DATE"
+    | "WEEK"
+    | "MONTH"
+    | "ACCOUNT_NAME"
+    | "AD_CLIENT_ID"
+    | "HOSTED_AD_CLIENT_ID"
+    | "PRODUCT_NAME"
+    | "PRODUCT_CODE"
+    | "AD_UNIT_NAME"
+    | "AD_UNIT_ID"
+    | "AD_UNIT_SIZE_NAME"
+    | "AD_UNIT_SIZE_CODE"
+    | "CUSTOM_CHANNEL_NAME"
+    | "CUSTOM_CHANNEL_ID"
+    | "HOSTED_CUSTOM_CHANNEL_ID"
+    | "OWNED_SITE_DOMAIN_NAME"
+    | "OWNED_SITE_ID"
+    | "PAGE_URL"
+    | "URL_CHANNEL_NAME"
+    | "URL_CHANNEL_ID"
+    | "BUYER_NETWORK_NAME"
+    | "BUYER_NETWORK_ID"
+    | "BID_TYPE_NAME"
+    | "BID_TYPE_CODE"
+    | "CREATIVE_SIZE_NAME"
+    | "CREATIVE_SIZE_CODE"
+    | "DOMAIN_NAME"
+    | "DOMAIN_CODE"
+    | "COUNTRY_NAME"
+    | "COUNTRY_CODE"
+    | "PLATFORM_TYPE_NAME"
+    | "PLATFORM_TYPE_CODE"
+    | "TARGETING_TYPE_NAME"
+    | "TARGETING_TYPE_CODE"
+    | "TRAFFIC_SOURCE_NAME"
+    | "TRAFFIC_SOURCE_CODE"
+    | "CONTENT_PLATFORM_NAME"
+    | "CONTENT_PLATFORM_CODE"
+    | "AD_PLACEMENT_NAME"
+    | "AD_PLACEMENT_CODE"
+    | "REQUESTED_AD_TYPE_NAME"
+    | "REQUESTED_AD_TYPE_CODE"
+    | "SERVED_AD_TYPE_NAME"
+    | "SERVED_AD_TYPE_CODE"
+    | "AD_FORMAT_NAME"
+    | "AD_FORMAT_CODE"
+    | "CUSTOM_SEARCH_STYLE_NAME"
+    | "CUSTOM_SEARCH_STYLE_ID"
+    | "DOMAIN_REGISTRANT"
+    | "WEBSEARCH_QUERY_STRING"
+    | "OS_TYPE_NAME"
+    | "OS_TYPE_CODE"
+    | "BROWSER_TYPE_NAME"
+    | "BROWSER_TYPE_CODE"
+    | "WEBVIEW_TYPE_NAME"
+    | "WEBVIEW_TYPE_CODE"
+    | (string & {})[];
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
+  /** Required. Reporting metrics. */
+  metrics?:
+    | "METRIC_UNSPECIFIED"
+    | "PAGE_VIEWS"
+    | "AD_REQUESTS"
+    | "MATCHED_AD_REQUESTS"
+    | "TOTAL_IMPRESSIONS"
+    | "IMPRESSIONS"
+    | "INDIVIDUAL_AD_IMPRESSIONS"
+    | "CLICKS"
+    | "PAGE_VIEWS_SPAM_RATIO"
+    | "AD_REQUESTS_SPAM_RATIO"
+    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
+    | "IMPRESSIONS_SPAM_RATIO"
+    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
+    | "CLICKS_SPAM_RATIO"
+    | "AD_REQUESTS_COVERAGE"
+    | "PAGE_VIEWS_CTR"
+    | "AD_REQUESTS_CTR"
+    | "MATCHED_AD_REQUESTS_CTR"
+    | "IMPRESSIONS_CTR"
+    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
+    | "ACTIVE_VIEW_MEASURABILITY"
+    | "ACTIVE_VIEW_VIEWABILITY"
+    | "ACTIVE_VIEW_TIME"
+    | "ESTIMATED_EARNINGS"
+    | "PAGE_VIEWS_RPM"
+    | "AD_REQUESTS_RPM"
+    | "MATCHED_AD_REQUESTS_RPM"
+    | "IMPRESSIONS_RPM"
+    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
+    | "COST_PER_CLICK"
+    | "ADS_PER_IMPRESSION"
+    | "TOTAL_EARNINGS"
+    | "WEBSEARCH_RESULT_PAGES"
+    | "FUNNEL_REQUESTS"
+    | "FUNNEL_IMPRESSIONS"
+    | "FUNNEL_CLICKS"
+    | "FUNNEL_RPM"
+    | (string & {})[];
+  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
+  orderBy?: string[];
+  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
+  filters?: string[];
+  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
+  limit?: number;
+  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
+  account: string;
+}
+
+export const GenerateCsvAccountsReportsRequest = Schema.Struct({
+  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dimensions"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("metrics"),
+  ),
+  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("orderBy"),
+  ),
+  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("filters"),
+  ),
+  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  account: Schema.String.pipe(T.HttpPath("account")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports:generateCsv",
+  }),
+  svc,
+) as unknown as Schema.Schema<GenerateCsvAccountsReportsRequest>;
+
+export type GenerateCsvAccountsReportsResponse = HttpBody;
+export const GenerateCsvAccountsReportsResponse = HttpBody;
+
+export type GenerateCsvAccountsReportsError = DefaultErrors;
+
+/** Generates a csv formatted ad hoc report. */
+export const generateCsvAccountsReports: API.OperationMethod<
+  GenerateCsvAccountsReportsRequest,
+  GenerateCsvAccountsReportsResponse,
+  GenerateCsvAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GenerateCsvAccountsReportsRequest,
+  output: GenerateCsvAccountsReportsResponse,
+  errors: [],
+}));
+
+export interface GetSavedAccountsReportsRequest {
+  /** Required. The name of the saved report to retrieve. Format: accounts/{account}/reports/{report} */
+  name: string;
+}
+
+export const GetSavedAccountsReportsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetSavedAccountsReportsRequest>;
+
+export type GetSavedAccountsReportsResponse = SavedReport;
+export const GetSavedAccountsReportsResponse = SavedReport;
+
+export type GetSavedAccountsReportsError = DefaultErrors;
+
+/** Gets the saved report from the given resource name. */
+export const getSavedAccountsReports: API.OperationMethod<
+  GetSavedAccountsReportsRequest,
+  GetSavedAccountsReportsResponse,
+  GetSavedAccountsReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetSavedAccountsReportsRequest,
+  output: GetSavedAccountsReportsResponse,
+  errors: [],
+}));
+
+export interface GenerateCsvAccountsReportsSavedRequest {
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
+  name: string;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+}
+
+export const GenerateCsvAccountsReportsSavedRequest = Schema.Struct({
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  name: Schema.String.pipe(T.HttpPath("name")),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv",
+  }),
+  svc,
+) as unknown as Schema.Schema<GenerateCsvAccountsReportsSavedRequest>;
+
+export type GenerateCsvAccountsReportsSavedResponse = HttpBody;
+export const GenerateCsvAccountsReportsSavedResponse = HttpBody;
+
+export type GenerateCsvAccountsReportsSavedError = DefaultErrors;
+
+/** Generates a csv formatted saved report. */
+export const generateCsvAccountsReportsSaved: API.OperationMethod<
+  GenerateCsvAccountsReportsSavedRequest,
+  GenerateCsvAccountsReportsSavedResponse,
+  GenerateCsvAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GenerateCsvAccountsReportsSavedRequest,
+  output: GenerateCsvAccountsReportsSavedResponse,
+  errors: [],
+}));
+
+export interface ListAccountsReportsSavedRequest {
+  /** The maximum number of reports to include in the response, used for paging. If unspecified, at most 10000 reports will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
+  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
+  parent: string;
+  /** A page token, received from a previous `ListSavedReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSavedReports` must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListAccountsReportsSavedRequest = Schema.Struct({
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/saved" }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsReportsSavedRequest>;
+
+export type ListAccountsReportsSavedResponse = ListSavedReportsResponse;
+export const ListAccountsReportsSavedResponse = ListSavedReportsResponse;
+
+export type ListAccountsReportsSavedError = DefaultErrors;
+
+/** Lists saved reports. */
+export const listAccountsReportsSaved: API.PaginatedOperationMethod<
+  ListAccountsReportsSavedRequest,
+  ListAccountsReportsSavedResponse,
+  ListAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListAccountsReportsSavedRequest,
+  output: ListAccountsReportsSavedResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GenerateAccountsReportsSavedRequest {
+  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
+  name: string;
+  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
+  languageCode?: string;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "startDate.day"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "endDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "endDate.day"?: number;
+  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
+  currencyCode?: string;
+  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
+  reportingTimeZone?:
+    | "REPORTING_TIME_ZONE_UNSPECIFIED"
+    | "ACCOUNT_TIME_ZONE"
+    | "GOOGLE_TIME_ZONE"
+    | (string & {});
+  /** Date range of the report, if unset the range will be considered CUSTOM. */
+  dateRange?:
+    | "REPORTING_DATE_RANGE_UNSPECIFIED"
+    | "CUSTOM"
+    | "TODAY"
+    | "YESTERDAY"
+    | "MONTH_TO_DATE"
+    | "YEAR_TO_DATE"
+    | "LAST_7_DAYS"
+    | "LAST_30_DAYS"
+    | (string & {});
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "startDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "startDate.month"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "endDate.year"?: number;
+}
+
+export const GenerateAccountsReportsSavedRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  languageCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("languageCode"),
+  ),
+  "startDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.day"),
+  ),
+  "endDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.month"),
+  ),
+  "endDate.day": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.day"),
+  ),
+  currencyCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("currencyCode"),
+  ),
+  reportingTimeZone: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("reportingTimeZone"),
+  ),
+  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+  "startDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.year"),
+  ),
+  "startDate.month": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("startDate.month"),
+  ),
+  "endDate.year": Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("endDate.year"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate",
+  }),
+  svc,
+) as unknown as Schema.Schema<GenerateAccountsReportsSavedRequest>;
+
+export type GenerateAccountsReportsSavedResponse = ReportResult;
+export const GenerateAccountsReportsSavedResponse = ReportResult;
+
+export type GenerateAccountsReportsSavedError = DefaultErrors;
+
+/** Generates a saved report. */
+export const generateAccountsReportsSaved: API.OperationMethod<
+  GenerateAccountsReportsSavedRequest,
+  GenerateAccountsReportsSavedResponse,
+  GenerateAccountsReportsSavedError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GenerateAccountsReportsSavedRequest,
+  output: GenerateAccountsReportsSavedResponse,
   errors: [],
 }));
 
@@ -1038,16 +1789,16 @@ export const getAccountsAdclients: API.OperationMethod<
 export interface ListAccountsAdclientsRequest {
   /** The maximum number of ad clients to include in the response, used for paging. If unspecified, at most 10000 ad clients will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
-  /** A page token, received from a previous `ListAdClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdClients` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The account which owns the collection of ad clients. Format: accounts/{account} */
   parent: string;
+  /** A page token, received from a previous `ListAdClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdClients` must match the call that provided the page token. */
+  pageToken?: string;
 }
 
 export const ListAccountsAdclientsRequest = Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients" }),
   svc,
@@ -1072,6 +1823,299 @@ export const listAccountsAdclients: API.PaginatedOperationMethod<
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
+}));
+
+export interface GetAdcodeAccountsAdclientsRequest {
+  /** Required. Name of the ad client for which to get the adcode. Format: accounts/{account}/adclients/{adclient} */
+  name: string;
+}
+
+export const GetAdcodeAccountsAdclientsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsRequest>;
+
+export type GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
+export const GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
+
+export type GetAdcodeAccountsAdclientsError = DefaultErrors;
+
+/** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
+export const getAdcodeAccountsAdclients: API.OperationMethod<
+  GetAdcodeAccountsAdclientsRequest,
+  GetAdcodeAccountsAdclientsResponse,
+  GetAdcodeAccountsAdclientsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAdcodeAccountsAdclientsRequest,
+  output: GetAdcodeAccountsAdclientsResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsAdclientsCustomchannelsRequest {
+  /** Required. The ad client to create a custom channel under. Format: accounts/{account}/adclients/{adclient} */
+  parent: string;
+  /** Request body */
+  body?: CustomChannel;
+}
+
+export const CreateAccountsAdclientsCustomchannelsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<CreateAccountsAdclientsCustomchannelsRequest>;
+
+export type CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
+
+export type CreateAccountsAdclientsCustomchannelsError = DefaultErrors;
+
+/** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
+export const createAccountsAdclientsCustomchannels: API.OperationMethod<
+  CreateAccountsAdclientsCustomchannelsRequest,
+  CreateAccountsAdclientsCustomchannelsResponse,
+  CreateAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateAccountsAdclientsCustomchannelsRequest,
+  output: CreateAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+}));
+
+export interface PatchAccountsAdclientsCustomchannelsRequest {
+  /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  name: string;
+  /** The list of fields to update. If empty, a full update is performed. */
+  updateMask?: string;
+  /** Request body */
+  body?: CustomChannel;
+}
+
+export const PatchAccountsAdclientsCustomchannelsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<PatchAccountsAdclientsCustomchannelsRequest>;
+
+export type PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
+
+export type PatchAccountsAdclientsCustomchannelsError = DefaultErrors;
+
+/** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
+export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
+  PatchAccountsAdclientsCustomchannelsRequest,
+  PatchAccountsAdclientsCustomchannelsResponse,
+  PatchAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PatchAccountsAdclientsCustomchannelsRequest,
+  output: PatchAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+}));
+
+export interface GetAccountsAdclientsCustomchannelsRequest {
+  /** Required. Name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  name: string;
+}
+
+export const GetAccountsAdclientsCustomchannelsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetAccountsAdclientsCustomchannelsRequest>;
+
+export type GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
+
+export type GetAccountsAdclientsCustomchannelsError = DefaultErrors;
+
+/** Gets information about the selected custom channel. */
+export const getAccountsAdclientsCustomchannels: API.OperationMethod<
+  GetAccountsAdclientsCustomchannelsRequest,
+  GetAccountsAdclientsCustomchannelsResponse,
+  GetAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAccountsAdclientsCustomchannelsRequest,
+  output: GetAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+}));
+
+export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
+  /** The maximum number of ad units to include in the response, used for paging. If unspecified, at most 10000 ad units will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
+  /** A page token, received from a previous `ListLinkedAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedAdUnits` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The custom channel which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  parent: string;
+}
+
+export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest =
+  Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}:listLinkedAdUnits",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest>;
+
+export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
+  ListLinkedAdUnitsResponse;
+export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
+  ListLinkedAdUnitsResponse;
+
+export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError =
+  DefaultErrors;
+
+/** Lists all the ad units available for a custom channel. */
+export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
+  ListLinkedAdUnitsAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
+  output: ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface ListAccountsAdclientsCustomchannelsRequest {
+  /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
+  /** A page token, received from a previous `ListCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomChannels` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
+  parent: string;
+}
+
+export const ListAccountsAdclientsCustomchannelsRequest = Schema.Struct({
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+  }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsAdclientsCustomchannelsRequest>;
+
+export type ListAccountsAdclientsCustomchannelsResponse =
+  ListCustomChannelsResponse;
+export const ListAccountsAdclientsCustomchannelsResponse =
+  ListCustomChannelsResponse;
+
+export type ListAccountsAdclientsCustomchannelsError = DefaultErrors;
+
+/** Lists all the custom channels available in an ad client. */
+export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
+  ListAccountsAdclientsCustomchannelsRequest,
+  ListAccountsAdclientsCustomchannelsResponse,
+  ListAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListAccountsAdclientsCustomchannelsRequest,
+  output: ListAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface DeleteAccountsAdclientsCustomchannelsRequest {
+  /** Required. Name of the custom channel to delete. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
+  name: string;
+}
+
+export const DeleteAccountsAdclientsCustomchannelsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<DeleteAccountsAdclientsCustomchannelsRequest>;
+
+export type DeleteAccountsAdclientsCustomchannelsResponse = Empty;
+export const DeleteAccountsAdclientsCustomchannelsResponse = Empty;
+
+export type DeleteAccountsAdclientsCustomchannelsError = DefaultErrors;
+
+/** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
+export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
+  DeleteAccountsAdclientsCustomchannelsRequest,
+  DeleteAccountsAdclientsCustomchannelsResponse,
+  DeleteAccountsAdclientsCustomchannelsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteAccountsAdclientsCustomchannelsRequest,
+  output: DeleteAccountsAdclientsCustomchannelsResponse,
+  errors: [],
+}));
+
+export interface GetAccountsAdclientsAdunitsRequest {
+  /** Required. AdUnit to get information about. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
+  name: string;
+}
+
+export const GetAccountsAdclientsAdunitsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetAccountsAdclientsAdunitsRequest>;
+
+export type GetAccountsAdclientsAdunitsResponse = AdUnit;
+export const GetAccountsAdclientsAdunitsResponse = AdUnit;
+
+export type GetAccountsAdclientsAdunitsError = DefaultErrors;
+
+/** Gets an ad unit from a specified account and ad client. */
+export const getAccountsAdclientsAdunits: API.OperationMethod<
+  GetAccountsAdclientsAdunitsRequest,
+  GetAccountsAdclientsAdunitsResponse,
+  GetAccountsAdclientsAdunitsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAccountsAdclientsAdunitsRequest,
+  output: GetAccountsAdclientsAdunitsResponse,
+  errors: [],
 }));
 
 export interface GetAdcodeAccountsAdclientsAdunitsRequest {
@@ -1181,38 +2225,6 @@ export const patchAccountsAdclientsAdunits: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetAccountsAdclientsAdunitsRequest {
-  /** Required. AdUnit to get information about. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
-  name: string;
-}
-
-export const GetAccountsAdclientsAdunitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsAdunitsRequest>;
-
-export type GetAccountsAdclientsAdunitsResponse = AdUnit;
-export const GetAccountsAdclientsAdunitsResponse = AdUnit;
-
-export type GetAccountsAdclientsAdunitsError = DefaultErrors;
-
-/** Gets an ad unit from a specified account and ad client. */
-export const getAccountsAdclientsAdunits: API.OperationMethod<
-  GetAccountsAdclientsAdunitsRequest,
-  GetAccountsAdclientsAdunitsResponse,
-  GetAccountsAdclientsAdunitsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetAccountsAdclientsAdunitsRequest,
-  output: GetAccountsAdclientsAdunitsResponse,
-  errors: [],
-}));
-
 export interface ListAccountsAdclientsAdunitsRequest {
   /** A page token, received from a previous `ListAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdUnits` must match the call that provided the page token. */
   pageToken?: string;
@@ -1256,19 +2268,19 @@ export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
 }));
 
 export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
+  /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number;
   /** A page token, received from a previous `ListLinkedCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedCustomChannels` must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The ad unit which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   parent: string;
-  /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
 }
 
 export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest =
   Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1334,18 +2346,18 @@ export const getAccountsAdclientsUrlchannels: API.OperationMethod<
 }));
 
 export interface ListAccountsAdclientsUrlchannelsRequest {
-  /** Required. The ad client which owns the collection of url channels. Format: accounts/{account}/adclients/{adclient} */
-  parent: string;
-  /** A page token, received from a previous `ListUrlChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUrlChannels` must match the call that provided the page token. */
-  pageToken?: string;
   /** The maximum number of url channels to include in the response, used for paging. If unspecified, at most 10000 url channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
+  /** A page token, received from a previous `ListUrlChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUrlChannels` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The ad client which owns the collection of url channels. Format: accounts/{account}/adclients/{adclient} */
+  parent: string;
 }
 
 export const ListAccountsAdclientsUrlchannelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -1373,1016 +2385,4 @@ export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
-}));
-
-export interface GetAccountsAdclientsCustomchannelsRequest {
-  /** Required. Name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  name: string;
-}
-
-export const GetAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsCustomchannelsRequest>;
-
-export type GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
-
-export type GetAccountsAdclientsCustomchannelsError = DefaultErrors;
-
-/** Gets information about the selected custom channel. */
-export const getAccountsAdclientsCustomchannels: API.OperationMethod<
-  GetAccountsAdclientsCustomchannelsRequest,
-  GetAccountsAdclientsCustomchannelsResponse,
-  GetAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetAccountsAdclientsCustomchannelsRequest,
-  output: GetAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsAdclientsCustomchannelsRequest {
-  /** Required. The ad client to create a custom channel under. Format: accounts/{account}/adclients/{adclient} */
-  parent: string;
-  /** Request body */
-  body?: CustomChannel;
-}
-
-export const CreateAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdclientsCustomchannelsRequest>;
-
-export type CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
-
-export type CreateAccountsAdclientsCustomchannelsError = DefaultErrors;
-
-/** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const createAccountsAdclientsCustomchannels: API.OperationMethod<
-  CreateAccountsAdclientsCustomchannelsRequest,
-  CreateAccountsAdclientsCustomchannelsResponse,
-  CreateAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: CreateAccountsAdclientsCustomchannelsRequest,
-  output: CreateAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-}));
-
-export interface PatchAccountsAdclientsCustomchannelsRequest {
-  /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  name: string;
-  /** The list of fields to update. If empty, a full update is performed. */
-  updateMask?: string;
-  /** Request body */
-  body?: CustomChannel;
-}
-
-export const PatchAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsAdclientsCustomchannelsRequest>;
-
-export type PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
-
-export type PatchAccountsAdclientsCustomchannelsError = DefaultErrors;
-
-/** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
-  PatchAccountsAdclientsCustomchannelsRequest,
-  PatchAccountsAdclientsCustomchannelsResponse,
-  PatchAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: PatchAccountsAdclientsCustomchannelsRequest,
-  output: PatchAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-}));
-
-export interface ListAccountsAdclientsCustomchannelsRequest {
-  /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
-  parent: string;
-  /** A page token, received from a previous `ListCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomChannels` must match the call that provided the page token. */
-  pageToken?: string;
-  /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-}
-
-export const ListAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdclientsCustomchannelsRequest>;
-
-export type ListAccountsAdclientsCustomchannelsResponse =
-  ListCustomChannelsResponse;
-export const ListAccountsAdclientsCustomchannelsResponse =
-  ListCustomChannelsResponse;
-
-export type ListAccountsAdclientsCustomchannelsError = DefaultErrors;
-
-/** Lists all the custom channels available in an ad client. */
-export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
-  ListAccountsAdclientsCustomchannelsRequest,
-  ListAccountsAdclientsCustomchannelsResponse,
-  ListAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListAccountsAdclientsCustomchannelsRequest,
-  output: ListAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface DeleteAccountsAdclientsCustomchannelsRequest {
-  /** Required. Name of the custom channel to delete. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  name: string;
-}
-
-export const DeleteAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsAdclientsCustomchannelsRequest>;
-
-export type DeleteAccountsAdclientsCustomchannelsResponse = Empty;
-export const DeleteAccountsAdclientsCustomchannelsResponse = Empty;
-
-export type DeleteAccountsAdclientsCustomchannelsError = DefaultErrors;
-
-/** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
-export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
-  DeleteAccountsAdclientsCustomchannelsRequest,
-  DeleteAccountsAdclientsCustomchannelsResponse,
-  DeleteAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: DeleteAccountsAdclientsCustomchannelsRequest,
-  output: DeleteAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-}));
-
-export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
-  /** The maximum number of ad units to include in the response, used for paging. If unspecified, at most 10000 ad units will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-  /** Required. The custom channel which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  parent: string;
-  /** A page token, received from a previous `ListLinkedAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedAdUnits` must match the call that provided the page token. */
-  pageToken?: string;
-}
-
-export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest =
-  Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}:listLinkedAdUnits",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest>;
-
-export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
-  ListLinkedAdUnitsResponse;
-export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
-  ListLinkedAdUnitsResponse;
-
-export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError =
-  DefaultErrors;
-
-/** Lists all the ad units available for a custom channel. */
-export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
-  ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
-  ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
-  ListLinkedAdUnitsAccountsAdclientsCustomchannelsError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
-  output: ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface ListAccountsPolicyIssuesRequest {
-  /** The maximum number of policy issues to include in the response, used for paging. If unspecified, at most 10000 policy issues will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListPolicyIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPolicyIssues` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The account for which policy issues are being retrieved. Format: accounts/{account} */
-  parent: string;
-}
-
-export const ListAccountsPolicyIssuesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/policyIssues" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsPolicyIssuesRequest>;
-
-export type ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
-export const ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
-
-export type ListAccountsPolicyIssuesError = DefaultErrors;
-
-/** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
-export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
-  ListAccountsPolicyIssuesRequest,
-  ListAccountsPolicyIssuesResponse,
-  ListAccountsPolicyIssuesError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListAccountsPolicyIssuesRequest,
-  output: ListAccountsPolicyIssuesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsPolicyIssuesRequest {
-  /** Required. Name of the policy issue. Format: accounts/{account}/policyIssues/{policy_issue} */
-  name: string;
-}
-
-export const GetAccountsPolicyIssuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsPolicyIssuesRequest>;
-
-export type GetAccountsPolicyIssuesResponse = PolicyIssue;
-export const GetAccountsPolicyIssuesResponse = PolicyIssue;
-
-export type GetAccountsPolicyIssuesError = DefaultErrors;
-
-/** Gets information about the selected policy issue. */
-export const getAccountsPolicyIssues: API.OperationMethod<
-  GetAccountsPolicyIssuesRequest,
-  GetAccountsPolicyIssuesResponse,
-  GetAccountsPolicyIssuesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetAccountsPolicyIssuesRequest,
-  output: GetAccountsPolicyIssuesResponse,
-  errors: [],
-}));
-
-export interface GenerateAccountsReportsRequest {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
-  /** Required. Reporting metrics. */
-  metrics?:
-    | "METRIC_UNSPECIFIED"
-    | "PAGE_VIEWS"
-    | "AD_REQUESTS"
-    | "MATCHED_AD_REQUESTS"
-    | "TOTAL_IMPRESSIONS"
-    | "IMPRESSIONS"
-    | "INDIVIDUAL_AD_IMPRESSIONS"
-    | "CLICKS"
-    | "PAGE_VIEWS_SPAM_RATIO"
-    | "AD_REQUESTS_SPAM_RATIO"
-    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
-    | "IMPRESSIONS_SPAM_RATIO"
-    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
-    | "CLICKS_SPAM_RATIO"
-    | "AD_REQUESTS_COVERAGE"
-    | "PAGE_VIEWS_CTR"
-    | "AD_REQUESTS_CTR"
-    | "MATCHED_AD_REQUESTS_CTR"
-    | "IMPRESSIONS_CTR"
-    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
-    | "ACTIVE_VIEW_MEASURABILITY"
-    | "ACTIVE_VIEW_VIEWABILITY"
-    | "ACTIVE_VIEW_TIME"
-    | "ESTIMATED_EARNINGS"
-    | "PAGE_VIEWS_RPM"
-    | "AD_REQUESTS_RPM"
-    | "MATCHED_AD_REQUESTS_RPM"
-    | "IMPRESSIONS_RPM"
-    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
-    | "COST_PER_CLICK"
-    | "ADS_PER_IMPRESSION"
-    | "TOTAL_EARNINGS"
-    | "WEBSEARCH_RESULT_PAGES"
-    | "FUNNEL_REQUESTS"
-    | "FUNNEL_IMPRESSIONS"
-    | "FUNNEL_CLICKS"
-    | "FUNNEL_RPM"
-    | (string & {})[];
-  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
-  orderBy?: string[];
-  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: string[];
-  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
-  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
-  account: string;
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?:
-    | "REPORTING_DATE_RANGE_UNSPECIFIED"
-    | "CUSTOM"
-    | "TODAY"
-    | "YESTERDAY"
-    | "MONTH_TO_DATE"
-    | "YEAR_TO_DATE"
-    | "LAST_7_DAYS"
-    | "LAST_30_DAYS"
-    | (string & {});
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?:
-    | "REPORTING_TIME_ZONE_UNSPECIFIED"
-    | "ACCOUNT_TIME_ZONE"
-    | "GOOGLE_TIME_ZONE"
-    | (string & {});
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Dimensions to base the report on. */
-  dimensions?:
-    | "DIMENSION_UNSPECIFIED"
-    | "DATE"
-    | "WEEK"
-    | "MONTH"
-    | "ACCOUNT_NAME"
-    | "AD_CLIENT_ID"
-    | "HOSTED_AD_CLIENT_ID"
-    | "PRODUCT_NAME"
-    | "PRODUCT_CODE"
-    | "AD_UNIT_NAME"
-    | "AD_UNIT_ID"
-    | "AD_UNIT_SIZE_NAME"
-    | "AD_UNIT_SIZE_CODE"
-    | "CUSTOM_CHANNEL_NAME"
-    | "CUSTOM_CHANNEL_ID"
-    | "HOSTED_CUSTOM_CHANNEL_ID"
-    | "OWNED_SITE_DOMAIN_NAME"
-    | "OWNED_SITE_ID"
-    | "PAGE_URL"
-    | "URL_CHANNEL_NAME"
-    | "URL_CHANNEL_ID"
-    | "BUYER_NETWORK_NAME"
-    | "BUYER_NETWORK_ID"
-    | "BID_TYPE_NAME"
-    | "BID_TYPE_CODE"
-    | "CREATIVE_SIZE_NAME"
-    | "CREATIVE_SIZE_CODE"
-    | "DOMAIN_NAME"
-    | "DOMAIN_CODE"
-    | "COUNTRY_NAME"
-    | "COUNTRY_CODE"
-    | "PLATFORM_TYPE_NAME"
-    | "PLATFORM_TYPE_CODE"
-    | "TARGETING_TYPE_NAME"
-    | "TARGETING_TYPE_CODE"
-    | "TRAFFIC_SOURCE_NAME"
-    | "TRAFFIC_SOURCE_CODE"
-    | "CONTENT_PLATFORM_NAME"
-    | "CONTENT_PLATFORM_CODE"
-    | "AD_PLACEMENT_NAME"
-    | "AD_PLACEMENT_CODE"
-    | "REQUESTED_AD_TYPE_NAME"
-    | "REQUESTED_AD_TYPE_CODE"
-    | "SERVED_AD_TYPE_NAME"
-    | "SERVED_AD_TYPE_CODE"
-    | "AD_FORMAT_NAME"
-    | "AD_FORMAT_CODE"
-    | "CUSTOM_SEARCH_STYLE_NAME"
-    | "CUSTOM_SEARCH_STYLE_ID"
-    | "DOMAIN_REGISTRANT"
-    | "WEBSEARCH_QUERY_STRING"
-    | "OS_TYPE_NAME"
-    | "OS_TYPE_CODE"
-    | "BROWSER_TYPE_NAME"
-    | "BROWSER_TYPE_CODE"
-    | "WEBVIEW_TYPE_NAME"
-    | "WEBVIEW_TYPE_CODE"
-    | (string & {})[];
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-}
-
-export const GenerateAccountsReportsRequest = Schema.Struct({
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("metrics"),
-  ),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("orderBy"),
-  ),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("filters"),
-  ),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  account: Schema.String.pipe(T.HttpPath("account")),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dimensions"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports:generate" }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsReportsRequest>;
-
-export type GenerateAccountsReportsResponse = ReportResult;
-export const GenerateAccountsReportsResponse = ReportResult;
-
-export type GenerateAccountsReportsError = DefaultErrors;
-
-/** Generates an ad hoc report. */
-export const generateAccountsReports: API.OperationMethod<
-  GenerateAccountsReportsRequest,
-  GenerateAccountsReportsResponse,
-  GenerateAccountsReportsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GenerateAccountsReportsRequest,
-  output: GenerateAccountsReportsResponse,
-  errors: [],
-}));
-
-export interface GenerateCsvAccountsReportsRequest {
-  /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
-  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
-  account: string;
-  /** Required. Reporting metrics. */
-  metrics?:
-    | "METRIC_UNSPECIFIED"
-    | "PAGE_VIEWS"
-    | "AD_REQUESTS"
-    | "MATCHED_AD_REQUESTS"
-    | "TOTAL_IMPRESSIONS"
-    | "IMPRESSIONS"
-    | "INDIVIDUAL_AD_IMPRESSIONS"
-    | "CLICKS"
-    | "PAGE_VIEWS_SPAM_RATIO"
-    | "AD_REQUESTS_SPAM_RATIO"
-    | "MATCHED_AD_REQUESTS_SPAM_RATIO"
-    | "IMPRESSIONS_SPAM_RATIO"
-    | "INDIVIDUAL_AD_IMPRESSIONS_SPAM_RATIO"
-    | "CLICKS_SPAM_RATIO"
-    | "AD_REQUESTS_COVERAGE"
-    | "PAGE_VIEWS_CTR"
-    | "AD_REQUESTS_CTR"
-    | "MATCHED_AD_REQUESTS_CTR"
-    | "IMPRESSIONS_CTR"
-    | "INDIVIDUAL_AD_IMPRESSIONS_CTR"
-    | "ACTIVE_VIEW_MEASURABILITY"
-    | "ACTIVE_VIEW_VIEWABILITY"
-    | "ACTIVE_VIEW_TIME"
-    | "ESTIMATED_EARNINGS"
-    | "PAGE_VIEWS_RPM"
-    | "AD_REQUESTS_RPM"
-    | "MATCHED_AD_REQUESTS_RPM"
-    | "IMPRESSIONS_RPM"
-    | "INDIVIDUAL_AD_IMPRESSIONS_RPM"
-    | "COST_PER_CLICK"
-    | "ADS_PER_IMPRESSION"
-    | "TOTAL_EARNINGS"
-    | "WEBSEARCH_RESULT_PAGES"
-    | "FUNNEL_REQUESTS"
-    | "FUNNEL_IMPRESSIONS"
-    | "FUNNEL_CLICKS"
-    | "FUNNEL_RPM"
-    | (string & {})[];
-  /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
-  orderBy?: string[];
-  /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: string[];
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Dimensions to base the report on. */
-  dimensions?:
-    | "DIMENSION_UNSPECIFIED"
-    | "DATE"
-    | "WEEK"
-    | "MONTH"
-    | "ACCOUNT_NAME"
-    | "AD_CLIENT_ID"
-    | "HOSTED_AD_CLIENT_ID"
-    | "PRODUCT_NAME"
-    | "PRODUCT_CODE"
-    | "AD_UNIT_NAME"
-    | "AD_UNIT_ID"
-    | "AD_UNIT_SIZE_NAME"
-    | "AD_UNIT_SIZE_CODE"
-    | "CUSTOM_CHANNEL_NAME"
-    | "CUSTOM_CHANNEL_ID"
-    | "HOSTED_CUSTOM_CHANNEL_ID"
-    | "OWNED_SITE_DOMAIN_NAME"
-    | "OWNED_SITE_ID"
-    | "PAGE_URL"
-    | "URL_CHANNEL_NAME"
-    | "URL_CHANNEL_ID"
-    | "BUYER_NETWORK_NAME"
-    | "BUYER_NETWORK_ID"
-    | "BID_TYPE_NAME"
-    | "BID_TYPE_CODE"
-    | "CREATIVE_SIZE_NAME"
-    | "CREATIVE_SIZE_CODE"
-    | "DOMAIN_NAME"
-    | "DOMAIN_CODE"
-    | "COUNTRY_NAME"
-    | "COUNTRY_CODE"
-    | "PLATFORM_TYPE_NAME"
-    | "PLATFORM_TYPE_CODE"
-    | "TARGETING_TYPE_NAME"
-    | "TARGETING_TYPE_CODE"
-    | "TRAFFIC_SOURCE_NAME"
-    | "TRAFFIC_SOURCE_CODE"
-    | "CONTENT_PLATFORM_NAME"
-    | "CONTENT_PLATFORM_CODE"
-    | "AD_PLACEMENT_NAME"
-    | "AD_PLACEMENT_CODE"
-    | "REQUESTED_AD_TYPE_NAME"
-    | "REQUESTED_AD_TYPE_CODE"
-    | "SERVED_AD_TYPE_NAME"
-    | "SERVED_AD_TYPE_CODE"
-    | "AD_FORMAT_NAME"
-    | "AD_FORMAT_CODE"
-    | "CUSTOM_SEARCH_STYLE_NAME"
-    | "CUSTOM_SEARCH_STYLE_ID"
-    | "DOMAIN_REGISTRANT"
-    | "WEBSEARCH_QUERY_STRING"
-    | "OS_TYPE_NAME"
-    | "OS_TYPE_CODE"
-    | "BROWSER_TYPE_NAME"
-    | "BROWSER_TYPE_CODE"
-    | "WEBVIEW_TYPE_NAME"
-    | "WEBVIEW_TYPE_CODE"
-    | (string & {})[];
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?:
-    | "REPORTING_DATE_RANGE_UNSPECIFIED"
-    | "CUSTOM"
-    | "TODAY"
-    | "YESTERDAY"
-    | "MONTH_TO_DATE"
-    | "YEAR_TO_DATE"
-    | "LAST_7_DAYS"
-    | "LAST_30_DAYS"
-    | (string & {});
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?:
-    | "REPORTING_TIME_ZONE_UNSPECIFIED"
-    | "ACCOUNT_TIME_ZONE"
-    | "GOOGLE_TIME_ZONE"
-    | (string & {});
-}
-
-export const GenerateCsvAccountsReportsRequest = Schema.Struct({
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  account: Schema.String.pipe(T.HttpPath("account")),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("metrics"),
-  ),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("orderBy"),
-  ),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("filters"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dimensions"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports:generateCsv",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateCsvAccountsReportsRequest>;
-
-export type GenerateCsvAccountsReportsResponse = HttpBody;
-export const GenerateCsvAccountsReportsResponse = HttpBody;
-
-export type GenerateCsvAccountsReportsError = DefaultErrors;
-
-/** Generates a csv formatted ad hoc report. */
-export const generateCsvAccountsReports: API.OperationMethod<
-  GenerateCsvAccountsReportsRequest,
-  GenerateCsvAccountsReportsResponse,
-  GenerateCsvAccountsReportsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GenerateCsvAccountsReportsRequest,
-  output: GenerateCsvAccountsReportsResponse,
-  errors: [],
-}));
-
-export interface GetSavedAccountsReportsRequest {
-  /** Required. The name of the saved report to retrieve. Format: accounts/{account}/reports/{report} */
-  name: string;
-}
-
-export const GetSavedAccountsReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSavedAccountsReportsRequest>;
-
-export type GetSavedAccountsReportsResponse = SavedReport;
-export const GetSavedAccountsReportsResponse = SavedReport;
-
-export type GetSavedAccountsReportsError = DefaultErrors;
-
-/** Gets the saved report from the given resource name. */
-export const getSavedAccountsReports: API.OperationMethod<
-  GetSavedAccountsReportsRequest,
-  GetSavedAccountsReportsResponse,
-  GetSavedAccountsReportsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetSavedAccountsReportsRequest,
-  output: GetSavedAccountsReportsResponse,
-  errors: [],
-}));
-
-export interface GenerateAccountsReportsSavedRequest {
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
-  name: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?:
-    | "REPORTING_TIME_ZONE_UNSPECIFIED"
-    | "ACCOUNT_TIME_ZONE"
-    | "GOOGLE_TIME_ZONE"
-    | (string & {});
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?:
-    | "REPORTING_DATE_RANGE_UNSPECIFIED"
-    | "CUSTOM"
-    | "TODAY"
-    | "YESTERDAY"
-    | "MONTH_TO_DATE"
-    | "YEAR_TO_DATE"
-    | "LAST_7_DAYS"
-    | "LAST_30_DAYS"
-    | (string & {});
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-}
-
-export const GenerateAccountsReportsSavedRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsReportsSavedRequest>;
-
-export type GenerateAccountsReportsSavedResponse = ReportResult;
-export const GenerateAccountsReportsSavedResponse = ReportResult;
-
-export type GenerateAccountsReportsSavedError = DefaultErrors;
-
-/** Generates a saved report. */
-export const generateAccountsReportsSaved: API.OperationMethod<
-  GenerateAccountsReportsSavedRequest,
-  GenerateAccountsReportsSavedResponse,
-  GenerateAccountsReportsSavedError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GenerateAccountsReportsSavedRequest,
-  output: GenerateAccountsReportsSavedResponse,
-  errors: [],
-}));
-
-export interface GenerateCsvAccountsReportsSavedRequest {
-  /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?:
-    | "REPORTING_DATE_RANGE_UNSPECIFIED"
-    | "CUSTOM"
-    | "TODAY"
-    | "YESTERDAY"
-    | "MONTH_TO_DATE"
-    | "YEAR_TO_DATE"
-    | "LAST_7_DAYS"
-    | "LAST_30_DAYS"
-    | (string & {});
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
-  /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
-  /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?:
-    | "REPORTING_TIME_ZONE_UNSPECIFIED"
-    | "ACCOUNT_TIME_ZONE"
-    | "GOOGLE_TIME_ZONE"
-    | (string & {});
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
-  /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
-  name: string;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
-}
-
-export const GenerateCsvAccountsReportsSavedRequest = Schema.Struct({
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateCsvAccountsReportsSavedRequest>;
-
-export type GenerateCsvAccountsReportsSavedResponse = HttpBody;
-export const GenerateCsvAccountsReportsSavedResponse = HttpBody;
-
-export type GenerateCsvAccountsReportsSavedError = DefaultErrors;
-
-/** Generates a csv formatted saved report. */
-export const generateCsvAccountsReportsSaved: API.OperationMethod<
-  GenerateCsvAccountsReportsSavedRequest,
-  GenerateCsvAccountsReportsSavedResponse,
-  GenerateCsvAccountsReportsSavedError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GenerateCsvAccountsReportsSavedRequest,
-  output: GenerateCsvAccountsReportsSavedResponse,
-  errors: [],
-}));
-
-export interface ListAccountsReportsSavedRequest {
-  /** The maximum number of reports to include in the response, used for paging. If unspecified, at most 10000 reports will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
-  /** Required. The account which owns the collection of reports. Format: accounts/{account} */
-  parent: string;
-  /** A page token, received from a previous `ListSavedReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSavedReports` must match the call that provided the page token. */
-  pageToken?: string;
-}
-
-export const ListAccountsReportsSavedRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/saved" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsReportsSavedRequest>;
-
-export type ListAccountsReportsSavedResponse = ListSavedReportsResponse;
-export const ListAccountsReportsSavedResponse = ListSavedReportsResponse;
-
-export type ListAccountsReportsSavedError = DefaultErrors;
-
-/** Lists saved reports. */
-export const listAccountsReportsSaved: API.PaginatedOperationMethod<
-  ListAccountsReportsSavedRequest,
-  ListAccountsReportsSavedResponse,
-  ListAccountsReportsSavedError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListAccountsReportsSavedRequest,
-  output: ListAccountsReportsSavedResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface ListAccountsAlertsRequest {
-  /** The language to use for translating alert messages. If unspecified, this defaults to the user's display language. If the given language is not supported, alerts will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
-  /** Required. The account which owns the collection of alerts. Format: accounts/{account} */
-  parent: string;
-}
-
-export const ListAccountsAlertsRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/alerts" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAlertsRequest>;
-
-export type ListAccountsAlertsResponse = ListAlertsResponse;
-export const ListAccountsAlertsResponse = ListAlertsResponse;
-
-export type ListAccountsAlertsError = DefaultErrors;
-
-/** Lists all the alerts available in an account. */
-export const listAccountsAlerts: API.OperationMethod<
-  ListAccountsAlertsRequest,
-  ListAccountsAlertsResponse,
-  ListAccountsAlertsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ListAccountsAlertsRequest,
-  output: ListAccountsAlertsResponse,
-  errors: [],
 }));

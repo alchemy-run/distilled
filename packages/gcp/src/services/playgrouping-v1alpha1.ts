@@ -30,25 +30,25 @@ export const VerifyTokenResponse: Schema.Schema<VerifyTokenResponse> =
   }) as any as Schema.Schema<VerifyTokenResponse>;
 
 export interface Tag {
-  /** A boolean value of the tag. */
-  booleanValue?: boolean;
-  /** Required. Key for the tag. */
-  key?: string;
-  /** A time value of the tag. */
-  timeValue?: string;
-  /** A string value of the tag. */
-  stringValue?: string;
   /** A signed 64-bit integer value of the tag. */
   int64Value?: string;
+  /** A boolean value of the tag. */
+  booleanValue?: boolean;
+  /** A time value of the tag. */
+  timeValue?: string;
+  /** Required. Key for the tag. */
+  key?: string;
+  /** A string value of the tag. */
+  stringValue?: string;
 }
 
 export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
   Schema.Struct({
-    booleanValue: Schema.optional(Schema.Boolean),
-    key: Schema.optional(Schema.String),
-    timeValue: Schema.optional(Schema.String),
-    stringValue: Schema.optional(Schema.String),
     int64Value: Schema.optional(Schema.String),
+    booleanValue: Schema.optional(Schema.Boolean),
+    timeValue: Schema.optional(Schema.String),
+    key: Schema.optional(Schema.String),
+    stringValue: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
@@ -99,17 +99,17 @@ export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsRespons
 // ==========================================================================
 
 export interface VerifyAppsTokensRequest {
-  /** Required. App the token belongs to. Format: apps/{package_name} */
-  appPackage: string;
   /** Required. The token to be verified. Format: tokens/{token} */
   token: string;
+  /** Required. App the token belongs to. Format: apps/{package_name} */
+  appPackage: string;
   /** Request body */
   body?: VerifyTokenRequest;
 }
 
 export const VerifyAppsTokensRequest = Schema.Struct({
-  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
   token: Schema.String.pipe(T.HttpPath("token")),
+  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
   body: Schema.optional(VerifyTokenRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -138,17 +138,17 @@ export const verifyAppsTokens: API.OperationMethod<
 }));
 
 export interface CreateOrUpdateAppsTokensTagsRequest {
-  /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
-  appPackage: string;
   /** Required. Token for which the tags are being inserted or updated. Format: tokens/{token} */
   token: string;
+  /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
+  appPackage: string;
   /** Request body */
   body?: CreateOrUpdateTagsRequest;
 }
 
 export const CreateOrUpdateAppsTokensTagsRequest = Schema.Struct({
-  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
   token: Schema.String.pipe(T.HttpPath("token")),
+  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
   body: Schema.optional(CreateOrUpdateTagsRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({

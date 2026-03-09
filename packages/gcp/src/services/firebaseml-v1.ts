@@ -22,32 +22,11 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface CancelOperationRequest {}
+export interface Empty {}
 
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CancelOperationRequest",
-  }) as any as Schema.Schema<CancelOperationRequest>;
-
-export interface ModelOperationMetadata {
-  /** The name of the model we are creating/updating The name must have the form `projects/{project_id}/models/{model_id}` */
-  name?: string;
-  basicOperationStatus?:
-    | "BASIC_OPERATION_STATUS_UNSPECIFIED"
-    | "BASIC_OPERATION_STATUS_UPLOADING"
-    | "BASIC_OPERATION_STATUS_VERIFYING"
-    | (string & {});
-}
-
-export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      basicOperationStatus: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ModelOperationMetadata",
-  }) as any as Schema.Schema<ModelOperationMetadata>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -69,25 +48,25 @@ export const Status: Schema.Schema<Status> = Schema.suspend(() =>
 ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: Record<string, unknown>;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: Record<string, unknown>;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
 }
 
 export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
   Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
     response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     done: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+    error: Schema.optional(Status),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
   }),
 ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
@@ -111,15 +90,65 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
     identifier: "ListOperationsResponse",
   }) as any as Schema.Schema<ListOperationsResponse>;
 
-export interface Empty {}
+export interface ModelOperationMetadata {
+  basicOperationStatus?:
+    | "BASIC_OPERATION_STATUS_UNSPECIFIED"
+    | "BASIC_OPERATION_STATUS_UPLOADING"
+    | "BASIC_OPERATION_STATUS_VERIFYING"
+    | (string & {});
+  /** The name of the model we are creating/updating The name must have the form `projects/{project_id}/models/{model_id}` */
+  name?: string;
+}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      basicOperationStatus: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ModelOperationMetadata",
+  }) as any as Schema.Schema<ModelOperationMetadata>;
+
+export interface CancelOperationRequest {}
+
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface DeleteOperationsRequest {
+  /** The name of the operation resource to be deleted. */
+  name: string;
+}
+
+export const DeleteOperationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
+  svc,
+) as unknown as Schema.Schema<DeleteOperationsRequest>;
+
+export type DeleteOperationsResponse = Empty;
+export const DeleteOperationsResponse = Empty;
+
+export type DeleteOperationsError = DefaultErrors;
+
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
+export const deleteOperations: API.OperationMethod<
+  DeleteOperationsRequest,
+  DeleteOperationsResponse,
+  DeleteOperationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteOperationsRequest,
+  output: DeleteOperationsResponse,
+  errors: [],
+}));
 
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
@@ -201,34 +230,5 @@ export const cancelOperations: API.OperationMethod<
 > = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
-  errors: [],
-}));
-
-export interface DeleteOperationsRequest {
-  /** The name of the operation resource to be deleted. */
-  name: string;
-}
-
-export const DeleteOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOperationsRequest>;
-
-export type DeleteOperationsResponse = Empty;
-export const DeleteOperationsResponse = Empty;
-
-export type DeleteOperationsError = DefaultErrors;
-
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteOperations: API.OperationMethod<
-  DeleteOperationsRequest,
-  DeleteOperationsResponse,
-  DeleteOperationsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: DeleteOperationsRequest,
-  output: DeleteOperationsResponse,
   errors: [],
 }));

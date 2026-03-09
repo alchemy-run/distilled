@@ -40,17 +40,17 @@ export const GoogleExampleLibraryagentV1Shelf: Schema.Schema<GoogleExampleLibrar
   }) as any as Schema.Schema<GoogleExampleLibraryagentV1Shelf>;
 
 export interface GoogleExampleLibraryagentV1ListShelvesResponse {
-  /** A token to retrieve next page of results. Pass this value in the ListShelvesRequest.page_token field in the subsequent call to `ListShelves` method to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of shelves. */
   shelves?: Array<GoogleExampleLibraryagentV1Shelf>;
+  /** A token to retrieve next page of results. Pass this value in the ListShelvesRequest.page_token field in the subsequent call to `ListShelves` method to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 
 export const GoogleExampleLibraryagentV1ListShelvesResponse: Schema.Schema<GoogleExampleLibraryagentV1ListShelvesResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
       shelves: Schema.optional(Schema.Array(GoogleExampleLibraryagentV1Shelf)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleExampleLibraryagentV1ListShelvesResponse",
@@ -80,17 +80,17 @@ export const GoogleExampleLibraryagentV1Book: Schema.Schema<GoogleExampleLibrary
   }) as any as Schema.Schema<GoogleExampleLibraryagentV1Book>;
 
 export interface GoogleExampleLibraryagentV1ListBooksResponse {
-  /** The list of books. */
-  books?: Array<GoogleExampleLibraryagentV1Book>;
   /** A token to retrieve next page of results. Pass this value in the ListBooksRequest.page_token field in the subsequent call to `ListBooks` method to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The list of books. */
+  books?: Array<GoogleExampleLibraryagentV1Book>;
 }
 
 export const GoogleExampleLibraryagentV1ListBooksResponse: Schema.Schema<GoogleExampleLibraryagentV1ListBooksResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      books: Schema.optional(Schema.Array(GoogleExampleLibraryagentV1Book)),
       nextPageToken: Schema.optional(Schema.String),
+      books: Schema.optional(Schema.Array(GoogleExampleLibraryagentV1Book)),
     }),
   ).annotate({
     identifier: "GoogleExampleLibraryagentV1ListBooksResponse",
@@ -99,35 +99,6 @@ export const GoogleExampleLibraryagentV1ListBooksResponse: Schema.Schema<GoogleE
 // ==========================================================================
 // Operations
 // ==========================================================================
-
-export interface GetShelvesRequest {
-  /** Required. The name of the shelf to retrieve. */
-  name: string;
-}
-
-export const GetShelvesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/shelves/{shelvesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetShelvesRequest>;
-
-export type GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
-export const GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
-
-export type GetShelvesError = DefaultErrors;
-
-/** Gets a shelf. Returns NOT_FOUND if the shelf does not exist. */
-export const getShelves: API.OperationMethod<
-  GetShelvesRequest,
-  GetShelvesResponse,
-  GetShelvesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetShelvesRequest,
-  output: GetShelvesResponse,
-  errors: [],
-}));
 
 export interface ListShelvesRequest {
   /** Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default. */
@@ -167,6 +138,35 @@ export const listShelves: API.PaginatedOperationMethod<
   },
 }));
 
+export interface GetShelvesRequest {
+  /** Required. The name of the shelf to retrieve. */
+  name: string;
+}
+
+export const GetShelvesRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/shelves/{shelvesId}" }),
+  svc,
+) as unknown as Schema.Schema<GetShelvesRequest>;
+
+export type GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
+export const GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
+
+export type GetShelvesError = DefaultErrors;
+
+/** Gets a shelf. Returns NOT_FOUND if the shelf does not exist. */
+export const getShelves: API.OperationMethod<
+  GetShelvesRequest,
+  GetShelvesResponse,
+  GetShelvesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetShelvesRequest,
+  output: GetShelvesResponse,
+  errors: [],
+}));
+
 export interface GetShelvesBooksRequest {
   /** Required. The name of the book to retrieve. */
   name: string;
@@ -194,47 +194,6 @@ export const getShelvesBooks: API.OperationMethod<
   input: GetShelvesBooksRequest,
   output: GetShelvesBooksResponse,
   errors: [],
-}));
-
-export interface ListShelvesBooksRequest {
-  /** Required. The name of the shelf whose books we'd like to list. */
-  parent: string;
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method. */
-  pageToken?: string;
-  /** Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
-}
-
-export const ListShelvesBooksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/shelves/{shelvesId}/books" }),
-  svc,
-) as unknown as Schema.Schema<ListShelvesBooksRequest>;
-
-export type ListShelvesBooksResponse =
-  GoogleExampleLibraryagentV1ListBooksResponse;
-export const ListShelvesBooksResponse =
-  GoogleExampleLibraryagentV1ListBooksResponse;
-
-export type ListShelvesBooksError = DefaultErrors;
-
-/** Lists books in a shelf. The order is unspecified but deterministic. Newly created books will not necessarily be added to the end of this list. Returns NOT_FOUND if the shelf does not exist. */
-export const listShelvesBooks: API.PaginatedOperationMethod<
-  ListShelvesBooksRequest,
-  ListShelvesBooksResponse,
-  ListShelvesBooksError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListShelvesBooksRequest,
-  output: ListShelvesBooksResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface BorrowShelvesBooksRequest {
@@ -301,4 +260,45 @@ export const returnShelvesBooks: API.OperationMethod<
   input: ReturnShelvesBooksRequest,
   output: ReturnShelvesBooksResponse,
   errors: [],
+}));
+
+export interface ListShelvesBooksRequest {
+  /** Required. The name of the shelf whose books we'd like to list. */
+  parent: string;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method. */
+  pageToken?: string;
+  /** Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number;
+}
+
+export const ListShelvesBooksRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/shelves/{shelvesId}/books" }),
+  svc,
+) as unknown as Schema.Schema<ListShelvesBooksRequest>;
+
+export type ListShelvesBooksResponse =
+  GoogleExampleLibraryagentV1ListBooksResponse;
+export const ListShelvesBooksResponse =
+  GoogleExampleLibraryagentV1ListBooksResponse;
+
+export type ListShelvesBooksError = DefaultErrors;
+
+/** Lists books in a shelf. The order is unspecified but deterministic. Newly created books will not necessarily be added to the end of this list. Returns NOT_FOUND if the shelf does not exist. */
+export const listShelvesBooks: API.PaginatedOperationMethod<
+  ListShelvesBooksRequest,
+  ListShelvesBooksResponse,
+  ListShelvesBooksError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListShelvesBooksRequest,
+  output: ListShelvesBooksResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));

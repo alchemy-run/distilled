@@ -25,32 +25,10 @@ const svc = T.Service({
 export interface DataSourceParameter {
   /** Parameter identifier. */
   paramId?: string;
-  /** Regular expression which can be used for parameter validation. */
-  validationRegex?: string;
-  /** All possible values for the parameter. */
-  allowedValues?: Array<string>;
-  /** Deprecated. This field has no effect. */
-  repeated?: boolean;
-  /** Is parameter required. */
-  required?: boolean;
-  /** Parameter description. */
-  description?: string;
-  /** For integer and double values specifies maximum allowed value. */
-  maxValue?: number;
-  /** URL to a help document to further explain the naming requirements. */
-  validationHelpUrl?: string;
-  /** Deprecated. This field has no effect. */
-  recurse?: boolean;
   /** Parameter display name in the user interface. */
   displayName?: string;
-  /** If true, it should not be used in new transfers, and it should not be visible to users. */
-  deprecated?: boolean;
-  /** Description of the requirements for this field, in case the user input does not fulfill the regex pattern or min/max values. */
-  validationDescription?: string;
-  /** Deprecated. This field has no effect. */
-  fields?: Array<DataSourceParameter>;
-  /** For list parameters, the max size of the list. */
-  maxListSize?: string;
+  /** Parameter description. */
+  description?: string;
   /** Parameter type. */
   type?:
     | "TYPE_UNSPECIFIED"
@@ -62,78 +40,90 @@ export interface DataSourceParameter {
     | "PLUS_PAGE"
     | "LIST"
     | (string & {});
+  /** Is parameter required. */
+  required?: boolean;
+  /** Deprecated. This field has no effect. */
+  repeated?: boolean;
+  /** Regular expression which can be used for parameter validation. */
+  validationRegex?: string;
+  /** All possible values for the parameter. */
+  allowedValues?: Array<string>;
   /** For integer and double values specifies minimum allowed value. */
   minValue?: number;
+  /** For integer and double values specifies maximum allowed value. */
+  maxValue?: number;
+  /** Deprecated. This field has no effect. */
+  fields?: Array<DataSourceParameter>;
+  /** Description of the requirements for this field, in case the user input does not fulfill the regex pattern or min/max values. */
+  validationDescription?: string;
+  /** URL to a help document to further explain the naming requirements. */
+  validationHelpUrl?: string;
   /** Cannot be changed after initial creation. */
   immutable?: boolean;
+  /** Deprecated. This field has no effect. */
+  recurse?: boolean;
+  /** If true, it should not be used in new transfers, and it should not be visible to users. */
+  deprecated?: boolean;
+  /** For list parameters, the max size of the list. */
+  maxListSize?: string;
 }
 
 export const DataSourceParameter: Schema.Schema<DataSourceParameter> =
   Schema.suspend(() =>
     Schema.Struct({
       paramId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      required: Schema.optional(Schema.Boolean),
+      repeated: Schema.optional(Schema.Boolean),
       validationRegex: Schema.optional(Schema.String),
       allowedValues: Schema.optional(Schema.Array(Schema.String)),
-      repeated: Schema.optional(Schema.Boolean),
-      required: Schema.optional(Schema.Boolean),
-      description: Schema.optional(Schema.String),
-      maxValue: Schema.optional(Schema.Number),
-      validationHelpUrl: Schema.optional(Schema.String),
-      recurse: Schema.optional(Schema.Boolean),
-      displayName: Schema.optional(Schema.String),
-      deprecated: Schema.optional(Schema.Boolean),
-      validationDescription: Schema.optional(Schema.String),
-      fields: Schema.optional(Schema.Array(DataSourceParameter)),
-      maxListSize: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
       minValue: Schema.optional(Schema.Number),
+      maxValue: Schema.optional(Schema.Number),
+      fields: Schema.optional(Schema.Array(DataSourceParameter)),
+      validationDescription: Schema.optional(Schema.String),
+      validationHelpUrl: Schema.optional(Schema.String),
       immutable: Schema.optional(Schema.Boolean),
+      recurse: Schema.optional(Schema.Boolean),
+      deprecated: Schema.optional(Schema.Boolean),
+      maxListSize: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "DataSourceParameter",
   }) as any as Schema.Schema<DataSourceParameter>;
 
 export interface DataSource {
+  /** Output only. Data source resource name. */
+  name?: string;
+  /** Data source id. */
+  dataSourceId?: string;
+  /** User friendly data source name. */
+  displayName?: string;
+  /** User friendly data source description string. */
+  description?: string;
+  /** Data source client id which should be used to receive refresh token. */
+  clientId?: string;
+  /** Api auth scopes for which refresh token needs to be obtained. These are scopes needed by a data source to prepare data and ingest them into BigQuery, e.g., https://www.googleapis.com/auth/bigquery */
+  scopes?: Array<string>;
   /** Deprecated. This field has no effect. */
   transferType?:
     | "TRANSFER_TYPE_UNSPECIFIED"
     | "BATCH"
     | "STREAMING"
     | (string & {});
-  /** User friendly data source name. */
-  displayName?: string;
-  /** Default data refresh window on days. Only meaningful when `data_refresh_type` = `SLIDING_WINDOW`. */
-  defaultDataRefreshWindowDays?: number;
+  /** Deprecated. This field has no effect. */
+  supportsMultipleTransfers?: boolean;
+  /** The number of seconds to wait for an update from the data source before the Data Transfer Service marks the transfer as FAILED. */
+  updateDeadlineSeconds?: number;
   /** Default data transfer schedule. Examples of valid schedules include: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. */
   defaultSchedule?: string;
   /** Specifies whether the data source supports a user defined schedule, or operates on the default schedule. When set to `true`, user can override default schedule. */
   supportsCustomSchedule?: boolean;
-  /** Disables backfilling and manual run scheduling for the data source. */
-  manualRunsDisabled?: boolean;
-  /** Output only. Data source resource name. */
-  name?: string;
-  /** Data source id. */
-  dataSourceId?: string;
-  /** The number of seconds to wait for an update from the data source before the Data Transfer Service marks the transfer as FAILED. */
-  updateDeadlineSeconds?: number;
   /** Data source parameters. */
   parameters?: Array<DataSourceParameter>;
-  /** Specifies whether the data source supports automatic data refresh for the past few days, and how it's supported. For some data sources, data might not be complete until a few days later, so it's useful to refresh data automatically. */
-  dataRefreshType?:
-    | "DATA_REFRESH_TYPE_UNSPECIFIED"
-    | "SLIDING_WINDOW"
-    | "CUSTOM_SLIDING_WINDOW"
-    | (string & {});
-  /** Deprecated. This field has no effect. */
-  supportsMultipleTransfers?: boolean;
-  /** Api auth scopes for which refresh token needs to be obtained. These are scopes needed by a data source to prepare data and ingest them into BigQuery, e.g., https://www.googleapis.com/auth/bigquery */
-  scopes?: Array<string>;
-  /** User friendly data source description string. */
-  description?: string;
   /** Url for the help document for this data source. */
   helpUrl?: string;
-  /** The minimum interval for scheduler to schedule runs. */
-  minimumScheduleInterval?: string;
   /** Indicates the type of authorization. */
   authorizationType?:
     | "AUTHORIZATION_TYPE_UNSPECIFIED"
@@ -141,30 +131,40 @@ export interface DataSource {
     | "GOOGLE_PLUS_AUTHORIZATION_CODE"
     | "FIRST_PARTY_OAUTH"
     | (string & {});
-  /** Data source client id which should be used to receive refresh token. */
-  clientId?: string;
+  /** Specifies whether the data source supports automatic data refresh for the past few days, and how it's supported. For some data sources, data might not be complete until a few days later, so it's useful to refresh data automatically. */
+  dataRefreshType?:
+    | "DATA_REFRESH_TYPE_UNSPECIFIED"
+    | "SLIDING_WINDOW"
+    | "CUSTOM_SLIDING_WINDOW"
+    | (string & {});
+  /** Default data refresh window on days. Only meaningful when `data_refresh_type` = `SLIDING_WINDOW`. */
+  defaultDataRefreshWindowDays?: number;
+  /** Disables backfilling and manual run scheduling for the data source. */
+  manualRunsDisabled?: boolean;
+  /** The minimum interval for scheduler to schedule runs. */
+  minimumScheduleInterval?: string;
 }
 
 export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
   Schema.Struct({
-    transferType: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
-    defaultSchedule: Schema.optional(Schema.String),
-    supportsCustomSchedule: Schema.optional(Schema.Boolean),
-    manualRunsDisabled: Schema.optional(Schema.Boolean),
     name: Schema.optional(Schema.String),
     dataSourceId: Schema.optional(Schema.String),
-    updateDeadlineSeconds: Schema.optional(Schema.Number),
-    parameters: Schema.optional(Schema.Array(DataSourceParameter)),
-    dataRefreshType: Schema.optional(Schema.String),
-    supportsMultipleTransfers: Schema.optional(Schema.Boolean),
-    scopes: Schema.optional(Schema.Array(Schema.String)),
+    displayName: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
-    helpUrl: Schema.optional(Schema.String),
-    minimumScheduleInterval: Schema.optional(Schema.String),
-    authorizationType: Schema.optional(Schema.String),
     clientId: Schema.optional(Schema.String),
+    scopes: Schema.optional(Schema.Array(Schema.String)),
+    transferType: Schema.optional(Schema.String),
+    supportsMultipleTransfers: Schema.optional(Schema.Boolean),
+    updateDeadlineSeconds: Schema.optional(Schema.Number),
+    defaultSchedule: Schema.optional(Schema.String),
+    supportsCustomSchedule: Schema.optional(Schema.Boolean),
+    parameters: Schema.optional(Schema.Array(DataSourceParameter)),
+    helpUrl: Schema.optional(Schema.String),
+    authorizationType: Schema.optional(Schema.String),
+    dataRefreshType: Schema.optional(Schema.String),
+    defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
+    manualRunsDisabled: Schema.optional(Schema.Boolean),
+    minimumScheduleInterval: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
@@ -185,175 +185,6 @@ export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
     identifier: "ListDataSourcesResponse",
   }) as any as Schema.Schema<ListDataSourcesResponse>;
 
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: Array<Record<string, unknown>>;
-}
-
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
-
-export interface EmailPreferences {
-  /** If true, email notifications will be sent on transfer run failures. */
-  enableFailureEmail?: boolean;
-}
-
-export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(
-  () =>
-    Schema.Struct({
-      enableFailureEmail: Schema.optional(Schema.Boolean),
-    }),
-).annotate({
-  identifier: "EmailPreferences",
-}) as any as Schema.Schema<EmailPreferences>;
-
-export interface TransferRun {
-  /** Output only. The BigQuery target dataset id. */
-  destinationDatasetId?: string;
-  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
-  userId?: string;
-  /** Output only. Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
-  params?: Record<string, unknown>;
-  /** Output only. Time when transfer run ended. Parameter ignored by server for input requests. */
-  endTime?: string;
-  /** Output only. Last time the data transfer run state was updated. */
-  updateTime?: string;
-  /** Output only. Pub/Sub topic where a notification will be sent after this transfer run finishes. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
-  notificationPubsubTopic?: string;
-  /** Status of the transfer run. */
-  errorStatus?: Status;
-  /** Data transfer run state. Ignored for input requests. */
-  state?:
-    | "TRANSFER_STATE_UNSPECIFIED"
-    | "PENDING"
-    | "RUNNING"
-    | "SUCCEEDED"
-    | "FAILED"
-    | "CANCELLED"
-    | (string & {});
-  /** Output only. Time when transfer run was started. Parameter ignored by server for input requests. */
-  startTime?: string;
-  /** For batch transfer runs, specifies the date and time of the data should be ingested. */
-  runTime?: string;
-  /** Identifier. The resource name of the transfer run. Transfer run names have the form `projects/{project_id}/locations/{location}/transferConfigs/{config_id}/runs/{run_id}`. The name is ignored when creating a transfer run. */
-  name?: string;
-  /** Output only. Describes the schedule of this transfer run if it was created as part of a regular schedule. For batch transfer runs that are scheduled manually, this is empty. NOTE: the system might choose to delay the schedule depending on the current load, so `schedule_time` doesn't always match this. */
-  schedule?: string;
-  /** Output only. Email notifications will be sent according to these preferences to the email address of the user who owns the transfer config this run was derived from. */
-  emailPreferences?: EmailPreferences;
-  /** Minimum time after which a transfer run can be started. */
-  scheduleTime?: string;
-  /** Output only. Data source id. */
-  dataSourceId?: string;
-}
-
-export const TransferRun: Schema.Schema<TransferRun> = Schema.suspend(() =>
-  Schema.Struct({
-    destinationDatasetId: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    endTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    notificationPubsubTopic: Schema.optional(Schema.String),
-    errorStatus: Schema.optional(Status),
-    state: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    runTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    schedule: Schema.optional(Schema.String),
-    emailPreferences: Schema.optional(EmailPreferences),
-    scheduleTime: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TransferRun" }) as any as Schema.Schema<TransferRun>;
-
-export interface StartManualTransferRunsResponse {
-  /** The transfer runs that were created. */
-  runs?: Array<TransferRun>;
-}
-
-export const StartManualTransferRunsResponse: Schema.Schema<StartManualTransferRunsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      runs: Schema.optional(Schema.Array(TransferRun)),
-    }),
-  ).annotate({
-    identifier: "StartManualTransferRunsResponse",
-  }) as any as Schema.Schema<StartManualTransferRunsResponse>;
-
-export interface TimeBasedSchedule {
-  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. */
-  startTime?: string;
-  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
-  schedule?: string;
-  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. */
-  endTime?: string;
-}
-
-export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      startTime: Schema.optional(Schema.String),
-      schedule: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "TimeBasedSchedule",
-  }) as any as Schema.Schema<TimeBasedSchedule>;
-
-export interface EventDrivenSchedule {
-  /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
-  pubsubSubscription?: string;
-}
-
-export const EventDrivenSchedule: Schema.Schema<EventDrivenSchedule> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      pubsubSubscription: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "EventDrivenSchedule",
-  }) as any as Schema.Schema<EventDrivenSchedule>;
-
-export interface ManualSchedule {}
-
-export const ManualSchedule: Schema.Schema<ManualSchedule> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "ManualSchedule",
-}) as any as Schema.Schema<ManualSchedule>;
-
-export interface ScheduleOptionsV2 {
-  /** Time based transfer schedule options. This is the default schedule option. */
-  timeBasedSchedule?: TimeBasedSchedule;
-  /** Event driven transfer schedule options. If set, the transfer will be scheduled upon events arrial. */
-  eventDrivenSchedule?: EventDrivenSchedule;
-  /** Manual transfer schedule. If set, the transfer run will not be auto-scheduled by the system, unless the client invokes StartManualTransferRuns. This is equivalent to disable_auto_scheduling = true. */
-  manualSchedule?: ManualSchedule;
-}
-
-export const ScheduleOptionsV2: Schema.Schema<ScheduleOptionsV2> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      timeBasedSchedule: Schema.optional(TimeBasedSchedule),
-      eventDrivenSchedule: Schema.optional(EventDrivenSchedule),
-      manualSchedule: Schema.optional(ManualSchedule),
-    }),
-  ).annotate({
-    identifier: "ScheduleOptionsV2",
-  }) as any as Schema.Schema<ScheduleOptionsV2>;
-
 export interface ScheduleOptions {
   /** If true, automatic scheduling of data transfer runs for this configuration will be disabled. The runs can be started on ad-hoc basis using StartManualTransferRuns API. When automatic scheduling is disabled, the TransferConfig.schedule field will be ignored. */
   disableAutoScheduling?: boolean;
@@ -373,6 +204,82 @@ export const ScheduleOptions: Schema.Schema<ScheduleOptions> = Schema.suspend(
 ).annotate({
   identifier: "ScheduleOptions",
 }) as any as Schema.Schema<ScheduleOptions>;
+
+export interface TimeBasedSchedule {
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string;
+  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. */
+  startTime?: string;
+  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. */
+  endTime?: string;
+}
+
+export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      schedule: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TimeBasedSchedule",
+  }) as any as Schema.Schema<TimeBasedSchedule>;
+
+export interface ManualSchedule {}
+
+export const ManualSchedule: Schema.Schema<ManualSchedule> = Schema.suspend(
+  () => Schema.Struct({}),
+).annotate({
+  identifier: "ManualSchedule",
+}) as any as Schema.Schema<ManualSchedule>;
+
+export interface EventDrivenSchedule {
+  /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
+  pubsubSubscription?: string;
+}
+
+export const EventDrivenSchedule: Schema.Schema<EventDrivenSchedule> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pubsubSubscription: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EventDrivenSchedule",
+  }) as any as Schema.Schema<EventDrivenSchedule>;
+
+export interface ScheduleOptionsV2 {
+  /** Time based transfer schedule options. This is the default schedule option. */
+  timeBasedSchedule?: TimeBasedSchedule;
+  /** Manual transfer schedule. If set, the transfer run will not be auto-scheduled by the system, unless the client invokes StartManualTransferRuns. This is equivalent to disable_auto_scheduling = true. */
+  manualSchedule?: ManualSchedule;
+  /** Event driven transfer schedule options. If set, the transfer will be scheduled upon events arrial. */
+  eventDrivenSchedule?: EventDrivenSchedule;
+}
+
+export const ScheduleOptionsV2: Schema.Schema<ScheduleOptionsV2> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      timeBasedSchedule: Schema.optional(TimeBasedSchedule),
+      manualSchedule: Schema.optional(ManualSchedule),
+      eventDrivenSchedule: Schema.optional(EventDrivenSchedule),
+    }),
+  ).annotate({
+    identifier: "ScheduleOptionsV2",
+  }) as any as Schema.Schema<ScheduleOptionsV2>;
+
+export interface EmailPreferences {
+  /** If true, email notifications will be sent on transfer run failures. */
+  enableFailureEmail?: boolean;
+}
+
+export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(
+  () =>
+    Schema.Struct({
+      enableFailureEmail: Schema.optional(Schema.Boolean),
+    }),
+).annotate({
+  identifier: "EmailPreferences",
+}) as any as Schema.Schema<EmailPreferences>;
 
 export interface UserInfo {
   /** E-mail address of the user. */
@@ -399,9 +306,50 @@ export const EncryptionConfiguration: Schema.Schema<EncryptionConfiguration> =
     identifier: "EncryptionConfiguration",
   }) as any as Schema.Schema<EncryptionConfiguration>;
 
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: Array<Record<string, unknown>>;
+}
+
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+
 export interface TransferConfig {
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name?: string;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string;
+  /** User specified display name for the data transfer. */
+  displayName?: string;
+  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
+  dataSourceId?: string;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: Record<string, unknown>;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2;
   /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
   dataRefreshWindowDays?: number;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string;
   /** Output only. State of the most recently updated transfer run. */
   state?:
     | "TRANSFER_STATE_UNSPECIFIED"
@@ -411,153 +359,62 @@ export interface TransferConfig {
     | "FAILED"
     | "CANCELLED"
     | (string & {});
-  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
-  name?: string;
-  /** User specified display name for the data transfer. */
-  displayName?: string;
-  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
-  params?: Record<string, unknown>;
-  /** Output only. Error code with detailed information about reason of the latest config failure. */
-  error?: Status;
-  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
-  scheduleOptionsV2?: ScheduleOptionsV2;
-  /** Options customizing the data transfer schedule. */
-  scheduleOptions?: ScheduleOptions;
   /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
   userId?: string;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string;
   /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
   emailPreferences?: EmailPreferences;
-  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
-  dataSourceId?: string;
-  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
-  disabled?: boolean;
-  /** The BigQuery target dataset id. */
-  destinationDatasetId?: string;
   /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
   ownerInfo?: UserInfo;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status;
   /** The classification of the destination table. */
   managedTableType?:
     | "MANAGED_TABLE_TYPE_UNSPECIFIED"
     | "NATIVE"
     | "BIGLAKE"
     | (string & {});
-  /** Output only. Data transfer modification time. Ignored by server on input. */
-  updateTime?: string;
-  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
-  schedule?: string;
-  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
-  encryptionConfiguration?: EncryptionConfiguration;
-  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
-  notificationPubsubTopic?: string;
-  /** Output only. Region in which BigQuery dataset is located. */
-  datasetRegion?: string;
-  /** Output only. Next time when data transfer will run. */
-  nextRunTime?: string;
 }
 
 export const TransferConfig: Schema.Schema<TransferConfig> = Schema.suspend(
   () =>
     Schema.Struct({
-      dataRefreshWindowDays: Schema.optional(Schema.Number),
-      state: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
-      displayName: Schema.optional(Schema.String),
-      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      error: Schema.optional(Status),
-      scheduleOptionsV2: Schema.optional(ScheduleOptionsV2),
-      scheduleOptions: Schema.optional(ScheduleOptions),
-      userId: Schema.optional(Schema.String),
-      emailPreferences: Schema.optional(EmailPreferences),
-      dataSourceId: Schema.optional(Schema.String),
-      disabled: Schema.optional(Schema.Boolean),
       destinationDatasetId: Schema.optional(Schema.String),
-      ownerInfo: Schema.optional(UserInfo),
-      managedTableType: Schema.optional(Schema.String),
-      updateTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       schedule: Schema.optional(Schema.String),
-      encryptionConfiguration: Schema.optional(EncryptionConfiguration),
-      notificationPubsubTopic: Schema.optional(Schema.String),
-      datasetRegion: Schema.optional(Schema.String),
+      scheduleOptions: Schema.optional(ScheduleOptions),
+      scheduleOptionsV2: Schema.optional(ScheduleOptionsV2),
+      dataRefreshWindowDays: Schema.optional(Schema.Number),
+      disabled: Schema.optional(Schema.Boolean),
+      updateTime: Schema.optional(Schema.String),
       nextRunTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      datasetRegion: Schema.optional(Schema.String),
+      notificationPubsubTopic: Schema.optional(Schema.String),
+      emailPreferences: Schema.optional(EmailPreferences),
+      ownerInfo: Schema.optional(UserInfo),
+      encryptionConfiguration: Schema.optional(EncryptionConfiguration),
+      error: Schema.optional(Status),
+      managedTableType: Schema.optional(Schema.String),
     }),
 ).annotate({
   identifier: "TransferConfig",
 }) as any as Schema.Schema<TransferConfig>;
 
-export interface CheckValidCredsRequest {}
+export interface Empty {}
 
-export const CheckValidCredsRequest: Schema.Schema<CheckValidCredsRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CheckValidCredsRequest",
-  }) as any as Schema.Schema<CheckValidCredsRequest>;
-
-export interface TimeRange {
-  /** Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. The start_time must be strictly less than the end_time. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
-  startTime?: string;
-  /** End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. The end_time must not be in the future. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
-  endTime?: string;
-}
-
-export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
-
-export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: Record<string, string>;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: Record<string, unknown>;
-}
-
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    locationId: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
-
-export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: Array<Location>;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-}
-
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      locations: Schema.optional(Schema.Array(Location)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListLocationsResponse",
-  }) as any as Schema.Schema<ListLocationsResponse>;
-
-export interface UnenrollDataSourcesRequest {
-  /** Data sources that are unenrolled. It is required to provide at least one data source id. */
-  dataSourceIds?: Array<string>;
-}
-
-export const UnenrollDataSourcesRequest: Schema.Schema<UnenrollDataSourcesRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "UnenrollDataSourcesRequest",
-  }) as any as Schema.Schema<UnenrollDataSourcesRequest>;
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface ListTransferConfigsResponse {
   /** Output only. The stored pipeline transfer configurations. */
@@ -593,30 +450,124 @@ export const ScheduleTransferRunsRequest: Schema.Schema<ScheduleTransferRunsRequ
     identifier: "ScheduleTransferRunsRequest",
   }) as any as Schema.Schema<ScheduleTransferRunsRequest>;
 
-export interface TransferMessage {
-  /** Message text. */
-  messageText?: string;
-  /** Time when message was logged. */
-  messageTime?: string;
-  /** Message severity. */
-  severity?:
-    | "MESSAGE_SEVERITY_UNSPECIFIED"
-    | "INFO"
-    | "WARNING"
-    | "ERROR"
+export interface TransferRun {
+  /** Identifier. The resource name of the transfer run. Transfer run names have the form `projects/{project_id}/locations/{location}/transferConfigs/{config_id}/runs/{run_id}`. The name is ignored when creating a transfer run. */
+  name?: string;
+  /** Minimum time after which a transfer run can be started. */
+  scheduleTime?: string;
+  /** For batch transfer runs, specifies the date and time of the data should be ingested. */
+  runTime?: string;
+  /** Status of the transfer run. */
+  errorStatus?: Status;
+  /** Output only. Time when transfer run was started. Parameter ignored by server for input requests. */
+  startTime?: string;
+  /** Output only. Time when transfer run ended. Parameter ignored by server for input requests. */
+  endTime?: string;
+  /** Output only. Last time the data transfer run state was updated. */
+  updateTime?: string;
+  /** Output only. Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: Record<string, unknown>;
+  /** Output only. The BigQuery target dataset id. */
+  destinationDatasetId?: string;
+  /** Output only. Data source id. */
+  dataSourceId?: string;
+  /** Data transfer run state. Ignored for input requests. */
+  state?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
     | (string & {});
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string;
+  /** Output only. Describes the schedule of this transfer run if it was created as part of a regular schedule. For batch transfer runs that are scheduled manually, this is empty. NOTE: the system might choose to delay the schedule depending on the current load, so `schedule_time` doesn't always match this. */
+  schedule?: string;
+  /** Output only. Pub/Sub topic where a notification will be sent after this transfer run finishes. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string;
+  /** Output only. Email notifications will be sent according to these preferences to the email address of the user who owns the transfer config this run was derived from. */
+  emailPreferences?: EmailPreferences;
 }
 
-export const TransferMessage: Schema.Schema<TransferMessage> = Schema.suspend(
-  () =>
+export const TransferRun: Schema.Schema<TransferRun> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    scheduleTime: Schema.optional(Schema.String),
+    runTime: Schema.optional(Schema.String),
+    errorStatus: Schema.optional(Status),
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+    updateTime: Schema.optional(Schema.String),
+    params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    destinationDatasetId: Schema.optional(Schema.String),
+    dataSourceId: Schema.optional(Schema.String),
+    state: Schema.optional(Schema.String),
+    userId: Schema.optional(Schema.String),
+    schedule: Schema.optional(Schema.String),
+    notificationPubsubTopic: Schema.optional(Schema.String),
+    emailPreferences: Schema.optional(EmailPreferences),
+  }),
+).annotate({ identifier: "TransferRun" }) as any as Schema.Schema<TransferRun>;
+
+export interface ScheduleTransferRunsResponse {
+  /** The transfer runs that were scheduled. */
+  runs?: Array<TransferRun>;
+}
+
+export const ScheduleTransferRunsResponse: Schema.Schema<ScheduleTransferRunsResponse> =
+  Schema.suspend(() =>
     Schema.Struct({
-      messageText: Schema.optional(Schema.String),
-      messageTime: Schema.optional(Schema.String),
-      severity: Schema.optional(Schema.String),
+      runs: Schema.optional(Schema.Array(TransferRun)),
     }),
-).annotate({
-  identifier: "TransferMessage",
-}) as any as Schema.Schema<TransferMessage>;
+  ).annotate({
+    identifier: "ScheduleTransferRunsResponse",
+  }) as any as Schema.Schema<ScheduleTransferRunsResponse>;
+
+export interface TimeRange {
+  /** Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. The start_time must be strictly less than the end_time. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
+  startTime?: string;
+  /** End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. The end_time must not be in the future. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
+  endTime?: string;
+}
+
+export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
+  Schema.Struct({
+    startTime: Schema.optional(Schema.String),
+    endTime: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
+
+export interface StartManualTransferRunsRequest {
+  /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
+  requestedTimeRange?: TimeRange;
+  /** A run_time timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_run_time must be a past time and cannot include future time values. */
+  requestedRunTime?: string;
+}
+
+export const StartManualTransferRunsRequest: Schema.Schema<StartManualTransferRunsRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      requestedTimeRange: Schema.optional(TimeRange),
+      requestedRunTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StartManualTransferRunsRequest",
+  }) as any as Schema.Schema<StartManualTransferRunsRequest>;
+
+export interface StartManualTransferRunsResponse {
+  /** The transfer runs that were created. */
+  runs?: Array<TransferRun>;
+}
+
+export const StartManualTransferRunsResponse: Schema.Schema<StartManualTransferRunsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      runs: Schema.optional(Schema.Array(TransferRun)),
+    }),
+  ).annotate({
+    identifier: "StartManualTransferRunsResponse",
+  }) as any as Schema.Schema<StartManualTransferRunsResponse>;
 
 export interface ListTransferRunsResponse {
   /** Output only. The stored pipeline transfer runs. */
@@ -635,56 +586,54 @@ export const ListTransferRunsResponse: Schema.Schema<ListTransferRunsResponse> =
     identifier: "ListTransferRunsResponse",
   }) as any as Schema.Schema<ListTransferRunsResponse>;
 
-export interface EnrollDataSourcesRequest {
-  /** Data sources that are enrolled. It is required to provide at least one data source id. */
-  dataSourceIds?: Array<string>;
+export interface TransferMessage {
+  /** Time when message was logged. */
+  messageTime?: string;
+  /** Message severity. */
+  severity?:
+    | "MESSAGE_SEVERITY_UNSPECIFIED"
+    | "INFO"
+    | "WARNING"
+    | "ERROR"
+    | (string & {});
+  /** Message text. */
+  messageText?: string;
 }
 
-export const EnrollDataSourcesRequest: Schema.Schema<EnrollDataSourcesRequest> =
-  Schema.suspend(() =>
+export const TransferMessage: Schema.Schema<TransferMessage> = Schema.suspend(
+  () =>
     Schema.Struct({
-      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
+      messageTime: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      messageText: Schema.optional(Schema.String),
     }),
-  ).annotate({
-    identifier: "EnrollDataSourcesRequest",
-  }) as any as Schema.Schema<EnrollDataSourcesRequest>;
+).annotate({
+  identifier: "TransferMessage",
+}) as any as Schema.Schema<TransferMessage>;
 
-export interface StartManualTransferRunsRequest {
-  /** A run_time timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_run_time must be a past time and cannot include future time values. */
-  requestedRunTime?: string;
-  /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
-  requestedTimeRange?: TimeRange;
+export interface ListTransferLogsResponse {
+  /** Output only. The stored pipeline transfer messages. */
+  transferMessages?: Array<TransferMessage>;
+  /** Output only. The next-pagination token. For multiple-page list results, this token can be used as the `GetTransferRunLogRequest.page_token` to request the next page of list results. */
+  nextPageToken?: string;
 }
 
-export const StartManualTransferRunsRequest: Schema.Schema<StartManualTransferRunsRequest> =
+export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      requestedRunTime: Schema.optional(Schema.String),
-      requestedTimeRange: Schema.optional(TimeRange),
+      transferMessages: Schema.optional(Schema.Array(TransferMessage)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "StartManualTransferRunsRequest",
-  }) as any as Schema.Schema<StartManualTransferRunsRequest>;
+    identifier: "ListTransferLogsResponse",
+  }) as any as Schema.Schema<ListTransferLogsResponse>;
 
-export interface Empty {}
+export interface CheckValidCredsRequest {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
-
-export interface ScheduleTransferRunsResponse {
-  /** The transfer runs that were scheduled. */
-  runs?: Array<TransferRun>;
-}
-
-export const ScheduleTransferRunsResponse: Schema.Schema<ScheduleTransferRunsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      runs: Schema.optional(Schema.Array(TransferRun)),
-    }),
-  ).annotate({
-    identifier: "ScheduleTransferRunsResponse",
-  }) as any as Schema.Schema<ScheduleTransferRunsResponse>;
+export const CheckValidCredsRequest: Schema.Schema<CheckValidCredsRequest> =
+  Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CheckValidCredsRequest",
+  }) as any as Schema.Schema<CheckValidCredsRequest>;
 
 export interface CheckValidCredsResponse {
   /** If set to `true`, the credentials exist and are valid. */
@@ -700,22 +649,73 @@ export const CheckValidCredsResponse: Schema.Schema<CheckValidCredsResponse> =
     identifier: "CheckValidCredsResponse",
   }) as any as Schema.Schema<CheckValidCredsResponse>;
 
-export interface ListTransferLogsResponse {
-  /** Output only. The next-pagination token. For multiple-page list results, this token can be used as the `GetTransferRunLogRequest.page_token` to request the next page of list results. */
-  nextPageToken?: string;
-  /** Output only. The stored pipeline transfer messages. */
-  transferMessages?: Array<TransferMessage>;
+export interface EnrollDataSourcesRequest {
+  /** Data sources that are enrolled. It is required to provide at least one data source id. */
+  dataSourceIds?: Array<string>;
 }
 
-export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
+export const EnrollDataSourcesRequest: Schema.Schema<EnrollDataSourcesRequest> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      transferMessages: Schema.optional(Schema.Array(TransferMessage)),
+      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
-    identifier: "ListTransferLogsResponse",
-  }) as any as Schema.Schema<ListTransferLogsResponse>;
+    identifier: "EnrollDataSourcesRequest",
+  }) as any as Schema.Schema<EnrollDataSourcesRequest>;
+
+export interface UnenrollDataSourcesRequest {
+  /** Data sources that are unenrolled. It is required to provide at least one data source id. */
+  dataSourceIds?: Array<string>;
+}
+
+export const UnenrollDataSourcesRequest: Schema.Schema<UnenrollDataSourcesRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UnenrollDataSourcesRequest",
+  }) as any as Schema.Schema<UnenrollDataSourcesRequest>;
+
+export interface Location {
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: Record<string, string>;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: Record<string, unknown>;
+}
+
+export const Location: Schema.Schema<Location> = Schema.suspend(() =>
+  Schema.Struct({
+    name: Schema.optional(Schema.String),
+    locationId: Schema.optional(Schema.String),
+    displayName: Schema.optional(Schema.String),
+    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  }),
+).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+
+export interface ListLocationsResponse {
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: Array<Location>;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+}
+
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
 // ==========================================================================
 // Operations
@@ -790,18 +790,18 @@ export const getProjectsDataSources: API.OperationMethod<
 }));
 
 export interface ListProjectsDataSourcesRequest {
+  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
+  parent: string;
   /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
-  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
-  parent: string;
 }
 
 export const ListProjectsDataSourcesRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/dataSources" }),
   svc,
@@ -866,69 +866,80 @@ export const checkValidCredsProjectsDataSources: API.OperationMethod<
   errors: [],
 }));
 
-export interface StartManualRunsProjectsTransferConfigsRequest {
-  /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+export interface CreateProjectsTransferConfigsRequest {
+  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
   parent: string;
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  authorizationCode?: string;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  versionInfo?: string;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string;
   /** Request body */
-  body?: StartManualTransferRunsRequest;
+  body?: TransferConfig;
 }
 
-export const StartManualRunsProjectsTransferConfigsRequest = Schema.Struct({
+export const CreateProjectsTransferConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
+  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
+  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns",
+    path: "v1/projects/{projectsId}/transferConfigs",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<StartManualRunsProjectsTransferConfigsRequest>;
+) as unknown as Schema.Schema<CreateProjectsTransferConfigsRequest>;
 
-export type StartManualRunsProjectsTransferConfigsResponse =
-  StartManualTransferRunsResponse;
-export const StartManualRunsProjectsTransferConfigsResponse =
-  StartManualTransferRunsResponse;
+export type CreateProjectsTransferConfigsResponse = TransferConfig;
+export const CreateProjectsTransferConfigsResponse = TransferConfig;
 
-export type StartManualRunsProjectsTransferConfigsError = DefaultErrors;
+export type CreateProjectsTransferConfigsError = DefaultErrors;
 
-/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
-export const startManualRunsProjectsTransferConfigs: API.OperationMethod<
-  StartManualRunsProjectsTransferConfigsRequest,
-  StartManualRunsProjectsTransferConfigsResponse,
-  StartManualRunsProjectsTransferConfigsError,
+/** Creates a new data transfer configuration. */
+export const createProjectsTransferConfigs: API.OperationMethod<
+  CreateProjectsTransferConfigsRequest,
+  CreateProjectsTransferConfigsResponse,
+  CreateProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: StartManualRunsProjectsTransferConfigsRequest,
-  output: StartManualRunsProjectsTransferConfigsResponse,
+  input: CreateProjectsTransferConfigsRequest,
+  output: CreateProjectsTransferConfigsResponse,
   errors: [],
 }));
 
 export interface PatchProjectsTransferConfigsRequest {
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string;
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name: string;
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   authorizationCode?: string;
   /** Required. Required list of fields to be updated in this request. */
   updateMask?: string;
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   versionInfo?: string;
-  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
-  name: string;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string;
   /** Request body */
   body?: TransferConfig;
 }
 
 export const PatchProjectsTransferConfigsRequest = Schema.Struct({
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
+  name: Schema.String.pipe(T.HttpPath("name")),
   authorizationCode: Schema.optional(Schema.String).pipe(
     T.HttpQuery("authorizationCode"),
   ),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  name: Schema.String.pipe(T.HttpPath("name")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
   body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -988,24 +999,56 @@ export const deleteProjectsTransferConfigs: API.OperationMethod<
   errors: [],
 }));
 
+export interface GetProjectsTransferConfigsRequest {
+  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  name: string;
+}
+
+export const GetProjectsTransferConfigsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetProjectsTransferConfigsRequest>;
+
+export type GetProjectsTransferConfigsResponse = TransferConfig;
+export const GetProjectsTransferConfigsResponse = TransferConfig;
+
+export type GetProjectsTransferConfigsError = DefaultErrors;
+
+/** Returns information about a data transfer config. */
+export const getProjectsTransferConfigs: API.OperationMethod<
+  GetProjectsTransferConfigsRequest,
+  GetProjectsTransferConfigsResponse,
+  GetProjectsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetProjectsTransferConfigsRequest,
+  output: GetProjectsTransferConfigsResponse,
+  errors: [],
+}));
+
 export interface ListProjectsTransferConfigsRequest {
+  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
+  parent: string;
   /** When specified, only configurations of requested data sources are returned. */
   dataSourceIds?: string[];
   /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
-  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
-  parent: string;
 }
 
 export const ListProjectsTransferConfigsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
   dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("dataSourceIds"),
   ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs" }),
   svc,
@@ -1070,173 +1113,41 @@ export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetProjectsTransferConfigsRequest {
-  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
-  name: string;
-}
-
-export const GetProjectsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsTransferConfigsRequest>;
-
-export type GetProjectsTransferConfigsResponse = TransferConfig;
-export const GetProjectsTransferConfigsResponse = TransferConfig;
-
-export type GetProjectsTransferConfigsError = DefaultErrors;
-
-/** Returns information about a data transfer config. */
-export const getProjectsTransferConfigs: API.OperationMethod<
-  GetProjectsTransferConfigsRequest,
-  GetProjectsTransferConfigsResponse,
-  GetProjectsTransferConfigsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetProjectsTransferConfigsRequest,
-  output: GetProjectsTransferConfigsResponse,
-  errors: [],
-}));
-
-export interface CreateProjectsTransferConfigsRequest {
-  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
+export interface StartManualRunsProjectsTransferConfigsRequest {
+  /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  versionInfo?: string;
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  authorizationCode?: string;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string;
   /** Request body */
-  body?: TransferConfig;
+  body?: StartManualTransferRunsRequest;
 }
 
-export const CreateProjectsTransferConfigsRequest = Schema.Struct({
+export const StartManualRunsProjectsTransferConfigsRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+  body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/projects/{projectsId}/transferConfigs",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<CreateProjectsTransferConfigsRequest>;
+) as unknown as Schema.Schema<StartManualRunsProjectsTransferConfigsRequest>;
 
-export type CreateProjectsTransferConfigsResponse = TransferConfig;
-export const CreateProjectsTransferConfigsResponse = TransferConfig;
+export type StartManualRunsProjectsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
+export const StartManualRunsProjectsTransferConfigsResponse =
+  StartManualTransferRunsResponse;
 
-export type CreateProjectsTransferConfigsError = DefaultErrors;
+export type StartManualRunsProjectsTransferConfigsError = DefaultErrors;
 
-/** Creates a new data transfer configuration. */
-export const createProjectsTransferConfigs: API.OperationMethod<
-  CreateProjectsTransferConfigsRequest,
-  CreateProjectsTransferConfigsResponse,
-  CreateProjectsTransferConfigsError,
+/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
+export const startManualRunsProjectsTransferConfigs: API.OperationMethod<
+  StartManualRunsProjectsTransferConfigsRequest,
+  StartManualRunsProjectsTransferConfigsResponse,
+  StartManualRunsProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: CreateProjectsTransferConfigsRequest,
-  output: CreateProjectsTransferConfigsResponse,
-  errors: [],
-}));
-
-export interface ListProjectsTransferConfigsRunsRequest {
-  /** When specified, only transfer runs with requested states are returned. */
-  states?:
-    | "TRANSFER_STATE_UNSPECIFIED"
-    | "PENDING"
-    | "RUNNING"
-    | "SUCCEEDED"
-    | "FAILED"
-    | "CANCELLED"
-    | (string & {})[];
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number;
-  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
-  parent: string;
-  /** Indicates how run attempts are to be pulled. */
-  runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
-  /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string;
-}
-
-export const ListProjectsTransferConfigsRunsRequest = Schema.Struct({
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("states"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsRequest>;
-
-export type ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
-export const ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
-
-export type ListProjectsTransferConfigsRunsError = DefaultErrors;
-
-/** Returns information about running and completed transfer runs. */
-export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<
-  ListProjectsTransferConfigsRunsRequest,
-  ListProjectsTransferConfigsRunsResponse,
-  ListProjectsTransferConfigsRunsError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListProjectsTransferConfigsRunsRequest,
-  output: ListProjectsTransferConfigsRunsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface DeleteProjectsTransferConfigsRunsRequest {
-  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  name: string;
-}
-
-export const DeleteProjectsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRunsRequest>;
-
-export type DeleteProjectsTransferConfigsRunsResponse = Empty;
-export const DeleteProjectsTransferConfigsRunsResponse = Empty;
-
-export type DeleteProjectsTransferConfigsRunsError = DefaultErrors;
-
-/** Deletes the specified transfer run. */
-export const deleteProjectsTransferConfigsRuns: API.OperationMethod<
-  DeleteProjectsTransferConfigsRunsRequest,
-  DeleteProjectsTransferConfigsRunsResponse,
-  DeleteProjectsTransferConfigsRunsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: DeleteProjectsTransferConfigsRunsRequest,
-  output: DeleteProjectsTransferConfigsRunsResponse,
+  input: StartManualRunsProjectsTransferConfigsRequest,
+  output: StartManualRunsProjectsTransferConfigsResponse,
   errors: [],
 }));
 
@@ -1272,7 +1183,102 @@ export const getProjectsTransferConfigsRuns: API.OperationMethod<
   errors: [],
 }));
 
+export interface DeleteProjectsTransferConfigsRunsRequest {
+  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
+  name: string;
+}
+
+export const DeleteProjectsTransferConfigsRunsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRunsRequest>;
+
+export type DeleteProjectsTransferConfigsRunsResponse = Empty;
+export const DeleteProjectsTransferConfigsRunsResponse = Empty;
+
+export type DeleteProjectsTransferConfigsRunsError = DefaultErrors;
+
+/** Deletes the specified transfer run. */
+export const deleteProjectsTransferConfigsRuns: API.OperationMethod<
+  DeleteProjectsTransferConfigsRunsRequest,
+  DeleteProjectsTransferConfigsRunsResponse,
+  DeleteProjectsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteProjectsTransferConfigsRunsRequest,
+  output: DeleteProjectsTransferConfigsRunsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsTransferConfigsRunsRequest {
+  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  parent: string;
+  /** When specified, only transfer runs with requested states are returned. */
+  states?:
+    | "TRANSFER_STATE_UNSPECIFIED"
+    | "PENDING"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "FAILED"
+    | "CANCELLED"
+    | (string & {})[];
+  /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number;
+  /** Indicates how run attempts are to be pulled. */
+  runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
+}
+
+export const ListProjectsTransferConfigsRunsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  states: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("states"),
+  ),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs",
+  }),
+  svc,
+) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsRequest>;
+
+export type ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
+export const ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
+
+export type ListProjectsTransferConfigsRunsError = DefaultErrors;
+
+/** Returns information about running and completed transfer runs. */
+export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<
+  ListProjectsTransferConfigsRunsRequest,
+  ListProjectsTransferConfigsRunsResponse,
+  ListProjectsTransferConfigsRunsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListProjectsTransferConfigsRunsRequest,
+  output: ListProjectsTransferConfigsRunsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
 export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
+  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
+  parent: string;
+  /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number;
   /** Message types to return. If not populated - INFO, WARNING and ERROR messages are returned. */
   messageTypes?:
     | "MESSAGE_SEVERITY_UNSPECIFIED"
@@ -1280,22 +1286,16 @@ export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
     | "WARNING"
     | "ERROR"
     | (string & {})[];
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number;
-  /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string;
-  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  parent: string;
 }
 
 export const ListProjectsTransferConfigsRunsTransferLogsRequest = Schema.Struct(
   {
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("messageTypes"),
     ),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
   },
 ).pipe(
   T.Http({
@@ -1328,27 +1328,99 @@ export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperation
   },
 }));
 
+export interface EnrollDataSourcesProjectsLocationsRequest {
+  /** Required. The name of the project resource in the form: `projects/{project_id}` */
+  name: string;
+  /** Request body */
+  body?: EnrollDataSourcesRequest;
+}
+
+export const EnrollDataSourcesProjectsLocationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<EnrollDataSourcesProjectsLocationsRequest>;
+
+export type EnrollDataSourcesProjectsLocationsResponse = Empty;
+export const EnrollDataSourcesProjectsLocationsResponse = Empty;
+
+export type EnrollDataSourcesProjectsLocationsError = DefaultErrors;
+
+/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
+export const enrollDataSourcesProjectsLocations: API.OperationMethod<
+  EnrollDataSourcesProjectsLocationsRequest,
+  EnrollDataSourcesProjectsLocationsResponse,
+  EnrollDataSourcesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: EnrollDataSourcesProjectsLocationsRequest,
+  output: EnrollDataSourcesProjectsLocationsResponse,
+  errors: [],
+}));
+
+export interface UnenrollDataSourcesProjectsLocationsRequest {
+  /** Required. The name of the project resource in the form: `projects/{project_id}` */
+  name: string;
+  /** Request body */
+  body?: UnenrollDataSourcesRequest;
+}
+
+export const UnenrollDataSourcesProjectsLocationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(UnenrollDataSourcesRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<UnenrollDataSourcesProjectsLocationsRequest>;
+
+export type UnenrollDataSourcesProjectsLocationsResponse = Empty;
+export const UnenrollDataSourcesProjectsLocationsResponse = Empty;
+
+export type UnenrollDataSourcesProjectsLocationsError = DefaultErrors;
+
+/** Unenroll data sources in a user project. This allows users to remove transfer configurations for these data sources. They will no longer appear in the ListDataSources RPC and will also no longer appear in the [BigQuery UI](https://console.cloud.google.com/bigquery). Data transfers configurations of unenrolled data sources will not be scheduled. */
+export const unenrollDataSourcesProjectsLocations: API.OperationMethod<
+  UnenrollDataSourcesProjectsLocationsRequest,
+  UnenrollDataSourcesProjectsLocationsResponse,
+  UnenrollDataSourcesProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UnenrollDataSourcesProjectsLocationsRequest,
+  output: UnenrollDataSourcesProjectsLocationsResponse,
+  errors: [],
+}));
+
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: string[];
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: string[];
 }
 
 export const ListProjectsLocationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("extraLocationTypes"),
   ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
   svc,
@@ -1407,76 +1479,78 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [],
 }));
 
-export interface UnenrollDataSourcesProjectsLocationsRequest {
-  /** Required. The name of the project resource in the form: `projects/{project_id}` */
+export interface GetProjectsLocationsDataSourcesRequest {
+  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
-  /** Request body */
-  body?: UnenrollDataSourcesRequest;
 }
 
-export const UnenrollDataSourcesProjectsLocationsRequest = Schema.Struct({
+export const GetProjectsLocationsDataSourcesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UnenrollDataSourcesRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources",
-    hasBody: true,
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}",
   }),
   svc,
-) as unknown as Schema.Schema<UnenrollDataSourcesProjectsLocationsRequest>;
+) as unknown as Schema.Schema<GetProjectsLocationsDataSourcesRequest>;
 
-export type UnenrollDataSourcesProjectsLocationsResponse = Empty;
-export const UnenrollDataSourcesProjectsLocationsResponse = Empty;
+export type GetProjectsLocationsDataSourcesResponse = DataSource;
+export const GetProjectsLocationsDataSourcesResponse = DataSource;
 
-export type UnenrollDataSourcesProjectsLocationsError = DefaultErrors;
+export type GetProjectsLocationsDataSourcesError = DefaultErrors;
 
-/** Unenroll data sources in a user project. This allows users to remove transfer configurations for these data sources. They will no longer appear in the ListDataSources RPC and will also no longer appear in the [BigQuery UI](https://console.cloud.google.com/bigquery). Data transfers configurations of unenrolled data sources will not be scheduled. */
-export const unenrollDataSourcesProjectsLocations: API.OperationMethod<
-  UnenrollDataSourcesProjectsLocationsRequest,
-  UnenrollDataSourcesProjectsLocationsResponse,
-  UnenrollDataSourcesProjectsLocationsError,
+/** Retrieves a supported data source and returns its settings. */
+export const getProjectsLocationsDataSources: API.OperationMethod<
+  GetProjectsLocationsDataSourcesRequest,
+  GetProjectsLocationsDataSourcesResponse,
+  GetProjectsLocationsDataSourcesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UnenrollDataSourcesProjectsLocationsRequest,
-  output: UnenrollDataSourcesProjectsLocationsResponse,
+  input: GetProjectsLocationsDataSourcesRequest,
+  output: GetProjectsLocationsDataSourcesResponse,
   errors: [],
 }));
 
-export interface EnrollDataSourcesProjectsLocationsRequest {
-  /** Required. The name of the project resource in the form: `projects/{project_id}` */
-  name: string;
-  /** Request body */
-  body?: EnrollDataSourcesRequest;
+export interface ListProjectsLocationsDataSourcesRequest {
+  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number;
 }
 
-export const EnrollDataSourcesProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
+export const ListProjectsLocationsDataSourcesRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
   T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources",
-    hasBody: true,
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources",
   }),
   svc,
-) as unknown as Schema.Schema<EnrollDataSourcesProjectsLocationsRequest>;
+) as unknown as Schema.Schema<ListProjectsLocationsDataSourcesRequest>;
 
-export type EnrollDataSourcesProjectsLocationsResponse = Empty;
-export const EnrollDataSourcesProjectsLocationsResponse = Empty;
+export type ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
+export const ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
 
-export type EnrollDataSourcesProjectsLocationsError = DefaultErrors;
+export type ListProjectsLocationsDataSourcesError = DefaultErrors;
 
-/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
-export const enrollDataSourcesProjectsLocations: API.OperationMethod<
-  EnrollDataSourcesProjectsLocationsRequest,
-  EnrollDataSourcesProjectsLocationsResponse,
-  EnrollDataSourcesProjectsLocationsError,
+/** Lists supported data sources and returns their settings. */
+export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
+  ListProjectsLocationsDataSourcesRequest,
+  ListProjectsLocationsDataSourcesResponse,
+  ListProjectsLocationsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: EnrollDataSourcesProjectsLocationsRequest,
-  output: EnrollDataSourcesProjectsLocationsResponse,
+> = API.makePaginated(() => ({
+  input: ListProjectsLocationsDataSourcesRequest,
+  output: ListProjectsLocationsDataSourcesResponse,
   errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface CheckValidCredsProjectsLocationsDataSourcesRequest {
@@ -1519,78 +1593,105 @@ export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetProjectsLocationsDataSourcesRequest {
-  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
-  name: string;
+export interface CreateProjectsLocationsTransferConfigsRequest {
+  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
+  parent: string;
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  authorizationCode?: string;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  versionInfo?: string;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string;
+  /** Request body */
+  body?: TransferConfig;
 }
 
-export const GetProjectsLocationsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
+export const CreateProjectsLocationsTransferConfigsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
+  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
+  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}",
+    method: "POST",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+    hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataSourcesRequest>;
+) as unknown as Schema.Schema<CreateProjectsLocationsTransferConfigsRequest>;
 
-export type GetProjectsLocationsDataSourcesResponse = DataSource;
-export const GetProjectsLocationsDataSourcesResponse = DataSource;
+export type CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
 
-export type GetProjectsLocationsDataSourcesError = DefaultErrors;
+export type CreateProjectsLocationsTransferConfigsError = DefaultErrors;
 
-/** Retrieves a supported data source and returns its settings. */
-export const getProjectsLocationsDataSources: API.OperationMethod<
-  GetProjectsLocationsDataSourcesRequest,
-  GetProjectsLocationsDataSourcesResponse,
-  GetProjectsLocationsDataSourcesError,
+/** Creates a new data transfer configuration. */
+export const createProjectsLocationsTransferConfigs: API.OperationMethod<
+  CreateProjectsLocationsTransferConfigsRequest,
+  CreateProjectsLocationsTransferConfigsResponse,
+  CreateProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: GetProjectsLocationsDataSourcesRequest,
-  output: GetProjectsLocationsDataSourcesResponse,
+  input: CreateProjectsLocationsTransferConfigsRequest,
+  output: CreateProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-export interface ListProjectsLocationsDataSourcesRequest {
-  /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string;
-  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number;
+export interface PatchProjectsLocationsTransferConfigsRequest {
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name: string;
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
+  authorizationCode?: string;
+  /** Required. Required list of fields to be updated in this request. */
+  updateMask?: string;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
+  versionInfo?: string;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string;
+  /** Request body */
+  body?: TransferConfig;
 }
 
-export const ListProjectsLocationsDataSourcesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+export const PatchProjectsLocationsTransferConfigsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  authorizationCode: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("authorizationCode"),
+  ),
+  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
+  serviceAccountName: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("serviceAccountName"),
+  ),
+  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources",
+    method: "PATCH",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+    hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataSourcesRequest>;
+) as unknown as Schema.Schema<PatchProjectsLocationsTransferConfigsRequest>;
 
-export type ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
-export const ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
+export type PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
 
-export type ListProjectsLocationsDataSourcesError = DefaultErrors;
+export type PatchProjectsLocationsTransferConfigsError = DefaultErrors;
 
-/** Lists supported data sources and returns their settings. */
-export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
-  ListProjectsLocationsDataSourcesRequest,
-  ListProjectsLocationsDataSourcesResponse,
-  ListProjectsLocationsDataSourcesError,
+/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
+export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
+  PatchProjectsLocationsTransferConfigsRequest,
+  PatchProjectsLocationsTransferConfigsResponse,
+  PatchProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListProjectsLocationsDataSourcesRequest,
-  output: ListProjectsLocationsDataSourcesResponse,
+> = API.make(() => ({
+  input: PatchProjectsLocationsTransferConfigsRequest,
+  output: PatchProjectsLocationsTransferConfigsResponse,
   errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface DeleteProjectsLocationsTransferConfigsRequest {
@@ -1625,53 +1726,85 @@ export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<
   errors: [],
 }));
 
-export interface CreateProjectsLocationsTransferConfigsRequest {
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  versionInfo?: string;
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  authorizationCode?: string;
-  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
-  parent: string;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string;
-  /** Request body */
-  body?: TransferConfig;
+export interface GetProjectsLocationsTransferConfigsRequest {
+  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  name: string;
 }
 
-export const CreateProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+export const GetProjectsLocationsTransferConfigsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
-    hasBody: true,
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
   }),
   svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTransferConfigsRequest>;
+) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRequest>;
 
-export type CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
+export type GetProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const GetProjectsLocationsTransferConfigsResponse = TransferConfig;
 
-export type CreateProjectsLocationsTransferConfigsError = DefaultErrors;
+export type GetProjectsLocationsTransferConfigsError = DefaultErrors;
 
-/** Creates a new data transfer configuration. */
-export const createProjectsLocationsTransferConfigs: API.OperationMethod<
-  CreateProjectsLocationsTransferConfigsRequest,
-  CreateProjectsLocationsTransferConfigsResponse,
-  CreateProjectsLocationsTransferConfigsError,
+/** Returns information about a data transfer config. */
+export const getProjectsLocationsTransferConfigs: API.OperationMethod<
+  GetProjectsLocationsTransferConfigsRequest,
+  GetProjectsLocationsTransferConfigsResponse,
+  GetProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: CreateProjectsLocationsTransferConfigsRequest,
-  output: CreateProjectsLocationsTransferConfigsResponse,
+  input: GetProjectsLocationsTransferConfigsRequest,
+  output: GetProjectsLocationsTransferConfigsResponse,
   errors: [],
+}));
+
+export interface ListProjectsLocationsTransferConfigsRequest {
+  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** When specified, only configurations of requested data sources are returned. */
+  dataSourceIds?: string[];
+  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number;
+}
+
+export const ListProjectsLocationsTransferConfigsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("dataSourceIds"),
+  ),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+  }),
+  svc,
+) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRequest>;
+
+export type ListProjectsLocationsTransferConfigsResponse =
+  ListTransferConfigsResponse;
+export const ListProjectsLocationsTransferConfigsResponse =
+  ListTransferConfigsResponse;
+
+export type ListProjectsLocationsTransferConfigsError = DefaultErrors;
+
+/** Returns information about all transfer configs owned by a project in the specified location. */
+export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsTransferConfigsRequest,
+  ListProjectsLocationsTransferConfigsResponse,
+  ListProjectsLocationsTransferConfigsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListProjectsLocationsTransferConfigsRequest,
+  output: ListProjectsLocationsTransferConfigsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
@@ -1711,55 +1844,6 @@ export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
   input: ScheduleRunsProjectsLocationsTransferConfigsRequest,
   output: ScheduleRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
-}));
-
-export interface ListProjectsLocationsTransferConfigsRequest {
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number;
-  /** When specified, only configurations of requested data sources are returned. */
-  dataSourceIds?: string[];
-  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string;
-  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-}
-
-export const ListProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dataSourceIds"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRequest>;
-
-export type ListProjectsLocationsTransferConfigsResponse =
-  ListTransferConfigsResponse;
-export const ListProjectsLocationsTransferConfigsResponse =
-  ListTransferConfigsResponse;
-
-export type ListProjectsLocationsTransferConfigsError = DefaultErrors;
-
-/** Returns information about all transfer configs owned by a project in the specified location. */
-export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
-  ListProjectsLocationsTransferConfigsRequest,
-  ListProjectsLocationsTransferConfigsResponse,
-  ListProjectsLocationsTransferConfigsError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListProjectsLocationsTransferConfigsRequest,
-  output: ListProjectsLocationsTransferConfigsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
@@ -1802,87 +1886,35 @@ export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMetho
   errors: [],
 }));
 
-export interface PatchProjectsLocationsTransferConfigsRequest {
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
-  versionInfo?: string;
-  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
-  name: string;
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
-  authorizationCode?: string;
-  /** Required. Required list of fields to be updated in this request. */
-  updateMask?: string;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string;
-  /** Request body */
-  body?: TransferConfig;
-}
-
-export const PatchProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTransferConfigsRequest>;
-
-export type PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
-
-export type PatchProjectsLocationsTransferConfigsError = DefaultErrors;
-
-/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
-export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
-  PatchProjectsLocationsTransferConfigsRequest,
-  PatchProjectsLocationsTransferConfigsResponse,
-  PatchProjectsLocationsTransferConfigsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: PatchProjectsLocationsTransferConfigsRequest,
-  output: PatchProjectsLocationsTransferConfigsResponse,
-  errors: [],
-}));
-
-export interface GetProjectsLocationsTransferConfigsRequest {
-  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+export interface GetProjectsLocationsTransferConfigsRunsRequest {
+  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
 }
 
-export const GetProjectsLocationsTransferConfigsRequest = Schema.Struct({
+export const GetProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({
     method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
   }),
   svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRequest>;
+) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRunsRequest>;
 
-export type GetProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const GetProjectsLocationsTransferConfigsResponse = TransferConfig;
+export type GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
+export const GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
 
-export type GetProjectsLocationsTransferConfigsError = DefaultErrors;
+export type GetProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
-/** Returns information about a data transfer config. */
-export const getProjectsLocationsTransferConfigs: API.OperationMethod<
-  GetProjectsLocationsTransferConfigsRequest,
-  GetProjectsLocationsTransferConfigsResponse,
-  GetProjectsLocationsTransferConfigsError,
+/** Returns information about the particular transfer run. */
+export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
+  GetProjectsLocationsTransferConfigsRunsRequest,
+  GetProjectsLocationsTransferConfigsRunsResponse,
+  GetProjectsLocationsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: GetProjectsLocationsTransferConfigsRequest,
-  output: GetProjectsLocationsTransferConfigsResponse,
+  input: GetProjectsLocationsTransferConfigsRunsRequest,
+  output: GetProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
 }));
 
@@ -1918,39 +1950,9 @@ export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetProjectsLocationsTransferConfigsRunsRequest {
-  /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  name: string;
-}
-
-export const GetProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRunsRequest>;
-
-export type GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
-export const GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
-
-export type GetProjectsLocationsTransferConfigsRunsError = DefaultErrors;
-
-/** Returns information about the particular transfer run. */
-export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
-  GetProjectsLocationsTransferConfigsRunsRequest,
-  GetProjectsLocationsTransferConfigsRunsResponse,
-  GetProjectsLocationsTransferConfigsRunsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetProjectsLocationsTransferConfigsRunsRequest,
-  output: GetProjectsLocationsTransferConfigsRunsResponse,
-  errors: [],
-}));
-
 export interface ListProjectsLocationsTransferConfigsRunsRequest {
+  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  parent: string;
   /** When specified, only transfer runs with requested states are returned. */
   states?:
     | "TRANSFER_STATE_UNSPECIFIED"
@@ -1962,22 +1964,20 @@ export interface ListProjectsLocationsTransferConfigsRunsRequest {
     | (string & {})[];
   /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
-  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
-  parent: string;
-  /** Indicates how run attempts are to be pulled. */
-  runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
+  /** Indicates how run attempts are to be pulled. */
+  runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
 }
 
 export const ListProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
   states: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("states"),
   ),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -2010,8 +2010,12 @@ export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMet
 }));
 
 export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
+  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
+  parent: string;
   /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number;
   /** Message types to return. If not populated - INFO, WARNING and ERROR messages are returned. */
   messageTypes?:
     | "MESSAGE_SEVERITY_UNSPECIFIED"
@@ -2019,20 +2023,16 @@ export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
     | "WARNING"
     | "ERROR"
     | (string & {})[];
-  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  parent: string;
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number;
 }
 
 export const ListProjectsLocationsTransferConfigsRunsTransferLogsRequest =
   Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("messageTypes"),
     ),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
     T.Http({
       method: "GET",

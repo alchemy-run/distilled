@@ -22,73 +22,52 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface GroupContentDetails {
-  /** The type of resources that the group contains. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
-  itemType?: string;
-  /** The number of items in the group. */
-  itemCount?: string;
-}
-
-export const GroupContentDetails: Schema.Schema<GroupContentDetails> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      itemType: Schema.optional(Schema.String),
-      itemCount: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GroupContentDetails",
-  }) as any as Schema.Schema<GroupContentDetails>;
-
 export interface GroupItemResource {
-  /** The channel, video, playlist, or asset ID that YouTube uses to uniquely identify the item that is being added to the group. */
-  id?: string;
   /** Identifies the type of resource being added to the group. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
   kind?: string;
+  /** The channel, video, playlist, or asset ID that YouTube uses to uniquely identify the item that is being added to the group. */
+  id?: string;
 }
 
 export const GroupItemResource: Schema.Schema<GroupItemResource> =
   Schema.suspend(() =>
     Schema.Struct({
-      id: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GroupItemResource",
   }) as any as Schema.Schema<GroupItemResource>;
 
 export interface ErrorProto {
-  /** Error arguments, to be used when building user-friendly error messages given the error domain and code. Different error codes require different arguments. */
-  argument?: Array<string>;
-  /** Debugging information, which should not be shared externally. */
-  debugInfo?: string;
-  /** Error code in the error domain. This should correspond to a value of the enum type whose name is in domain. See the core error domain in error_domain.proto. */
-  code?: string;
-  locationType?: "PATH" | "OTHER" | "PARAMETER" | (string & {});
-  /** Location of the error, as specified by the location type. If location_type is PATH, this should be a path to a field that's relative to the request, using FieldPath notation (net/proto2/util/public/field_path.h). Examples: authenticated_user.gaia_id resource.address[2].country */
-  location?: string;
-  /** A short explanation for the error, which can be shared outside Google. Please set domain, code and arguments whenever possible instead of this error message so that external APIs can build safe error messages themselves. External messages built in a RoSy interface will most likely refer to information and concepts that are not available externally and should not be exposed. It is safer if external APIs can understand the errors and decide what the error message should look like. */
-  externalErrorMessage?: string;
   /** Error domain. RoSy services can define their own domain and error codes. This should normally be the name of an enum type, such as: gdata.CoreErrorDomain */
   domain?: string;
+  /** Error code in the error domain. This should correspond to a value of the enum type whose name is in domain. See the core error domain in error_domain.proto. */
+  code?: string;
+  /** Debugging information, which should not be shared externally. */
+  debugInfo?: string;
+  /** Error arguments, to be used when building user-friendly error messages given the error domain and code. Different error codes require different arguments. */
+  argument?: Array<string>;
+  locationType?: "PATH" | "OTHER" | "PARAMETER" | (string & {});
+  /** A short explanation for the error, which can be shared outside Google. Please set domain, code and arguments whenever possible instead of this error message so that external APIs can build safe error messages themselves. External messages built in a RoSy interface will most likely refer to information and concepts that are not available externally and should not be exposed. It is safer if external APIs can understand the errors and decide what the error message should look like. */
+  externalErrorMessage?: string;
+  /** Location of the error, as specified by the location type. If location_type is PATH, this should be a path to a field that's relative to the request, using FieldPath notation (net/proto2/util/public/field_path.h). Examples: authenticated_user.gaia_id resource.address[2].country */
+  location?: string;
 }
 
 export const ErrorProto: Schema.Schema<ErrorProto> = Schema.suspend(() =>
   Schema.Struct({
-    argument: Schema.optional(Schema.Array(Schema.String)),
-    debugInfo: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    locationType: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-    externalErrorMessage: Schema.optional(Schema.String),
     domain: Schema.optional(Schema.String),
+    code: Schema.optional(Schema.String),
+    debugInfo: Schema.optional(Schema.String),
+    argument: Schema.optional(Schema.Array(Schema.String)),
+    locationType: Schema.optional(Schema.String),
+    externalErrorMessage: Schema.optional(Schema.String),
+    location: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "ErrorProto" }) as any as Schema.Schema<ErrorProto>;
 
 export interface Errors {
-  /** Request identifier generated by the service, which can be used to identify the error in the logs */
-  requestId?: string;
-  /** Specific error description and codes */
-  error?: Array<ErrorProto>;
   /** Global error code. Deprecated and ignored. Set custom error codes in ErrorProto.domain and ErrorProto.code instead. */
   code?:
     | "BAD_REQUEST"
@@ -100,64 +79,36 @@ export interface Errors {
     | "INTERNAL_ERROR"
     | "SERVICE_UNAVAILABLE"
     | (string & {});
+  /** Request identifier generated by the service, which can be used to identify the error in the logs */
+  requestId?: string;
+  /** Specific error description and codes */
+  error?: Array<ErrorProto>;
 }
 
 export const Errors: Schema.Schema<Errors> = Schema.suspend(() =>
   Schema.Struct({
+    code: Schema.optional(Schema.String),
     requestId: Schema.optional(Schema.String),
     error: Schema.optional(Schema.Array(ErrorProto)),
-    code: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "Errors" }) as any as Schema.Schema<Errors>;
 
-export interface GroupItem {
-  /** The ID that YouTube uses to uniquely identify the group that contains the item. */
-  groupId?: string;
-  /** The ID that YouTube uses to uniquely identify the `channel`, `video`, `playlist`, or `asset` resource that is included in the group. Note that this ID refers specifically to the inclusion of that resource in a particular group and is different than the channel ID, video ID, playlist ID, or asset ID that uniquely identifies the resource itself. The `resource.id` property's value specifies the unique channel, video, playlist, or asset ID. */
-  id?: string;
-  /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
-  kind?: string;
-  /** The Etag of this resource. */
-  etag?: string;
-  /** The `resource` object contains information that identifies the item being added to the group. */
-  resource?: GroupItemResource;
-  /** Apiary error details */
-  errors?: Errors;
+export interface GroupContentDetails {
+  /** The number of items in the group. */
+  itemCount?: string;
+  /** The type of resources that the group contains. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
+  itemType?: string;
 }
 
-export const GroupItem: Schema.Schema<GroupItem> = Schema.suspend(() =>
-  Schema.Struct({
-    groupId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    resource: Schema.optional(GroupItemResource),
-    errors: Schema.optional(Errors),
-  }),
-).annotate({ identifier: "GroupItem" }) as any as Schema.Schema<GroupItem>;
-
-export interface ListGroupItemsResponse {
-  /** A list of groups that match the API request parameters. Each item in the list represents a `groupItem` resource. */
-  items?: Array<GroupItem>;
-  /** Apiary error details */
-  errors?: Errors;
-  /** Identifies the API resource's type. The value will be `youtube#groupItemListResponse`. */
-  kind?: string;
-  /** The Etag of this resource. */
-  etag?: string;
-}
-
-export const ListGroupItemsResponse: Schema.Schema<ListGroupItemsResponse> =
+export const GroupContentDetails: Schema.Schema<GroupContentDetails> =
   Schema.suspend(() =>
     Schema.Struct({
-      items: Schema.optional(Schema.Array(GroupItem)),
-      errors: Schema.optional(Errors),
-      kind: Schema.optional(Schema.String),
-      etag: Schema.optional(Schema.String),
+      itemCount: Schema.optional(Schema.String),
+      itemType: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListGroupItemsResponse",
-  }) as any as Schema.Schema<ListGroupItemsResponse>;
+    identifier: "GroupContentDetails",
+  }) as any as Schema.Schema<GroupContentDetails>;
 
 export interface ResultTableColumnHeader {
   /** The type of the column (`DIMENSION` or `METRIC`). */
@@ -179,6 +130,19 @@ export const ResultTableColumnHeader: Schema.Schema<ResultTableColumnHeader> =
     identifier: "ResultTableColumnHeader",
   }) as any as Schema.Schema<ResultTableColumnHeader>;
 
+export interface EmptyResponse {
+  /** Apiary error details */
+  errors?: Errors;
+}
+
+export const EmptyResponse: Schema.Schema<EmptyResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    errors: Schema.optional(Errors),
+  }),
+).annotate({
+  identifier: "EmptyResponse",
+}) as any as Schema.Schema<EmptyResponse>;
+
 export interface GroupSnippet {
   /** The date and time that the group was created. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format. */
   publishedAt?: string;
@@ -195,140 +159,165 @@ export const GroupSnippet: Schema.Schema<GroupSnippet> = Schema.suspend(() =>
   identifier: "GroupSnippet",
 }) as any as Schema.Schema<GroupSnippet>;
 
-export interface QueryResponse {
-  /** The list contains all rows of the result table. Each item in the list is an array that contains comma-delimited data corresponding to a single row of data. The order of the comma-delimited data fields will match the order of the columns listed in the `columnHeaders` field. If no data is available for the given query, the `rows` element will be omitted from the response. The response for a query with the `day` dimension will not contain rows for the most recent days. */
-  rows?: Array<Array<unknown>>;
-  /** When set, indicates that the operation failed. */
-  errors?: Errors;
-  /** This value specifies the type of data included in the API response. For the query method, the kind property value will be `youtubeAnalytics#resultTable`. */
-  kind?: string;
-  /** This value specifies information about the data returned in the `rows` fields. Each item in the `columnHeaders` list identifies a field returned in the `rows` value, which contains a list of comma-delimited data. The `columnHeaders` list will begin with the dimensions specified in the API request, which will be followed by the metrics specified in the API request. The order of both dimensions and metrics will match the ordering in the API request. For example, if the API request contains the parameters `dimensions=ageGroup,gender&metrics=viewerPercentage`, the API response will return columns in this order: `ageGroup`, `gender`, `viewerPercentage`. */
-  columnHeaders?: Array<ResultTableColumnHeader>;
-}
-
-export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-    errors: Schema.optional(Errors),
-    kind: Schema.optional(Schema.String),
-    columnHeaders: Schema.optional(Schema.Array(ResultTableColumnHeader)),
-  }),
-).annotate({
-  identifier: "QueryResponse",
-}) as any as Schema.Schema<QueryResponse>;
-
 export interface Group {
-  /** The `snippet` object contains basic information about the group, including its creation date and name. */
-  snippet?: GroupSnippet;
+  /** The Etag of this resource. */
+  etag?: string;
   /** The ID that YouTube uses to uniquely identify the group. */
   id?: string;
   /** Apiary error details */
   errors?: Errors;
   /** Identifies the API resource's type. The value will be `youtube#group`. */
   kind?: string;
-  /** The Etag of this resource. */
-  etag?: string;
+  /** The `snippet` object contains basic information about the group, including its creation date and name. */
+  snippet?: GroupSnippet;
   /** The `contentDetails` object contains additional information about the group, such as the number and type of items that it contains. */
   contentDetails?: GroupContentDetails;
 }
 
 export const Group: Schema.Schema<Group> = Schema.suspend(() =>
   Schema.Struct({
-    snippet: Schema.optional(GroupSnippet),
+    etag: Schema.optional(Schema.String),
     id: Schema.optional(Schema.String),
     errors: Schema.optional(Errors),
     kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
+    snippet: Schema.optional(GroupSnippet),
     contentDetails: Schema.optional(GroupContentDetails),
   }),
 ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface ListGroupsResponse {
-  /** The token that can be used as the value of the `pageToken` parameter to retrieve the next page in the result set. */
-  nextPageToken?: string;
-  /** A list of groups that match the API request parameters. Each item in the list represents a `group` resource. */
-  items?: Array<Group>;
-  /** Apiary error details */
-  errors?: Errors;
   /** Identifies the API resource's type. The value will be `youtube#groupListResponse`. */
   kind?: string;
+  /** A list of groups that match the API request parameters. Each item in the list represents a `group` resource. */
+  items?: Array<Group>;
   /** The Etag of this resource. */
   etag?: string;
+  /** The token that can be used as the value of the `pageToken` parameter to retrieve the next page in the result set. */
+  nextPageToken?: string;
+  /** Apiary error details */
+  errors?: Errors;
 }
 
 export const ListGroupsResponse: Schema.Schema<ListGroupsResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      items: Schema.optional(Schema.Array(Group)),
-      errors: Schema.optional(Errors),
       kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Group)),
       etag: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      errors: Schema.optional(Errors),
     }),
   ).annotate({
     identifier: "ListGroupsResponse",
   }) as any as Schema.Schema<ListGroupsResponse>;
 
-export interface EmptyResponse {
+export interface QueryResponse {
+  /** This value specifies information about the data returned in the `rows` fields. Each item in the `columnHeaders` list identifies a field returned in the `rows` value, which contains a list of comma-delimited data. The `columnHeaders` list will begin with the dimensions specified in the API request, which will be followed by the metrics specified in the API request. The order of both dimensions and metrics will match the ordering in the API request. For example, if the API request contains the parameters `dimensions=ageGroup,gender&metrics=viewerPercentage`, the API response will return columns in this order: `ageGroup`, `gender`, `viewerPercentage`. */
+  columnHeaders?: Array<ResultTableColumnHeader>;
+  /** When set, indicates that the operation failed. */
+  errors?: Errors;
+  /** This value specifies the type of data included in the API response. For the query method, the kind property value will be `youtubeAnalytics#resultTable`. */
+  kind?: string;
+  /** The list contains all rows of the result table. Each item in the list is an array that contains comma-delimited data corresponding to a single row of data. The order of the comma-delimited data fields will match the order of the columns listed in the `columnHeaders` field. If no data is available for the given query, the `rows` element will be omitted from the response. The response for a query with the `day` dimension will not contain rows for the most recent days. */
+  rows?: Array<Array<unknown>>;
+}
+
+export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() =>
+  Schema.Struct({
+    columnHeaders: Schema.optional(Schema.Array(ResultTableColumnHeader)),
+    errors: Schema.optional(Errors),
+    kind: Schema.optional(Schema.String),
+    rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+  }),
+).annotate({
+  identifier: "QueryResponse",
+}) as any as Schema.Schema<QueryResponse>;
+
+export interface GroupItem {
+  /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
+  kind?: string;
+  /** The `resource` object contains information that identifies the item being added to the group. */
+  resource?: GroupItemResource;
+  /** The ID that YouTube uses to uniquely identify the group that contains the item. */
+  groupId?: string;
+  /** The Etag of this resource. */
+  etag?: string;
+  /** The ID that YouTube uses to uniquely identify the `channel`, `video`, `playlist`, or `asset` resource that is included in the group. Note that this ID refers specifically to the inclusion of that resource in a particular group and is different than the channel ID, video ID, playlist ID, or asset ID that uniquely identifies the resource itself. The `resource.id` property's value specifies the unique channel, video, playlist, or asset ID. */
+  id?: string;
   /** Apiary error details */
   errors?: Errors;
 }
 
-export const EmptyResponse: Schema.Schema<EmptyResponse> = Schema.suspend(() =>
+export const GroupItem: Schema.Schema<GroupItem> = Schema.suspend(() =>
   Schema.Struct({
+    kind: Schema.optional(Schema.String),
+    resource: Schema.optional(GroupItemResource),
+    groupId: Schema.optional(Schema.String),
+    etag: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.String),
     errors: Schema.optional(Errors),
   }),
-).annotate({
-  identifier: "EmptyResponse",
-}) as any as Schema.Schema<EmptyResponse>;
+).annotate({ identifier: "GroupItem" }) as any as Schema.Schema<GroupItem>;
+
+export interface ListGroupItemsResponse {
+  /** The Etag of this resource. */
+  etag?: string;
+  /** Identifies the API resource's type. The value will be `youtube#groupItemListResponse`. */
+  kind?: string;
+  /** A list of groups that match the API request parameters. Each item in the list represents a `groupItem` resource. */
+  items?: Array<GroupItem>;
+  /** Apiary error details */
+  errors?: Errors;
+}
+
+export const ListGroupItemsResponse: Schema.Schema<ListGroupItemsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(GroupItem)),
+      errors: Schema.optional(Errors),
+    }),
+  ).annotate({
+    identifier: "ListGroupItemsResponse",
+  }) as any as Schema.Schema<ListGroupItemsResponse>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
-export interface ListGroupsRequest {
-  /** The `id` parameter specifies a comma-separated list of the YouTube group ID(s) for the resource(s) that are being retrieved. Each group must be owned by the authenticated user. In a `group` resource, the `id` property specifies the group's YouTube group ID. Note that if you do not specify a value for the `id` parameter, then you must set the `mine` parameter to `true`. */
-  id?: string;
-  /** The `pageToken` parameter identifies a specific page in the result set that should be returned. In an API response, the `nextPageToken` property identifies the next page that can be retrieved. */
-  pageToken?: string;
+export interface UpdateGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
-  /** This parameter can only be used in a properly authorized request. Set this parameter's value to true to retrieve all groups owned by the authenticated user. */
-  mine?: boolean;
+  /** Request body */
+  body?: Group;
 }
 
-export const ListGroupsRequest = Schema.Struct({
-  id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+export const UpdateGroupsRequest = Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
-  mine: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("mine")),
+  body: Schema.optional(Group).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/groups" }),
+  T.Http({ method: "PUT", path: "v2/groups", hasBody: true }),
   svc,
-) as unknown as Schema.Schema<ListGroupsRequest>;
+) as unknown as Schema.Schema<UpdateGroupsRequest>;
 
-export type ListGroupsResponse_Op = ListGroupsResponse;
-export const ListGroupsResponse_Op = ListGroupsResponse;
+export type UpdateGroupsResponse = Group;
+export const UpdateGroupsResponse = Group;
 
-export type ListGroupsError = DefaultErrors;
+export type UpdateGroupsError = DefaultErrors;
 
-/** Returns a collection of groups that match the API request parameters. For example, you can retrieve all groups that the authenticated user owns, or you can retrieve one or more groups by their unique IDs. */
-export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
-  ListGroupsResponse_Op,
-  ListGroupsError,
+/** Modifies a group. For example, you could change a group's title. */
+export const updateGroups: API.OperationMethod<
+  UpdateGroupsRequest,
+  UpdateGroupsResponse,
+  UpdateGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse_Op,
+> = API.make(() => ({
+  input: UpdateGroupsRequest,
+  output: UpdateGroupsResponse,
   errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  },
 }));
 
 export interface InsertGroupsRequest {
@@ -365,6 +354,51 @@ export const insertGroups: API.OperationMethod<
   errors: [],
 }));
 
+export interface ListGroupsRequest {
+  /** This parameter can only be used in a properly authorized request. Set this parameter's value to true to retrieve all groups owned by the authenticated user. */
+  mine?: boolean;
+  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string;
+  /** The `id` parameter specifies a comma-separated list of the YouTube group ID(s) for the resource(s) that are being retrieved. Each group must be owned by the authenticated user. In a `group` resource, the `id` property specifies the group's YouTube group ID. Note that if you do not specify a value for the `id` parameter, then you must set the `mine` parameter to `true`. */
+  id?: string;
+  /** The `pageToken` parameter identifies a specific page in the result set that should be returned. In an API response, the `nextPageToken` property identifies the next page that can be retrieved. */
+  pageToken?: string;
+}
+
+export const ListGroupsRequest = Schema.Struct({
+  mine: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("mine")),
+  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("onBehalfOfContentOwner"),
+  ),
+  id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/groups" }),
+  svc,
+) as unknown as Schema.Schema<ListGroupsRequest>;
+
+export type ListGroupsResponse_Op = ListGroupsResponse;
+export const ListGroupsResponse_Op = ListGroupsResponse;
+
+export type ListGroupsError = DefaultErrors;
+
+/** Returns a collection of groups that match the API request parameters. For example, you can retrieve all groups that the authenticated user owns, or you can retrieve one or more groups by their unique IDs. */
+export const listGroups: API.PaginatedOperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse_Op,
+  ListGroupsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListGroupsRequest,
+  output: ListGroupsResponse_Op,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+  },
+}));
+
 export interface DeleteGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -399,132 +433,37 @@ export const deleteGroups: API.OperationMethod<
   errors: [],
 }));
 
-export interface UpdateGroupsRequest {
+export interface ListGroupItemsRequest {
+  /** The `groupId` parameter specifies the unique ID of the group for which you want to retrieve group items. */
+  groupId?: string;
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
-  /** Request body */
-  body?: Group;
 }
 
-export const UpdateGroupsRequest = Schema.Struct({
+export const ListGroupItemsRequest = Schema.Struct({
+  groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
-  body: Schema.optional(Group).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PUT", path: "v2/groups", hasBody: true }),
+  T.Http({ method: "GET", path: "v2/groupItems" }),
   svc,
-) as unknown as Schema.Schema<UpdateGroupsRequest>;
+) as unknown as Schema.Schema<ListGroupItemsRequest>;
 
-export type UpdateGroupsResponse = Group;
-export const UpdateGroupsResponse = Group;
+export type ListGroupItemsResponse_Op = ListGroupItemsResponse;
+export const ListGroupItemsResponse_Op = ListGroupItemsResponse;
 
-export type UpdateGroupsError = DefaultErrors;
+export type ListGroupItemsError = DefaultErrors;
 
-/** Modifies a group. For example, you could change a group's title. */
-export const updateGroups: API.OperationMethod<
-  UpdateGroupsRequest,
-  UpdateGroupsResponse,
-  UpdateGroupsError,
+/** Returns a collection of group items that match the API request parameters. */
+export const listGroupItems: API.OperationMethod<
+  ListGroupItemsRequest,
+  ListGroupItemsResponse_Op,
+  ListGroupItemsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UpdateGroupsRequest,
-  output: UpdateGroupsResponse,
-  errors: [],
-}));
-
-export interface QueryReportsRequest {
-  /** The currency to which financial metrics should be converted. The default is US Dollar (USD). If the result contains no financial metrics, this flag will be ignored. Responds with an error if the specified currency is not recognized.", pattern: [A-Z]{3} */
-  currency?: string;
-  /** A list of filters that should be applied when retrieving YouTube Analytics data. The [Available Reports](/youtube/analytics/v2/available_reports) document identifies the dimensions that can be used to filter each report, and the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document defines those dimensions. If a request uses multiple filters, join them together with a semicolon (`;`), and the returned result table will satisfy both filters. For example, a filters parameter value of `video==dMH0bHeiRNg;country==IT` restricts the result set to include data for the given video in Italy.", */
-  filters?: string;
-  /** The end date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} */
-  endDate?: string;
-  /** Identifies the YouTube channel or content owner for which you are retrieving YouTube Analytics data. - To request data for a YouTube user, set the `ids` parameter value to `channel==CHANNEL_ID`, where `CHANNEL_ID` specifies the unique YouTube channel ID. - To request data for a YouTube CMS content owner, set the `ids` parameter value to `contentOwner==OWNER_NAME`, where `OWNER_NAME` is the CMS name of the content owner. required: true, pattern: [a-zA-Z]+==[a-zA-Z0-9_+-]+ */
-  ids?: string;
-  /** A comma-separated list of YouTube Analytics dimensions, such as `views` or `ageGroup,gender`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the dimensions used for those reports. Also see the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document for definitions of those dimensions." pattern: [0-9a-zA-Z,]+ */
-  dimensions?: string;
-  /** If set to true historical data (i.e. channel data from before the linking of the channel to the content owner) will be retrieved.", */
-  includeHistoricalChannelData?: boolean;
-  /** An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter (one-based, inclusive).", minValue: 1 */
-  startIndex?: number;
-  /** The start date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2} */
-  startDate?: string;
-  /** A comma-separated list of dimensions or metrics that determine the sort order for YouTube Analytics data. By default the sort order is ascending. The '`-`' prefix causes descending sort order.", pattern: [-0-9a-zA-Z,]+ */
-  sort?: string;
-  /** A comma-separated list of YouTube Analytics metrics, such as `views` or `likes,dislikes`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the metrics available in each report, and see the [Metrics](/youtube/analytics/v2/dimsmets/mets) document for definitions of those metrics. required: true, pattern: [0-9a-zA-Z,]+ */
-  metrics?: string;
-  /** The maximum number of rows to include in the response.", minValue: 1 */
-  maxResults?: number;
-}
-
-export const QueryReportsRequest = Schema.Struct({
-  currency: Schema.optional(Schema.String).pipe(T.HttpQuery("currency")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  endDate: Schema.optional(Schema.String).pipe(T.HttpQuery("endDate")),
-  ids: Schema.optional(Schema.String).pipe(T.HttpQuery("ids")),
-  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  includeHistoricalChannelData: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeHistoricalChannelData"),
-  ),
-  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
-  startDate: Schema.optional(Schema.String).pipe(T.HttpQuery("startDate")),
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/reports" }),
-  svc,
-) as unknown as Schema.Schema<QueryReportsRequest>;
-
-export type QueryReportsResponse = QueryResponse;
-export const QueryReportsResponse = QueryResponse;
-
-export type QueryReportsError = DefaultErrors;
-
-/** Retrieve your YouTube Analytics reports. */
-export const queryReports: API.OperationMethod<
-  QueryReportsRequest,
-  QueryReportsResponse,
-  QueryReportsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: QueryReportsRequest,
-  output: QueryReportsResponse,
-  errors: [],
-}));
-
-export interface InsertGroupItemsRequest {
-  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string;
-  /** Request body */
-  body?: GroupItem;
-}
-
-export const InsertGroupItemsRequest = Schema.Struct({
-  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("onBehalfOfContentOwner"),
-  ),
-  body: Schema.optional(GroupItem).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/groupItems", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertGroupItemsRequest>;
-
-export type InsertGroupItemsResponse = GroupItem;
-export const InsertGroupItemsResponse = GroupItem;
-
-export type InsertGroupItemsError = DefaultErrors;
-
-/** Creates a group item. */
-export const insertGroupItems: API.OperationMethod<
-  InsertGroupItemsRequest,
-  InsertGroupItemsResponse,
-  InsertGroupItemsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: InsertGroupItemsRequest,
-  output: InsertGroupItemsResponse,
+  input: ListGroupItemsRequest,
+  output: ListGroupItemsResponse_Op,
   errors: [],
 }));
 
@@ -562,36 +501,97 @@ export const deleteGroupItems: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListGroupItemsRequest {
-  /** The `groupId` parameter specifies the unique ID of the group for which you want to retrieve group items. */
-  groupId?: string;
+export interface InsertGroupItemsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
+  /** Request body */
+  body?: GroupItem;
 }
 
-export const ListGroupItemsRequest = Schema.Struct({
-  groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
+export const InsertGroupItemsRequest = Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
+  body: Schema.optional(GroupItem).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/groupItems" }),
+  T.Http({ method: "POST", path: "v2/groupItems", hasBody: true }),
   svc,
-) as unknown as Schema.Schema<ListGroupItemsRequest>;
+) as unknown as Schema.Schema<InsertGroupItemsRequest>;
 
-export type ListGroupItemsResponse_Op = ListGroupItemsResponse;
-export const ListGroupItemsResponse_Op = ListGroupItemsResponse;
+export type InsertGroupItemsResponse = GroupItem;
+export const InsertGroupItemsResponse = GroupItem;
 
-export type ListGroupItemsError = DefaultErrors;
+export type InsertGroupItemsError = DefaultErrors;
 
-/** Returns a collection of group items that match the API request parameters. */
-export const listGroupItems: API.OperationMethod<
-  ListGroupItemsRequest,
-  ListGroupItemsResponse_Op,
-  ListGroupItemsError,
+/** Creates a group item. */
+export const insertGroupItems: API.OperationMethod<
+  InsertGroupItemsRequest,
+  InsertGroupItemsResponse,
+  InsertGroupItemsError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: ListGroupItemsRequest,
-  output: ListGroupItemsResponse_Op,
+  input: InsertGroupItemsRequest,
+  output: InsertGroupItemsResponse,
+  errors: [],
+}));
+
+export interface QueryReportsRequest {
+  /** The start date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2} */
+  startDate?: string;
+  /** The end date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} */
+  endDate?: string;
+  /** The maximum number of rows to include in the response.", minValue: 1 */
+  maxResults?: number;
+  /** Identifies the YouTube channel or content owner for which you are retrieving YouTube Analytics data. - To request data for a YouTube user, set the `ids` parameter value to `channel==CHANNEL_ID`, where `CHANNEL_ID` specifies the unique YouTube channel ID. - To request data for a YouTube CMS content owner, set the `ids` parameter value to `contentOwner==OWNER_NAME`, where `OWNER_NAME` is the CMS name of the content owner. required: true, pattern: [a-zA-Z]+==[a-zA-Z0-9_+-]+ */
+  ids?: string;
+  /** A comma-separated list of dimensions or metrics that determine the sort order for YouTube Analytics data. By default the sort order is ascending. The '`-`' prefix causes descending sort order.", pattern: [-0-9a-zA-Z,]+ */
+  sort?: string;
+  /** A list of filters that should be applied when retrieving YouTube Analytics data. The [Available Reports](/youtube/analytics/v2/available_reports) document identifies the dimensions that can be used to filter each report, and the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document defines those dimensions. If a request uses multiple filters, join them together with a semicolon (`;`), and the returned result table will satisfy both filters. For example, a filters parameter value of `video==dMH0bHeiRNg;country==IT` restricts the result set to include data for the given video in Italy.", */
+  filters?: string;
+  /** An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter (one-based, inclusive).", minValue: 1 */
+  startIndex?: number;
+  /** A comma-separated list of YouTube Analytics dimensions, such as `views` or `ageGroup,gender`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the dimensions used for those reports. Also see the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document for definitions of those dimensions." pattern: [0-9a-zA-Z,]+ */
+  dimensions?: string;
+  /** The currency to which financial metrics should be converted. The default is US Dollar (USD). If the result contains no financial metrics, this flag will be ignored. Responds with an error if the specified currency is not recognized.", pattern: [A-Z]{3} */
+  currency?: string;
+  /** A comma-separated list of YouTube Analytics metrics, such as `views` or `likes,dislikes`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the metrics available in each report, and see the [Metrics](/youtube/analytics/v2/dimsmets/mets) document for definitions of those metrics. required: true, pattern: [0-9a-zA-Z,]+ */
+  metrics?: string;
+  /** If set to true historical data (i.e. channel data from before the linking of the channel to the content owner) will be retrieved.", */
+  includeHistoricalChannelData?: boolean;
+}
+
+export const QueryReportsRequest = Schema.Struct({
+  startDate: Schema.optional(Schema.String).pipe(T.HttpQuery("startDate")),
+  endDate: Schema.optional(Schema.String).pipe(T.HttpQuery("endDate")),
+  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+  ids: Schema.optional(Schema.String).pipe(T.HttpQuery("ids")),
+  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
+  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
+  currency: Schema.optional(Schema.String).pipe(T.HttpQuery("currency")),
+  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
+  includeHistoricalChannelData: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeHistoricalChannelData"),
+  ),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/reports" }),
+  svc,
+) as unknown as Schema.Schema<QueryReportsRequest>;
+
+export type QueryReportsResponse = QueryResponse;
+export const QueryReportsResponse = QueryResponse;
+
+export type QueryReportsError = DefaultErrors;
+
+/** Retrieve your YouTube Analytics reports. */
+export const queryReports: API.OperationMethod<
+  QueryReportsRequest,
+  QueryReportsResponse,
+  QueryReportsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: QueryReportsRequest,
+  output: QueryReportsResponse,
   errors: [],
 }));

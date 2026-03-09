@@ -23,6 +23,10 @@ const svc = T.Service({
 // ==========================================================================
 
 export interface SiteSummaryResponse {
+  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
+  enforcementTime?: string;
+  /** Whether the site is currently under review. */
+  underReview?: boolean;
   /** The name of the reviewed site, e.g. `google.com`. */
   reviewedSite?: string;
   /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
@@ -33,28 +37,24 @@ export interface SiteSummaryResponse {
     | "PAUSED"
     | "PENDING"
     | (string & {});
-  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
-  /** Whether the site is currently under review. */
-  underReview?: boolean;
+  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
+  reportUrl?: string;
   /** The time at which the site's status last changed. */
   lastChangeTime?: string;
   /** The site's Abusive Experience Report status. */
   abusiveStatus?: "UNKNOWN" | "PASSING" | "FAILING" | (string & {});
-  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
 }
 
 export const SiteSummaryResponse: Schema.Schema<SiteSummaryResponse> =
   Schema.suspend(() =>
     Schema.Struct({
-      reviewedSite: Schema.optional(Schema.String),
-      filterStatus: Schema.optional(Schema.String),
       enforcementTime: Schema.optional(Schema.String),
       underReview: Schema.optional(Schema.Boolean),
+      reviewedSite: Schema.optional(Schema.String),
+      filterStatus: Schema.optional(Schema.String),
+      reportUrl: Schema.optional(Schema.String),
       lastChangeTime: Schema.optional(Schema.String),
       abusiveStatus: Schema.optional(Schema.String),
-      reportUrl: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "SiteSummaryResponse",

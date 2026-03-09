@@ -135,6 +135,8 @@ export interface ExtensionChainExtension {
   failOpen?: boolean;
   /** Optional. List of the HTTP headers to forward to the extension (from the client or backend). If omitted, all headers are sent. Each element is a string indicating the header name. */
   forwardHeaders?: Array<string>;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: Array<string>;
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. For `AuthzExtension` resources, the metadata is available under the namespace `com.google.authz_extension.`. For other types of extensions, the metadata is available under the namespace `com.google....`. For example: `com.google.lb_traffic_extension.lbtrafficextension1.chain1.ext1`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set for plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. This field is subject to following limitations: * The total size of the metadata must be less than 1KiB. * The total number of keys in the metadata must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. * All values must be strings. */
   metadata?: Record<string, unknown>;
   /** Optional. When set to `TRUE`, the response from an extension service is allowed to set the `com.google.envoy.dynamic_forwarding` namespace in the dynamic metadata. This field is not supported for plugin extensions or AuthzExtensions. Setting it results in a validation error. */
@@ -165,6 +167,7 @@ export const ExtensionChainExtension: Schema.Schema<ExtensionChainExtension> =
       timeout: Schema.optional(Schema.String),
       failOpen: Schema.optional(Schema.Boolean),
       forwardHeaders: Schema.optional(Schema.Array(Schema.String)),
+      forwardAttributes: Schema.optional(Schema.Array(Schema.String)),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       allowDynamicForwarding: Schema.optional(Schema.Boolean),
       requestBodySendMode: Schema.optional(Schema.String),
@@ -466,6 +469,8 @@ export interface AuthzExtension {
   metadata?: Record<string, unknown>;
   /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
   forwardHeaders?: Array<string>;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: Array<string>;
   /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
   wireFormat?:
     | "WIRE_FORMAT_UNSPECIFIED"
@@ -489,6 +494,7 @@ export const AuthzExtension: Schema.Schema<AuthzExtension> = Schema.suspend(
       failOpen: Schema.optional(Schema.Boolean),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       forwardHeaders: Schema.optional(Schema.Array(Schema.String)),
+      forwardAttributes: Schema.optional(Schema.Array(Schema.String)),
       wireFormat: Schema.optional(Schema.String),
     }),
 ).annotate({

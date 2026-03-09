@@ -22,184 +22,43 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface FindDevicesByOwnerRequest {
-  /** The list of customer IDs to search for. */
-  customerId?: Array<string>;
-  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string;
-  /** The list of IDs of Google Workspace accounts to search for. */
-  googleWorkspaceCustomerId?: Array<string>;
-  /** Required. The section type of the device's provisioning record. */
-  sectionType?:
-    | "SECTION_TYPE_UNSPECIFIED"
-    | "SECTION_TYPE_SIM_LOCK"
-    | "SECTION_TYPE_ZERO_TOUCH"
-    | (string & {});
-  /** A token specifying which result page to return. */
-  pageToken?: string;
-}
-
-export const FindDevicesByOwnerRequest: Schema.Schema<FindDevicesByOwnerRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customerId: Schema.optional(Schema.Array(Schema.String)),
-      limit: Schema.optional(Schema.String),
-      googleWorkspaceCustomerId: Schema.optional(Schema.Array(Schema.String)),
-      sectionType: Schema.optional(Schema.String),
-      pageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "FindDevicesByOwnerRequest",
-  }) as any as Schema.Schema<FindDevicesByOwnerRequest>;
-
-export interface GoogleWorkspaceAccount {
-  /** Required. The customer ID. */
-  customerId?: string;
-  /** Output only. The pre-provisioning tokens previously used to claim devices. */
-  preProvisioningTokens?: Array<string>;
-}
-
-export const GoogleWorkspaceAccount: Schema.Schema<GoogleWorkspaceAccount> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customerId: Schema.optional(Schema.String),
-      preProvisioningTokens: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleWorkspaceAccount",
-  }) as any as Schema.Schema<GoogleWorkspaceAccount>;
-
-export interface Company {
-  /** Output only. The ID of the company. Assigned by the server. */
-  companyId?: string;
-  /** Input only. The preferred locale of the customer represented as a BCP47 language code. This field is validated on input and requests containing unsupported language codes will be rejected. Supported language codes: Arabic (ar) Chinese (Hong Kong) (zh-HK) Chinese (Simplified) (zh-CN) Chinese (Traditional) (zh-TW) Czech (cs) Danish (da) Dutch (nl) English (UK) (en-GB) English (US) (en-US) Filipino (fil) Finnish (fi) French (fr) German (de) Hebrew (iw) Hindi (hi) Hungarian (hu) Indonesian (id) Italian (it) Japanese (ja) Korean (ko) Norwegian (Bokmal) (no) Polish (pl) Portuguese (Brazil) (pt-BR) Portuguese (Portugal) (pt-PT) Russian (ru) Spanish (es) Spanish (Latin America) (es-419) Swedish (sv) Thai (th) Turkish (tr) Ukrainian (uk) Vietnamese (vi) */
-  languageCode?: string;
-  /** Output only. The Google Workspace account associated with this customer. Only used for customer Companies. */
-  googleWorkspaceAccount?: GoogleWorkspaceAccount;
-  /** Output only. The API resource name of the company. The resource name is one of the following formats: * `partners/[PARTNER_ID]/customers/[CUSTOMER_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]/customers/[CUSTOMER_ID]` Assigned by the server. */
-  name?: string;
-  /** Input only. If set to true, welcome email will not be sent to the customer. It is recommended to skip the welcome email if devices will be claimed with additional DEVICE_PROTECTION service, as the customer will receive separate emails at device claim time. This field is ignored if this is not a Zero-touch customer. */
-  skipWelcomeEmail?: boolean;
-  /** Required. Input only. Email address of customer's users in the owner role. At least one `owner_email` is required. Owners share the same access as admins but can also add, delete, and edit your organization's portal users. */
-  ownerEmails?: Array<string>;
-  /** Output only. Whether any user from the company has accepted the latest Terms of Service (ToS). See TermsStatus. */
-  termsStatus?:
-    | "TERMS_STATUS_UNSPECIFIED"
-    | "TERMS_STATUS_NOT_ACCEPTED"
-    | "TERMS_STATUS_ACCEPTED"
-    | "TERMS_STATUS_STALE"
-    | (string & {});
-  /** Optional. Email address of customer's users in the admin role. Each email address must be associated with a Google Account. */
-  adminEmails?: Array<string>;
-  /** Required. The name of the company. For example _XYZ Corp_. Displayed to the company's employees in the zero-touch enrollment portal. */
-  companyName?: string;
-}
-
-export const Company: Schema.Schema<Company> = Schema.suspend(() =>
-  Schema.Struct({
-    companyId: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    googleWorkspaceAccount: Schema.optional(GoogleWorkspaceAccount),
-    name: Schema.optional(Schema.String),
-    skipWelcomeEmail: Schema.optional(Schema.Boolean),
-    ownerEmails: Schema.optional(Schema.Array(Schema.String)),
-    termsStatus: Schema.optional(Schema.String),
-    adminEmails: Schema.optional(Schema.Array(Schema.String)),
-    companyName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
-
-export interface ListCustomersResponse {
-  /** List of customers related to this reseller partner. */
-  customers?: Array<Company>;
-  /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
-  /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
-}
-
-export const ListCustomersResponse: Schema.Schema<ListCustomersResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customers: Schema.optional(Schema.Array(Company)),
-      nextPageToken: Schema.optional(Schema.String),
-      totalSize: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "ListCustomersResponse",
-  }) as any as Schema.Schema<ListCustomersResponse>;
-
-export interface CreateCustomerRequest {
-  /** Required. The company data to populate the new customer. Must contain a value for `companyName` and at least one `owner_email` that's associated with a Google Account. The values for `companyId` and `name` must be empty. */
-  customer?: Company;
-}
-
-export const CreateCustomerRequest: Schema.Schema<CreateCustomerRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customer: Schema.optional(Company),
-    }),
-  ).annotate({
-    identifier: "CreateCustomerRequest",
-  }) as any as Schema.Schema<CreateCustomerRequest>;
-
-export interface ListVendorCustomersResponse {
-  /** List of customers of the vendor. */
-  customers?: Array<Company>;
-  /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
-  /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
-}
-
-export const ListVendorCustomersResponse: Schema.Schema<ListVendorCustomersResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customers: Schema.optional(Schema.Array(Company)),
-      nextPageToken: Schema.optional(Schema.String),
-      totalSize: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "ListVendorCustomersResponse",
-  }) as any as Schema.Schema<ListVendorCustomersResponse>;
-
 export interface DeviceIdentifier {
-  /** The device’s MEID number. */
-  meid?: string;
-  /** The device’s second IMEI number. */
-  imei2?: string;
   /** The type of the device */
   deviceType?:
     | "DEVICE_TYPE_UNSPECIFIED"
     | "DEVICE_TYPE_ANDROID"
     | "DEVICE_TYPE_CHROME_OS"
     | (string & {});
+  /** An identifier provided by OEMs, carried through the production and sales process. Only applicable to Chrome OS devices. */
+  chromeOsAttestedDeviceId?: string;
   /** The device manufacturer’s name. Matches the device's built-in value returned from `android.os.Build.MANUFACTURER`. Allowed values are listed in [Android manufacturers](/zero-touch/resources/manufacturer-names#manufacturers-names). */
   manufacturer?: string;
   /** The device model's name. Allowed values are listed in [Android models](/zero-touch/resources/manufacturer-names#model-names) and [Chrome OS models](https://support.google.com/chrome/a/answer/10130175#identify_compatible). */
   model?: string;
-  /** The manufacturer's serial number for the device. This value might not be unique across different device models. */
-  serialNumber?: string;
-  /** An identifier provided by OEMs, carried through the production and sales process. Only applicable to Chrome OS devices. */
-  chromeOsAttestedDeviceId?: string;
+  /** The device’s second IMEI number. */
+  imei2?: string;
   /** The device’s IMEI number. Validated on input. */
   imei?: string;
+  /** The device’s MEID number. */
+  meid?: string;
   /** The device’s second MEID number. */
   meid2?: string;
+  /** The manufacturer's serial number for the device. This value might not be unique across different device models. */
+  serialNumber?: string;
 }
 
 export const DeviceIdentifier: Schema.Schema<DeviceIdentifier> = Schema.suspend(
   () =>
     Schema.Struct({
-      meid: Schema.optional(Schema.String),
-      imei2: Schema.optional(Schema.String),
       deviceType: Schema.optional(Schema.String),
+      chromeOsAttestedDeviceId: Schema.optional(Schema.String),
       manufacturer: Schema.optional(Schema.String),
       model: Schema.optional(Schema.String),
-      serialNumber: Schema.optional(Schema.String),
-      chromeOsAttestedDeviceId: Schema.optional(Schema.String),
+      imei2: Schema.optional(Schema.String),
       imei: Schema.optional(Schema.String),
+      meid: Schema.optional(Schema.String),
       meid2: Schema.optional(Schema.String),
+      serialNumber: Schema.optional(Schema.String),
     }),
 ).annotate({
   identifier: "DeviceIdentifier",
@@ -219,21 +78,103 @@ export const DeviceMetadata: Schema.Schema<DeviceMetadata> = Schema.suspend(
   identifier: "DeviceMetadata",
 }) as any as Schema.Schema<DeviceMetadata>;
 
-export interface PartnerClaim {
-  /** Required. Required. Device identifier of the device. */
-  deviceIdentifier?: DeviceIdentifier;
-  /** The Google Workspace customer ID. */
-  googleWorkspaceCustomerId?: string;
-  /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string;
-  /** Required. The metadata to attach to the device at claim. */
-  deviceMetadata?: DeviceMetadata;
-  /** Optional. Must and can only be set for Chrome OS devices. */
-  preProvisioningToken?: string;
-  /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string;
+export interface ClaimDeviceRequest {
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
   simlockProfileId?: string;
+  /** Required. Required. The device identifier of the device to claim. */
+  deviceIdentifier?: DeviceIdentifier;
+  /** Optional. The metadata to attach to the device. */
+  deviceMetadata?: DeviceMetadata;
+  /** The ID of the customer for whom the device is being claimed. */
+  customerId?: string;
+  /** Optional. The ID of the configuration applied to the device section. */
+  configurationId?: string;
+  /** Required. The section type of the device's provisioning record. */
+  sectionType?:
+    | "SECTION_TYPE_UNSPECIFIED"
+    | "SECTION_TYPE_SIM_LOCK"
+    | "SECTION_TYPE_ZERO_TOUCH"
+    | (string & {});
+  /** The Google Workspace customer ID. */
+  googleWorkspaceCustomerId?: string;
+  /** Optional. Must and can only be set for Chrome OS devices. */
+  preProvisioningToken?: string;
+}
+
+export const ClaimDeviceRequest: Schema.Schema<ClaimDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      simlockProfileId: Schema.optional(Schema.String),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+      deviceMetadata: Schema.optional(DeviceMetadata),
+      customerId: Schema.optional(Schema.String),
+      configurationId: Schema.optional(Schema.String),
+      sectionType: Schema.optional(Schema.String),
+      googleWorkspaceCustomerId: Schema.optional(Schema.String),
+      preProvisioningToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ClaimDeviceRequest",
+  }) as any as Schema.Schema<ClaimDeviceRequest>;
+
+export interface UpdateDeviceMetadataRequest {
+  /** Required. The metadata to attach to the device. */
+  deviceMetadata?: DeviceMetadata;
+}
+
+export const UpdateDeviceMetadataRequest: Schema.Schema<UpdateDeviceMetadataRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceMetadata: Schema.optional(DeviceMetadata),
+    }),
+  ).annotate({
+    identifier: "UpdateDeviceMetadataRequest",
+  }) as any as Schema.Schema<UpdateDeviceMetadataRequest>;
+
+export interface PerDeviceStatusInBatch {
+  /** The result status of the device after processing. */
+  status?:
+    | "SINGLE_DEVICE_STATUS_UNSPECIFIED"
+    | "SINGLE_DEVICE_STATUS_UNKNOWN_ERROR"
+    | "SINGLE_DEVICE_STATUS_OTHER_ERROR"
+    | "SINGLE_DEVICE_STATUS_SUCCESS"
+    | "SINGLE_DEVICE_STATUS_PERMISSION_DENIED"
+    | "SINGLE_DEVICE_STATUS_INVALID_DEVICE_IDENTIFIER"
+    | "SINGLE_DEVICE_STATUS_INVALID_SECTION_TYPE"
+    | "SINGLE_DEVICE_STATUS_SECTION_NOT_YOURS"
+    | "SINGLE_DEVICE_STATUS_INVALID_TOKEN"
+    | "SINGLE_DEVICE_STATUS_REVOKED_TOKEN"
+    | "SINGLE_DEVICE_STATUS_DEVICE_LIMIT_EXCEEDED"
+    | (string & {});
+  /** If processing succeeds, the device ID of the device. */
+  deviceId?: string;
+  /** If processing fails, a developer message explaining what went wrong. */
+  errorMessage?: string;
+  /** If processing fails, the error type. */
+  errorIdentifier?: string;
+}
+
+export const PerDeviceStatusInBatch: Schema.Schema<PerDeviceStatusInBatch> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      errorIdentifier: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PerDeviceStatusInBatch",
+  }) as any as Schema.Schema<PerDeviceStatusInBatch>;
+
+export interface UnclaimDeviceRequest {
+  /** The expiration time of the vacation unlock. */
+  vacationModeExpireTime?: string;
+  /** Required. The device identifier you used when you claimed this device. */
+  deviceIdentifier?: DeviceIdentifier;
+  /** Required. The device ID returned by `ClaimDevice`. */
+  deviceId?: string;
+  /** The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
+  vacationModeDays?: number;
   /** Required. The section type of the device's provisioning record. */
   sectionType?:
     | "SECTION_TYPE_UNSPECIFIED"
@@ -242,16 +183,211 @@ export interface PartnerClaim {
     | (string & {});
 }
 
-export const PartnerClaim: Schema.Schema<PartnerClaim> = Schema.suspend(() =>
+export const UnclaimDeviceRequest: Schema.Schema<UnclaimDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      vacationModeExpireTime: Schema.optional(Schema.String),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+      deviceId: Schema.optional(Schema.String),
+      vacationModeDays: Schema.optional(Schema.Number),
+      sectionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UnclaimDeviceRequest",
+  }) as any as Schema.Schema<UnclaimDeviceRequest>;
+
+export interface GoogleWorkspaceAccount {
+  /** Output only. The pre-provisioning tokens previously used to claim devices. */
+  preProvisioningTokens?: Array<string>;
+  /** Required. The customer ID. */
+  customerId?: string;
+}
+
+export const GoogleWorkspaceAccount: Schema.Schema<GoogleWorkspaceAccount> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      preProvisioningTokens: Schema.optional(Schema.Array(Schema.String)),
+      customerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleWorkspaceAccount",
+  }) as any as Schema.Schema<GoogleWorkspaceAccount>;
+
+export interface Company {
+  /** Required. Input only. Email address of customer's users in the owner role. At least one `owner_email` is required. Owners share the same access as admins but can also add, delete, and edit your organization's portal users. */
+  ownerEmails?: Array<string>;
+  /** Input only. The preferred locale of the customer represented as a BCP47 language code. This field is validated on input and requests containing unsupported language codes will be rejected. Supported language codes: Arabic (ar) Chinese (Hong Kong) (zh-HK) Chinese (Simplified) (zh-CN) Chinese (Traditional) (zh-TW) Czech (cs) Danish (da) Dutch (nl) English (UK) (en-GB) English (US) (en-US) Filipino (fil) Finnish (fi) French (fr) German (de) Hebrew (iw) Hindi (hi) Hungarian (hu) Indonesian (id) Italian (it) Japanese (ja) Korean (ko) Norwegian (Bokmal) (no) Polish (pl) Portuguese (Brazil) (pt-BR) Portuguese (Portugal) (pt-PT) Russian (ru) Spanish (es) Spanish (Latin America) (es-419) Swedish (sv) Thai (th) Turkish (tr) Ukrainian (uk) Vietnamese (vi) */
+  languageCode?: string;
+  /** Optional. Email address of customer's users in the admin role. Each email address must be associated with a Google Account. */
+  adminEmails?: Array<string>;
+  /** Output only. The API resource name of the company. The resource name is one of the following formats: * `partners/[PARTNER_ID]/customers/[CUSTOMER_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]/customers/[CUSTOMER_ID]` Assigned by the server. */
+  name?: string;
+  /** Output only. The Google Workspace account associated with this customer. Only used for customer Companies. */
+  googleWorkspaceAccount?: GoogleWorkspaceAccount;
+  /** Input only. If set to true, welcome email will not be sent to the customer. It is recommended to skip the welcome email if devices will be claimed with additional DEVICE_PROTECTION service, as the customer will receive separate emails at device claim time. This field is ignored if this is not a Zero-touch customer. */
+  skipWelcomeEmail?: boolean;
+  /** Required. The name of the company. For example _XYZ Corp_. Displayed to the company's employees in the zero-touch enrollment portal. */
+  companyName?: string;
+  /** Output only. Whether any user from the company has accepted the latest Terms of Service (ToS). See TermsStatus. */
+  termsStatus?:
+    | "TERMS_STATUS_UNSPECIFIED"
+    | "TERMS_STATUS_NOT_ACCEPTED"
+    | "TERMS_STATUS_ACCEPTED"
+    | "TERMS_STATUS_STALE"
+    | (string & {});
+  /** Output only. The ID of the company. Assigned by the server. */
+  companyId?: string;
+}
+
+export const Company: Schema.Schema<Company> = Schema.suspend(() =>
+  Schema.Struct({
+    ownerEmails: Schema.optional(Schema.Array(Schema.String)),
+    languageCode: Schema.optional(Schema.String),
+    adminEmails: Schema.optional(Schema.Array(Schema.String)),
+    name: Schema.optional(Schema.String),
+    googleWorkspaceAccount: Schema.optional(GoogleWorkspaceAccount),
+    skipWelcomeEmail: Schema.optional(Schema.Boolean),
+    companyName: Schema.optional(Schema.String),
+    termsStatus: Schema.optional(Schema.String),
+    companyId: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
+
+export interface ListCustomersResponse {
+  /** List of customers related to this reseller partner. */
+  customers?: Array<Company>;
+  /** The total count of items in the list irrespective of pagination. */
+  totalSize?: number;
+  /** A token to retrieve the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string;
+}
+
+export const ListCustomersResponse: Schema.Schema<ListCustomersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      customers: Schema.optional(Schema.Array(Company)),
+      totalSize: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomersResponse",
+  }) as any as Schema.Schema<ListCustomersResponse>;
+
+export interface UpdateMetadataArguments {
+  /** Required. Device identifier. */
+  deviceIdentifier?: DeviceIdentifier;
+  /** Required. Device ID of the device. */
+  deviceId?: string;
+  /** Required. The metadata to update. */
+  deviceMetadata?: DeviceMetadata;
+}
+
+export const UpdateMetadataArguments: Schema.Schema<UpdateMetadataArguments> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+      deviceId: Schema.optional(Schema.String),
+      deviceMetadata: Schema.optional(DeviceMetadata),
+    }),
+  ).annotate({
+    identifier: "UpdateMetadataArguments",
+  }) as any as Schema.Schema<UpdateMetadataArguments>;
+
+export interface DeviceClaim {
+  /** Output only. The type of claim made on the device. */
+  sectionType?:
+    | "SECTION_TYPE_UNSPECIFIED"
+    | "SECTION_TYPE_SIM_LOCK"
+    | "SECTION_TYPE_ZERO_TOUCH"
+    | (string & {});
+  /** The ID of the Google Workspace account that owns the Chrome OS device. */
+  googleWorkspaceCustomerId?: string;
+  /** The ID of the reseller that claimed the device. */
+  resellerId?: string;
+  /** The ID of the Customer that purchased the device. */
+  ownerCompanyId?: string;
+  /** The timestamp when the device was put into ‘vacation mode’. This value is present iff the device is in 'vacation mode'. */
+  vacationModeStartTime?: string;
+  /** The timestamp when the device will exit ‘vacation mode’. This value is present iff the device is in 'vacation mode'. */
+  vacationModeExpireTime?: string;
+  /** The Additional service registered for the device. */
+  additionalService?:
+    | "ADDITIONAL_SERVICE_UNSPECIFIED"
+    | "DEVICE_PROTECTION"
+    | (string & {});
+}
+
+export const DeviceClaim: Schema.Schema<DeviceClaim> = Schema.suspend(() =>
+  Schema.Struct({
+    sectionType: Schema.optional(Schema.String),
+    googleWorkspaceCustomerId: Schema.optional(Schema.String),
+    resellerId: Schema.optional(Schema.String),
+    ownerCompanyId: Schema.optional(Schema.String),
+    vacationModeStartTime: Schema.optional(Schema.String),
+    vacationModeExpireTime: Schema.optional(Schema.String),
+    additionalService: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "DeviceClaim" }) as any as Schema.Schema<DeviceClaim>;
+
+export interface Device {
+  /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
+  deviceIdentifier?: DeviceIdentifier;
+  /** Not available to resellers. */
+  configuration?: string;
+  /** Output only. The ID of the device. Assigned by the server. */
+  deviceId?: string;
+  /** Output only. The API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. Assigned by the server. */
+  name?: string;
+  /** The metadata attached to the device. Structured as key-value pairs. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
+  deviceMetadata?: DeviceMetadata;
+  /** Output only. The provisioning claims for a device. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. Call `partners.devices.unclaim` or `partners.devices.unclaimAsync` to remove the device from zero-touch enrollment. */
+  claims?: Array<DeviceClaim>;
+}
+
+export const Device: Schema.Schema<Device> = Schema.suspend(() =>
   Schema.Struct({
     deviceIdentifier: Schema.optional(DeviceIdentifier),
-    googleWorkspaceCustomerId: Schema.optional(Schema.String),
-    configurationId: Schema.optional(Schema.String),
+    configuration: Schema.optional(Schema.String),
+    deviceId: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
     deviceMetadata: Schema.optional(DeviceMetadata),
-    preProvisioningToken: Schema.optional(Schema.String),
-    customerId: Schema.optional(Schema.String),
+    claims: Schema.optional(Schema.Array(DeviceClaim)),
+  }),
+).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+
+export interface PartnerClaim {
+  /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
+  simlockProfileId?: string;
+  /** Required. The section type of the device's provisioning record. */
+  sectionType?:
+    | "SECTION_TYPE_UNSPECIFIED"
+    | "SECTION_TYPE_SIM_LOCK"
+    | "SECTION_TYPE_ZERO_TOUCH"
+    | (string & {});
+  /** The Google Workspace customer ID. */
+  googleWorkspaceCustomerId?: string;
+  /** Optional. Must and can only be set for Chrome OS devices. */
+  preProvisioningToken?: string;
+  /** The ID of the customer for whom the device is being claimed. */
+  customerId?: string;
+  /** Optional. The ID of the configuration applied to the device section. */
+  configurationId?: string;
+  /** Required. The metadata to attach to the device at claim. */
+  deviceMetadata?: DeviceMetadata;
+  /** Required. Required. Device identifier of the device. */
+  deviceIdentifier?: DeviceIdentifier;
+}
+
+export const PartnerClaim: Schema.Schema<PartnerClaim> = Schema.suspend(() =>
+  Schema.Struct({
     simlockProfileId: Schema.optional(Schema.String),
     sectionType: Schema.optional(Schema.String),
+    googleWorkspaceCustomerId: Schema.optional(Schema.String),
+    preProvisioningToken: Schema.optional(Schema.String),
+    customerId: Schema.optional(Schema.String),
+    configurationId: Schema.optional(Schema.String),
+    deviceMetadata: Schema.optional(DeviceMetadata),
+    deviceIdentifier: Schema.optional(DeviceIdentifier),
   }),
 ).annotate({
   identifier: "PartnerClaim",
@@ -271,189 +407,7 @@ export const ClaimDevicesRequest: Schema.Schema<ClaimDevicesRequest> =
     identifier: "ClaimDevicesRequest",
   }) as any as Schema.Schema<ClaimDevicesRequest>;
 
-export interface CustomerListCustomersResponse {
-  /** The customer accounts the calling user is a member of. */
-  customers?: Array<Company>;
-  /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
-}
-
-export const CustomerListCustomersResponse: Schema.Schema<CustomerListCustomersResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      customers: Schema.optional(Schema.Array(Company)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CustomerListCustomersResponse",
-  }) as any as Schema.Schema<CustomerListCustomersResponse>;
-
-export interface ClaimDeviceRequest {
-  /** Optional. The metadata to attach to the device. */
-  deviceMetadata?: DeviceMetadata;
-  /** Optional. Must and can only be set for Chrome OS devices. */
-  preProvisioningToken?: string;
-  /** Required. Required. The device identifier of the device to claim. */
-  deviceIdentifier?: DeviceIdentifier;
-  /** The Google Workspace customer ID. */
-  googleWorkspaceCustomerId?: string;
-  /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string;
-  /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string;
-  /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
-  simlockProfileId?: string;
-  /** Required. The section type of the device's provisioning record. */
-  sectionType?:
-    | "SECTION_TYPE_UNSPECIFIED"
-    | "SECTION_TYPE_SIM_LOCK"
-    | "SECTION_TYPE_ZERO_TOUCH"
-    | (string & {});
-}
-
-export const ClaimDeviceRequest: Schema.Schema<ClaimDeviceRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      deviceMetadata: Schema.optional(DeviceMetadata),
-      preProvisioningToken: Schema.optional(Schema.String),
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-      googleWorkspaceCustomerId: Schema.optional(Schema.String),
-      configurationId: Schema.optional(Schema.String),
-      customerId: Schema.optional(Schema.String),
-      simlockProfileId: Schema.optional(Schema.String),
-      sectionType: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ClaimDeviceRequest",
-  }) as any as Schema.Schema<ClaimDeviceRequest>;
-
-export interface UpdateMetadataArguments {
-  /** Required. Device ID of the device. */
-  deviceId?: string;
-  /** Required. The metadata to update. */
-  deviceMetadata?: DeviceMetadata;
-  /** Required. Device identifier. */
-  deviceIdentifier?: DeviceIdentifier;
-}
-
-export const UpdateMetadataArguments: Schema.Schema<UpdateMetadataArguments> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      deviceId: Schema.optional(Schema.String),
-      deviceMetadata: Schema.optional(DeviceMetadata),
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-    }),
-  ).annotate({
-    identifier: "UpdateMetadataArguments",
-  }) as any as Schema.Schema<UpdateMetadataArguments>;
-
-export interface UpdateDeviceMetadataInBatchRequest {
-  /** Required. The list of metadata updates. */
-  updates?: Array<UpdateMetadataArguments>;
-}
-
-export const UpdateDeviceMetadataInBatchRequest: Schema.Schema<UpdateDeviceMetadataInBatchRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      updates: Schema.optional(Schema.Array(UpdateMetadataArguments)),
-    }),
-  ).annotate({
-    identifier: "UpdateDeviceMetadataInBatchRequest",
-  }) as any as Schema.Schema<UpdateDeviceMetadataInBatchRequest>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
-
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: Array<Record<string, unknown>>;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-}
-
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
-
-export interface Operation {
-  /** This field will contain a `DevicesLongRunningOperationResponse` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
-  response?: Record<string, unknown>;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** This field will always be not set if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. In this case, error information for each device is set in `response.perDeviceStatus.result.status`. */
-  error?: Status;
-  /** This field will contain a `DevicesLongRunningOperationMetadata` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
-  metadata?: Record<string, unknown>;
-}
-
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
-
-export interface ListVendorsResponse {
-  /** List of vendors of the reseller partner. Fields `name`, `companyId` and `companyName` are populated to the Company object. */
-  vendors?: Array<Company>;
-  /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
-  /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
-}
-
-export const ListVendorsResponse: Schema.Schema<ListVendorsResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      vendors: Schema.optional(Schema.Array(Company)),
-      nextPageToken: Schema.optional(Schema.String),
-      totalSize: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "ListVendorsResponse",
-  }) as any as Schema.Schema<ListVendorsResponse>;
-
-export interface GetDeviceSimLockStateResponse {
-  simLockState?:
-    | "SIM_LOCK_STATE_UNSPECIFIED"
-    | "UNLOCKED"
-    | "LOCKED_TO_PARTNER"
-    | "LOCKED_TO_OTHER_PARTNER"
-    | (string & {});
-}
-
-export const GetDeviceSimLockStateResponse: Schema.Schema<GetDeviceSimLockStateResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      simLockState: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GetDeviceSimLockStateResponse",
-  }) as any as Schema.Schema<GetDeviceSimLockStateResponse>;
-
 export interface PartnerUnclaim {
-  /** Required. Device identifier of the device. */
-  deviceIdentifier?: DeviceIdentifier;
-  /** Optional. The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
-  vacationModeDays?: number;
-  /** Required. Device ID of the device. */
-  deviceId?: string;
   /** Optional. The expiration time of the vacation unlock. */
   vacationModeExpireTime?: string;
   /** Required. The section type of the device's provisioning record. */
@@ -462,74 +416,80 @@ export interface PartnerUnclaim {
     | "SECTION_TYPE_SIM_LOCK"
     | "SECTION_TYPE_ZERO_TOUCH"
     | (string & {});
+  /** Required. Device ID of the device. */
+  deviceId?: string;
+  /** Optional. The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
+  vacationModeDays?: number;
+  /** Required. Device identifier of the device. */
+  deviceIdentifier?: DeviceIdentifier;
 }
 
 export const PartnerUnclaim: Schema.Schema<PartnerUnclaim> = Schema.suspend(
   () =>
     Schema.Struct({
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-      vacationModeDays: Schema.optional(Schema.Number),
-      deviceId: Schema.optional(Schema.String),
       vacationModeExpireTime: Schema.optional(Schema.String),
       sectionType: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      vacationModeDays: Schema.optional(Schema.Number),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
     }),
 ).annotate({
   identifier: "PartnerUnclaim",
 }) as any as Schema.Schema<PartnerUnclaim>;
 
-export interface FindDevicesByDeviceIdentifierRequest {
-  /** Required. Required. The device identifier to search for. If serial number is provided then case insensitive serial number matches are allowed. */
-  deviceIdentifier?: DeviceIdentifier;
-  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string;
-  /** A token specifying which result page to return. */
-  pageToken?: string;
+export interface UnclaimDevicesRequest {
+  /** Required. The list of devices to unclaim. */
+  unclaims?: Array<PartnerUnclaim>;
 }
 
-export const FindDevicesByDeviceIdentifierRequest: Schema.Schema<FindDevicesByDeviceIdentifierRequest> =
+export const UnclaimDevicesRequest: Schema.Schema<UnclaimDevicesRequest> =
   Schema.suspend(() =>
     Schema.Struct({
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-      limit: Schema.optional(Schema.String),
-      pageToken: Schema.optional(Schema.String),
+      unclaims: Schema.optional(Schema.Array(PartnerUnclaim)),
     }),
   ).annotate({
-    identifier: "FindDevicesByDeviceIdentifierRequest",
-  }) as any as Schema.Schema<FindDevicesByDeviceIdentifierRequest>;
+    identifier: "UnclaimDevicesRequest",
+  }) as any as Schema.Schema<UnclaimDevicesRequest>;
+
+export interface OperationPerDevice {
+  /** The processing result for each device. */
+  result?: PerDeviceStatusInBatch;
+  /** A copy of the original device-claim request received by the server. */
+  claim?: PartnerClaim;
+  /** A copy of the original device-unclaim request received by the server. */
+  unclaim?: PartnerUnclaim;
+  /** A copy of the original metadata-update request received by the server. */
+  updateMetadata?: UpdateMetadataArguments;
+}
+
+export const OperationPerDevice: Schema.Schema<OperationPerDevice> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      result: Schema.optional(PerDeviceStatusInBatch),
+      claim: Schema.optional(PartnerClaim),
+      unclaim: Schema.optional(PartnerUnclaim),
+      updateMetadata: Schema.optional(UpdateMetadataArguments),
+    }),
+  ).annotate({
+    identifier: "OperationPerDevice",
+  }) as any as Schema.Schema<OperationPerDevice>;
 
 export interface Dpc {
+  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/dpcs/[DPC_ID]`. Assigned by the server. To maintain a reference to a DPC across customer accounts, persist and match the last path component (`DPC_ID`). */
+  name?: string;
   /** Output only. The DPC's Android application ID that looks like a Java package name. Zero-touch enrollment installs the DPC app onto a device using this identifier. */
   packageName?: string;
   /** Output only. The title of the DPC app in Google Play. For example, _Google Apps Device Policy_. Useful in an application's user interface. */
   dpcName?: string;
-  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/dpcs/[DPC_ID]`. Assigned by the server. To maintain a reference to a DPC across customer accounts, persist and match the last path component (`DPC_ID`). */
-  name?: string;
 }
 
 export const Dpc: Schema.Schema<Dpc> = Schema.suspend(() =>
   Schema.Struct({
+    name: Schema.optional(Schema.String),
     packageName: Schema.optional(Schema.String),
     dpcName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
   }),
 ).annotate({ identifier: "Dpc" }) as any as Schema.Schema<Dpc>;
-
-export interface ClaimDeviceResponse {
-  /** The device ID of the claimed device. */
-  deviceId?: string;
-  /** The resource name of the device in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
-  deviceName?: string;
-}
-
-export const ClaimDeviceResponse: Schema.Schema<ClaimDeviceResponse> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      deviceId: Schema.optional(Schema.String),
-      deviceName: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ClaimDeviceResponse",
-  }) as any as Schema.Schema<ClaimDeviceResponse>;
 
 export interface CustomerListDpcsResponse {
   /** The list of DPCs available to the customer that support zero-touch enrollment. */
@@ -544,68 +504,6 @@ export const CustomerListDpcsResponse: Schema.Schema<CustomerListDpcsResponse> =
   ).annotate({
     identifier: "CustomerListDpcsResponse",
   }) as any as Schema.Schema<CustomerListDpcsResponse>;
-
-export interface DeviceClaim {
-  /** The ID of the Google Workspace account that owns the Chrome OS device. */
-  googleWorkspaceCustomerId?: string;
-  /** The ID of the reseller that claimed the device. */
-  resellerId?: string;
-  /** The timestamp when the device was put into ‘vacation mode’. This value is present iff the device is in 'vacation mode'. */
-  vacationModeStartTime?: string;
-  /** The ID of the Customer that purchased the device. */
-  ownerCompanyId?: string;
-  /** The Additional service registered for the device. */
-  additionalService?:
-    | "ADDITIONAL_SERVICE_UNSPECIFIED"
-    | "DEVICE_PROTECTION"
-    | (string & {});
-  /** The timestamp when the device will exit ‘vacation mode’. This value is present iff the device is in 'vacation mode'. */
-  vacationModeExpireTime?: string;
-  /** Output only. The type of claim made on the device. */
-  sectionType?:
-    | "SECTION_TYPE_UNSPECIFIED"
-    | "SECTION_TYPE_SIM_LOCK"
-    | "SECTION_TYPE_ZERO_TOUCH"
-    | (string & {});
-}
-
-export const DeviceClaim: Schema.Schema<DeviceClaim> = Schema.suspend(() =>
-  Schema.Struct({
-    googleWorkspaceCustomerId: Schema.optional(Schema.String),
-    resellerId: Schema.optional(Schema.String),
-    vacationModeStartTime: Schema.optional(Schema.String),
-    ownerCompanyId: Schema.optional(Schema.String),
-    additionalService: Schema.optional(Schema.String),
-    vacationModeExpireTime: Schema.optional(Schema.String),
-    sectionType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DeviceClaim" }) as any as Schema.Schema<DeviceClaim>;
-
-export interface Device {
-  /** Not available to resellers. */
-  configuration?: string;
-  /** Output only. The ID of the device. Assigned by the server. */
-  deviceId?: string;
-  /** Output only. The API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. Assigned by the server. */
-  name?: string;
-  /** Output only. The provisioning claims for a device. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. Call `partners.devices.unclaim` or `partners.devices.unclaimAsync` to remove the device from zero-touch enrollment. */
-  claims?: Array<DeviceClaim>;
-  /** The metadata attached to the device. Structured as key-value pairs. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
-  deviceMetadata?: DeviceMetadata;
-  /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
-  deviceIdentifier?: DeviceIdentifier;
-}
-
-export const Device: Schema.Schema<Device> = Schema.suspend(() =>
-  Schema.Struct({
-    configuration: Schema.optional(Schema.String),
-    deviceId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    claims: Schema.optional(Schema.Array(DeviceClaim)),
-    deviceMetadata: Schema.optional(DeviceMetadata),
-    deviceIdentifier: Schema.optional(DeviceIdentifier),
-  }),
-).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
 
 export interface DeviceReference {
   /** The ID of the device. */
@@ -624,6 +522,62 @@ export const DeviceReference: Schema.Schema<DeviceReference> = Schema.suspend(
   identifier: "DeviceReference",
 }) as any as Schema.Schema<DeviceReference>;
 
+export interface CustomerUnclaimDeviceRequest {
+  /** Required. The device to unclaim. There are custom validations in UnclaimDeviceRequestValidator. */
+  device?: DeviceReference;
+}
+
+export const CustomerUnclaimDeviceRequest: Schema.Schema<CustomerUnclaimDeviceRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      device: Schema.optional(DeviceReference),
+    }),
+  ).annotate({
+    identifier: "CustomerUnclaimDeviceRequest",
+  }) as any as Schema.Schema<CustomerUnclaimDeviceRequest>;
+
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: Array<Record<string, unknown>>;
+}
+
+export const Status: Schema.Schema<Status> = Schema.suspend(() =>
+  Schema.Struct({
+    code: Schema.optional(Schema.Number),
+    message: Schema.optional(Schema.String),
+    details: Schema.optional(
+      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+    ),
+  }),
+).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+
+export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** This field will contain a `DevicesLongRunningOperationResponse` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
+  response?: Record<string, unknown>;
+  /** This field will contain a `DevicesLongRunningOperationMetadata` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
+  metadata?: Record<string, unknown>;
+  /** This field will always be not set if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. In this case, error information for each device is set in `response.perDeviceStatus.result.status`. */
+  error?: Status;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+}
+
+export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
+  Schema.Struct({
+    done: Schema.optional(Schema.Boolean),
+    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    error: Schema.optional(Status),
+    name: Schema.optional(Schema.String),
+  }),
+).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+
 export interface CustomerRemoveConfigurationRequest {
   /** Required. The device to remove the configuration from. There are custom validations in RemoveConfigurationRequestValidator */
   device?: DeviceReference;
@@ -638,147 +592,98 @@ export const CustomerRemoveConfigurationRequest: Schema.Schema<CustomerRemoveCon
     identifier: "CustomerRemoveConfigurationRequest",
   }) as any as Schema.Schema<CustomerRemoveConfigurationRequest>;
 
-export interface CustomerListDevicesResponse {
+export interface DevicesLongRunningOperationResponse {
+  /** A summary of how many items in the operation the server processed successfully. Updated as the operation progresses. */
+  successCount?: number;
+  /** The processing status for each device in the operation. One `PerDeviceStatus` per device. The list order matches the items in the original request. */
+  perDeviceStatus?: Array<OperationPerDevice>;
+}
+
+export const DevicesLongRunningOperationResponse: Schema.Schema<DevicesLongRunningOperationResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      successCount: Schema.optional(Schema.Number),
+      perDeviceStatus: Schema.optional(Schema.Array(OperationPerDevice)),
+    }),
+  ).annotate({
+    identifier: "DevicesLongRunningOperationResponse",
+  }) as any as Schema.Schema<DevicesLongRunningOperationResponse>;
+
+export interface CustomerListCustomersResponse {
+  /** A token used to access the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string;
+  /** The customer accounts the calling user is a member of. */
+  customers?: Array<Company>;
+}
+
+export const CustomerListCustomersResponse: Schema.Schema<CustomerListCustomersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      customers: Schema.optional(Schema.Array(Company)),
+    }),
+  ).annotate({
+    identifier: "CustomerListCustomersResponse",
+  }) as any as Schema.Schema<CustomerListCustomersResponse>;
+
+export interface FindDevicesByOwnerResponse {
+  /** The total count of items in the list irrespective of pagination. */
+  totalSize?: number;
   /** The customer's devices. */
   devices?: Array<Device>;
   /** A token used to access the next page of results. Omitted if no further results are available. */
   nextPageToken?: string;
 }
 
-export const CustomerListDevicesResponse: Schema.Schema<CustomerListDevicesResponse> =
+export const FindDevicesByOwnerResponse: Schema.Schema<FindDevicesByOwnerResponse> =
   Schema.suspend(() =>
     Schema.Struct({
+      totalSize: Schema.optional(Schema.Number),
       devices: Schema.optional(Schema.Array(Device)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "CustomerListDevicesResponse",
-  }) as any as Schema.Schema<CustomerListDevicesResponse>;
-
-export interface GetDeviceSimLockStateRequest {
-  /** Required. Required. The device identifier to search for. */
-  deviceIdentifier?: DeviceIdentifier;
-}
-
-export const GetDeviceSimLockStateRequest: Schema.Schema<GetDeviceSimLockStateRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-    }),
-  ).annotate({
-    identifier: "GetDeviceSimLockStateRequest",
-  }) as any as Schema.Schema<GetDeviceSimLockStateRequest>;
-
-export interface PerDeviceStatusInBatch {
-  /** The result status of the device after processing. */
-  status?:
-    | "SINGLE_DEVICE_STATUS_UNSPECIFIED"
-    | "SINGLE_DEVICE_STATUS_UNKNOWN_ERROR"
-    | "SINGLE_DEVICE_STATUS_OTHER_ERROR"
-    | "SINGLE_DEVICE_STATUS_SUCCESS"
-    | "SINGLE_DEVICE_STATUS_PERMISSION_DENIED"
-    | "SINGLE_DEVICE_STATUS_INVALID_DEVICE_IDENTIFIER"
-    | "SINGLE_DEVICE_STATUS_INVALID_SECTION_TYPE"
-    | "SINGLE_DEVICE_STATUS_SECTION_NOT_YOURS"
-    | "SINGLE_DEVICE_STATUS_INVALID_TOKEN"
-    | "SINGLE_DEVICE_STATUS_REVOKED_TOKEN"
-    | "SINGLE_DEVICE_STATUS_DEVICE_LIMIT_EXCEEDED"
-    | (string & {});
-  /** If processing fails, a developer message explaining what went wrong. */
-  errorMessage?: string;
-  /** If processing succeeds, the device ID of the device. */
-  deviceId?: string;
-  /** If processing fails, the error type. */
-  errorIdentifier?: string;
-}
-
-export const PerDeviceStatusInBatch: Schema.Schema<PerDeviceStatusInBatch> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      status: Schema.optional(Schema.String),
-      errorMessage: Schema.optional(Schema.String),
-      deviceId: Schema.optional(Schema.String),
-      errorIdentifier: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "PerDeviceStatusInBatch",
-  }) as any as Schema.Schema<PerDeviceStatusInBatch>;
-
-export interface OperationPerDevice {
-  /** A copy of the original device-claim request received by the server. */
-  claim?: PartnerClaim;
-  /** The processing result for each device. */
-  result?: PerDeviceStatusInBatch;
-  /** A copy of the original device-unclaim request received by the server. */
-  unclaim?: PartnerUnclaim;
-  /** A copy of the original metadata-update request received by the server. */
-  updateMetadata?: UpdateMetadataArguments;
-}
-
-export const OperationPerDevice: Schema.Schema<OperationPerDevice> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      claim: Schema.optional(PartnerClaim),
-      result: Schema.optional(PerDeviceStatusInBatch),
-      unclaim: Schema.optional(PartnerUnclaim),
-      updateMetadata: Schema.optional(UpdateMetadataArguments),
-    }),
-  ).annotate({
-    identifier: "OperationPerDevice",
-  }) as any as Schema.Schema<OperationPerDevice>;
-
-export interface UpdateDeviceMetadataRequest {
-  /** Required. The metadata to attach to the device. */
-  deviceMetadata?: DeviceMetadata;
-}
-
-export const UpdateDeviceMetadataRequest: Schema.Schema<UpdateDeviceMetadataRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      deviceMetadata: Schema.optional(DeviceMetadata),
-    }),
-  ).annotate({
-    identifier: "UpdateDeviceMetadataRequest",
-  }) as any as Schema.Schema<UpdateDeviceMetadataRequest>;
+    identifier: "FindDevicesByOwnerResponse",
+  }) as any as Schema.Schema<FindDevicesByOwnerResponse>;
 
 export interface Configuration {
-  /** Required. A short name that describes the configuration's purpose. For example, _Sales team_ or _Temporary employees_. The zero-touch enrollment portal displays this name to IT admins. */
-  configurationName?: string;
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name?: string;
-  /** Optional. The timeout before forcing factory reset the device if the device doesn't go through provisioning in the setup wizard, usually due to lack of network connectivity during setup wizard. Ranges from 0-6 hours, with 2 hours being the default if unset. */
-  forcedResetTime?: string;
-  /** Required. The telephone number that device users can call, using another device, to get help. Zero-touch enrollment shows this number to device users before device provisioning. Accepts numerals, spaces, the plus sign, hyphens, and parentheses. */
-  contactPhone?: string;
   /** Required. Whether this is the default configuration that zero-touch enrollment applies to any new devices the organization purchases in the future. Only one customer configuration can be the default. Setting this value to `true`, changes the previous default configuration's `isDefault` value to `false`. */
   isDefault?: boolean;
   /** A message, containing one or two sentences, to help device users get help or give them more details about what’s happening to their device. Zero-touch enrollment shows this message before the device is provisioned. */
   customMessage?: string;
-  /** Required. The email address that device users can contact to get help. Zero-touch enrollment shows this email address to device users before device provisioning. The value is validated on input. */
-  contactEmail?: string;
-  /** Required. The name of the organization. Zero-touch enrollment shows this organization name to device users during device provisioning. */
-  companyName?: string;
+  /** Optional. The timeout before forcing factory reset the device if the device doesn't go through provisioning in the setup wizard, usually due to lack of network connectivity during setup wizard. Ranges from 0-6 hours, with 2 hours being the default if unset. */
+  forcedResetTime?: string;
   /** Output only. The ID of the configuration. Assigned by the server. */
   configurationId?: string;
-  /** Required. The resource name of the selected DPC (device policy controller) in the format `customers/[CUSTOMER_ID]/dpcs/*`. To list the supported DPCs, call `customers.dpcs.list`. */
-  dpcResourcePath?: string;
+  /** Required. A short name that describes the configuration's purpose. For example, _Sales team_ or _Temporary employees_. The zero-touch enrollment portal displays this name to IT admins. */
+  configurationName?: string;
+  /** Required. The name of the organization. Zero-touch enrollment shows this organization name to device users during device provisioning. */
+  companyName?: string;
   /** The JSON-formatted EMM provisioning extras that are passed to the DPC. */
   dpcExtras?: string;
+  /** Required. The email address that device users can contact to get help. Zero-touch enrollment shows this email address to device users before device provisioning. The value is validated on input. */
+  contactEmail?: string;
+  /** Required. The resource name of the selected DPC (device policy controller) in the format `customers/[CUSTOMER_ID]/dpcs/*`. To list the supported DPCs, call `customers.dpcs.list`. */
+  dpcResourcePath?: string;
+  /** Required. The telephone number that device users can call, using another device, to get help. Zero-touch enrollment shows this number to device users before device provisioning. Accepts numerals, spaces, the plus sign, hyphens, and parentheses. */
+  contactPhone?: string;
 }
 
 export const Configuration: Schema.Schema<Configuration> = Schema.suspend(() =>
   Schema.Struct({
-    configurationName: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
-    forcedResetTime: Schema.optional(Schema.String),
-    contactPhone: Schema.optional(Schema.String),
     isDefault: Schema.optional(Schema.Boolean),
     customMessage: Schema.optional(Schema.String),
-    contactEmail: Schema.optional(Schema.String),
-    companyName: Schema.optional(Schema.String),
+    forcedResetTime: Schema.optional(Schema.String),
     configurationId: Schema.optional(Schema.String),
-    dpcResourcePath: Schema.optional(Schema.String),
+    configurationName: Schema.optional(Schema.String),
+    companyName: Schema.optional(Schema.String),
     dpcExtras: Schema.optional(Schema.String),
+    contactEmail: Schema.optional(Schema.String),
+    dpcResourcePath: Schema.optional(Schema.String),
+    contactPhone: Schema.optional(Schema.String),
   }),
 ).annotate({
   identifier: "Configuration",
@@ -798,100 +703,44 @@ export const CustomerListConfigurationsResponse: Schema.Schema<CustomerListConfi
     identifier: "CustomerListConfigurationsResponse",
   }) as any as Schema.Schema<CustomerListConfigurationsResponse>;
 
-export interface UnclaimDevicesRequest {
-  /** Required. The list of devices to unclaim. */
-  unclaims?: Array<PartnerUnclaim>;
-}
-
-export const UnclaimDevicesRequest: Schema.Schema<UnclaimDevicesRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      unclaims: Schema.optional(Schema.Array(PartnerUnclaim)),
-    }),
-  ).annotate({
-    identifier: "UnclaimDevicesRequest",
-  }) as any as Schema.Schema<UnclaimDevicesRequest>;
-
-export interface CustomerApplyConfigurationRequest {
-  /** Required. The device the configuration is applied to. There are custom validations in ApplyConfigurationRequestValidator */
-  device?: DeviceReference;
-  /** Required. The configuration applied to the device in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
-  configuration?: string;
-}
-
-export const CustomerApplyConfigurationRequest: Schema.Schema<CustomerApplyConfigurationRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      device: Schema.optional(DeviceReference),
-      configuration: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CustomerApplyConfigurationRequest",
-  }) as any as Schema.Schema<CustomerApplyConfigurationRequest>;
-
-export interface UnclaimDeviceRequest {
-  /** Required. The device identifier you used when you claimed this device. */
-  deviceIdentifier?: DeviceIdentifier;
-  /** Required. The section type of the device's provisioning record. */
-  sectionType?:
-    | "SECTION_TYPE_UNSPECIFIED"
-    | "SECTION_TYPE_SIM_LOCK"
-    | "SECTION_TYPE_ZERO_TOUCH"
+export interface DevicesLongRunningOperationMetadata {
+  /** The processing progress of the operation. Measured as a number from 0 to 100. A value of 10O doesn't always mean the operation completed—check for the inclusion of a `done` field. */
+  progress?: number;
+  /** The number of metadata updates in the operation. This might be different from the number of updates in the request if the API can't parse some of the updates. */
+  devicesCount?: number;
+  /** The processing status of the operation. */
+  processingStatus?:
+    | "BATCH_PROCESS_STATUS_UNSPECIFIED"
+    | "BATCH_PROCESS_PENDING"
+    | "BATCH_PROCESS_IN_PROGRESS"
+    | "BATCH_PROCESS_PROCESSED"
     | (string & {});
-  /** Required. The device ID returned by `ClaimDevice`. */
-  deviceId?: string;
-  /** The expiration time of the vacation unlock. */
-  vacationModeExpireTime?: string;
-  /** The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
-  vacationModeDays?: number;
 }
 
-export const UnclaimDeviceRequest: Schema.Schema<UnclaimDeviceRequest> =
+export const DevicesLongRunningOperationMetadata: Schema.Schema<DevicesLongRunningOperationMetadata> =
   Schema.suspend(() =>
     Schema.Struct({
-      deviceIdentifier: Schema.optional(DeviceIdentifier),
-      sectionType: Schema.optional(Schema.String),
-      deviceId: Schema.optional(Schema.String),
-      vacationModeExpireTime: Schema.optional(Schema.String),
-      vacationModeDays: Schema.optional(Schema.Number),
+      progress: Schema.optional(Schema.Number),
+      devicesCount: Schema.optional(Schema.Number),
+      processingStatus: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "UnclaimDeviceRequest",
-  }) as any as Schema.Schema<UnclaimDeviceRequest>;
+    identifier: "DevicesLongRunningOperationMetadata",
+  }) as any as Schema.Schema<DevicesLongRunningOperationMetadata>;
 
-export interface FindDevicesByOwnerResponse {
-  /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
-  /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
-  /** The customer's devices. */
-  devices?: Array<Device>;
+export interface CreateCustomerRequest {
+  /** Required. The company data to populate the new customer. Must contain a value for `companyName` and at least one `owner_email` that's associated with a Google Account. The values for `companyId` and `name` must be empty. */
+  customer?: Company;
 }
 
-export const FindDevicesByOwnerResponse: Schema.Schema<FindDevicesByOwnerResponse> =
+export const CreateCustomerRequest: Schema.Schema<CreateCustomerRequest> =
   Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      totalSize: Schema.optional(Schema.Number),
-      devices: Schema.optional(Schema.Array(Device)),
+      customer: Schema.optional(Company),
     }),
   ).annotate({
-    identifier: "FindDevicesByOwnerResponse",
-  }) as any as Schema.Schema<FindDevicesByOwnerResponse>;
-
-export interface CustomerUnclaimDeviceRequest {
-  /** Required. The device to unclaim. There are custom validations in UnclaimDeviceRequestValidator. */
-  device?: DeviceReference;
-}
-
-export const CustomerUnclaimDeviceRequest: Schema.Schema<CustomerUnclaimDeviceRequest> =
-  Schema.suspend(() =>
-    Schema.Struct({
-      device: Schema.optional(DeviceReference),
-    }),
-  ).annotate({
-    identifier: "CustomerUnclaimDeviceRequest",
-  }) as any as Schema.Schema<CustomerUnclaimDeviceRequest>;
+    identifier: "CreateCustomerRequest",
+  }) as any as Schema.Schema<CreateCustomerRequest>;
 
 export interface FindDevicesByDeviceIdentifierResponse {
   /** Found devices. */
@@ -913,146 +762,245 @@ export const FindDevicesByDeviceIdentifierResponse: Schema.Schema<FindDevicesByD
     identifier: "FindDevicesByDeviceIdentifierResponse",
   }) as any as Schema.Schema<FindDevicesByDeviceIdentifierResponse>;
 
-export interface DevicesLongRunningOperationMetadata {
-  /** The processing status of the operation. */
-  processingStatus?:
-    | "BATCH_PROCESS_STATUS_UNSPECIFIED"
-    | "BATCH_PROCESS_PENDING"
-    | "BATCH_PROCESS_IN_PROGRESS"
-    | "BATCH_PROCESS_PROCESSED"
+export interface UpdateDeviceMetadataInBatchRequest {
+  /** Required. The list of metadata updates. */
+  updates?: Array<UpdateMetadataArguments>;
+}
+
+export const UpdateDeviceMetadataInBatchRequest: Schema.Schema<UpdateDeviceMetadataInBatchRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      updates: Schema.optional(Schema.Array(UpdateMetadataArguments)),
+    }),
+  ).annotate({
+    identifier: "UpdateDeviceMetadataInBatchRequest",
+  }) as any as Schema.Schema<UpdateDeviceMetadataInBatchRequest>;
+
+export interface ClaimDeviceResponse {
+  /** The resource name of the device in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
+  deviceName?: string;
+  /** The device ID of the claimed device. */
+  deviceId?: string;
+}
+
+export const ClaimDeviceResponse: Schema.Schema<ClaimDeviceResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      deviceName: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ClaimDeviceResponse",
+  }) as any as Schema.Schema<ClaimDeviceResponse>;
+
+export interface FindDevicesByDeviceIdentifierRequest {
+  /** A token specifying which result page to return. */
+  pageToken?: string;
+  /** Required. Required. The device identifier to search for. If serial number is provided then case insensitive serial number matches are allowed. */
+  deviceIdentifier?: DeviceIdentifier;
+  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
+  limit?: string;
+}
+
+export const FindDevicesByDeviceIdentifierRequest: Schema.Schema<FindDevicesByDeviceIdentifierRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      pageToken: Schema.optional(Schema.String),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+      limit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FindDevicesByDeviceIdentifierRequest",
+  }) as any as Schema.Schema<FindDevicesByDeviceIdentifierRequest>;
+
+export interface FindDevicesByOwnerRequest {
+  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
+  limit?: string;
+  /** The list of customer IDs to search for. */
+  customerId?: Array<string>;
+  /** Required. The section type of the device's provisioning record. */
+  sectionType?:
+    | "SECTION_TYPE_UNSPECIFIED"
+    | "SECTION_TYPE_SIM_LOCK"
+    | "SECTION_TYPE_ZERO_TOUCH"
     | (string & {});
-  /** The processing progress of the operation. Measured as a number from 0 to 100. A value of 10O doesn't always mean the operation completed—check for the inclusion of a `done` field. */
-  progress?: number;
-  /** The number of metadata updates in the operation. This might be different from the number of updates in the request if the API can't parse some of the updates. */
-  devicesCount?: number;
+  /** The list of IDs of Google Workspace accounts to search for. */
+  googleWorkspaceCustomerId?: Array<string>;
+  /** A token specifying which result page to return. */
+  pageToken?: string;
 }
 
-export const DevicesLongRunningOperationMetadata: Schema.Schema<DevicesLongRunningOperationMetadata> =
+export const FindDevicesByOwnerRequest: Schema.Schema<FindDevicesByOwnerRequest> =
   Schema.suspend(() =>
     Schema.Struct({
-      processingStatus: Schema.optional(Schema.String),
-      progress: Schema.optional(Schema.Number),
-      devicesCount: Schema.optional(Schema.Number),
+      limit: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.Array(Schema.String)),
+      sectionType: Schema.optional(Schema.String),
+      googleWorkspaceCustomerId: Schema.optional(Schema.Array(Schema.String)),
+      pageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "DevicesLongRunningOperationMetadata",
-  }) as any as Schema.Schema<DevicesLongRunningOperationMetadata>;
+    identifier: "FindDevicesByOwnerRequest",
+  }) as any as Schema.Schema<FindDevicesByOwnerRequest>;
 
-export interface DevicesLongRunningOperationResponse {
-  /** A summary of how many items in the operation the server processed successfully. Updated as the operation progresses. */
-  successCount?: number;
-  /** The processing status for each device in the operation. One `PerDeviceStatus` per device. The list order matches the items in the original request. */
-  perDeviceStatus?: Array<OperationPerDevice>;
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
+  Schema.Struct({}),
+).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+
+export interface GetDeviceSimLockStateRequest {
+  /** Required. Required. The device identifier to search for. */
+  deviceIdentifier?: DeviceIdentifier;
 }
 
-export const DevicesLongRunningOperationResponse: Schema.Schema<DevicesLongRunningOperationResponse> =
+export const GetDeviceSimLockStateRequest: Schema.Schema<GetDeviceSimLockStateRequest> =
   Schema.suspend(() =>
     Schema.Struct({
-      successCount: Schema.optional(Schema.Number),
-      perDeviceStatus: Schema.optional(Schema.Array(OperationPerDevice)),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
     }),
   ).annotate({
-    identifier: "DevicesLongRunningOperationResponse",
-  }) as any as Schema.Schema<DevicesLongRunningOperationResponse>;
+    identifier: "GetDeviceSimLockStateRequest",
+  }) as any as Schema.Schema<GetDeviceSimLockStateRequest>;
+
+export interface CustomerListDevicesResponse {
+  /** The customer's devices. */
+  devices?: Array<Device>;
+  /** A token used to access the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string;
+}
+
+export const CustomerListDevicesResponse: Schema.Schema<CustomerListDevicesResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(Schema.Array(Device)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomerListDevicesResponse",
+  }) as any as Schema.Schema<CustomerListDevicesResponse>;
+
+export interface CustomerApplyConfigurationRequest {
+  /** Required. The device the configuration is applied to. There are custom validations in ApplyConfigurationRequestValidator */
+  device?: DeviceReference;
+  /** Required. The configuration applied to the device in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
+  configuration?: string;
+}
+
+export const CustomerApplyConfigurationRequest: Schema.Schema<CustomerApplyConfigurationRequest> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      device: Schema.optional(DeviceReference),
+      configuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomerApplyConfigurationRequest",
+  }) as any as Schema.Schema<CustomerApplyConfigurationRequest>;
+
+export interface ListVendorsResponse {
+  /** The total count of items in the list irrespective of pagination. */
+  totalSize?: number;
+  /** List of vendors of the reseller partner. Fields `name`, `companyId` and `companyName` are populated to the Company object. */
+  vendors?: Array<Company>;
+  /** A token to retrieve the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string;
+}
+
+export const ListVendorsResponse: Schema.Schema<ListVendorsResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      totalSize: Schema.optional(Schema.Number),
+      vendors: Schema.optional(Schema.Array(Company)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListVendorsResponse",
+  }) as any as Schema.Schema<ListVendorsResponse>;
+
+export interface ListVendorCustomersResponse {
+  /** A token to retrieve the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string;
+  /** The total count of items in the list irrespective of pagination. */
+  totalSize?: number;
+  /** List of customers of the vendor. */
+  customers?: Array<Company>;
+}
+
+export const ListVendorCustomersResponse: Schema.Schema<ListVendorCustomersResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+      customers: Schema.optional(Schema.Array(Company)),
+    }),
+  ).annotate({
+    identifier: "ListVendorCustomersResponse",
+  }) as any as Schema.Schema<ListVendorCustomersResponse>;
+
+export interface GetDeviceSimLockStateResponse {
+  simLockState?:
+    | "SIM_LOCK_STATE_UNSPECIFIED"
+    | "UNLOCKED"
+    | "LOCKED_TO_PARTNER"
+    | "LOCKED_TO_OTHER_PARTNER"
+    | (string & {});
+}
+
+export const GetDeviceSimLockStateResponse: Schema.Schema<GetDeviceSimLockStateResponse> =
+  Schema.suspend(() =>
+    Schema.Struct({
+      simLockState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetDeviceSimLockStateResponse",
+  }) as any as Schema.Schema<GetDeviceSimLockStateResponse>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
-export interface ListPartnersVendorsRequest {
-  /** The maximum number of results to be returned. */
-  pageSize?: number;
-  /** Required. The resource name in the format `partners/[PARTNER_ID]`. */
-  parent: string;
-  /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+export interface GetOperationsRequest {
+  /** The name of the operation resource. */
+  name: string;
 }
 
-export const ListPartnersVendorsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+export const GetOperationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/vendors" }),
+  T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
   svc,
-) as unknown as Schema.Schema<ListPartnersVendorsRequest>;
+) as unknown as Schema.Schema<GetOperationsRequest>;
 
-export type ListPartnersVendorsResponse = ListVendorsResponse;
-export const ListPartnersVendorsResponse = ListVendorsResponse;
+export type GetOperationsResponse = Operation;
+export const GetOperationsResponse = Operation;
 
-export type ListPartnersVendorsError = DefaultErrors;
+export type GetOperationsError = DefaultErrors;
 
-/** Lists the vendors of the partner. */
-export const listPartnersVendors: API.PaginatedOperationMethod<
-  ListPartnersVendorsRequest,
-  ListPartnersVendorsResponse,
-  ListPartnersVendorsError,
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
+  GetOperationsResponse,
+  GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListPartnersVendorsRequest,
-  output: ListPartnersVendorsResponse,
+> = API.make(() => ({
+  input: GetOperationsRequest,
+  output: GetOperationsResponse,
   errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface ListPartnersVendorsCustomersRequest {
-  /** Required. The resource name in the format `partners/[PARTNER_ID]/vendors/[VENDOR_ID]`. */
-  parent: string;
-  /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
-  /** The maximum number of results to be returned. */
-  pageSize?: number;
-}
-
-export const ListPartnersVendorsCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/partners/{partnersId}/vendors/{vendorsId}/customers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersVendorsCustomersRequest>;
-
-export type ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
-export const ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
-
-export type ListPartnersVendorsCustomersError = DefaultErrors;
-
-/** Lists the customers of the vendor. */
-export const listPartnersVendorsCustomers: API.PaginatedOperationMethod<
-  ListPartnersVendorsCustomersRequest,
-  ListPartnersVendorsCustomersResponse,
-  ListPartnersVendorsCustomersError,
-  Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
-  input: ListPartnersVendorsCustomersRequest,
-  output: ListPartnersVendorsCustomersResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface ListPartnersCustomersRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
   /** The maximum number of results to be returned. If not specified or 0, all the records are returned. */
   pageSize?: number;
+  /** A token identifying a page of results returned by the server. */
+  pageToken?: string;
 }
 
 export const ListPartnersCustomersRequest = Schema.Struct({
   partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/partners/{partnersId}/customers" }),
   svc,
@@ -1115,41 +1063,78 @@ export const createPartnersCustomers: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetSimLockStatePartnersDevicesRequest {
-  /** Required. The ID of the partner. */
-  partnerId: string;
+export interface MetadataPartnersDevicesRequest {
+  /** Required. The owner of the newly set metadata. Set this to the partner ID. */
+  metadataOwnerId: string;
+  /** Required. The ID of the device. */
+  deviceId: string;
   /** Request body */
-  body?: GetDeviceSimLockStateRequest;
+  body?: UpdateDeviceMetadataRequest;
 }
 
-export const GetSimLockStatePartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(GetDeviceSimLockStateRequest).pipe(T.HttpBody()),
+export const MetadataPartnersDevicesRequest = Schema.Struct({
+  metadataOwnerId: Schema.String.pipe(T.HttpPath("metadataOwnerId")),
+  deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
+  body: Schema.optional(UpdateDeviceMetadataRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/partners/{partnersId}/devices:getSimLockState",
+    path: "v1/partners/{partnersId}/devices/{devicesId}/metadata",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<GetSimLockStatePartnersDevicesRequest>;
+) as unknown as Schema.Schema<MetadataPartnersDevicesRequest>;
 
-export type GetSimLockStatePartnersDevicesResponse =
-  GetDeviceSimLockStateResponse;
-export const GetSimLockStatePartnersDevicesResponse =
-  GetDeviceSimLockStateResponse;
+export type MetadataPartnersDevicesResponse = DeviceMetadata;
+export const MetadataPartnersDevicesResponse = DeviceMetadata;
 
-export type GetSimLockStatePartnersDevicesError = DefaultErrors;
+export type MetadataPartnersDevicesError = DefaultErrors;
 
-/** Gets a device's SIM lock state. */
-export const getSimLockStatePartnersDevices: API.OperationMethod<
-  GetSimLockStatePartnersDevicesRequest,
-  GetSimLockStatePartnersDevicesResponse,
-  GetSimLockStatePartnersDevicesError,
+/** Updates reseller metadata associated with the device. Android devices only. */
+export const metadataPartnersDevices: API.OperationMethod<
+  MetadataPartnersDevicesRequest,
+  MetadataPartnersDevicesResponse,
+  MetadataPartnersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: GetSimLockStatePartnersDevicesRequest,
-  output: GetSimLockStatePartnersDevicesResponse,
+  input: MetadataPartnersDevicesRequest,
+  output: MetadataPartnersDevicesResponse,
+  errors: [],
+}));
+
+export interface ClaimPartnersDevicesRequest {
+  /** Required. The ID of the reseller partner. */
+  partnerId: string;
+  /** Request body */
+  body?: ClaimDeviceRequest;
+}
+
+export const ClaimPartnersDevicesRequest = Schema.Struct({
+  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+  body: Schema.optional(ClaimDeviceRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/devices:claim",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<ClaimPartnersDevicesRequest>;
+
+export type ClaimPartnersDevicesResponse = ClaimDeviceResponse;
+export const ClaimPartnersDevicesResponse = ClaimDeviceResponse;
+
+export type ClaimPartnersDevicesError = DefaultErrors;
+
+/** Claims a device for a customer and adds it to zero-touch enrollment. If the device is already claimed by another customer, the call returns an error. */
+export const claimPartnersDevices: API.OperationMethod<
+  ClaimPartnersDevicesRequest,
+  ClaimPartnersDevicesResponse,
+  ClaimPartnersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ClaimPartnersDevicesRequest,
+  output: ClaimPartnersDevicesResponse,
   errors: [],
 }));
 
@@ -1189,78 +1174,77 @@ export const claimAsyncPartnersDevices: API.OperationMethod<
   errors: [],
 }));
 
-export interface UnclaimPartnersDevicesRequest {
-  /** Required. The ID of the reseller partner. */
+export interface UnclaimAsyncPartnersDevicesRequest {
+  /** Required. The reseller partner ID. */
   partnerId: string;
   /** Request body */
-  body?: UnclaimDeviceRequest;
+  body?: UnclaimDevicesRequest;
 }
 
-export const UnclaimPartnersDevicesRequest = Schema.Struct({
+export const UnclaimAsyncPartnersDevicesRequest = Schema.Struct({
   partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(UnclaimDeviceRequest).pipe(T.HttpBody()),
+  body: Schema.optional(UnclaimDevicesRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/partners/{partnersId}/devices:unclaim",
+    path: "v1/partners/{partnersId}/devices:unclaimAsync",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<UnclaimPartnersDevicesRequest>;
+) as unknown as Schema.Schema<UnclaimAsyncPartnersDevicesRequest>;
 
-export type UnclaimPartnersDevicesResponse = Empty;
-export const UnclaimPartnersDevicesResponse = Empty;
+export type UnclaimAsyncPartnersDevicesResponse = Operation;
+export const UnclaimAsyncPartnersDevicesResponse = Operation;
 
-export type UnclaimPartnersDevicesError = DefaultErrors;
+export type UnclaimAsyncPartnersDevicesError = DefaultErrors;
 
-/** Unclaims a device from a customer and removes it from zero-touch enrollment. */
-export const unclaimPartnersDevices: API.OperationMethod<
-  UnclaimPartnersDevicesRequest,
-  UnclaimPartnersDevicesResponse,
-  UnclaimPartnersDevicesError,
+/** Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
+export const unclaimAsyncPartnersDevices: API.OperationMethod<
+  UnclaimAsyncPartnersDevicesRequest,
+  UnclaimAsyncPartnersDevicesResponse,
+  UnclaimAsyncPartnersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UnclaimPartnersDevicesRequest,
-  output: UnclaimPartnersDevicesResponse,
+  input: UnclaimAsyncPartnersDevicesRequest,
+  output: UnclaimAsyncPartnersDevicesResponse,
   errors: [],
 }));
 
-export interface MetadataPartnersDevicesRequest {
-  /** Required. The owner of the newly set metadata. Set this to the partner ID. */
-  metadataOwnerId: string;
-  /** Required. The ID of the device. */
-  deviceId: string;
+export interface GetSimLockStatePartnersDevicesRequest {
+  /** Required. The ID of the partner. */
+  partnerId: string;
   /** Request body */
-  body?: UpdateDeviceMetadataRequest;
+  body?: GetDeviceSimLockStateRequest;
 }
 
-export const MetadataPartnersDevicesRequest = Schema.Struct({
-  metadataOwnerId: Schema.String.pipe(T.HttpPath("metadataOwnerId")),
-  deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
-  body: Schema.optional(UpdateDeviceMetadataRequest).pipe(T.HttpBody()),
+export const GetSimLockStatePartnersDevicesRequest = Schema.Struct({
+  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+  body: Schema.optional(GetDeviceSimLockStateRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/partners/{partnersId}/devices/{devicesId}/metadata",
+    path: "v1/partners/{partnersId}/devices:getSimLockState",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<MetadataPartnersDevicesRequest>;
+) as unknown as Schema.Schema<GetSimLockStatePartnersDevicesRequest>;
 
-export type MetadataPartnersDevicesResponse = DeviceMetadata;
-export const MetadataPartnersDevicesResponse = DeviceMetadata;
+export type GetSimLockStatePartnersDevicesResponse =
+  GetDeviceSimLockStateResponse;
+export const GetSimLockStatePartnersDevicesResponse =
+  GetDeviceSimLockStateResponse;
 
-export type MetadataPartnersDevicesError = DefaultErrors;
+export type GetSimLockStatePartnersDevicesError = DefaultErrors;
 
-/** Updates reseller metadata associated with the device. Android devices only. */
-export const metadataPartnersDevices: API.OperationMethod<
-  MetadataPartnersDevicesRequest,
-  MetadataPartnersDevicesResponse,
-  MetadataPartnersDevicesError,
+/** Gets a device's SIM lock state. */
+export const getSimLockStatePartnersDevices: API.OperationMethod<
+  GetSimLockStatePartnersDevicesRequest,
+  GetSimLockStatePartnersDevicesResponse,
+  GetSimLockStatePartnersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: MetadataPartnersDevicesRequest,
-  output: MetadataPartnersDevicesResponse,
+  input: GetSimLockStatePartnersDevicesRequest,
+  output: GetSimLockStatePartnersDevicesResponse,
   errors: [],
 }));
 
@@ -1304,110 +1288,6 @@ export const findByIdentifierPartnersDevices: API.OperationMethod<
   errors: [],
 }));
 
-export interface UnclaimAsyncPartnersDevicesRequest {
-  /** Required. The reseller partner ID. */
-  partnerId: string;
-  /** Request body */
-  body?: UnclaimDevicesRequest;
-}
-
-export const UnclaimAsyncPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(UnclaimDevicesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:unclaimAsync",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnclaimAsyncPartnersDevicesRequest>;
-
-export type UnclaimAsyncPartnersDevicesResponse = Operation;
-export const UnclaimAsyncPartnersDevicesResponse = Operation;
-
-export type UnclaimAsyncPartnersDevicesError = DefaultErrors;
-
-/** Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
-export const unclaimAsyncPartnersDevices: API.OperationMethod<
-  UnclaimAsyncPartnersDevicesRequest,
-  UnclaimAsyncPartnersDevicesResponse,
-  UnclaimAsyncPartnersDevicesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: UnclaimAsyncPartnersDevicesRequest,
-  output: UnclaimAsyncPartnersDevicesResponse,
-  errors: [],
-}));
-
-export interface ClaimPartnersDevicesRequest {
-  /** Required. The ID of the reseller partner. */
-  partnerId: string;
-  /** Request body */
-  body?: ClaimDeviceRequest;
-}
-
-export const ClaimPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(ClaimDeviceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:claim",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClaimPartnersDevicesRequest>;
-
-export type ClaimPartnersDevicesResponse = ClaimDeviceResponse;
-export const ClaimPartnersDevicesResponse = ClaimDeviceResponse;
-
-export type ClaimPartnersDevicesError = DefaultErrors;
-
-/** Claims a device for a customer and adds it to zero-touch enrollment. If the device is already claimed by another customer, the call returns an error. */
-export const claimPartnersDevices: API.OperationMethod<
-  ClaimPartnersDevicesRequest,
-  ClaimPartnersDevicesResponse,
-  ClaimPartnersDevicesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ClaimPartnersDevicesRequest,
-  output: ClaimPartnersDevicesResponse,
-  errors: [],
-}));
-
-export interface GetPartnersDevicesRequest {
-  /** Required. The device API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
-  name: string;
-}
-
-export const GetPartnersDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/partners/{partnersId}/devices/{devicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPartnersDevicesRequest>;
-
-export type GetPartnersDevicesResponse = Device;
-export const GetPartnersDevicesResponse = Device;
-
-export type GetPartnersDevicesError = DefaultErrors;
-
-/** Gets a device. */
-export const getPartnersDevices: API.OperationMethod<
-  GetPartnersDevicesRequest,
-  GetPartnersDevicesResponse,
-  GetPartnersDevicesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetPartnersDevicesRequest,
-  output: GetPartnersDevicesResponse,
-  errors: [],
-}));
-
 export interface UpdateMetadataAsyncPartnersDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
@@ -1441,6 +1321,42 @@ export const updateMetadataAsyncPartnersDevices: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateMetadataAsyncPartnersDevicesRequest,
   output: UpdateMetadataAsyncPartnersDevicesResponse,
+  errors: [],
+}));
+
+export interface UnclaimPartnersDevicesRequest {
+  /** Required. The ID of the reseller partner. */
+  partnerId: string;
+  /** Request body */
+  body?: UnclaimDeviceRequest;
+}
+
+export const UnclaimPartnersDevicesRequest = Schema.Struct({
+  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+  body: Schema.optional(UnclaimDeviceRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "v1/partners/{partnersId}/devices:unclaim",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<UnclaimPartnersDevicesRequest>;
+
+export type UnclaimPartnersDevicesResponse = Empty;
+export const UnclaimPartnersDevicesResponse = Empty;
+
+export type UnclaimPartnersDevicesError = DefaultErrors;
+
+/** Unclaims a device from a customer and removes it from zero-touch enrollment. */
+export const unclaimPartnersDevices: API.OperationMethod<
+  UnclaimPartnersDevicesRequest,
+  UnclaimPartnersDevicesResponse,
+  UnclaimPartnersDevicesError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UnclaimPartnersDevicesRequest,
+  output: UnclaimPartnersDevicesResponse,
   errors: [],
 }));
 
@@ -1480,33 +1396,117 @@ export const findByOwnerPartnersDevices: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetOperationsRequest {
-  /** The name of the operation resource. */
+export interface GetPartnersDevicesRequest {
+  /** Required. The device API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetPartnersDevicesRequest = Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
+  T.Http({
+    method: "GET",
+    path: "v1/partners/{partnersId}/devices/{devicesId}",
+  }),
   svc,
-) as unknown as Schema.Schema<GetOperationsRequest>;
+) as unknown as Schema.Schema<GetPartnersDevicesRequest>;
 
-export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export type GetPartnersDevicesResponse = Device;
+export const GetPartnersDevicesResponse = Device;
 
-export type GetOperationsError = DefaultErrors;
+export type GetPartnersDevicesError = DefaultErrors;
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getOperations: API.OperationMethod<
-  GetOperationsRequest,
-  GetOperationsResponse,
-  GetOperationsError,
+/** Gets a device. */
+export const getPartnersDevices: API.OperationMethod<
+  GetPartnersDevicesRequest,
+  GetPartnersDevicesResponse,
+  GetPartnersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: GetOperationsRequest,
-  output: GetOperationsResponse,
+  input: GetPartnersDevicesRequest,
+  output: GetPartnersDevicesResponse,
   errors: [],
+}));
+
+export interface ListPartnersVendorsRequest {
+  /** Required. The resource name in the format `partners/[PARTNER_ID]`. */
+  parent: string;
+  /** A token identifying a page of results returned by the server. */
+  pageToken?: string;
+  /** The maximum number of results to be returned. */
+  pageSize?: number;
+}
+
+export const ListPartnersVendorsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/partners/{partnersId}/vendors" }),
+  svc,
+) as unknown as Schema.Schema<ListPartnersVendorsRequest>;
+
+export type ListPartnersVendorsResponse = ListVendorsResponse;
+export const ListPartnersVendorsResponse = ListVendorsResponse;
+
+export type ListPartnersVendorsError = DefaultErrors;
+
+/** Lists the vendors of the partner. */
+export const listPartnersVendors: API.PaginatedOperationMethod<
+  ListPartnersVendorsRequest,
+  ListPartnersVendorsResponse,
+  ListPartnersVendorsError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListPartnersVendorsRequest,
+  output: ListPartnersVendorsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface ListPartnersVendorsCustomersRequest {
+  /** Required. The resource name in the format `partners/[PARTNER_ID]/vendors/[VENDOR_ID]`. */
+  parent: string;
+  /** The maximum number of results to be returned. */
+  pageSize?: number;
+  /** A token identifying a page of results returned by the server. */
+  pageToken?: string;
+}
+
+export const ListPartnersVendorsCustomersRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "v1/partners/{partnersId}/vendors/{vendorsId}/customers",
+  }),
+  svc,
+) as unknown as Schema.Schema<ListPartnersVendorsCustomersRequest>;
+
+export type ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
+export const ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
+
+export type ListPartnersVendorsCustomersError = DefaultErrors;
+
+/** Lists the customers of the vendor. */
+export const listPartnersVendorsCustomers: API.PaginatedOperationMethod<
+  ListPartnersVendorsCustomersRequest,
+  ListPartnersVendorsCustomersResponse,
+  ListPartnersVendorsCustomersError,
+  Credentials | HttpClient.HttpClient
+> = API.makePaginated(() => ({
+  input: ListPartnersVendorsCustomersRequest,
+  output: ListPartnersVendorsCustomersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface ListCustomersRequest {
@@ -1545,32 +1545,39 @@ export const listCustomers: API.PaginatedOperationMethod<
   },
 }));
 
-export interface ListCustomersDpcsRequest {
-  /** Required. The customer that can use the DPCs in configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
+export interface RemoveConfigurationCustomersDevicesRequest {
+  /** Required. The customer managing the device in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
+  /** Request body */
+  body?: CustomerRemoveConfigurationRequest;
 }
 
-export const ListCustomersDpcsRequest = Schema.Struct({
+export const RemoveConfigurationCustomersDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
+  body: Schema.optional(CustomerRemoveConfigurationRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/dpcs" }),
+  T.Http({
+    method: "POST",
+    path: "v1/customers/{customersId}/devices:removeConfiguration",
+    hasBody: true,
+  }),
   svc,
-) as unknown as Schema.Schema<ListCustomersDpcsRequest>;
+) as unknown as Schema.Schema<RemoveConfigurationCustomersDevicesRequest>;
 
-export type ListCustomersDpcsResponse = CustomerListDpcsResponse;
-export const ListCustomersDpcsResponse = CustomerListDpcsResponse;
+export type RemoveConfigurationCustomersDevicesResponse = Empty;
+export const RemoveConfigurationCustomersDevicesResponse = Empty;
 
-export type ListCustomersDpcsError = DefaultErrors;
+export type RemoveConfigurationCustomersDevicesError = DefaultErrors;
 
-/** Lists the DPCs (device policy controllers) that support zero-touch enrollment. */
-export const listCustomersDpcs: API.OperationMethod<
-  ListCustomersDpcsRequest,
-  ListCustomersDpcsResponse,
-  ListCustomersDpcsError,
+/** Removes a configuration from device. */
+export const removeConfigurationCustomersDevices: API.OperationMethod<
+  RemoveConfigurationCustomersDevicesRequest,
+  RemoveConfigurationCustomersDevicesResponse,
+  RemoveConfigurationCustomersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: ListCustomersDpcsRequest,
-  output: ListCustomersDpcsResponse,
+  input: RemoveConfigurationCustomersDevicesRequest,
+  output: RemoveConfigurationCustomersDevicesResponse,
   errors: [],
 }));
 
@@ -1607,18 +1614,18 @@ export const getCustomersDevices: API.OperationMethod<
 }));
 
 export interface ListCustomersDevicesRequest {
+  /** A token specifying which result page to return. */
+  pageToken?: string;
   /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
   pageSize?: string;
   /** Required. The customer managing the devices. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
-  /** A token specifying which result page to return. */
-  pageToken?: string;
 }
 
 export const ListCustomersDevicesRequest = Schema.Struct({
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.String).pipe(T.HttpQuery("pageSize")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/customers/{customersId}/devices" }),
   svc,
@@ -1643,42 +1650,6 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
-}));
-
-export interface ApplyConfigurationCustomersDevicesRequest {
-  /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
-  parent: string;
-  /** Request body */
-  body?: CustomerApplyConfigurationRequest;
-}
-
-export const ApplyConfigurationCustomersDevicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomerApplyConfigurationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/devices:applyConfiguration",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApplyConfigurationCustomersDevicesRequest>;
-
-export type ApplyConfigurationCustomersDevicesResponse = Empty;
-export const ApplyConfigurationCustomersDevicesResponse = Empty;
-
-export type ApplyConfigurationCustomersDevicesError = DefaultErrors;
-
-/** Applies a Configuration to the device to register the device for zero-touch enrollment. After applying a configuration to a device, the device automatically provisions itself on first boot, or next factory reset. */
-export const applyConfigurationCustomersDevices: API.OperationMethod<
-  ApplyConfigurationCustomersDevicesRequest,
-  ApplyConfigurationCustomersDevicesResponse,
-  ApplyConfigurationCustomersDevicesError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ApplyConfigurationCustomersDevicesRequest,
-  output: ApplyConfigurationCustomersDevicesResponse,
-  errors: [],
 }));
 
 export interface UnclaimCustomersDevicesRequest {
@@ -1717,110 +1688,39 @@ export const unclaimCustomersDevices: API.OperationMethod<
   errors: [],
 }));
 
-export interface RemoveConfigurationCustomersDevicesRequest {
-  /** Required. The customer managing the device in the format `customers/[CUSTOMER_ID]`. */
+export interface ApplyConfigurationCustomersDevicesRequest {
+  /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
   /** Request body */
-  body?: CustomerRemoveConfigurationRequest;
+  body?: CustomerApplyConfigurationRequest;
 }
 
-export const RemoveConfigurationCustomersDevicesRequest = Schema.Struct({
+export const ApplyConfigurationCustomersDevicesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomerRemoveConfigurationRequest).pipe(T.HttpBody()),
+  body: Schema.optional(CustomerApplyConfigurationRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1/customers/{customersId}/devices:removeConfiguration",
+    path: "v1/customers/{customersId}/devices:applyConfiguration",
     hasBody: true,
   }),
   svc,
-) as unknown as Schema.Schema<RemoveConfigurationCustomersDevicesRequest>;
+) as unknown as Schema.Schema<ApplyConfigurationCustomersDevicesRequest>;
 
-export type RemoveConfigurationCustomersDevicesResponse = Empty;
-export const RemoveConfigurationCustomersDevicesResponse = Empty;
+export type ApplyConfigurationCustomersDevicesResponse = Empty;
+export const ApplyConfigurationCustomersDevicesResponse = Empty;
 
-export type RemoveConfigurationCustomersDevicesError = DefaultErrors;
+export type ApplyConfigurationCustomersDevicesError = DefaultErrors;
 
-/** Removes a configuration from device. */
-export const removeConfigurationCustomersDevices: API.OperationMethod<
-  RemoveConfigurationCustomersDevicesRequest,
-  RemoveConfigurationCustomersDevicesResponse,
-  RemoveConfigurationCustomersDevicesError,
+/** Applies a Configuration to the device to register the device for zero-touch enrollment. After applying a configuration to a device, the device automatically provisions itself on first boot, or next factory reset. */
+export const applyConfigurationCustomersDevices: API.OperationMethod<
+  ApplyConfigurationCustomersDevicesRequest,
+  ApplyConfigurationCustomersDevicesResponse,
+  ApplyConfigurationCustomersDevicesError,
   Credentials | HttpClient.HttpClient
 > = API.make(() => ({
-  input: RemoveConfigurationCustomersDevicesRequest,
-  output: RemoveConfigurationCustomersDevicesResponse,
-  errors: [],
-}));
-
-export interface PatchCustomersConfigurationsRequest {
-  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
-  name: string;
-  /** Required. The field mask applied to the target `Configuration` before updating the fields. To learn more about using field masks, read [FieldMask](/protocol-buffers/docs/reference/google.protobuf#fieldmask) in the Protocol Buffers documentation. */
-  updateMask?: string;
-  /** Request body */
-  body?: Configuration;
-}
-
-export const PatchCustomersConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Configuration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/customers/{customersId}/configurations/{configurationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCustomersConfigurationsRequest>;
-
-export type PatchCustomersConfigurationsResponse = Configuration;
-export const PatchCustomersConfigurationsResponse = Configuration;
-
-export type PatchCustomersConfigurationsError = DefaultErrors;
-
-/** Updates a configuration's field values. */
-export const patchCustomersConfigurations: API.OperationMethod<
-  PatchCustomersConfigurationsRequest,
-  PatchCustomersConfigurationsResponse,
-  PatchCustomersConfigurationsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: PatchCustomersConfigurationsRequest,
-  output: PatchCustomersConfigurationsResponse,
-  errors: [],
-}));
-
-export interface DeleteCustomersConfigurationsRequest {
-  /** Required. The configuration to delete. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. If the configuration is applied to any devices, the API call fails. */
-  name: string;
-}
-
-export const DeleteCustomersConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/customers/{customersId}/configurations/{configurationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCustomersConfigurationsRequest>;
-
-export type DeleteCustomersConfigurationsResponse = Empty;
-export const DeleteCustomersConfigurationsResponse = Empty;
-
-export type DeleteCustomersConfigurationsError = DefaultErrors;
-
-/** Deletes an unused configuration. The API call fails if the customer has devices with the configuration applied. */
-export const deleteCustomersConfigurations: API.OperationMethod<
-  DeleteCustomersConfigurationsRequest,
-  DeleteCustomersConfigurationsResponse,
-  DeleteCustomersConfigurationsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: DeleteCustomersConfigurationsRequest,
-  output: DeleteCustomersConfigurationsResponse,
+  input: ApplyConfigurationCustomersDevicesRequest,
+  output: ApplyConfigurationCustomersDevicesResponse,
   errors: [],
 }));
 
@@ -1887,6 +1787,38 @@ export const getCustomersConfigurations: API.OperationMethod<
   errors: [],
 }));
 
+export interface DeleteCustomersConfigurationsRequest {
+  /** Required. The configuration to delete. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. If the configuration is applied to any devices, the API call fails. */
+  name: string;
+}
+
+export const DeleteCustomersConfigurationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "v1/customers/{customersId}/configurations/{configurationsId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<DeleteCustomersConfigurationsRequest>;
+
+export type DeleteCustomersConfigurationsResponse = Empty;
+export const DeleteCustomersConfigurationsResponse = Empty;
+
+export type DeleteCustomersConfigurationsError = DefaultErrors;
+
+/** Deletes an unused configuration. The API call fails if the customer has devices with the configuration applied. */
+export const deleteCustomersConfigurations: API.OperationMethod<
+  DeleteCustomersConfigurationsRequest,
+  DeleteCustomersConfigurationsResponse,
+  DeleteCustomersConfigurationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteCustomersConfigurationsRequest,
+  output: DeleteCustomersConfigurationsResponse,
+  errors: [],
+}));
+
 export interface CreateCustomersConfigurationsRequest {
   /** Required. The customer that manages the configuration. An API resource name in the format `customers/[CUSTOMER_ID]`. This field has custom validation in CreateConfigurationRequestValidator */
   parent: string;
@@ -1920,5 +1852,73 @@ export const createCustomersConfigurations: API.OperationMethod<
 > = API.make(() => ({
   input: CreateCustomersConfigurationsRequest,
   output: CreateCustomersConfigurationsResponse,
+  errors: [],
+}));
+
+export interface PatchCustomersConfigurationsRequest {
+  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
+  name: string;
+  /** Required. The field mask applied to the target `Configuration` before updating the fields. To learn more about using field masks, read [FieldMask](/protocol-buffers/docs/reference/google.protobuf#fieldmask) in the Protocol Buffers documentation. */
+  updateMask?: string;
+  /** Request body */
+  body?: Configuration;
+}
+
+export const PatchCustomersConfigurationsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+  body: Schema.optional(Configuration).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "v1/customers/{customersId}/configurations/{configurationsId}",
+    hasBody: true,
+  }),
+  svc,
+) as unknown as Schema.Schema<PatchCustomersConfigurationsRequest>;
+
+export type PatchCustomersConfigurationsResponse = Configuration;
+export const PatchCustomersConfigurationsResponse = Configuration;
+
+export type PatchCustomersConfigurationsError = DefaultErrors;
+
+/** Updates a configuration's field values. */
+export const patchCustomersConfigurations: API.OperationMethod<
+  PatchCustomersConfigurationsRequest,
+  PatchCustomersConfigurationsResponse,
+  PatchCustomersConfigurationsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PatchCustomersConfigurationsRequest,
+  output: PatchCustomersConfigurationsResponse,
+  errors: [],
+}));
+
+export interface ListCustomersDpcsRequest {
+  /** Required. The customer that can use the DPCs in configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
+  parent: string;
+}
+
+export const ListCustomersDpcsRequest = Schema.Struct({
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/customers/{customersId}/dpcs" }),
+  svc,
+) as unknown as Schema.Schema<ListCustomersDpcsRequest>;
+
+export type ListCustomersDpcsResponse = CustomerListDpcsResponse;
+export const ListCustomersDpcsResponse = CustomerListDpcsResponse;
+
+export type ListCustomersDpcsError = DefaultErrors;
+
+/** Lists the DPCs (device policy controllers) that support zero-touch enrollment. */
+export const listCustomersDpcs: API.OperationMethod<
+  ListCustomersDpcsRequest,
+  ListCustomersDpcsResponse,
+  ListCustomersDpcsError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListCustomersDpcsRequest,
+  output: ListCustomersDpcsResponse,
   errors: [],
 }));
