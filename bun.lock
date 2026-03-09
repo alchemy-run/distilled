@@ -13,7 +13,7 @@
         "yaml": "catalog:",
       },
     },
-    "aws-sdk": {
+    "packages/aws": {
       "name": "@distilled.cloud/aws",
       "version": "0.2.0",
       "dependencies": {
@@ -44,7 +44,7 @@
         "effect": "catalog:",
       },
     },
-    "cloudflare-sdk": {
+    "packages/cloudflare": {
       "name": "@distilled.cloud/cloudflare",
       "version": "0.2.0",
       "dependencies": {
@@ -61,7 +61,18 @@
         "vitest": "catalog:",
       },
     },
-    "gcp-sdk": {
+    "packages/core": {
+      "name": "@distilled.cloud/sdk-core",
+      "version": "0.2.0",
+      "dependencies": {
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+      },
+    },
+    "packages/gcp": {
       "name": "@distilled.cloud/gcp",
       "version": "0.2.0",
       "dependencies": {
@@ -73,7 +84,7 @@
         "@types/node": "catalog:",
       },
     },
-    "neon-sdk": {
+    "packages/neon": {
       "name": "@distilled.cloud/neon",
       "version": "0.2.0",
       "dependencies": {
@@ -87,7 +98,7 @@
         "vitest": "catalog:",
       },
     },
-    "planetscale-sdk": {
+    "packages/planetscale": {
       "name": "@distilled.cloud/planetscale",
       "version": "0.2.0",
       "dependencies": {
@@ -99,17 +110,6 @@
         "@types/node": "catalog:",
         "dotenv": "^16.5.0",
         "vitest": "catalog:",
-      },
-    },
-    "sdk-core": {
-      "name": "@distilled.cloud/sdk-core",
-      "version": "0.2.0",
-      "dependencies": {
-        "effect": "catalog:",
-      },
-      "devDependencies": {
-        "@types/bun": "catalog:",
-        "@types/node": "catalog:",
       },
     },
   },
@@ -191,17 +191,17 @@
 
     "@aws/lambda-invoke-store": ["@aws/lambda-invoke-store@0.2.3", "", {}, "sha512-oLvsaPMTBejkkmHhjf09xTgk71mOqyr/409NKhRIL08If7AhVfUsJhVsx386uJaqNd42v9kWamQ9lFbkoC2dYw=="],
 
-    "@distilled.cloud/aws": ["@distilled.cloud/aws@workspace:aws-sdk"],
+    "@distilled.cloud/aws": ["@distilled.cloud/aws@workspace:packages/aws"],
 
-    "@distilled.cloud/cloudflare": ["@distilled.cloud/cloudflare@workspace:cloudflare-sdk"],
+    "@distilled.cloud/cloudflare": ["@distilled.cloud/cloudflare@workspace:packages/cloudflare"],
 
-    "@distilled.cloud/gcp": ["@distilled.cloud/gcp@workspace:gcp-sdk"],
+    "@distilled.cloud/gcp": ["@distilled.cloud/gcp@workspace:packages/gcp"],
 
-    "@distilled.cloud/neon": ["@distilled.cloud/neon@workspace:neon-sdk"],
+    "@distilled.cloud/neon": ["@distilled.cloud/neon@workspace:packages/neon"],
 
-    "@distilled.cloud/planetscale": ["@distilled.cloud/planetscale@workspace:planetscale-sdk"],
+    "@distilled.cloud/planetscale": ["@distilled.cloud/planetscale@workspace:packages/planetscale"],
 
-    "@distilled.cloud/sdk-core": ["@distilled.cloud/sdk-core@workspace:sdk-core"],
+    "@distilled.cloud/sdk-core": ["@distilled.cloud/sdk-core@workspace:packages/core"],
 
     "@effect/platform-bun": ["@effect/platform-bun@4.0.0-beta.25", "", { "dependencies": { "@effect/platform-node-shared": "^4.0.0-beta.25" }, "peerDependencies": { "effect": "^4.0.0-beta.25" } }, "sha512-x+CN+9n7ZFvhv0VCxJILWmik0/DkrVQ2g48Y3HtoVzisMh1IomAYuiG5gBYPAgsyOwE7ssnHf5Et2Swd9tZ/EQ=="],
 
