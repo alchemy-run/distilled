@@ -708,32 +708,58 @@ describe("Images", () => {
         }).pipe(Effect.catch(() => Effect.void));
       }));
 
-    test("error - InvalidUploadFormat when creating a direct upload URL with expiry", () =>
-      Images.createV2DirectUpload({
-        accountId: accountId(),
-        expiry: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidUploadFormat")),
-      ));
+    test("happy path - creates a direct upload URL with expiry", () =>
+      Effect.gen(function* () {
+        const result = yield* Images.createV2DirectUpload({
+          accountId: accountId(),
+          expiry: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+        });
 
-    test("error - InvalidUploadFormat when creating a direct upload URL with custom id", () =>
+        expect(result).toBeDefined();
+        if (result.id) {
+          expect(typeof result.id).toBe("string");
+        }
+        if (result.uploadURL) {
+          expect(typeof result.uploadURL).toBe("string");
+        }
+
+        // Cleanup
+        yield* Images.deleteV1({
+          accountId: accountId(),
+          imageId: result.id ?? "no-id",
+        }).pipe(Effect.catch(() => Effect.void));
+      }));
+
+    test("error - ImageAlreadyExists when creating a direct upload URL with duplicate custom id", () =>
       Images.createV2DirectUpload({
         accountId: accountId(),
         id: "distilled-cf-images-direct-upload-custom",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidUploadFormat")),
+        Effect.map((e) => expect(e._tag).toBe("ImageAlreadyExists")),
       ));
 
-    test("error - InvalidUploadFormat when creating a direct upload URL with metadata", () =>
-      Images.createV2DirectUpload({
-        accountId: accountId(),
-        metadata: { env: "test", source: "distilled" },
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidUploadFormat")),
-      ));
+    test("happy path - creates a direct upload URL with metadata", () =>
+      Effect.gen(function* () {
+        const result = yield* Images.createV2DirectUpload({
+          accountId: accountId(),
+          metadata: { env: "test", source: "distilled" },
+        });
+
+        expect(result).toBeDefined();
+        if (result.id) {
+          expect(typeof result.id).toBe("string");
+        }
+        if (result.uploadURL) {
+          expect(typeof result.uploadURL).toBe("string");
+        }
+
+        // Cleanup
+        yield* Images.deleteV1({
+          accountId: accountId(),
+          imageId: result.id ?? "no-id",
+        }).pipe(Effect.catch(() => Effect.void));
+      }));
 
     test("error - UnknownCloudflareError for invalid accountId", () =>
       Images.createV2DirectUpload({

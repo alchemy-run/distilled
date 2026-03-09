@@ -1,18 +1,11 @@
 {
+  "responseType": "array",
   "errors": {},
   "response": {
     "properties": {
-      "result_info": { "optional": true },
-      "results": { "optional": true },
-      "success": { "optional": true },
-      "results[].destination.batch.max_bytes": { "optional": true },
-      "results[].destination.batch.max_duration_s": { "optional": true },
-      "results[].destination.batch.max_rows": { "optional": true },
-      "results[].destination.compression.type": { "optional": true },
-      "results[].destination.format": { "optional": true },
-      "results[].destination.type": { "optional": true },
-      "results[].endpoint": { "optional": true },
-      "results[].version": { "optional": true }
+      "[].result_info": { "optional": true },
+      "[].results": { "optional": true },
+      "[].success": { "optional": true }
     }
   }
 }

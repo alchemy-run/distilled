@@ -198,7 +198,7 @@ export const ListPipelinesRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/pipelines" }),
 ) as unknown as Schema.Schema<ListPipelinesRequest>;
 
-export interface ListPipelinesResponse {
+export type ListPipelinesResponse = {
   resultInfo?: {
     count: number;
     page: number;
@@ -210,16 +210,16 @@ export interface ListPipelinesResponse {
     destination: {
       batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
       compression: { type?: "none" | "gzip" | "deflate" };
-      format?: "json";
+      format: "json";
       path: {
         bucket: string;
         filename?: string;
         filepath?: string;
         prefix?: string;
       };
-      type?: "r2";
+      type: "r2";
     };
-    endpoint?: string;
+    endpoint: string;
     name: string;
     source: (
       | {
@@ -230,87 +230,90 @@ export interface ListPipelinesResponse {
         }
       | { format: "json"; type: string }
     )[];
-    version?: number;
+    version: number;
   }[];
-  /** Indicates whether the API call was successful. */
   success?: boolean;
-}
+}[];
 
-export const ListPipelinesResponse = Schema.Struct({
-  resultInfo: Schema.optional(
-    Schema.Struct({
-      count: Schema.Number,
-      page: Schema.Number,
-      perPage: Schema.Number,
-      totalCount: Schema.Number,
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
-    ),
-  ),
-  results: Schema.optional(
-    Schema.Array(
+export const ListPipelinesResponse = Schema.Array(
+  Schema.Struct({
+    resultInfo: Schema.optional(
       Schema.Struct({
-        id: Schema.String,
-        destination: Schema.Struct({
-          batch: Schema.Struct({
-            maxBytes: Schema.optional(Schema.Number),
-            maxDurationS: Schema.optional(Schema.Number),
-            maxRows: Schema.optional(Schema.Number),
-          }).pipe(
-            Schema.encodeKeys({
-              maxBytes: "max_bytes",
-              maxDurationS: "max_duration_s",
-              maxRows: "max_rows",
-            }),
-          ),
-          compression: Schema.Struct({
-            type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
-          }),
-          format: Schema.optional(Schema.Literal("json")),
-          path: Schema.Struct({
-            bucket: Schema.String,
-            filename: Schema.optional(Schema.String),
-            filepath: Schema.optional(Schema.String),
-            prefix: Schema.optional(Schema.String),
-          }),
-          type: Schema.optional(Schema.Literal("r2")),
+        count: Schema.Number,
+        page: Schema.Number,
+        perPage: Schema.Number,
+        totalCount: Schema.Number,
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
         }),
-        endpoint: Schema.optional(Schema.String),
-        name: Schema.String,
-        source: Schema.Array(
-          Schema.Union([
-            Schema.Struct({
-              format: Schema.Literal("json"),
-              type: Schema.String,
-              authentication: Schema.optional(Schema.Boolean),
-              cors: Schema.optional(
-                Schema.Struct({
-                  origins: Schema.optional(Schema.Array(Schema.String)),
-                }),
+      ),
+    ),
+    results: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          destination: Schema.Struct({
+            batch: Schema.Struct({
+              maxBytes: Schema.optional(Schema.Number),
+              maxDurationS: Schema.optional(Schema.Number),
+              maxRows: Schema.optional(Schema.Number),
+            }).pipe(
+              Schema.encodeKeys({
+                maxBytes: "max_bytes",
+                maxDurationS: "max_duration_s",
+                maxRows: "max_rows",
+              }),
+            ),
+            compression: Schema.Struct({
+              type: Schema.optional(
+                Schema.Literals(["none", "gzip", "deflate"]),
               ),
             }),
-            Schema.Struct({
-              format: Schema.Literal("json"),
-              type: Schema.String,
+            format: Schema.Literal("json"),
+            path: Schema.Struct({
+              bucket: Schema.String,
+              filename: Schema.optional(Schema.String),
+              filepath: Schema.optional(Schema.String),
+              prefix: Schema.optional(Schema.String),
             }),
-          ]),
-        ),
-        version: Schema.optional(Schema.Number),
-      }),
+            type: Schema.Literal("r2"),
+          }),
+          endpoint: Schema.String,
+          name: Schema.String,
+          source: Schema.Array(
+            Schema.Union([
+              Schema.Struct({
+                format: Schema.Literal("json"),
+                type: Schema.String,
+                authentication: Schema.optional(Schema.Boolean),
+                cors: Schema.optional(
+                  Schema.Struct({
+                    origins: Schema.optional(Schema.Array(Schema.String)),
+                  }),
+                ),
+              }),
+              Schema.Struct({
+                format: Schema.Literal("json"),
+                type: Schema.String,
+              }),
+            ]),
+          ),
+          version: Schema.Number,
+        }),
+      ),
     ),
+    success: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      resultInfo: "result_info",
+      results: "results",
+      success: "success",
+    }),
   ),
-  success: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({
-    resultInfo: "result_info",
-    results: "results",
-    success: "success",
-  }),
 ) as unknown as Schema.Schema<ListPipelinesResponse>;
 
 export type ListPipelinesError = DefaultErrors;

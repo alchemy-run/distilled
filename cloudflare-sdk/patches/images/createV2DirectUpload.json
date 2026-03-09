@@ -1,6 +1,7 @@
 {
   "errors": {
     "ImagesAccessNotEnabled": [{ "code": 5403 }],
+    "ImageAlreadyExists": [{ "code": 5409 }],
     "InvalidUploadFormat": [{ "code": 5415 }]
   }
 }
