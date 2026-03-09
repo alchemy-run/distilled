@@ -1,0 +1,4907 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Prisma Postgres Management API",
+    "description": "REST API for managing Prisma Postgres projects, databases, backups, and workspaces.",
+    "version": "v1"
+  },
+  "security": [
+    { "OAuth2": ["workspace:admin", "offline_access"] },
+    { "Bearer": [] }
+  ],
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth2 authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.prisma.io/authorize",
+            "tokenUrl": "https://auth.prisma.io/token",
+            "refreshUrl": "https://auth.prisma.io/token",
+            "scopes": {
+              "workspace:admin": "Full access to workspace resources",
+              "offline_access": "Offline access"
+            }
+          }
+        }
+      },
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "OAuth2 token for API authentication"
+      }
+    },
+    "schemas": {}
+  },
+  "paths": {
+    "/v1/connections": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned list of connections.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                          },
+                          "type": { "type": "string", "const": "connection" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["postgres", "accelerate"]
+                          },
+                          "endpoints": {
+                            "type": "object",
+                            "properties": {
+                              "direct": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              },
+                              "pooled": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              },
+                              "accelerate": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              }
+                            }
+                          },
+                          "directConnection": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "host": { "type": "string" },
+                              "pass": { "type": "string" },
+                              "user": { "type": "string" }
+                            },
+                            "required": ["host", "pass", "user"],
+                            "deprecated": true,
+                            "description": "Deprecated: use `endpoints.direct` instead."
+                          },
+                          "database": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "url", "name"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "url",
+                          "name",
+                          "createdAt",
+                          "kind",
+                          "endpoints",
+                          "database"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Connections",
+        "tags": ["Connections"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            }
+          }
+        ],
+        "summary": "List connections",
+        "description": "Returns all connections the actor has access to, with optional database filter."
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Created a new connection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "type": { "type": "string", "const": "connection" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": ["postgres", "accelerate"]
+                        },
+                        "endpoints": {
+                          "type": "object",
+                          "properties": {
+                            "direct": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            },
+                            "pooled": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            },
+                            "accelerate": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            }
+                          }
+                        },
+                        "connectionString": {
+                          "type": "string",
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                        },
+                        "directConnection": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "host": { "type": "string" },
+                            "pass": { "type": "string" },
+                            "user": { "type": "string" }
+                          },
+                          "required": ["host", "pass", "user"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct` instead."
+                        },
+                        "database": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "host": { "type": ["string", "null"] },
+                        "pass": { "type": ["string", "null"] },
+                        "user": { "type": ["string", "null"] }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "kind",
+                        "endpoints",
+                        "connectionString",
+                        "database",
+                        "host",
+                        "pass",
+                        "user"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1Connections",
+        "tags": ["Connections"],
+        "parameters": [],
+        "summary": "Create connection",
+        "description": "Creates a new connection for the specified database.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "databaseId": {
+                    "type": "string",
+                    "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                  },
+                  "name": { "type": "string", "minLength": 1 }
+                },
+                "required": ["databaseId", "name"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/connections/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the connection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "type": { "type": "string", "const": "connection" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": ["postgres", "accelerate"]
+                        },
+                        "endpoints": {
+                          "type": "object",
+                          "properties": {
+                            "direct": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            },
+                            "pooled": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            },
+                            "accelerate": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" }
+                              },
+                              "required": ["host", "port"]
+                            }
+                          }
+                        },
+                        "directConnection": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "host": { "type": "string" },
+                            "pass": { "type": "string" },
+                            "user": { "type": "string" }
+                          },
+                          "required": ["host", "pass", "user"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct` instead."
+                        },
+                        "database": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "kind",
+                        "endpoints",
+                        "database"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Connection with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1ConnectionsById",
+        "tags": ["Connections"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(con_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get connection",
+        "description": "Returns the connection with the given ID."
+      },
+      "delete": {
+        "responses": {
+          "204": { "description": "Deleted the connection." },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Connection with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteV1ConnectionsById",
+        "tags": ["Connections"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(con_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Delete connection",
+        "description": "Deletes the connection with the given ID."
+      }
+    },
+    "/v1/databases": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns the list of databases.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "database" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "failure",
+                              "provisioning",
+                              "ready",
+                              "recovering"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "isDefault": { "type": "boolean" },
+                          "defaultConnectionId": {
+                            "type": ["string", "null"],
+                            "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                          },
+                          "connections": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "const": "connection"
+                                },
+                                "url": { "type": "string", "format": "uri" },
+                                "name": { "type": "string" },
+                                "createdAt": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": ["postgres", "accelerate"]
+                                },
+                                "endpoints": {
+                                  "type": "object",
+                                  "properties": {
+                                    "direct": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    },
+                                    "pooled": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    },
+                                    "accelerate": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    }
+                                  }
+                                },
+                                "directConnection": {
+                                  "type": ["object", "null"],
+                                  "properties": {
+                                    "host": { "type": "string" },
+                                    "pass": { "type": "string" },
+                                    "user": { "type": "string" }
+                                  },
+                                  "required": ["host", "pass", "user"],
+                                  "deprecated": true,
+                                  "description": "Deprecated: use `endpoints.direct` instead."
+                                },
+                                "database": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": { "type": "string" },
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri"
+                                    },
+                                    "name": { "type": "string" }
+                                  },
+                                  "required": ["id", "url", "name"]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "type",
+                                "url",
+                                "name",
+                                "createdAt",
+                                "kind",
+                                "endpoints",
+                                "database"
+                              ]
+                            }
+                          },
+                          "project": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "url", "name"]
+                          },
+                          "region": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "id": { "type": "string" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "name"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "url",
+                          "name",
+                          "status",
+                          "createdAt",
+                          "isDefault",
+                          "defaultConnectionId",
+                          "connections",
+                          "project",
+                          "region"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Actor does not have access to the requested databases.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Databases",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "projectId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$",
+              "description": "Filter databases by project ID"
+            }
+          }
+        ],
+        "summary": "List databases",
+        "description": "Returns all databases the token has access to. Optionally filter by project ID."
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Created a new database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "database" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "failure",
+                            "provisioning",
+                            "ready",
+                            "recovering"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "isDefault": { "type": "boolean" },
+                        "defaultConnectionId": {
+                          "type": ["string", "null"],
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "connections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "connection"
+                              },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": ["postgres", "accelerate"]
+                              },
+                              "endpoints": {
+                                "type": "object",
+                                "properties": {
+                                  "direct": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "pooled": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "accelerate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  }
+                                }
+                              },
+                              "directConnection": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "pass": { "type": "string" },
+                                  "user": { "type": "string" }
+                                },
+                                "required": ["host", "pass", "user"],
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct` instead."
+                              },
+                              "database": {
+                                "type": "object",
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" }
+                                },
+                                "required": ["id", "url", "name"]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "url",
+                              "name",
+                              "createdAt",
+                              "kind",
+                              "endpoints",
+                              "database"
+                            ]
+                          }
+                        },
+                        "project": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "region": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "status",
+                        "createdAt",
+                        "isDefault",
+                        "defaultConnectionId",
+                        "connections",
+                        "project",
+                        "region"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Actor does not have access to the specified project.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1Databases",
+        "tags": ["Databases"],
+        "parameters": [],
+        "summary": "Create database",
+        "description": "Creates a new database in the specified project.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$",
+                    "description": "ID of the project to create the database in"
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east-1",
+                      "us-west-1",
+                      "eu-west-3",
+                      "eu-central-1",
+                      "ap-northeast-1",
+                      "ap-southeast-1",
+                      "inherit"
+                    ],
+                    "default": "us-east-1",
+                    "description": "Region for the database. Use \"inherit\" to use the project default database region."
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Display name for the database"
+                  },
+                  "isDefault": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether this is the default database"
+                  }
+                },
+                "required": ["projectId"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/databases/{databaseId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the database with the given ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "database" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "failure",
+                            "provisioning",
+                            "ready",
+                            "recovering"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "isDefault": { "type": "boolean" },
+                        "defaultConnectionId": {
+                          "type": ["string", "null"],
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "connections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "connection"
+                              },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": ["postgres", "accelerate"]
+                              },
+                              "endpoints": {
+                                "type": "object",
+                                "properties": {
+                                  "direct": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "pooled": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "accelerate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  }
+                                }
+                              },
+                              "directConnection": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "pass": { "type": "string" },
+                                  "user": { "type": "string" }
+                                },
+                                "required": ["host", "pass", "user"],
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct` instead."
+                              },
+                              "database": {
+                                "type": "object",
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" }
+                                },
+                                "required": ["id", "url", "name"]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "url",
+                              "name",
+                              "createdAt",
+                              "kind",
+                              "endpoints",
+                              "database"
+                            ]
+                          }
+                        },
+                        "project": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "region": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "status",
+                        "createdAt",
+                        "isDefault",
+                        "defaultConnectionId",
+                        "connections",
+                        "project",
+                        "region"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Actor does not have access to the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1DatabasesByDatabaseId",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get database",
+        "description": "Returns the database with the given ID."
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "Updated the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "database" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "failure",
+                            "provisioning",
+                            "ready",
+                            "recovering"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "isDefault": { "type": "boolean" },
+                        "defaultConnectionId": {
+                          "type": ["string", "null"],
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "connections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "connection"
+                              },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": ["postgres", "accelerate"]
+                              },
+                              "endpoints": {
+                                "type": "object",
+                                "properties": {
+                                  "direct": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "pooled": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "accelerate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  }
+                                }
+                              },
+                              "directConnection": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "pass": { "type": "string" },
+                                  "user": { "type": "string" }
+                                },
+                                "required": ["host", "pass", "user"],
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct` instead."
+                              },
+                              "database": {
+                                "type": "object",
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" }
+                                },
+                                "required": ["id", "url", "name"]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "url",
+                              "name",
+                              "createdAt",
+                              "kind",
+                              "endpoints",
+                              "database"
+                            ]
+                          }
+                        },
+                        "project": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "region": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "status",
+                        "createdAt",
+                        "isDefault",
+                        "defaultConnectionId",
+                        "connections",
+                        "project",
+                        "region"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Actor does not have access to the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchV1DatabasesByDatabaseId",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Update database",
+        "description": "Updates the database with the given ID.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "New display name for the database"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": { "description": "Deleted the database successfully." },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Cannot delete the default environment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteV1DatabasesByDatabaseId",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Delete database",
+        "description": "Deletes the database with the given ID."
+      }
+    },
+    "/v1/databases/{databaseId}/connections": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned all connections for the given database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                          },
+                          "type": { "type": "string", "const": "connection" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["postgres", "accelerate"]
+                          },
+                          "endpoints": {
+                            "type": "object",
+                            "properties": {
+                              "direct": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              },
+                              "pooled": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              },
+                              "accelerate": {
+                                "type": "object",
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "port": { "type": "number" }
+                                },
+                                "required": ["host", "port"]
+                              }
+                            }
+                          },
+                          "directConnection": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "host": { "type": "string" },
+                              "pass": { "type": "string" },
+                              "user": { "type": "string" }
+                            },
+                            "required": ["host", "pass", "user"],
+                            "deprecated": true,
+                            "description": "Deprecated: use `endpoints.direct` instead."
+                          },
+                          "database": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "url", "name"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "url",
+                          "name",
+                          "createdAt",
+                          "kind",
+                          "endpoints",
+                          "database"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1DatabasesByDatabaseIdConnections",
+        "tags": ["Databases Connections"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          }
+        ],
+        "summary": "Get list of database connections",
+        "description": "Returns all connections for the given database."
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Created a new connection string for the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "type": { "type": "string", "const": "connection" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": ["postgres", "accelerate"]
+                        },
+                        "endpoints": {
+                          "type": "object",
+                          "properties": {
+                            "direct": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" },
+                                "connectionString": { "type": "string" }
+                              },
+                              "required": ["host", "port", "connectionString"]
+                            },
+                            "pooled": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" },
+                                "connectionString": { "type": "string" }
+                              },
+                              "required": ["host", "port", "connectionString"]
+                            },
+                            "accelerate": {
+                              "type": "object",
+                              "properties": {
+                                "host": { "type": "string" },
+                                "port": { "type": "number" },
+                                "connectionString": { "type": "string" }
+                              },
+                              "required": ["host", "port", "connectionString"]
+                            }
+                          }
+                        },
+                        "connectionString": {
+                          "type": "string",
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                        },
+                        "directConnection": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "host": { "type": "string" },
+                            "pass": { "type": "string" },
+                            "user": { "type": "string" }
+                          },
+                          "required": ["host", "pass", "user"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct` instead."
+                        },
+                        "database": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "host": {
+                          "type": ["string", "null"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct` instead."
+                        },
+                        "pass": {
+                          "type": ["string", "null"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                        },
+                        "user": {
+                          "type": ["string", "null"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "kind",
+                        "endpoints",
+                        "connectionString",
+                        "database",
+                        "host",
+                        "pass",
+                        "user"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1DatabasesByDatabaseIdConnections",
+        "tags": ["Databases Connections"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Create database connection string",
+        "description": "Creates a new connection string for the given database.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "name": { "type": "string" } },
+                "required": ["name"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/databases/{databaseId}/backups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned backups for the given database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier for this backup"
+                          },
+                          "backupType": {
+                            "type": "string",
+                            "enum": ["full", "incremental"],
+                            "description": "Type of backup"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "Timestamp when the backup was created"
+                          },
+                          "size": {
+                            "type": "number",
+                            "description": "Total file size (in bytes) of gzipped backup files"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "running",
+                              "completed",
+                              "failed",
+                              "unknown"
+                            ],
+                            "description": "Status of backup instance"
+                          },
+                          "type": { "type": "string", "const": "backup" }
+                        },
+                        "required": ["id", "backupType", "createdAt", "status"]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "backupRetentionDays": { "type": "number" }
+                      },
+                      "required": ["backupRetentionDays"]
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "hasMore": { "type": "boolean" },
+                        "limit": {
+                          "anyOf": [
+                            { "type": "integer", "minimum": 1, "maximum": 100 },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["hasMore", "limit"]
+                    }
+                  },
+                  "required": ["data", "meta", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Remote database backups are not supported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1DatabasesByDatabaseIdBackups",
+        "tags": ["Database Backups"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "summary": "Get list of backups",
+        "description": "Returns backups for the specified database."
+      }
+    },
+    "/v1/databases/{databaseId}/usage": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned usage metrics for the given database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "period": {
+                      "type": "object",
+                      "properties": {
+                        "start": { "type": "string", "format": "date-time" },
+                        "end": { "type": "string", "format": "date-time" }
+                      },
+                      "required": ["start", "end"]
+                    },
+                    "metrics": {
+                      "type": "object",
+                      "properties": {
+                        "operations": {
+                          "type": "object",
+                          "properties": {
+                            "used": { "type": "number" },
+                            "unit": { "type": "string", "const": "ops" }
+                          },
+                          "required": ["used", "unit"]
+                        },
+                        "storage": {
+                          "type": "object",
+                          "properties": {
+                            "used": { "type": "number" },
+                            "unit": { "type": "string", "const": "GiB" }
+                          },
+                          "required": ["used", "unit"]
+                        }
+                      },
+                      "required": ["operations", "storage"]
+                    },
+                    "generatedAt": { "type": "string", "format": "date-time" }
+                  },
+                  "required": ["period", "metrics", "generatedAt"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Database with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error occurred while fetching metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1DatabasesByDatabaseIdUsage",
+        "tags": ["Database Usage"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "databaseId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Start date for metrics query. Defaults to start of current month if not provided."
+            }
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "End date for metrics query. Will be set to end of day if a future date is provided. Defaults to current date if not provided."
+            }
+          }
+        ],
+        "summary": "Get database usage metrics",
+        "description": "Returns usage metrics for the specified database."
+      }
+    },
+    "/v1/projects": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns the list of projects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "project" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "defaultRegion": { "type": ["string", "null"] },
+                          "workspace": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "url", "name"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "url",
+                          "name",
+                          "createdAt",
+                          "defaultRegion",
+                          "workspace"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Projects",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          }
+        ],
+        "summary": "Get list of projects",
+        "description": "Returns the list of projects the token has access to."
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "New project created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "project" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "defaultRegion": { "type": ["string", "null"] },
+                        "workspace": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "database": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "id": { "type": "string" },
+                            "type": { "type": "string", "const": "database" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" },
+                            "status": {
+                              "type": "string",
+                              "enum": ["provisioning", "ready"]
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "isDefault": { "type": "boolean" },
+                            "defaultConnectionId": {
+                              "type": ["string", "null"],
+                              "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                            },
+                            "connections": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "const": "connection"
+                                  },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" },
+                                  "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": ["postgres", "accelerate"]
+                                  },
+                                  "endpoints": {
+                                    "type": "object",
+                                    "properties": {
+                                      "direct": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" },
+                                          "connectionString": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": ["host", "port"]
+                                      },
+                                      "pooled": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" },
+                                          "connectionString": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": ["host", "port"]
+                                      },
+                                      "accelerate": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" },
+                                          "connectionString": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": ["host", "port"]
+                                      }
+                                    }
+                                  },
+                                  "directConnection": {
+                                    "type": ["object", "null"],
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "pass": { "type": "string" },
+                                      "user": { "type": "string" }
+                                    },
+                                    "required": ["host", "pass", "user"],
+                                    "deprecated": true,
+                                    "description": "Deprecated: use `endpoints.direct` instead."
+                                  },
+                                  "database": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": { "type": "string" },
+                                      "url": {
+                                        "type": "string",
+                                        "format": "uri"
+                                      },
+                                      "name": { "type": "string" }
+                                    },
+                                    "required": ["id", "url", "name"]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "type",
+                                  "url",
+                                  "name",
+                                  "createdAt",
+                                  "kind",
+                                  "endpoints",
+                                  "database"
+                                ]
+                              }
+                            },
+                            "region": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string" },
+                                "name": { "type": "string" }
+                              },
+                              "required": ["id", "name"]
+                            },
+                            "apiKeys": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "const": "connection"
+                                  },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" },
+                                  "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "kind": {
+                                    "type": "string",
+                                    "enum": ["postgres", "accelerate"]
+                                  },
+                                  "endpoints": {
+                                    "type": "object",
+                                    "properties": {
+                                      "direct": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" }
+                                        },
+                                        "required": ["host", "port"]
+                                      },
+                                      "pooled": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" }
+                                        },
+                                        "required": ["host", "port"]
+                                      },
+                                      "accelerate": {
+                                        "type": "object",
+                                        "properties": {
+                                          "host": { "type": "string" },
+                                          "port": { "type": "number" }
+                                        },
+                                        "required": ["host", "port"]
+                                      }
+                                    }
+                                  },
+                                  "connectionString": {
+                                    "type": "string",
+                                    "deprecated": true,
+                                    "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                                  },
+                                  "directConnection": {
+                                    "type": ["object", "null"],
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "pass": { "type": "string" },
+                                      "user": { "type": "string" }
+                                    },
+                                    "required": ["host", "pass", "user"],
+                                    "deprecated": true,
+                                    "description": "Deprecated: use `endpoints.direct` instead."
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "type",
+                                  "url",
+                                  "name",
+                                  "createdAt",
+                                  "kind",
+                                  "endpoints",
+                                  "connectionString"
+                                ]
+                              },
+                              "deprecated": true,
+                              "description": "Deprecated: use `connections[]` instead."
+                            },
+                            "connectionString": {
+                              "type": ["string", "null"],
+                              "deprecated": true,
+                              "description": "Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`."
+                            },
+                            "directConnection": {
+                              "type": ["object", "null"],
+                              "properties": {
+                                "host": { "type": "string" },
+                                "pass": { "type": "string" },
+                                "user": { "type": "string" }
+                              },
+                              "required": ["host", "pass", "user"],
+                              "deprecated": true,
+                              "description": "Deprecated: use `connections[].endpoints.direct` instead."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "url",
+                            "name",
+                            "status",
+                            "createdAt",
+                            "isDefault",
+                            "defaultConnectionId",
+                            "connections",
+                            "region",
+                            "apiKeys",
+                            "connectionString",
+                            "directConnection"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "defaultRegion",
+                        "workspace",
+                        "database"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1Projects",
+        "tags": ["Projects"],
+        "parameters": [],
+        "summary": "Create project with a postgres database",
+        "description": "Creates a new project with a postgres database.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "createDatabase": { "type": "boolean", "default": true },
+                  "name": { "type": "string" },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east-1",
+                      "us-west-1",
+                      "eu-west-3",
+                      "eu-central-1",
+                      "ap-northeast-1",
+                      "ap-southeast-1"
+                    ],
+                    "default": "us-east-1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects/{id}": {
+      "delete": {
+        "responses": {
+          "204": { "description": "Project deleted." },
+          "400": {
+            "description": "Project cannot be deleted due to existing dependencies.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteV1ProjectsById",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Delete project",
+        "description": "Deletes the project with the given ID."
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Project retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "project" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "defaultRegion": { "type": ["string", "null"] },
+                        "workspace": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "defaultRegion",
+                        "workspace"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project with the specified ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1ProjectsById",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get project",
+        "description": "Returns the project with the given ID."
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "Project updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "project" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "defaultRegion": { "type": ["string", "null"] },
+                        "workspace": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "createdAt",
+                        "defaultRegion",
+                        "workspace"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Actor does not have access to the project.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project with the specified ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchV1ProjectsById",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Update project",
+        "description": "Updates the project with the given ID.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "settings": { "type": "object", "additionalProperties": {} }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects/{id}/transfer": {
+      "post": {
+        "responses": {
+          "204": { "description": "Project transferred" },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1ProjectsByIdTransfer",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Transfer project",
+        "description": "Transfer the project with the given ID to the new owner's workspace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "recipientAccessToken": { "type": "string" } },
+                "required": ["recipientAccessToken"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects/{projectId}/databases": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the databases for the given project ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "database" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "failure",
+                              "provisioning",
+                              "ready",
+                              "recovering"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "isDefault": { "type": "boolean" },
+                          "defaultConnectionId": {
+                            "type": ["string", "null"],
+                            "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                          },
+                          "connections": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "const": "connection"
+                                },
+                                "url": { "type": "string", "format": "uri" },
+                                "name": { "type": "string" },
+                                "createdAt": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": ["postgres", "accelerate"]
+                                },
+                                "endpoints": {
+                                  "type": "object",
+                                  "properties": {
+                                    "direct": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    },
+                                    "pooled": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    },
+                                    "accelerate": {
+                                      "type": "object",
+                                      "properties": {
+                                        "host": { "type": "string" },
+                                        "port": { "type": "number" }
+                                      },
+                                      "required": ["host", "port"]
+                                    }
+                                  }
+                                },
+                                "directConnection": {
+                                  "type": ["object", "null"],
+                                  "properties": {
+                                    "host": { "type": "string" },
+                                    "pass": { "type": "string" },
+                                    "user": { "type": "string" }
+                                  },
+                                  "required": ["host", "pass", "user"],
+                                  "deprecated": true,
+                                  "description": "Deprecated: use `endpoints.direct` instead."
+                                },
+                                "database": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": { "type": "string" },
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri"
+                                    },
+                                    "name": { "type": "string" }
+                                  },
+                                  "required": ["id", "url", "name"]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "type",
+                                "url",
+                                "name",
+                                "createdAt",
+                                "kind",
+                                "endpoints",
+                                "database"
+                              ]
+                            }
+                          },
+                          "project": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "url", "name"]
+                          },
+                          "region": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "id": { "type": "string" },
+                              "name": { "type": "string" }
+                            },
+                            "required": ["id", "name"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "url",
+                          "name",
+                          "status",
+                          "createdAt",
+                          "isDefault",
+                          "defaultConnectionId",
+                          "connections",
+                          "project",
+                          "region"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1ProjectsByProjectIdDatabases",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          }
+        ],
+        "summary": "Get list of databases",
+        "description": "Returns databases for the given project."
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Created a new database for the project.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string", "const": "database" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "status": {
+                          "type": "string",
+                          "enum": ["provisioning", "ready"]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "isDefault": { "type": "boolean" },
+                        "defaultConnectionId": {
+                          "type": ["string", "null"],
+                          "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "connections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "connection"
+                              },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": ["postgres", "accelerate"]
+                              },
+                              "endpoints": {
+                                "type": "object",
+                                "properties": {
+                                  "direct": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" },
+                                      "connectionString": { "type": "string" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "pooled": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" },
+                                      "connectionString": { "type": "string" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "accelerate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" },
+                                      "connectionString": { "type": "string" }
+                                    },
+                                    "required": ["host", "port"]
+                                  }
+                                }
+                              },
+                              "directConnection": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "pass": { "type": "string" },
+                                  "user": { "type": "string" }
+                                },
+                                "required": ["host", "pass", "user"],
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct` instead."
+                              },
+                              "database": {
+                                "type": "object",
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "url": { "type": "string", "format": "uri" },
+                                  "name": { "type": "string" }
+                                },
+                                "required": ["id", "url", "name"]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "url",
+                              "name",
+                              "createdAt",
+                              "kind",
+                              "endpoints",
+                              "database"
+                            ]
+                          }
+                        },
+                        "project": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "url": { "type": "string", "format": "uri" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "url", "name"]
+                        },
+                        "region": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" }
+                          },
+                          "required": ["id", "name"]
+                        },
+                        "apiKeys": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "pattern": "^(con_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "connection"
+                              },
+                              "url": { "type": "string", "format": "uri" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": ["postgres", "accelerate"]
+                              },
+                              "endpoints": {
+                                "type": "object",
+                                "properties": {
+                                  "direct": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "pooled": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  },
+                                  "accelerate": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": { "type": "string" },
+                                      "port": { "type": "number" }
+                                    },
+                                    "required": ["host", "port"]
+                                  }
+                                }
+                              },
+                              "connectionString": {
+                                "type": "string",
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead."
+                              },
+                              "directConnection": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                  "host": { "type": "string" },
+                                  "pass": { "type": "string" },
+                                  "user": { "type": "string" }
+                                },
+                                "required": ["host", "pass", "user"],
+                                "deprecated": true,
+                                "description": "Deprecated: use `endpoints.direct` instead."
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "url",
+                              "name",
+                              "createdAt",
+                              "kind",
+                              "endpoints",
+                              "connectionString"
+                            ]
+                          },
+                          "deprecated": true,
+                          "description": "Deprecated: use `connections[]` instead."
+                        },
+                        "connectionString": {
+                          "type": ["string", "null"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`."
+                        },
+                        "directConnection": {
+                          "type": ["object", "null"],
+                          "properties": {
+                            "host": { "type": "string" },
+                            "pass": { "type": "string" },
+                            "user": { "type": "string" }
+                          },
+                          "required": ["host", "pass", "user"],
+                          "deprecated": true,
+                          "description": "Deprecated: use `connections[].endpoints.direct` instead."
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "url",
+                        "name",
+                        "status",
+                        "createdAt",
+                        "isDefault",
+                        "defaultConnectionId",
+                        "connections",
+                        "project",
+                        "region",
+                        "apiKeys",
+                        "connectionString",
+                        "directConnection"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is invalid due to missing or invalid parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Project does not belong to the service token’s workspace.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postV1ProjectsByProjectIdDatabases",
+        "tags": ["Databases"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(proj_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Create database",
+        "description": "Creates a new database for the given project.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east-1",
+                      "us-west-1",
+                      "eu-west-3",
+                      "eu-central-1",
+                      "ap-northeast-1",
+                      "ap-southeast-1",
+                      "inherit"
+                    ],
+                    "default": "us-east-1"
+                  },
+                  "name": { "type": "string" },
+                  "isDefault": { "type": "boolean", "default": false },
+                  "fromDatabase": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^(db_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                      },
+                      "backupId": {
+                        "type": "string",
+                        "description": "The unique identifier for this backup"
+                      }
+                    },
+                    "required": ["id"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/integrations": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the integrations for the given workspace.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "url": { "type": "string", "format": "uri" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "scopes": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          },
+                          "client": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": ["id", "name", "createdAt"]
+                          },
+                          "createdByUser": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "email": { "type": "string" },
+                              "displayName": { "type": ["string", "null"] }
+                            },
+                            "required": ["id", "email", "displayName"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "url",
+                          "createdAt",
+                          "scopes",
+                          "client",
+                          "createdByUser"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Integrations",
+        "tags": ["Integrations"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "workspaceId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(wksp_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get list of integrations",
+        "description": "Returns integrations filtered by workspace ID."
+      }
+    },
+    "/v1/integrations/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the integration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "url": { "type": "string", "format": "uri" },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "scopes": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "client": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          },
+                          "required": ["id", "name", "createdAt"]
+                        },
+                        "createdByUser": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "email": { "type": "string" },
+                            "displayName": { "type": ["string", "null"] }
+                          },
+                          "required": ["id", "email", "displayName"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "url",
+                        "createdAt",
+                        "scopes",
+                        "client",
+                        "createdByUser"
+                      ]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Integration with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1IntegrationsById",
+        "tags": ["Integrations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(itgr_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get integration by ID",
+        "description": "Returns a single integration by its ID."
+      },
+      "delete": {
+        "responses": {
+          "204": { "description": "Revoked the integration tokens." },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Integration with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteV1IntegrationsById",
+        "tags": ["Integrations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(itgr_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Delete integration",
+        "description": "Revokes the integration tokens by integration ID."
+      }
+    },
+    "/v1/workspaces/{workspaceId}/integrations": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returned the integrations for the given workspace ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "url": { "type": "string", "format": "uri" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "scopes": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          },
+                          "client": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "name": { "type": "string" },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": ["id", "name", "createdAt"]
+                          },
+                          "createdByUser": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "email": { "type": "string" },
+                              "displayName": { "type": ["string", "null"] }
+                            },
+                            "required": ["id", "email", "displayName"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "url",
+                          "createdAt",
+                          "scopes",
+                          "client",
+                          "createdByUser"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workspace with the given ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1WorkspacesByWorkspaceIdIntegrations",
+        "tags": ["Integrations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(wksp_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          }
+        ],
+        "summary": "Get list of integrations",
+        "description": "Returns integrations for the given workspace."
+      }
+    },
+    "/v1/workspaces/{workspaceId}/integrations/{clientId}": {
+      "delete": {
+        "responses": {
+          "204": { "description": "Revoked the integration tokens." },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Integration with the given client ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteV1WorkspacesByWorkspaceIdIntegrationsByClientId",
+        "tags": ["Integrations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(itgr_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "schema": {
+              "type": "string",
+              "pattern": "^(wksp_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Revoke integration tokens",
+        "description": "Revokes the integration tokens with the given client ID."
+      }
+    },
+    "/v1/regions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns all available regions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "region" },
+                          "name": { "type": "string" },
+                          "product": {
+                            "type": "string",
+                            "enum": ["postgres", "accelerate"]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["available", "unavailable"]
+                          }
+                        },
+                        "required": ["id", "type", "name", "product"]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Regions",
+        "tags": ["Regions"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "product",
+            "schema": { "type": "string", "enum": ["postgres", "accelerate"] }
+          }
+        ],
+        "summary": "Get all regions",
+        "description": "Returns all available regions across products. Optionally filter by product."
+      }
+    },
+    "/v1/regions/postgres": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns all available regions for Prisma Postgres.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "region" },
+                          "name": { "type": "string" },
+                          "status": {
+                            "type": "string",
+                            "enum": ["available", "unavailable"]
+                          }
+                        },
+                        "required": ["id", "type", "name", "status"]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1RegionsPostgres",
+        "tags": ["Misc"],
+        "parameters": [],
+        "summary": "Get Prisma Postgres regions",
+        "description": "Returns all available regions for Prisma Postgres."
+      }
+    },
+    "/v1/regions/accelerate": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns all available regions for Prisma Accelerate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "const": "region" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "type", "name"]
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1RegionsAccelerate",
+        "tags": ["Misc"],
+        "parameters": [],
+        "summary": "Get Prisma Accelerate regions",
+        "description": "Returns all available regions for Prisma Accelerate."
+      }
+    },
+    "/v1/workspaces": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Returns the list of workspaces the current token can access.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "pattern": "^(wksp_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                          },
+                          "type": { "type": "string", "const": "workspace" },
+                          "url": { "type": "string", "format": "uri" },
+                          "name": { "type": "string" },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "required": ["id", "type", "url", "name", "createdAt"]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextCursor": {
+                          "type": ["string", "null"],
+                          "description": "Next cursor to continue pagination"
+                        },
+                        "hasMore": {
+                          "type": "boolean",
+                          "description": "Whether there are more items to paginate"
+                        }
+                      },
+                      "required": ["nextCursor", "hasMore"]
+                    }
+                  },
+                  "required": ["data", "pagination"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1Workspaces",
+        "tags": ["Workspaces"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": ["string", "null"],
+              "description": "Cursor for pagination"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "default": 100,
+              "description": "Limit for pagination"
+            }
+          }
+        ],
+        "summary": "Get list of workspaces",
+        "description": "Returns the list of workspaces the current token can access."
+      }
+    },
+    "/v1/workspaces/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Workspace retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^(wksp_)([cC][^\\s-]{8,}|[a-z0-9]+)$"
+                        },
+                        "type": { "type": "string", "const": "workspace" },
+                        "url": { "type": "string", "format": "uri" },
+                        "name": { "type": "string" },
+                        "createdAt": { "type": "string", "format": "date-time" }
+                      },
+                      "required": ["id", "type", "url", "name", "createdAt"]
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workspace with the specified ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "hint": { "type": "string" }
+                      },
+                      "required": ["code", "message"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getV1WorkspacesById",
+        "tags": ["Workspaces"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^(wksp_)?([cC][^\\s-]{8,}|[a-z0-9]+)$"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Get workspace",
+        "description": "Returns the workspace with the given ID."
+      }
+    }
+  }
+}
