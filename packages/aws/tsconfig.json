@@ -1,12 +1,12 @@
 {
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../core" }],
+  "include": ["src/**/*.ts", "src/**/*.json"],
   "compilerOptions": {
     "lib": ["ESNext"],
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
     "allowJs": true,
+    "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
     "rewriteRelativeImportExtensions": true,
