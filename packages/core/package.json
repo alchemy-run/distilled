@@ -26,5 +26,8 @@
   "devDependencies": {
     "@types/bun": "catalog:",
     "@types/node": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
   }
 }
