@@ -94,10 +94,14 @@ export const makeResponseParser = <A>(
     if (queryError?.code) errorSchemas.set(queryError.code, err);
   };
 
-  for (const err of operation.errors ?? []) {
+  // Register common errors first, then operation-specific errors.
+  // This ensures service-specific schemas (e.g., CloudFront's AccessDenied with Message field)
+  // take priority over common schemas (e.g., AccessDeniedException with empty props)
+  // when both map to the same short-form key (e.g., "AccessDenied").
+  for (const err of COMMON_ERRORS) {
     registerError(err);
   }
-  for (const err of COMMON_ERRORS) {
+  for (const err of operation.errors ?? []) {
     registerError(err);
   }
 
