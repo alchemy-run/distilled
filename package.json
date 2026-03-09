@@ -14,12 +14,7 @@
   },
   "workspaces": {
     "packages": [
-      "./aws-sdk",
-      "./cloudflare-sdk",
-      "./gcp-sdk",
-      "./neon-sdk",
-      "./planetscale-sdk",
-      "./sdk-core"
+      "./packages/*"
     ],
     "catalog": {
       "@types/bun": "^1.3.0",
